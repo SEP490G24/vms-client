@@ -7,6 +7,7 @@ import { themes } from '~/themes'
 import { getItem } from '~/utils'
 import { SideBarWrapper, SideContent, SideHeader } from './styles'
 import { PATH_HOME } from '~/routes/paths'
+import { imagePng } from '~/assets'
 
 export const MENU_ITEMS = SIDE_BARS.map((item) => {
   return getItem(
@@ -72,9 +73,9 @@ const SideBar = () => {
             className={'cursor-pointer flex justify-center mx-4 my-16'}
           >
             {collapsed ? (
-              <Image src={window.__RUNTIME_CONFIG__.VITE_BASE_PATH + '/logo-symbol.png'} preview={false} />
+              <Image src={imagePng.logo} preview={false} />
             ) : (
-              <Image src={window.__RUNTIME_CONFIG__.VITE_BASE_PATH + '/logo-name.png'} width={160} preview={false} />
+              <Image src={imagePng.logo} width={160} preview={false} />
             )}
           </SideHeader>
           <SideContent className={'w-full h-full'}>

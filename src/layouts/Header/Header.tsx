@@ -4,7 +4,7 @@ import { DesktopTwoTone, GlobeTwoTone, UserTwoTone } from '~/icon'
 import { DownOutlined } from '@ant-design/icons'
 
 import { LogoutOutlined, UserOutlined, KeyOutlined } from '@ant-design/icons'
-import userService from '~/service/userService.ts'
+import { userService } from '~/service'
 
 const Header = () => {
 

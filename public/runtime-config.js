@@ -1,0 +1,1 @@
+window.__RUNTIME_CONFIG__ = {"API_SERVER_URL":"http://localhost:8005","VITE_BASE_PATH":""};

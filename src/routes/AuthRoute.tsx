@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import React from 'react'
 import { PATH_HOME } from '~/routes/paths.ts'
-import userService from '~/service/userService.ts'
+import { userService } from '~/service'
 
 interface AuthProps {
 }

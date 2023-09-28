@@ -1,5 +1,5 @@
 {
-  "name": "admin-live-chat",
+  "name": "vms",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,9 +16,13 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@rollup/plugin-commonjs": "^25.0.3",
-    "@ckeditor/ckeditor5-build-classic": "^37.0.0",
+    "@ckeditor/ckeditor5-build-decoupled-document": "^39.0.2",
     "@ckeditor/ckeditor5-react": "^6.1.0",
-    "antd": "^5.9.0",
+    "i18next": "^23.5.1",
+    "i18next-browser-languagedetector": "^7.1.0",
+    "i18next-http-backend": "^2.2.2",
+    "react-i18next": "13.1.2",
+    "antd": "^5.9.3",
     "axios": "^1.5.0",
     "dayjs": "^1.11.9",
     "keycloak-js": "^22.0.1",

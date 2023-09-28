@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { themes } from '~/themes'
-import { RootState } from '../store'
+import { RootState } from '~/redux'
 
 const initialState = {
   themes,

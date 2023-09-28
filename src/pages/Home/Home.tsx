@@ -6,7 +6,7 @@ import { HomeChart } from './Charts'
 import { HomeReport } from './Reports'
 import { PageTitle } from '~/components'
 import Title from 'antd/es/typography/Title'
-import userService from '~/service/userService.ts'
+import { userService } from '~/service'
 
 const Home = () => {
 

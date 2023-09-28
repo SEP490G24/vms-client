@@ -5,7 +5,7 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import store, { persistor } from './redux/store.ts'
-import userService from '~/service/userService.ts'
+import { userService } from '~/service'
 
 const renderApp = () => ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

@@ -11,6 +11,6 @@ export const SideHeader = styled.div`
 
 export const SideContent = styled.div`
   .ant-menu-item-selected {
-    border-right: 3px solid;
+    //border-right: 3px solid;
   }
 `

@@ -2,12 +2,13 @@ import { ConfigProvider, Image, Layout, Menu } from 'antd'
 import { useState } from 'react'
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { SIDE_BARS } from '~/constants'
+import { SIDE_BARS } from '~/routes'
 import { themes } from '~/themes'
 import { getItem } from '~/utils'
 import { SideBarWrapper, SideContent, SideHeader } from './styles'
-import { PATH_HOME } from '~/routes/paths'
+import { PATH_DASHBOARD } from '~/routes/paths'
 import { imagePng } from '~/assets'
+import Title from 'antd/es/typography/Title'
 
 export const MENU_ITEMS = SIDE_BARS.map((item) => {
   return getItem(
@@ -24,7 +25,7 @@ const SideBar = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const [collapsed, setCollapsed] = useState(false)
-  const [currentMenuKeys, setCurrentMenuKeys] = useState([PATH_HOME])
+  const [currentMenuKeys, setCurrentMenuKeys] = useState([PATH_DASHBOARD])
   const { id } = useParams()
 
   const handleSelectedItem = (key: string) => {
@@ -37,6 +38,7 @@ const SideBar = () => {
     })
     if (selectItem?.path) {
       navigate(selectItem.path.replace(':id', id || ''))
+      console.log(selectItem?.path)
     } else if (selectItem?.children?.length) {
       const subSelectedItem: any = selectItem?.children.find((subItem) => subItem['key'] === key)
       navigate(subSelectedItem ? subSelectedItem.path.replace(':id', id || '') : '')
@@ -52,11 +54,9 @@ const SideBar = () => {
             colorBgTextHover: themes.primary.light,
             colorBorder: themes.primary.normal,
             colorPrimary: themes.black,
-            itemBorderRadius: 0,
-            itemMarginInline: 0,
             itemSelectedBg: themes.primary.light,
             itemSelectedColor: themes.primary.normal,
-            itemMarginBlock: 32,
+            itemMarginBlock: 8,
           },
           Layout: {
             headerBg: themes.white,
@@ -69,13 +69,13 @@ const SideBar = () => {
       <SideBarWrapper>
         <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
           <SideHeader
-            onClick={() => handleSelectedItem(PATH_HOME)}
+            onClick={() => handleSelectedItem(PATH_DASHBOARD)}
             className={'cursor-pointer flex justify-center mx-4 my-16'}
           >
             {collapsed ? (
               <Image src={imagePng.logo} preview={false} />
             ) : (
-              <Image src={imagePng.logo} width={160} preview={false} />
+              <Title level={5}>Visor Manager System</Title>
             )}
           </SideHeader>
           <SideContent className={'w-full h-full'}>

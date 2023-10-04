@@ -5,11 +5,14 @@ import { DownOutlined } from '@ant-design/icons'
 
 import { LogoutOutlined, UserOutlined, KeyOutlined } from '@ant-design/icons'
 import { userService } from '~/service'
+import { useNavigate } from 'react-router-dom'
+import { PATH_PROFILE } from '~/routes/paths.ts'
 
 const Header = () => {
 
-  const doLogout = async (e: any) => {
-    e.preventDefault()
+  const navigate = useNavigate()
+
+  const doLogout = async () => {
     await userService.doLogout()
   }
 
@@ -37,30 +40,22 @@ const Header = () => {
 
   const userSettings: MenuProps['items'] = [
     {
-      key: 'user-info',
-      label: (
-        <span onClick={(e) => e.preventDefault()}>
-        사용자 정보
-      </span>
-      ),
+      key: 'user-profile',
+      label: (<span>User Profile</span>),
+      onClick: () => {
+        navigate(PATH_PROFILE)
+      },
       icon: <UserOutlined />
     },
     {
       key: 'change-password',
-      label: (
-        <span onClick={(e) => e.preventDefault()}>
-        비밀번호 변경
-      </span>
-      ),
+      label: (<span>Change Password</span>),
       icon: <KeyOutlined />
     },
     {
       key: 'logout',
-      label: (
-        <span onClick={(e) => doLogout(e)}>
-        로그아웃
-      </span>
-      ),
+      label: (<span>Logout</span>),
+      onClick: async () => { await doLogout()},
       icon: <LogoutOutlined />
     }
   ]
@@ -72,7 +67,7 @@ const Header = () => {
         <span>Admin</span>
       </Space>
       <Dropdown menu={{ items: languages }} placement='bottomRight' trigger={['hover', 'click']}>
-        <Space size={16}>
+        <Space size={16} className={'cursor-pointer'}>
           <GlobeTwoTone className={'text-[28px]'} />
           <span>English</span>
           <DownOutlined />
@@ -83,7 +78,7 @@ const Header = () => {
         placement='bottomRight'
         trigger={['hover', 'click']}
       >
-        <Space size={16}>
+        <Space size={16} className={'cursor-pointer'}>
           <UserTwoTone className={'text-[28px]'} />
           <span>{userService.getUserInfo().fullName}</span>
           <DownOutlined />

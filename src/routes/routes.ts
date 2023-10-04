@@ -1,14 +1,67 @@
-import { Home } from '~/pages'
+import { Configuration, Department, History, Home, Meeting, Organization, Profile, Site, User } from '~/pages'
 import {
-  PATH_HOME,
+  PATH_CONFIGURATION,
+  PATH_DASHBOARD,
+  PATH_DEPARTMENT,
+  PATH_HISTORY,
+  PATH_MEETING,
+  PATH_ORGANIZATION,
+  PATH_PROFILE,
+  PATH_SITE,
+  PATH_USER
 } from './paths'
 
 export const publicRoutes = []
 
 export const privateRoutes = [
   {
-    path: PATH_HOME,
+    path: PATH_DASHBOARD,
     component: Home,
+    layout: null
+  },
+  {
+    path: PATH_MEETING,
+    component: Meeting,
+    layout: null
+  },
+  {
+    path: PATH_ORGANIZATION,
+    component: Organization,
+    layout: null
+  },
+  {
+    path: PATH_SITE,
+    component: Site,
+    layout: null
+  },
+  {
+    path: PATH_DEPARTMENT,
+    component: Department,
+    layout: null
+  },
+  {
+    path: PATH_USER,
+    component: User,
+    layout: null
+  },
+  // {
+  //   path: PATH_PERMISSION,
+  //   component: Permissions,
+  //   layout: null
+  // },
+  {
+    path: PATH_HISTORY,
+    component: History,
+    layout: null
+  },
+  {
+    path: PATH_CONFIGURATION,
+    component: Configuration,
+    layout: null
+  },
+  {
+    path: PATH_PROFILE,
+    component: Profile,
     layout: null
   }
 ]

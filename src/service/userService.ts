@@ -1,101 +1,44 @@
-import Keycloak, {KeycloakInitOptions} from 'keycloak-js'
-import * as _ from "lodash";
+import httpService from './httpServices'
+import authService from '~/service/authService.ts'
+import { USER } from '~/constants/api.ts'
 
-const keycloak = new Keycloak(window.__RUNTIME_CONFIG__.VITE_BASE_PATH + '/keycloak.json')
-
-const initOptions: KeycloakInitOptions = {
-  onLoad: 'login-required',
-  flow: 'implicit',
-  pkceMethod: 'S256'
+export const findAll = () => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  return httpService.get(USER.BASE_PATH)
 }
 
-/**
- * Initializes Keycloak instance and calls the provided callback function if successfully authenticated.
- *
- * @param onAuthenticatedCallback
- */
-const initKeycloak = (onAuthenticatedCallback: any) => {
-  // init event token expired => must login again
-  keycloak.onTokenExpired = async () => {
-    console.log('Token expired')
-    await doLogout()
-  }
-  keycloak.init(initOptions)
-    .then((authenticated) => {
-      if (!authenticated) {
-        console.log('user is not authenticated..!')
-      }
-      onAuthenticatedCallback()
-    })
-    .catch(console.error)
+export const findById = (id: string) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  return httpService.get(USER.BASE_PATH + `/${id}`)
 }
 
-const doLogin = keycloak.login
-
-const doLogout = async () => {
-  return keycloak.logout()
-}
-export const getUserRoles = () => {
-  let json = localStorage.getItem('user_roles')
-  let roles = json ? JSON.parse(json) : []
-
-  if (roles.length === 0) {
-    roles = extractRoles(keycloak.tokenParsed)
-    localStorage.setItem('user_roles', JSON.stringify(roles));
-  }
-
-  return roles
+export const insert = (payload: any) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  return httpService.post(USER.BASE_PATH, payload)
 }
 
-const getToken = () => keycloak.token
-
-const getRefreshToken = () => keycloak.refreshToken
-
-const getTokenParsed = () => keycloak.tokenParsed
-
-const isLoggedIn = () => !!keycloak.token
-
-const updateToken = (successCallback: any) =>
-  keycloak.updateToken(5)
-    .then(successCallback)
-    .catch(doLogin)
-
-const getUserInfo = () => {
-  let tokenParsed = keycloak.tokenParsed
-  return {
-    username: tokenParsed?.preferred_username,
-    fullName: tokenParsed?.given_name + ' ' + tokenParsed?.family_name,
-    email: tokenParsed?.email
-  }
+export const update = (payload: any) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  return httpService.put(USER.BASE_PATH, payload)
 }
 
-const extractRoles = (tokenParsed: any) => {
-  let roles: string[] = []
-  const resource_access = tokenParsed?.resource_access
-  if (resource_access) {
-    for (const resource in resource_access) {
-      roles = roles.concat(resource_access[resource].roles)
-    }
-  }
-  return roles;
+export const remove = (id: string) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  return httpService.delete(USER.BASE_PATH + `/${id}`)
 }
 
-const hasRole = (roles: any) => {
-  const userRoles = getUserRoles()
-  return roles.some((role: any) => _.includes(userRoles, role))
+export const filter = (payload: any) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  return httpService.post(USER.FILTER, payload)
 }
 
 const userService = {
-  initKeycloak,
-  doLogin,
-  doLogout,
-  isLoggedIn,
-  getToken,
-  getRefreshToken,
-  getTokenParsed,
-  updateToken,
-  getUserInfo,
-  hasRole
+  findAll,
+  findById,
+  insert,
+  update,
+  remove,
+  filter
 }
 
 export default userService

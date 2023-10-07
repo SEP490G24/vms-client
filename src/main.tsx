@@ -5,6 +5,7 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import store, { persistor } from './redux/store.ts'
+import './i18n/i18n.ts'
 import { userService } from '~/service'
 
 const renderApp = () => ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -17,5 +18,7 @@ const renderApp = () => ReactDOM.createRoot(document.getElementById('root') as H
   </React.StrictMode>,
 )
 
-userService.initKeycloak(renderApp);
+renderApp();
+
+// userService.initKeycloak(renderApp);
 

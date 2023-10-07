@@ -1,1 +1,101 @@
-{}
+{
+  "sidebar": {
+    "home": {
+      "title": "Home"
+    },
+    "meeting": {
+      "title": "Meeting Request"
+    },
+    "history": {
+      "title": "Histories"
+    },
+    "organization": {
+      "title": "Site & Org",
+      "sub": {
+        "info": "Basic Info",
+        "site": "Sites",
+        "department": "Departments",
+        "user": "User",
+        "rule": "Guard Rules"
+      }
+    },
+    "configuration": {
+      "title": "Configuration "
+    }
+  },
+  "organization": {
+    "user": {
+      "title": "User Management",
+      "search": {
+        "title": "Search",
+        "reset": "Reset",
+        "search": "Search",
+        "period": "Period",
+        "counselor": "User",
+        "counselor_placeholder": "Name, Phone number, E-mail"
+      },
+      "table": {
+        "title": "Total {{count}} people",
+        "btn-add": "Register as a user",
+        "user_column": "User",
+        "phone_column": "Phone No.",
+        "email_column": "E-mail",
+        "used_column": "Whether to use",
+        "registration_date_column": "Registration date",
+        "modification_date_column": "Modification date"
+      },
+      "popup": {
+        "title-add": "Register as a user",
+        "title-edit": "User Edit",
+        "btn-save": "Register",
+        "btn-edit": "Save",
+        "counselor": "Name",
+        "first_name_placeholder": "First name",
+        "last_name_placeholder": "Last name",
+        "id": "ID",
+        "id_placeholder": "Please enter the user’s ID.",
+        "password": "Password",
+        "password_placeholder": "Please enter a password",
+        "verify_password": "Verify password",
+        "verify_password_placeholder": "Please enter your password again",
+        "phoneNumber": "Phone No.",
+        "email": "E-mail",
+        "email_placeholder": "Please enter your email address",
+        "status": "Whether to use",
+        "registration_date": "Registration date",
+        "modification_date": "Modification date"
+      }
+    }
+  },
+  "common": {
+    "label": {
+      "close": "Close",
+      "use": "Use",
+      "not_use": "Not used",
+      "phoneNumber_placeholder": "Please enter your phone number."
+    },
+    "date_range": {
+      "start_placeholder": "Start",
+      "end_placeholder": "End"
+    },
+    "durationOption": {
+      "today": "Today",
+      "1week": "1Week",
+      "1month": "1Month",
+      "3months": "3Month"
+    },
+    "user": {
+      "editInfo": "Edit My Info",
+      "logout": "Logout"
+    },
+    "message": {
+      "success": {
+        "save": "Save Successfully!"
+      },
+      "failed": {
+        "save": "Save failure!"
+      },
+      "error": "An unknown error!"
+    }
+  }
+}

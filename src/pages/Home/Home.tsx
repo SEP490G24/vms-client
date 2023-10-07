@@ -6,7 +6,7 @@ import { HomeChart } from './Charts'
 import { HomeReport } from './Reports'
 import { PageTitle } from '~/components'
 import Title from 'antd/es/typography/Title'
-import { userService } from '~/service'
+import { authService } from '~/service'
 
 const Home = () => {
 
@@ -21,8 +21,8 @@ const Home = () => {
         <PageTitle title={'OVERVIEW'} />
         <Title level={5} className={'flex items-center mb-0'}>
           <span>The latest update (2023.07.12)</span>
-          <SharedButton className={'w-[26px] h-[26px] ml-4 text-[14px]'} type='primary' theme={'refresh'}
-                        onClick={() => userService.doLogout()} />
+          <SharedButton className={'w-[26px] h-[26px] ml-4 text-[14px]'} type='primary'
+                        onClick={() => authService.doLogout()} />
         </Title>
         <HomeStatistic />
         <HomeChart />

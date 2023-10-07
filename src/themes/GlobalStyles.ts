@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -30,6 +30,32 @@ export const GlobalStyles = createGlobalStyle`
 
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
+  }
+
+  .vms-radio-group {
+    .ant-radio-button-wrapper {
+      margin-right: 8px;
+      border-radius: 4px;
+      border-inline-start-width: 1px;
+      margin-bottom: 8px;
+    }
+
+    .ant-radio-button-wrapper:not(:first-child)::before {
+      display: none;
+    }
+
+    &.no-space {
+
+    }
+  }
+`
+
+export const PageWrapper = styled.div`
+  .page-header-text {
+    margin-bottom: 24px;
+  }
+  .vms-form .ant-form-item-label>label {
+    text-wrap: balance !important;
   }
 `
 

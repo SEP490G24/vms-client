@@ -1,4 +1,4 @@
-import { Configuration, Department, History, Home, Meeting, Organization, Profile, Site, User } from '~/pages'
+import { Configuration, Dashboard, Department, History, Meeting, Organization, Profile, Site } from '~/pages'
 import {
   PATH_CONFIGURATION,
   PATH_DASHBOARD,
@@ -10,13 +10,14 @@ import {
   PATH_SITE,
   PATH_USER
 } from './paths'
+import { Agent } from '~/pages/Agent'
 
 export const publicRoutes = []
 
 export const privateRoutes = [
   {
     path: PATH_DASHBOARD,
-    component: Home,
+    component: Dashboard,
     layout: null
   },
   {
@@ -41,7 +42,7 @@ export const privateRoutes = [
   },
   {
     path: PATH_USER,
-    component: User,
+    component: Agent,
     layout: null
   },
   // {

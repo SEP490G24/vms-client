@@ -4,7 +4,7 @@ import { DesktopTwoTone, GlobeTwoTone, UserTwoTone } from '~/icon'
 import { DownOutlined } from '@ant-design/icons'
 
 import { LogoutOutlined, UserOutlined, KeyOutlined } from '@ant-design/icons'
-import { userService } from '~/service'
+import { authService } from '~/service'
 import { useNavigate } from 'react-router-dom'
 import { PATH_PROFILE } from '~/routes/paths.ts'
 
@@ -13,7 +13,7 @@ const Header = () => {
   const navigate = useNavigate()
 
   const doLogout = async () => {
-    await userService.doLogout()
+    await authService.doLogout()
   }
 
   const languages: MenuProps['items'] = [
@@ -25,16 +25,8 @@ const Header = () => {
       }
     },
     {
-      label: 'Korean',
-      key: '2'
-    },
-    {
-      label: 'Japanese',
-      key: '3'
-    },
-    {
       label: 'Vietnamese',
-      key: '4'
+      key: '2'
     }
   ]
 
@@ -80,7 +72,7 @@ const Header = () => {
       >
         <Space size={16} className={'cursor-pointer'}>
           <UserTwoTone className={'text-[28px]'} />
-          <span>{userService.getUserInfo().fullName}</span>
+          <span>{authService.getUserInfo().fullName}</span>
           <DownOutlined />
         </Space>
       </Dropdown>

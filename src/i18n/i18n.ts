@@ -23,7 +23,7 @@ i18n
       en_US: {
         translation: enNs,
       },
-      ko_KR: {
+      vi_VN: {
         translation: viNs,
       },
     },

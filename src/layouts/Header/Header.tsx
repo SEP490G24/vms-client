@@ -1,53 +1,33 @@
 import { HeaderWrapper } from './styles'
-import { Dropdown, MenuProps, Space } from 'antd'
+import { Dropdown, MenuProps, Select, Space } from 'antd'
 import { DesktopTwoTone, GlobeTwoTone, UserTwoTone } from '~/icon'
-import { DownOutlined } from '@ant-design/icons'
-
-import { LogoutOutlined, UserOutlined, KeyOutlined } from '@ant-design/icons'
+import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
 import { authService } from '~/service'
-import { useNavigate } from 'react-router-dom'
 import { PATH_PROFILE } from '~/routes/paths.ts'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
-
   const navigate = useNavigate()
+  const { i18n, t } = useTranslation()
 
   const doLogout = async () => {
     await authService.doLogout()
   }
 
-  const languages: MenuProps['items'] = [
-    {
-      label: 'English',
-      key: '1',
-      onClick: (e) => {
-        console.log(e)
-      }
-    },
-    {
-      label: 'Vietnamese',
-      key: '2'
-    }
-  ]
-
   const userSettings: MenuProps['items'] = [
     {
-      key: 'user-profile',
-      label: (<span>User Profile</span>),
+      key: 'user-info',
+      label: t('common.user.edit_info'),
       onClick: () => {
         navigate(PATH_PROFILE)
       },
       icon: <UserOutlined />
     },
     {
-      key: 'change-password',
-      label: (<span>Change Password</span>),
-      icon: <KeyOutlined />
-    },
-    {
-      key: 'logout',
-      label: (<span>Logout</span>),
-      onClick: async () => { await doLogout()},
+      key: 'common.user.logout',
+      label: t('user.logout'),
+      onClick: () => doLogout(),
       icon: <LogoutOutlined />
     }
   ]
@@ -58,18 +38,15 @@ const Header = () => {
         <DesktopTwoTone className={'text-[28px]'} />
         <span>Admin</span>
       </Space>
-      <Dropdown menu={{ items: languages }} placement='bottomRight' trigger={['hover', 'click']}>
-        <Space size={16} className={'cursor-pointer'}>
-          <GlobeTwoTone className={'text-[28px]'} />
-          <span>English</span>
-          <DownOutlined />
-        </Space>
-      </Dropdown>
-      <Dropdown
-        menu={{ items: userSettings }}
-        placement='bottomRight'
-        trigger={['hover', 'click']}
-      >
+      <Space size={16} className={'cursor-pointer'}>
+        <GlobeTwoTone className={'text-[28px]'} />
+        <Select bordered={false} className='bg-body w-[100px]' defaultValue={i18n.language || 'en_US'}
+                onChange={(value) => i18n.changeLanguage(value)} options={[
+          { label: 'English', value: 'en_US' },
+          { label: 'Tiếng Việt', value: 'vi_VN' }
+        ]} />
+      </Space>
+      <Dropdown menu={{ items: userSettings }} placement='bottomRight' trigger={['click']}>
         <Space size={16} className={'cursor-pointer'}>
           <UserTwoTone className={'text-[28px]'} />
           <span>{authService.getUserInfo().fullName}</span>

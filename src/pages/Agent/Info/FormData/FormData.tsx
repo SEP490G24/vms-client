@@ -58,31 +58,31 @@ const FormData: React.FC<UserFormArgs> = (args) => {
         onFinish={args.onFinish}
         labelAlign='left'
       >
-        <Form.Item style={{ marginBottom: '12px' }} label={t('organization.user.popup.counselor')}>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')}>
           <Row gutter={8}>
             <Col span={12}>
               <Form.Item style={{ marginBottom: 'unset' }} name='firstName' rules={[{ required: true }]}>
                 <SharedInput disabled={!!args.user}
-                             placeholder={t('organization.user.popup.first_name_placeholder')}></SharedInput>
+                             placeholder={t('common.placeholder.first_name')}></SharedInput>
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item style={{ marginBottom: 'unset' }} name='lastName' rules={[{ required: true }]}>
                 <SharedInput disabled={!!args.user}
-                             placeholder={t('organization.user.popup.last_name_placeholder')}></SharedInput>
+                             placeholder={t('common.placeholder.last_name')}></SharedInput>
               </Form.Item>
             </Col>
           </Row>
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('organization.user.popup.id')} name='username'
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.id')} name='username'
                    rules={[{ required: true }]}>
-          <SharedInput disabled={!!args.user} placeholder={t('organization.user.popup.id_placeholder')} />
+          <SharedInput disabled={!!args.user} placeholder={t('common.placeholder.id')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('organization.user.popup.password')} name='password'
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.password')} name='password'
                    rules={[{ required: !args.user }]}>
-          <Password placeholder={t('organization.user.popup.password_placeholder')} rootClassName='vms-input' />
+          <Password placeholder={t('common.placeholder.password')} rootClassName='vms-input' />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('organization.user.popup.verify_password')}
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.verify_password')}
                    name='cPassword' rules={[{ required: !args.user },
           ({ getFieldValue }) => ({
             validator(_, value) {
@@ -92,19 +92,19 @@ const FormData: React.FC<UserFormArgs> = (args) => {
               return Promise.reject(new Error('The new password that you entered do not match!'))
             }
           })]}>
-          <Password placeholder={t('organization.user.popup.verify_password_placeholder')} rootClassName='vms-input' />
+          <Password placeholder={t('common.placeholder.verify_password')} rootClassName='vms-input' />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('organization.user.popup.phoneNumber')}>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.phoneNumber')}>
           <SharedPhoneNumber
             defaultValue={{ countryCode: args.user?.countryCode as any, phone: args.user?.phoneNumber as any }}
             onChangeCode={onCountryCodeChange}
             onChangePhone={onPhoneNumberChange} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('organization.user.popup.email')} name='email'
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.email')} name='email'
                    rules={[{ required: true }]}>
-          <SharedInput inputMode={'email'} placeholder={t('organization.user.popup.email_placeholder')} />
+          <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('organization.user.popup.status')} name='isEnable'
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.used')} name='isEnable'
                    rules={[{ required: true }]}>
           <Radio.Group name='enable'>
             <Space>
@@ -117,9 +117,9 @@ const FormData: React.FC<UserFormArgs> = (args) => {
           <>
             <Divider style={{ margin: '10px 0' }} />
             <Row>
-              <Col span={6}>{t('organization.user.popup.registrationDate')}</Col>
+              <Col span={6}>{t('common.field.registration_date')}</Col>
               <Col span={7}>{args.user.createdOn}</Col>
-              <Col span={5}>{t('organization.user.popup.modificationDate')}</Col>
+              <Col span={5}>{t('common.field.modification_date')}</Col>
               <Col span={6}>{args.user.lastUpdatedOn}</Col>
             </Row>
           </>

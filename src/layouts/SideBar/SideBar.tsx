@@ -9,19 +9,21 @@ import { SideBarWrapper, SideContent, SideHeader } from './styles'
 import { PATH_DASHBOARD } from '~/routes/paths'
 import { imagePng } from '~/assets'
 import Title from 'antd/es/typography/Title'
+import { useTranslation } from 'react-i18next'
 
-export const MENU_ITEMS = SIDE_BARS.map((item) => {
-  return getItem(
-    item.title,
-    item.key,
-    item.icon,
-    item.children.length ? item.children?.map((subItem) => getItem(subItem['title'], subItem['key'])) : undefined,
-  )
-})
 
 const { Sider } = Layout
 
 const SideBar = () => {
+  const { t } = useTranslation()
+  const MENU_ITEMS = SIDE_BARS.map((item) => {
+    return getItem(
+      t(item.title),
+      item.key,
+      item.icon,
+      item.children.length ? item.children?.map((subItem) => getItem(t(subItem['title']), subItem['key'])) : undefined
+    )
+  })
   const location = useLocation()
   const navigate = useNavigate()
   const [collapsed, setCollapsed] = useState(false)
@@ -38,7 +40,6 @@ const SideBar = () => {
     })
     if (selectItem?.path) {
       navigate(selectItem.path.replace(':id', id || ''))
-      console.log(selectItem?.path)
     } else if (selectItem?.children?.length) {
       const subSelectedItem: any = selectItem?.children.find((subItem) => subItem['key'] === key)
       navigate(subSelectedItem ? subSelectedItem.path.replace(':id', id || '') : '')
@@ -56,14 +57,14 @@ const SideBar = () => {
             colorPrimary: themes.black,
             itemSelectedBg: themes.primary.light,
             itemSelectedColor: themes.primary.normal,
-            itemMarginBlock: 8,
+            itemMarginBlock: 8
           },
           Layout: {
             headerBg: themes.white,
             siderBg: themes.white,
-            triggerBg: themes.black,
-          },
-        },
+            triggerBg: themes.black
+          }
+        }
       }}
     >
       <SideBarWrapper>
@@ -80,10 +81,10 @@ const SideBar = () => {
           </SideHeader>
           <SideContent className={'w-full h-full'}>
             <Menu
-              className="bg-inherit text-gray-500 hover:text-gray-700"
+              className='bg-inherit text-gray-500 hover:text-gray-700'
               defaultSelectedKeys={[location.pathname]}
               items={MENU_ITEMS}
-              mode="inline"
+              mode='inline'
               onSelect={({ key }) => handleSelectedItem(key)}
               selectedKeys={currentMenuKeys}
             />

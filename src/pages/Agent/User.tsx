@@ -110,21 +110,21 @@ const User = () => {
                 size='middle'
               >
                 <Column
-                  title={t('organization.user.table.user_column')}
+                  title={t('common.field.user')}
                   render={(value) => <a onClick={() => openEdit(value)}>{value.firstName + ' ' + value.lastName}</a>}
                 />
-                <Column title={t('organization.user.table.phone_column')} dataIndex='phoneNumber' key='phoneNumber' />
-                <Column title={t('organization.user.table.email_column')} dataIndex='email' key='email' />
+                <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' />
+                <Column title={t('common.field.email')} dataIndex='email' key='email' />
                 <Column
-                  title={t('organization.user.table.used_column')}
+                  title={t('common.field.used')}
                   dataIndex='isEnable'
                   key='isEnable'
                   render={(enable) =>
                     enable ? t('common.label.use') : t('common.label.not_use')
                   }
                 />
-                <Column title={t('organization.user.table.registration_date_column')} dataIndex='createdOn' key='createdOn' />
-                <Column title={t('organization.user.table.modification_date_column')} dataIndex='lastUpdatedOn' key='lastUpdatedOn' />
+                <Column title={t('common.field.registration_date')} dataIndex='createdOn' key='createdOn' />
+                <Column title={t('common.field.modification_date')} dataIndex='lastUpdatedOn' key='lastUpdatedOn' />
               </Table>
               <PagainationStyled>
                 <SharedPagination

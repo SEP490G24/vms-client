@@ -80,7 +80,7 @@ export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
               value={middle}
               myRef={phoneIngredientRefs.middle}
               inputMode={'tel'}
-              placeholder={t('common.label.phoneNumber_placeholder')}
+              placeholder={t('common.placeholder.phoneNumber')}
               maxLength={10}
               onChange={(e) => {
                 onChangePhone(e.target.value)

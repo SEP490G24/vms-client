@@ -1,1 +1,131 @@
-{}
+{
+  "common": {
+    "field": {
+      "name": "Tên",
+      "id": "NHẬN DẠNG",
+      "username": "tên tài khoản",
+      "gender": "Giới tính",
+      "dob": "Sinh nhật",
+      "user": "Người dùng",
+      "first_name": "Tên đầu tiên",
+      "last_name": "Họ",
+      "password": "Mật khẩu",
+      "verify_password": "Xác nhận lại mật khẩu",
+      "phoneNumber": "Không có điện thoại.",
+      "email": "E-mail",
+      "used": "Có nên sử dụng không",
+      "registration_date": "Ngày đăng kí",
+      "modification_date": "Ngày sửa đổi",
+      "city": "Thành phố",
+      "address": "Địa chỉ",
+      "current_password": "Mật khẩu hiện tại",
+      "new_password": "mật khẩu mới",
+      "confirm_password": "Xác nhận mật khẩu"
+    },
+    "placeholder": {
+      "id": "Vui lòng nhập id.",
+      "first_name": "Vui lòng nhập tên",
+      "last_name": "Vui lòng nhập họ",
+      "username": "Vui lòng nhập tên người dùng",
+      "password": "Vui lòng nhập mật khẩu",
+      "email": "Vui lòng nhập địa chỉ email",
+      "verify_password": "Vui lòng nhập xác minh mật khẩu",
+      "dob": "Vui lòng chọn ngày sinh nhật",
+      "gender": "Vui lòng chọn giới tính",
+      "city": "Vui lòng chọn một thành phố",
+      "address": "Vui lòng nhập địa chỉ",
+      "phoneNumber": "Vui lòng nhập số điện thoại.",
+      "current_password": "Vui lòng nhập mật khẩu hiện tại",
+      "new_password": "Vui lòng nhập mật khẩu mới",
+      "confirm_password": "Vui lòng nhập mật khẩu xác nhận"
+    },
+    "label": {
+      "save": "Cứu",
+      "close": "Đóng",
+      "use": "Sử dụng",
+      "not_use": "Không được sử dụng"
+    },
+    "date_range": {
+      "start_placeholder": "Bắt đầu",
+      "end_placeholder": "Kết thúc"
+    },
+    "durationOption": {
+      "today": "Hôm nay",
+      "1week": "1 tuần",
+      "1month": "1 tháng",
+      "3months": "3 tháng"
+    },
+    "user": {
+      "edit_info": "Chỉnh sửa thông tin của tôi",
+      "logout": "Đăng xuất"
+    },
+    "message": {
+      "success": {
+        "save": "Lưu lại thành công!"
+      },
+      "failed": {
+        "save": "Cứu thất bại!"
+      },
+      "error": "Một lỗi không xác định!"
+    }
+  },
+  "organization": {
+    "user": {
+      "title": "Quản lý người dùng",
+      "search": {
+        "title": "Tìm kiếm",
+        "reset": "Cài lại",
+        "search": "Tìm kiếm",
+        "period": "Giai đoạn",
+        "counselor": "Người dùng",
+        "counselor_placeholder": "Tên, Số điện thoại, E-mail"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}} mọi người",
+        "btn-add": "Đăng ký làm người dùng"
+      },
+      "popup": {
+        "title-add": "Đăng ký làm người dùng",
+        "title-edit": "Chỉnh sửa người dùng",
+        "btn-save": "Đăng ký",
+        "btn-edit": "Cứu"
+      }
+    }
+  },
+  "sidebar": {
+    "home": {
+      "title": "Trang chủ"
+    },
+    "meeting": {
+      "title": "Yêu câu gặp mặt"
+    },
+    "history": {
+      "title": "Lịch sử"
+    },
+    "organization": {
+      "title": "Địa điểm",
+      "sub": {
+        "info": "Thông tin cơ bản",
+        "site": "Trang web",
+        "department": "Phòng ban",
+        "user": "Người dùng",
+        "rule": "Quy tắc bảo vệ"
+      }
+    },
+    "configuration": {
+      "title": "Cấu hình "
+    }
+  },
+  "user": {
+    "profile": {
+      "label": "Thông tin người dùng",
+      "title": "Thông tin người",
+      "contact_info": "Thông tin liên lạc",
+      "address_info": "Thông tin địa chỉ"
+    },
+    "security": {
+      "label": "Bảo vệ",
+      "change_password": "Đổi mật khẩu"
+    }
+  }
+}

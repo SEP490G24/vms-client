@@ -1,40 +1,31 @@
 import { ProfileNavWrapper } from './styles.ts'
 import { Avatar, Card, Menu, MenuProps, Space } from 'antd'
 import Title from 'antd/es/typography/Title'
-import React from 'react'
-import { MailOutlined, CalendarOutlined } from '@ant-design/icons'
+import { CalendarOutlined, MailOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
-
-
-type MenuItem = Required<MenuProps>['items'][number];
+import { useTranslation } from 'react-i18next'
 
 
 const ProfileNav = () => {
 
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
-  function getItem(
-    label: React.ReactNode,
-    key?: React.Key | null,
-    icon?: React.ReactNode,
-    children?: MenuItem[]
-  ): MenuItem {
-    return {
-      key,
-      icon,
-      children,
-      label
-    } as MenuItem
-  }
-
-  const items: MenuItem[] = [
-    getItem('User Profile', 'info', <MailOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'}/>),
-    getItem('Change Password', 'security', <CalendarOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'}/>),
+   const profileNavs: MenuProps['items'] = [
+    {
+      key: 'info',
+      label: t('user.profile.label'),
+      icon: <MailOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'} />
+    },
+    {
+      key: 'security',
+      label: t('user.security.label'),
+      icon: <CalendarOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'} />
+    }
   ]
 
   const handleNavigate = (key: string) => {
-    console.log(key)
-    navigate(key);
+    navigate(key)
   }
 
 
@@ -56,7 +47,7 @@ const ProfileNav = () => {
                 defaultOpenKeys={['sub1']}
                 onSelect={({ key }) => handleNavigate(key)}
                 mode={'inline'}
-                items={items}>
+                items={profileNavs}>
           </Menu>
         </Space>
       </Card>

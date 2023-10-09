@@ -25,8 +25,8 @@ const Header = () => {
       icon: <UserOutlined />
     },
     {
-      key: 'common.user.logout',
-      label: t('user.logout'),
+      key: 'logout',
+      label: t('common.user.logout'),
       onClick: () => doLogout(),
       icon: <LogoutOutlined />
     }

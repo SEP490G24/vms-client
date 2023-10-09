@@ -2,8 +2,7 @@ import { Card, DatePicker, Form, RadioChangeEvent, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedInput, SharedRadio } from '~/common'
-import { UserFilterPayload } from '~/interface/User.ts'
-import { DateRadioRange, getDataRangeOptions, getDateRangeValue } from '~/interface/common.ts'
+import { DateRadioRange, getDataRangeOptions, getDateRangeValue, UserFilterPayload } from '~/interface'
 
 interface FilterArgs {
   onFilter: (filterPayload: UserFilterPayload) => void

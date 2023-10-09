@@ -10,7 +10,7 @@ import {
   PATH_SITE,
   PATH_USER
 } from './paths'
-import { Agent } from '~/pages/Agent'
+import { Agent } from '~/pages/User'
 
 export const publicRoutes = []
 

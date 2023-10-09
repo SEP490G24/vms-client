@@ -1,11 +1,11 @@
 import { Card, Form, Space } from 'antd'
 import React from 'react'
-import { UserDto, UserPayload } from '~/interface/User.ts'
+import { UserDto, UserPayload } from '~/interface'
 import { SharedButton } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { ModalGlobalStyle } from '~/themes'
 import { useTranslation } from 'react-i18next'
-import { UserForm } from '~/pages/Agent/Info/FormData'
+import { UserForm } from './FormData'
 
 interface CreateUserFormArgs {
   user?: UserDto

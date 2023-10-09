@@ -1,4 +1,4 @@
-import { ConfigProvider, Image, Layout, Menu } from 'antd'
+import { ConfigProvider, Layout, Menu } from 'antd'
 import { useState } from 'react'
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -7,7 +7,6 @@ import { themes } from '~/themes'
 import { getItem } from '~/utils'
 import { SideBarWrapper, SideContent, SideHeader } from './styles'
 import { PATH_DASHBOARD } from '~/routes/paths'
-import { imagePng } from '~/assets'
 import Title from 'antd/es/typography/Title'
 import { useTranslation } from 'react-i18next'
 
@@ -74,7 +73,8 @@ const SideBar = () => {
             className={'cursor-pointer flex justify-center mx-4 my-16'}
           >
             {collapsed ? (
-              <Image src={imagePng.logo} preview={false} />
+              // <Image src={imagePng.logo} preview={false} />
+              <Title level={5}>VMS</Title>
             ) : (
               <Title level={5}>Visor Manager System</Title>
             )}

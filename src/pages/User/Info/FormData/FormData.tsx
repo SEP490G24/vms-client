@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { FormDataWrapper } from './styles.ts'
 import { Col, Divider, Form, FormInstance, Radio, Row, Space } from 'antd'
-import { UserDto } from '~/interface/User.ts'
+import { UserDto } from '~/interface'
 import { SharedInput, SharedPhoneNumber } from '~/common'
 import Password from 'antd/es/input/Password'
 import { useTranslation } from 'react-i18next'

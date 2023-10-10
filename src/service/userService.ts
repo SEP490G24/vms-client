@@ -2,29 +2,46 @@ import httpService from './httpServices'
 import authService from '~/service/authService.ts'
 import { USER } from '~/constants/api.ts'
 
+export interface CreateUserInfo {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  enable: boolean;
+}
+
+export interface UpdateUserInfo {
+  password?: string;
+  phoneNumber?: string;
+  email?: string;
+  enable?: boolean;
+}
+
 export const findAll = () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   return httpService.get(USER.BASE_PATH)
 }
 
-export const findById = (id: string) => {
+export const findById = (username: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(USER.BASE_PATH + `/${id}`)
+  return httpService.get(USER.BASE_PATH + `/${username}`)
 }
 
-export const insert = (payload: any) => {
+export const insert = (payload: CreateUserInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   return httpService.post(USER.BASE_PATH, payload)
 }
 
-export const update = (payload: any) => {
+export const update = (username: string,payload: UpdateUserInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(USER.BASE_PATH, payload)
+  return httpService.put(USER.BASE_PATH + `/${username}`, payload)
 }
 
-export const remove = (id: string) => {
+export const remove = (username: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.delete(USER.BASE_PATH + `/${id}`)
+  return httpService.delete(USER.BASE_PATH + `/${username}`)
 }
 
 export const filter = (payload: any) => {

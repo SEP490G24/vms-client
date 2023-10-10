@@ -74,9 +74,9 @@ const FormData: React.FC<UserFormArgs> = (args) => {
             </Col>
           </Row>
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.id')} name='username'
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.username')} name='username'
                    rules={[{ required: true }]}>
-          <SharedInput disabled={!!args.user} placeholder={t('common.placeholder.id')} />
+          <SharedInput disabled={!!args.user} placeholder={t('common.placeholder.username')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.password')} name='password'
                    rules={[{ required: !args.user }]}>
@@ -104,7 +104,7 @@ const FormData: React.FC<UserFormArgs> = (args) => {
                    rules={[{ required: true }]}>
           <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.used')} name='isEnable'
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.used')} name='enable'
                    rules={[{ required: true }]}>
           <Radio.Group name='enable'>
             <Space>

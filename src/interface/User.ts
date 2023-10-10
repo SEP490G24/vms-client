@@ -13,17 +13,6 @@ export interface UserDto {
   countryCode?:string;
 }
 
-export interface UserPayload {
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string | null;
-  enable: boolean;
-  countryCode:string;
-}
-
 export interface UserFilterPayload {
   pageNumber?: number;
   roles?: string[];

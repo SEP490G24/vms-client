@@ -1,10 +1,8 @@
 import { Form, Input, InputRef } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
-import { SharedInput, SharedSelect, useDataApi } from '~/common'
-import { AxiosMethod } from '~/utils/common'
+import { SharedInput, SharedSelect } from '~/common'
 import { PhoneNumberWrapper } from './styles'
 import { useTranslation } from 'react-i18next'
-import { USER } from '~/constants/api.ts'
 
 interface SharedInputProps {
   title?: string
@@ -20,25 +18,36 @@ interface SharedInputProps {
 export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
   ({ title, value, defaultValue, onChangeCode, onChangePhone, ...rest }) => {
     const { t } = useTranslation()
-    const [countryCode] = useDataApi(
+    // const [countryCode] = useDataApi(
+    //   {
+    //     url: `${USER.BASE_PATH}`,
+    //     method: AxiosMethod.GET,
+    //     useToken: true,
+    //     transfer: (data: any) => {
+    //       if (data?.length > 0) {
+    //         return data.map((item: any) => {
+    //           return {
+    //             value: item.name,
+    //             label: item.name,
+    //             key: item.code,
+    //           }
+    //         })
+    //       }
+    //     },
+    //   },
+    //   [],
+    // )
+
+    const countryCode = [{
+      value: '09',
+      label: '+84',
+      key: '+84'
+    },
       {
-        url: `${USER.BASE_PATH}`,
-        method: AxiosMethod.GET,
-        useToken: true,
-        transfer: (data: any) => {
-          if (data?.length > 0) {
-            return data.map((item: any) => {
-              return {
-                value: item.name,
-                label: item.name,
-                key: item.code,
-              }
-            })
-          }
-        },
-      },
-      [],
-    )
+        value: '036',
+        label: '+126',
+        key: '+126'
+      }]
 
     const [code, setCode] = useState<string>()
     const [middle, setMiddle] = useState<string>()
@@ -50,17 +59,17 @@ export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
 
     const phoneIngredientRefs = {
       middle: useRef<InputRef>(),
-      last: useRef<InputRef>(),
+      last: useRef<InputRef>()
     }
 
     return (
       <PhoneNumberWrapper>
-        {title && <p className="input-label">{title}</p>}
+        {title && <p className='input-label'>{title}</p>}
         <Input style={{ display: 'none' }} {...rest}></Input>
         <div style={{ display: 'flex' }}>
           <Form.Item style={{ marginBottom: 'unset' }} name={'countryCode'} rules={[{ required: true }]}>
             <SharedSelect
-              className="vms-select"
+              className='vms-select'
               value={code}
               style={{ width: 120 }}
               onSelect={() => phoneIngredientRefs.middle.current?.input?.focus()}
@@ -91,5 +100,5 @@ export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
         </div>
       </PhoneNumberWrapper>
     )
-  },
+  }
 )

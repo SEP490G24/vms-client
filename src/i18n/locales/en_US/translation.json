@@ -15,6 +15,7 @@
       "email": "E-mail",
       "used": "Whether to use",
       "registration_date": "Registration date",
+      "created_by": "Create by",
       "modification_date": "Modification date",
       "city": "City",
       "address": "Address",
@@ -41,6 +42,7 @@
     },
     "label": {
       "save": "Save",
+      "export_data": "Export Data",
       "close": "Close",
       "use": "Use",
       "not_use": "Not used"
@@ -72,6 +74,9 @@
   "organization": {
     "user": {
       "title": "User Management",
+      "export": {
+        "file_name": "statistic_users_{{time}}"
+      },
       "search": {
         "title": "Search",
         "reset": "Reset",

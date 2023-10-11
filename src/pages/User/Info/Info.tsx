@@ -1,15 +1,16 @@
 import { Card, Form, Space } from 'antd'
 import React from 'react'
-import { UserDto, UserPayload } from '~/interface'
+import { UserDto } from '~/interface'
 import { SharedButton } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { ModalGlobalStyle } from '~/themes'
 import { useTranslation } from 'react-i18next'
 import { UserForm } from './FormData'
+import { CreateUserInfo } from '~/service'
 
 interface CreateUserFormArgs {
   user?: UserDto
-  onSave: (user: UserPayload) => void
+  onSave: (user: CreateUserInfo) => void
   onClose: () => void
 }
 

@@ -58,7 +58,8 @@
       "company_registration_number": "Example) 123-45-6789",
       "brand_introduction": "Please enter brand introduction information",
       "upload": "Select image",
-      "department": "Please select a department"
+      "department": "Please select a department",
+      "site_name": "Please enter site name"
     },
     "error": {
       "email_valid": "Email is not valid",
@@ -122,6 +123,30 @@
       "popup": {
         "title-add": "Register as a user",
         "title-edit": "User Edit",
+        "btn-save": "Register",
+        "btn-edit": "Save"
+      }
+    },
+    "site": {
+      "title": "Site Management",
+      "export": {
+        "file_name": "statistic_sites_{{time}}"
+      },
+      "search": {
+        "title": "Search",
+        "reset": "Reset",
+        "search": "Search",
+        "period": "Period",
+        "counselor": "Site",
+        "counselor_placeholder": "Name"
+      },
+      "table": {
+        "title": "Total {{count}} site",
+        "btn-add": "Register as a site"
+      },
+      "popup": {
+        "title-add": "Register as a site",
+        "title-edit": "Site Edit",
         "btn-save": "Register",
         "btn-edit": "Save"
       }

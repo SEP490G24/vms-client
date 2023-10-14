@@ -1,4 +1,4 @@
-import { Configuration, Dashboard, Department, History, Meeting, Organization, Profile, Site } from '~/pages'
+import { Configuration, Dashboard, Department, History, Meeting, Organization, Profile } from '~/pages'
 import {
   PATH_CONFIGURATION,
   PATH_DASHBOARD,
@@ -11,6 +11,7 @@ import {
   PATH_USER
 } from './paths'
 import { Agent } from '~/pages/User'
+import { Site } from '~/pages/Site'
 
 export const publicRoutes = []
 

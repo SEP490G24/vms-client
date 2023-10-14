@@ -2,8 +2,8 @@
   "common": {
     "field": {
       "name": "Tên",
-      "id": "NHẬN DẠNG",
-      "username": "tên tài khoản",
+      "id": "Id",
+      "username": "Tên tài khoản",
       "gender": "Giới tính",
       "dob": "Sinh nhật",
       "user": "Người dùng",
@@ -11,7 +11,7 @@
       "last_name": "Họ",
       "password": "Mật khẩu",
       "verify_password": "Xác nhận lại mật khẩu",
-      "phoneNumber": "Không có điện thoại.",
+      "phoneNumber": "Số điện thoại",
       "email": "E-mail",
       "used": "Có nên sử dụng không",
       "registration_date": "Ngày đăng kí",
@@ -19,7 +19,7 @@
       "city": "Thành phố",
       "address": "Địa chỉ",
       "current_password": "Mật khẩu hiện tại",
-      "new_password": "mật khẩu mới",
+      "new_password": "Mật khẩu mới",
       "confirm_password": "Xác nhận mật khẩu"
     },
     "placeholder": {

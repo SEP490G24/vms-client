@@ -21,7 +21,17 @@
       "address": "Address",
       "current_password": "Current Password",
       "new_password": "New Password",
-      "confirm_password": "Confirm Password"
+      "confirm_password": "Confirm Password",
+      "organization": "Organization",
+      "representative_email": "Representative email",
+      "code": "Code",
+      "contact_person_in_charge": "Contact information",
+      "contact_phone_number": "Contact phone number",
+      "homepage_address": "Homepage",
+      "company_registration_number": "Business registration No.",
+      "business_registration": "Business registration card",
+      "brand_introduction": "Brand introduction",
+      "department": "Department"
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -38,7 +48,24 @@
       "phoneNumber": "Please enter a phone number.",
       "current_password": "Please enter a current password",
       "new_password": "Please enter a new password",
-      "confirm_password": "Please enter a confirm password"
+      "confirm_password": "Please enter a confirm password",
+      "organization": "Please enter within 20 characters",
+      "representative_email": "Please enter your representative email",
+      "code": "Enter code here!",
+      "contact_person_in_charge": "Please enter without “-”",
+      "contact_phone_number": "Enter your contact phone number here",
+      "homepage_address": "Please enter the homepage URL.",
+      "company_registration_number": "Example) 123-45-6789",
+      "brand_introduction": "Please enter brand introduction information",
+      "upload": "Select image",
+      "department": "Please select a department"
+    },
+    "error": {
+      "email_valid": "Email is not valid",
+      "phoneNumber_valid": "Phone number is not valid"
+    },
+    "tooltip": {
+      "business_registration": "*Register JPG, PNG, PDF up to 2MB"
     },
     "label": {
       "save": "Save",
@@ -72,6 +99,9 @@
     }
   },
   "organization": {
+    "info": {
+      "title": "Set basic information"
+    },
     "user": {
       "title": "User Management",
       "export": {
@@ -99,7 +129,7 @@
   },
   "sidebar": {
     "home": {
-      "title": "Home"
+      "title": "Dashboard"
     },
     "meeting": {
       "title": "Meeting Request"

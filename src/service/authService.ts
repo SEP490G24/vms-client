@@ -1,5 +1,5 @@
-import Keycloak, {KeycloakInitOptions} from 'keycloak-js'
-import * as _ from "lodash";
+import Keycloak, { KeycloakInitOptions } from 'keycloak-js'
+import * as _ from 'lodash'
 
 const keycloak = new Keycloak(window.__RUNTIME_CONFIG__.VITE_BASE_PATH + '/keycloak.json')
 
@@ -41,7 +41,7 @@ export const getUserRoles = () => {
 
   if (roles.length === 0) {
     roles = extractRoles(keycloak.tokenParsed)
-    localStorage.setItem('user_roles', JSON.stringify(roles));
+    localStorage.setItem('user_roles', JSON.stringify(roles))
   }
 
   return roles
@@ -77,13 +77,15 @@ const extractRoles = (tokenParsed: any) => {
       roles = roles.concat(resource_access[resource].roles)
     }
   }
-  return roles;
+  return roles
 }
 
 const hasRole = (roles: any) => {
   const userRoles = getUserRoles()
   return roles.some((role: any) => _.includes(userRoles, role))
 }
+
+
 
 const authService = {
   initKeycloak,

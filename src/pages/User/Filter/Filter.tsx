@@ -14,12 +14,12 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [valueDate, setValueDate] = useState<DateRadioRange | null>()
   const { RangePicker } = DatePicker
   const [disable, setDisable] = useState<boolean>(true)
-  const [searchOr, setSearchOr] = useState<string>('')
+  const [keyword, setKeyword] = useState<string>('')
 
   useEffect(() => {
-    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || searchOr.trim()) setDisable(false)
+    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim()) setDisable(false)
     else setDisable(true)
-  }, [valueDate,searchOr])
+  }, [valueDate,keyword])
 
   const onChange = ({ target: { value } }: RadioChangeEvent) => {
     setValueDate({ key: value, date: getDateRangeValue(value) })
@@ -30,7 +30,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       createdOnStart: valueDate?.date?.['0']?.toDate(),
       createdOnEnd: valueDate?.date?.['1']?.toDate(),
     }
-    if (values?.query?.trim()) payload.searchOr = values?.query?.trim()
+    if (values?.query?.trim()) payload.keyword = values?.query?.trim()
     args.onFilter(payload)
   }
 
@@ -92,8 +92,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
         <Form.Item label={t('organization.user.search.counselor')} name="query">
           <SharedInput
             placeholder={t('organization.user.search.counselor_placeholder')}
-            value={searchOr}
-            onChange={(e: any) => setSearchOr(e.target.value)}
+            value={keyword}
+            onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
       </Form>

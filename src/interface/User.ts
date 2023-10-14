@@ -1,16 +1,24 @@
 export interface UserDto {
+  departmentId: string;
+  createdBy?: string;
   createdOn?: string;
+  lastUpdatedBy?: null;
   lastUpdatedOn?: string;
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  state?: string;
-  avatar?: string;
+  username: string;
+  openid?: string;
+  role?: string;
+  firstName: string;
+  lastName: string;
+  avatar?: null;
   email?: string;
   phoneNumber?: string;
-  lastLoginTime?: string;
-  isEnable?: boolean;
-  countryCode?:string;
+  enable?: boolean;
+  gender?: null;
+  dateOfBirth?: null;
+  lastLoginTime?: null;
+  departmentUserMaps?: any;
+  id?: string;
+  countryCode?: string
 }
 
 export interface UserFilterPayload {
@@ -20,6 +28,6 @@ export interface UserFilterPayload {
   createdOnStart?: Date;
   createdOnEnd?: Date;
   state?: string;
-  searchOr?:string
+  keyword?: string
 }
 

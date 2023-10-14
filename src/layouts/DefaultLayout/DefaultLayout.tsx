@@ -11,7 +11,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
     <LayoutWrapper className={'flex bg-body min-h-screen overflow-hidden'}>
       <SideBar />
-      <Wrapper className={'w-full pt-0 px-[140px] pb-[20px]'}>
+      <Wrapper className={'w-full pt-0 p-8'}>
         <Header />
         <Content>{children}</Content>
       </Wrapper>

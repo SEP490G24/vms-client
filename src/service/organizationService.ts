@@ -1,8 +1,8 @@
 import httpService from './httpServices'
 import authService from '~/service/authService.ts'
-import { USER } from '~/constants/api.ts'
+import { ORGANIZATION } from '~/constants/api.ts'
 
-export interface CreateUserInfo {
+export interface CreateOrganizationInfo {
   username: string;
   password: string;
   firstName: string;
@@ -12,7 +12,7 @@ export interface CreateUserInfo {
   enable: boolean;
 }
 
-export interface UpdateUserInfo {
+export interface UpdateOrganizationInfo {
   password?: string;
   phoneNumber?: string;
   email?: string;
@@ -21,53 +21,53 @@ export interface UpdateUserInfo {
 
 const findAll = () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(USER.BASE_PATH)
+  return httpService.get(ORGANIZATION.BASE_PATH)
 }
 
-const findById = (username: string) => {
+const findById = (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(USER.BASE_PATH + `/${username}`)
+  return httpService.get(ORGANIZATION.BASE_PATH + `/${id}`)
 }
 
-const insert = (payload: CreateUserInfo) => {
+const insert = (payload: CreateOrganizationInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(USER.BASE_PATH, payload)
+  return httpService.post(ORGANIZATION.BASE_PATH, payload)
 }
 
-const update = (username: string,payload: UpdateUserInfo) => {
+const update = (id: string, payload: UpdateOrganizationInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(USER.BASE_PATH + `/${username}`, payload)
+  return httpService.put(ORGANIZATION.BASE_PATH + `/${id}`, payload)
 }
 
-const remove = (username: string) => {
+const remove = (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.delete(USER.BASE_PATH + `/${username}`)
+  return httpService.delete(ORGANIZATION.BASE_PATH + `/${id}`)
 }
 
 const filter = (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(USER.FILTER, payload)
+  return httpService.post(ORGANIZATION.FILTER, payload)
 }
 
-const getUserProfile = () => {
+const getMyOrganization = () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(USER.MY_USER_PROFILE)
+  return httpService.get(ORGANIZATION.MY_ORGANIZATION)
 }
 
-const updateUserProfile = (payload: any) => {
+const updateMyOrganization = (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(USER.MY_USER_PROFILE, payload)
+  return httpService.post(ORGANIZATION.MY_ORGANIZATION, payload)
 }
 
-const userService = {
+const organizationService = {
   findAll,
   findById,
   insert,
   update,
   remove,
   filter,
-  getUserProfile,
-  updateUserProfile
+  getMyOrganization,
+  updateMyOrganization
 }
 
-export default userService
+export default organizationService

@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { SharedInput, SharedSelect } from '~/common'
 import { PhoneNumberWrapper } from './styles'
 import { useTranslation } from 'react-i18next'
+import countryCode from '~/constants/country-code.json'
+import { REGEX } from '~/constants'
 
 interface SharedInputProps {
   title?: string
@@ -18,36 +20,13 @@ interface SharedInputProps {
 export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
   ({ title, value, defaultValue, onChangeCode, onChangePhone, ...rest }) => {
     const { t } = useTranslation()
-    // const [countryCode] = useDataApi(
-    //   {
-    //     url: `${USER.BASE_PATH}`,
-    //     method: AxiosMethod.GET,
-    //     useToken: true,
-    //     transfer: (data: any) => {
-    //       if (data?.length > 0) {
-    //         return data.map((item: any) => {
-    //           return {
-    //             value: item.name,
-    //             label: item.name,
-    //             key: item.code,
-    //           }
-    //         })
-    //       }
-    //     },
-    //   },
-    //   [],
-    // )
-
-    const countryCode = [{
-      value: '09',
-      label: '+84',
-      key: '+84'
-    },
-      {
-        value: '036',
-        label: '+126',
-        key: '+126'
-      }]
+    const COUNTRY_CODE = Object.entries(countryCode).map((key, index) => {
+      return {
+        value: key[0],
+        label: key[1],
+        key: index
+      }
+    })
 
     const [code, setCode] = useState<string>()
     const [middle, setMiddle] = useState<string>()
@@ -67,8 +46,10 @@ export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
         {title && <p className='input-label'>{title}</p>}
         <Input style={{ display: 'none' }} {...rest}></Input>
         <div style={{ display: 'flex' }}>
-          <Form.Item style={{ marginBottom: 'unset' }} name={'countryCode'} rules={[{ required: true }]}>
+          <Form.Item style={{ marginBottom: 'unset' }} name={'countryCode'}>
             <SharedSelect
+              showSearch={true}
+              placeholder={'+'}
               className='vms-select'
               value={code}
               style={{ width: 120 }}
@@ -77,13 +58,13 @@ export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
                 onChangeCode(value)
                 setCode(value)
               }}
-              options={countryCode}
+              options={COUNTRY_CODE}
             />
           </Form.Item>
           <Form.Item
             style={{ marginBottom: 'unset', width: '100%', marginLeft: '5px' }}
             name={'phoneNumber'}
-            rules={[{ required: true }]}
+            rules={[{pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid')}]}
           >
             <SharedInput
               value={middle}

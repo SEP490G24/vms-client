@@ -1,32 +1,44 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import type { DatePickerProps } from 'antd'
-import { DatePicker } from 'antd'
+import { DatePicker, Input } from 'antd'
 import { Dayjs } from 'dayjs'
 
 interface SharedDatePickerProps {
-  onChange: (value: string) => void
+  onChangeDate: (value: string) => void
   value?: any
   className?: string
+  placeholder?: string
   name?: string
   format?: string
   defaultValue?: Dayjs | undefined
+  style?: any
 }
 
 export const SharedDatePicker: React.FC<SharedDatePickerProps> = memo(
-  ({ onChange, value, className, name, format, defaultValue }) => {
-    const handleChangeDate: DatePickerProps['onChange'] = (_, dateString) => {
-      onChange(dateString)
+  ({ onChangeDate, value, className, name, format, defaultValue,style }) => {
+
+    const [valueDate, setValueDate] = useState(value)
+
+    const handleChangeDate: DatePickerProps['onChange'] = (day, dateString) => {
+      onChangeDate(dateString)
+      setValueDate(day)
     }
 
     return (
-      <DatePicker
-        className={className}
-        value={value}
-        onChange={handleChangeDate}
-        name={name}
-        format={format}
-        defaultValue={defaultValue}
-      />
+      <>
+        <Input className={'hidden'} hidden={true}></Input>
+        <DatePicker
+          className={className}
+          value={valueDate}
+          onChange={handleChangeDate}
+          name={name}
+          format={format}
+          defaultValue={defaultValue}
+          style={style}
+        />
+      </>
     )
   },
 )
+
+export const { RangePicker } = DatePicker;

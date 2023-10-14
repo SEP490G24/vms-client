@@ -2,9 +2,10 @@ import React, { useEffect } from 'react'
 import { FormDataWrapper } from './styles.ts'
 import { Col, Divider, Form, FormInstance, Radio, Row, Space } from 'antd'
 import { UserDto } from '~/interface'
-import { SharedInput, SharedPhoneNumber } from '~/common'
+import { SharedInput, SharedPhoneNumber, SharedSelect } from '~/common'
 import Password from 'antd/es/input/Password'
 import { useTranslation } from 'react-i18next'
+import { REGEX } from '~/constants'
 
 interface UserFormArgs {
   form: FormInstance;
@@ -24,8 +25,10 @@ const FormData: React.FC<UserFormArgs> = (args) => {
         username: args.user.username,
         phoneNumber: args.user.phoneNumber,
         email: args.user.email,
-        isEnable: args.user.isEnable,
-        countryCode: args.user.countryCode
+        enable: args.user.enable,
+        countryCode: args.user.countryCode,
+        gender: args.user.gender,
+        departmentId: args.user.departmentId
       })
     }
   }, [args.user])
@@ -58,7 +61,7 @@ const FormData: React.FC<UserFormArgs> = (args) => {
         onFinish={args.onFinish}
         labelAlign='left'
       >
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')}>
+        <Form.Item className={'mb-3'} label={t('common.field.name')}>
           <Row gutter={8}>
             <Col span={12}>
               <Form.Item style={{ marginBottom: 'unset' }} name='firstName' rules={[{ required: true }]}>
@@ -74,15 +77,15 @@ const FormData: React.FC<UserFormArgs> = (args) => {
             </Col>
           </Row>
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.username')} name='username'
+        <Form.Item className={'mb-3'} label={t('common.field.username')} name='username'
                    rules={[{ required: true }]}>
           <SharedInput disabled={!!args.user} placeholder={t('common.placeholder.username')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.password')} name='password'
+        <Form.Item className={'mb-3'} label={t('common.field.password')} name='password'
                    rules={[{ required: !args.user }]}>
           <Password placeholder={t('common.placeholder.password')} rootClassName='vms-input' />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.verify_password')}
+        <Form.Item className={'mb-3'} label={t('common.field.verify_password')}
                    name='cPassword' rules={[{ required: !args.user },
           ({ getFieldValue }) => ({
             validator(_, value) {
@@ -94,17 +97,27 @@ const FormData: React.FC<UserFormArgs> = (args) => {
           })]}>
           <Password placeholder={t('common.placeholder.verify_password')} rootClassName='vms-input' />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.phoneNumber')}>
+        <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')}>
           <SharedPhoneNumber
             defaultValue={{ countryCode: args.user?.countryCode as any, phone: args.user?.phoneNumber as any }}
             onChangeCode={onCountryCodeChange}
             onChangePhone={onPhoneNumberChange} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.email')} name='email'
-                   rules={[{ required: true }]}>
+        <Form.Item className={'mb-3'} label={t('common.field.email')} name='email'
+                   rules={[{ required: true }, { pattern: REGEX.EMAIL, message: t('common.error.email_valid') }]}>
           <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.used')} name='enable'
+        <Form.Item className={'mb-3'} label={t('common.field.gender')} name={'gender'}>
+          <SharedSelect options={[{ label: 'MALE', value: 'MALE' }, { label: 'FEMALE', value: 'FEMALE' }, {
+            label: 'OTHER',
+            value: 'OTHER'
+          }]} placeholder={t('common.placeholder.gender')} />
+        </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.department')} name='departmentId'
+                   rules={[{ required: true }]}>
+          <SharedInput placeholder={t('common.placeholder.department')} />
+        </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
                    rules={[{ required: true }]}>
           <Radio.Group name='enable'>
             <Space>

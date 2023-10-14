@@ -1,4 +1,4 @@
-import { ConfigProvider, Layout, Menu } from 'antd'
+import { Avatar, ConfigProvider, Layout, Menu } from 'antd'
 import { useState } from 'react'
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -7,8 +7,8 @@ import { themes } from '~/themes'
 import { getItem } from '~/utils'
 import { SideBarWrapper, SideContent, SideHeader } from './styles'
 import { PATH_DASHBOARD } from '~/routes/paths'
-import Title from 'antd/es/typography/Title'
 import { useTranslation } from 'react-i18next'
+import { UserOutlined } from '@ant-design/icons'
 
 
 const { Sider } = Layout
@@ -72,12 +72,13 @@ const SideBar = () => {
             onClick={() => handleSelectedItem(PATH_DASHBOARD)}
             className={'cursor-pointer flex justify-center mx-4 my-16'}
           >
-            {collapsed ? (
-              // <Image src={imagePng.logo} preview={false} />
-              <Title level={5}>VMS</Title>
-            ) : (
-              <Title level={5}>Visor Manager System</Title>
-            )}
+            <Avatar size="large" icon={<UserOutlined />} />
+            {/*{collapsed ? (*/}
+            {/*  // <Image src={imagePng.logo} preview={false} />*/}
+            {/*  <Title level={5}>VMS</Title>*/}
+            {/*) : (*/}
+            {/*  <Title level={5}>Visor Manager System</Title>*/}
+            {/*)}*/}
           </SideHeader>
           <SideContent className={'w-full h-full'}>
             <Menu

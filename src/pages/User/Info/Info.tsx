@@ -14,16 +14,12 @@ interface CreateUserFormArgs {
   onClose: () => void
 }
 
-const Info: React.FC<CreateUserFormArgs> = (args) => {
+const Info: React.FC<CreateUserFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
 
-  const onFinish = (values: any) => {
-    args.onSave(values)
-  }
-
   const onClose = () => {
-    args.onClose()
+    props.onClose()
     form.resetFields()
   }
 
@@ -31,20 +27,20 @@ const Info: React.FC<CreateUserFormArgs> = (args) => {
     <InfoWrapper>
       <ModalGlobalStyle />
       <Card
-        title={t(!!args.user ? 'organization.user.popup.title-edit' : 'organization.user.popup.title-add')}
+        title={t(!!props.user ? 'organization.user.popup.title-edit' : 'organization.user.popup.title-add')}
         extra={
           <Space>
             <SharedButton onClick={onClose}>{t('common.label.close')}</SharedButton>
             <SharedButton
               // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
               type='primary' onClick={form.submit}>
-              {t(`organization.user.popup.${!!args.user ? 'btn-edit' : 'btn-save'}`)}
+              {t(`organization.user.popup.${!!props.user ? 'btn-edit' : 'btn-save'}`)}
             </SharedButton>
           </Space>
         }
         style={{ padding: '10px' }}
       >
-        <UserForm user={args.user} form={form} onFinish={onFinish} />
+        <UserForm user={props.user} form={form} onFinish={props.onSave} />
       </Card>
     </InfoWrapper>
   )

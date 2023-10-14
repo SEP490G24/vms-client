@@ -38,7 +38,8 @@
       "phoneNumber": "Please enter a phone number.",
       "current_password": "Please enter a current password",
       "new_password": "Please enter a new password",
-      "confirm_password": "Please enter a confirm password"
+      "confirm_password": "Please enter a confirm password",
+      "sitename": "Please enter site name"
     },
     "label": {
       "save": "Save",
@@ -95,6 +96,30 @@
         "btn-save": "Register",
         "btn-edit": "Save"
       }
+    },
+    "site": {
+      "title": "Site Management",
+      "export": {
+        "file_name": "statistic_users_{{time}}"
+      },
+      "search": {
+        "title": "Search",
+        "reset": "Reset",
+        "search": "Search",
+        "period": "Period",
+        "counselor": "Site",
+        "counselor_placeholder": "Name"
+      },
+      "table": {
+        "title": "Total {{count}} site",
+        "btn-add": "Register as a site"
+      },
+      "popup": {
+        "title-add": "Register as a site",
+        "title-edit": "Site Edit",
+        "btn-save": "Register",
+        "btn-edit": "Save"
+      }
     }
   },
   "sidebar": {
@@ -128,6 +153,7 @@
       "contact_info": "Contact Info",
       "address_info": "Address Info"
     },
+
     "security": {
       "label": "Security",
       "change_password": "Change Password"

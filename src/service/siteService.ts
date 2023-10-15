@@ -3,7 +3,7 @@ import authService from './authService'
 import { SITE } from '~/constants/api.ts'
 import { PageableRequest } from '~/interface'
 
-export interface CreateRoleInfo {
+export interface CreateSiteInfo {
   name: string;
   phoneNumber: string;
   province: string;
@@ -14,7 +14,7 @@ export interface CreateRoleInfo {
   description: string;
 }
 
-export interface UpdateRoleInfo {
+export interface UpdateSiteInfo {
   name?: string;
   phoneNumber?: string;
   province?: string;
@@ -26,7 +26,7 @@ export interface UpdateRoleInfo {
   enable?: string;
 }
 
-export interface RoleFilterPayload {
+export interface SiteFilterPayload {
   names?: string[];
   usernames?: string[];
   createdOnStart?: Date;
@@ -35,7 +35,6 @@ export interface RoleFilterPayload {
   lastUpdatedBy?: string
   enable?: string
   keyword?: string
-  provinceId?: string
 }
 
 const findAll = async () => {
@@ -50,13 +49,13 @@ const findById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const insert = async (payload: CreateRoleInfo) => {
+const insert = async (payload: CreateSiteInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(SITE.BASE_PATH, payload)
   return httpService.handleResponseStatus(response)
 }
 
-const update = async (id: string, payload: UpdateRoleInfo) => {
+const update = async (id: string, payload: UpdateSiteInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.put(SITE.BASE_PATH + `/${id}`, payload)
   return httpService.handleResponseStatus(response)
@@ -68,7 +67,7 @@ const remove = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const filter = async (payload: RoleFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
+const filter = async (payload: SiteFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(SITE.FILTER, payload, {
     params: {
@@ -80,13 +79,13 @@ const filter = async (payload: RoleFilterPayload, isPageable?: boolean, pageable
   return httpService.handleResponseStatus(response)
 }
 
-const getRoleProfile = async () => {
+const getSiteProfile = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.get(SITE.MY_SITE)
   return httpService.handleResponseStatus(response)
 }
 
-const updateRoleProfile = async (payload: any) => {
+const updateSiteProfile = async (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(SITE.MY_SITE, payload)
   return httpService.handleResponseStatus(response)
@@ -99,8 +98,8 @@ const siteService = {
   update,
   remove,
   filter,
-  getRoleProfile,
-  updateRoleProfile
+  getSiteProfile,
+  updateSiteProfile
 }
 
 export default siteService

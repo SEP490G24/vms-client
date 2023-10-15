@@ -172,12 +172,12 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
             </Form.Item>
           </Space>
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
+        <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
                    rules={[{ required: true }]}>
           <Radio.Group name='enable'>
             <Space>
-              <Radio value={true}>{t('common.label.enable')}</Radio>
-              <Radio value={false}>{t('common.label.disable')}</Radio>
+              <Radio value={true}>{t('common.label.use')}</Radio>
+              <Radio value={false}>{t('common.label.not_use')}</Radio>
             </Space>
           </Radio.Group>
         </Form.Item>

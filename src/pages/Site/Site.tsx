@@ -95,9 +95,12 @@ const Site = () => {
           <Divider type='vertical' />
         </Space>
         {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
-          <Col className={'w-full m-0'} gutter={24} wrap={false}>
+          <Row className={'w-full m-0'} gutter={24} wrap={false}>
+            <Col flex={'none'} span={12}>
               <SiteFilter onFilter={onFilter} />
-              <Card className={'mt-10'} title={<Space style={{ width: '100%', justifyContent: 'space-between' }}>
+            </Col>
+            <Col flex={'auto'}>
+              <Card title={<Space style={{ width: '100%', justifyContent: 'space-between' }}>
                 <strong> {t('organization.site.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
@@ -119,6 +122,7 @@ const Site = () => {
                            currentPage={currentPage}
                            onEdit={openEdit} />
               </Card>
+            </Col>
             {openModal && (
               <Modal
                 open={openModal}
@@ -132,7 +136,7 @@ const Site = () => {
                 <SiteInfo onClose={onClose} onSave={onSave} />
               </Modal>
             )}
-          </Col>
+          </Row>
         )}
       </Space>
     </SiteWrapper>

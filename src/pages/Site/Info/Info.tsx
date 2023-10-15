@@ -61,10 +61,6 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
     console.log(siteSelected)
   }, [siteSelected])
 
-  const resetDistrictAndCommune= () =>{
-    form.resetFields(["districtId","communeId"]);
-  }
-
   const onClose = () => {
     props.onClose()
     form.resetFields()
@@ -97,8 +93,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'
                    rules={[{ required: true }]}>
-          <SharedSelect onChange={resetDistrictAndCommune}
-            options={provinces.map((province) => {
+          <SharedSelect options={provinces.map((province) => {
             return { label: province.name, value: province.id, key: province.id }
           })}
                         placeholder={t('common.placeholder.province')} />
@@ -136,12 +131,12 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         </Form.Item>
         {!!siteSelected &&
           <>
-            <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
+            <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
                        rules={[{ required: true }]}>
               <Radio.Group name='enable'>
                 <Space>
-                  <Radio value={true}>{t('common.label.enable')}</Radio>
-                  <Radio value={false}>{t('common.label.disable')}</Radio>
+                  <Radio value={true}>{t('common.label.use')}</Radio>
+                  <Radio value={false}>{t('common.label.not_use')}</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>

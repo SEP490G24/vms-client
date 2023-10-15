@@ -27,11 +27,7 @@ const User = () => {
     userService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
       setPageableResponse(response?.data)
     })
-  }, [filterPayload])
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-  }
+  }, [filterPayload, currentPage])
 
   const onFilter = (filterPayload: UserFilterPayload) => {
     setCurrentPage(1)
@@ -156,7 +152,7 @@ const User = () => {
             </Col>
             <Col flex={'auto'}>
               <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <span> {t('organization.user.table.title', { count: pageableResponse?.totalElements ?? 0 })}</span>
+                <strong> {t('organization.user.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
                     // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
@@ -179,7 +175,7 @@ const User = () => {
                 pagination={{
                   current: currentPage,
                   total: pageableResponse?.totalElements as number,
-                  onChange: handlePageChange,
+                  onChange: setCurrentPage,
                   pageSize: pageableResponse?.pageable?.pageSize as number,
                   showSizeChanger: false,
                   position: ['bottomCenter']

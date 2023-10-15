@@ -28,12 +28,10 @@ export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
       }
     })
 
-    const [code, setCode] = useState<string>()
-    const [middle, setMiddle] = useState<string>()
+    const [code, setCode] = useState<string>(defaultValue?.countryCode ?? '')
 
     useEffect(() => {
       setCode(defaultValue?.countryCode ?? '')
-      setMiddle(defaultValue?.phone ?? '')
     }, [defaultValue])
 
     const phoneIngredientRefs = {
@@ -64,17 +62,15 @@ export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
           <Form.Item
             style={{ marginBottom: 'unset', width: '100%', marginLeft: '5px' }}
             name={'phoneNumber'}
-            rules={[{pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid')}]}
+            rules={[{ pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid') }]}
           >
             <SharedInput
-              value={middle}
               myRef={phoneIngredientRefs.middle}
               inputMode={'tel'}
               placeholder={t('common.placeholder.phoneNumber')}
               maxLength={10}
               onChange={(e) => {
                 onChangePhone(e.target.value)
-                setMiddle(e.target.value)
               }}
             />
           </Form.Item>

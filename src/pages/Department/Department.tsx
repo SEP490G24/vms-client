@@ -29,11 +29,7 @@ const Department = () => {
     departmentService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
       setPageableResponse(response?.data)
     })
-  }, [filterPayload])
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-  }
+  }, [filterPayload, currentPage])
 
   const onFilter = (filterPayload: DepartmentFilterPayload) => {
     setCurrentPage(1)
@@ -87,7 +83,7 @@ const Department = () => {
             </Col>
             <Col flex={'auto'}>
               <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <span> {t('organization.department.table.title', { count: pageableResponse?.totalElements ?? 0 })}</span>
+                <strong> {t('organization.department.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
                     // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
@@ -110,7 +106,7 @@ const Department = () => {
                 pagination={{
                   current: currentPage,
                   total: pageableResponse?.totalElements as number,
-                  onChange: handlePageChange,
+                  onChange: setCurrentPage,
                   pageSize: pageableResponse?.pageable?.pageSize as number,
                   showSizeChanger: false,
                   position: ['bottomCenter']
@@ -143,7 +139,7 @@ const Department = () => {
                 title={null}
                 footer={null}
                 confirmLoading={confirmLoading}
-                width={550}
+                width={750}
                 onCancel={onClose}
               >
                 <DepartmentInfo onClose={onClose} department={department} onSave={onSave} />

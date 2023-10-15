@@ -39,7 +39,7 @@ const FormData: React.FC<UserFormArgs> = (args) => {
         enable: args.user.enable,
         countryCode: args.user.countryCode,
         gender: args.user.gender,
-        departmentId: args.user.departmentId
+        departmentId: args.user.departmentId,
       })
     }
   }, [args.user])
@@ -97,22 +97,26 @@ const FormData: React.FC<UserFormArgs> = (args) => {
                    rules={[{ required: true }]}>
           <SharedInput disabled={!!args.user} placeholder={t('common.placeholder.username')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.password')} name='password'
-                   rules={[{ required: !args.user }]}>
-          <Password placeholder={t('common.placeholder.password')} rootClassName='vms-input' />
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.verify_password')}
-                   name='cPassword' rules={[{ required: !args.user },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve()
-              }
-              return Promise.reject(new Error('The new password that you entered do not match!'))
-            }
-          })]}>
-          <Password placeholder={t('common.placeholder.verify_password')} rootClassName='vms-input' />
-        </Form.Item>
+        {!args.user &&
+          <>
+            <Form.Item className={'mb-3'} label={t('common.field.password')} name='password'
+                       rules={[{ required: !args.user }]}>
+              <Password placeholder={t('common.placeholder.password')} rootClassName='vms-input' />
+            </Form.Item>
+            <Form.Item className={'mb-3'} label={t('common.field.verify_password')}
+                       name='cPassword' rules={[{ required: !args.user },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve()
+                  }
+                  return Promise.reject(new Error('The new password that you entered do not match!'))
+                }
+              })]}>
+              <Password placeholder={t('common.placeholder.verify_password')} rootClassName='vms-input' />
+            </Form.Item>
+          </>
+        }
         <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')}>
           <SharedPhoneNumber
             defaultValue={{ countryCode: args.user?.countryCode as any, phone: args.user?.phoneNumber as any }}
@@ -129,8 +133,7 @@ const FormData: React.FC<UserFormArgs> = (args) => {
             value: 'OTHER'
           }]} placeholder={t('common.placeholder.gender')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.department')} name='department'
-                   rules={[{ required: true }]}>
+        <Form.Item className={'mb-3'} label={t('common.field.department')} name='department'>
           <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>
             <Form.Item style={{ marginBottom: 'unset' }} name='siteId' rules={[{ required: true }]}>
               <SharedSelect options={sites.map((site) => {

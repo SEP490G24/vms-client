@@ -11,13 +11,4 @@ export interface DepartmentDto {
   siteId?: string;
 }
 
-export interface DepartmentFilterPayload {
-  pageNumber?: number;
-  names?: string[];
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
-  createBy?: string;
-  lastUpdatedBy?: string;
-  enable?: string;
-  keyword?:string
-}
+

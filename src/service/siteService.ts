@@ -1,6 +1,7 @@
 import httpService from './httpServices'
 import authService from '~/service/authService.ts'
 import { SITE } from '~/constants/api.ts'
+import { PageableRequest } from '~/interface'
 
 export interface CreateSiteInfo {
   name: string;
@@ -23,6 +24,17 @@ export interface UpdateSiteInfo {
   taxCode?: string;
   description?: string;
   enable?: string;
+}
+
+export interface SiteFilterPayload {
+  names?: string[];
+  usernames?: string[];
+  createdOnStart?: Date;
+  createdOnEnd?: Date;
+  createBy?: string;
+  lastUpdatedBy?: string
+  enable?: string
+  keyword?: string
 }
 
 const findAll = () => {
@@ -50,9 +62,15 @@ const remove = (id: string) => {
   return httpService.delete(SITE.BASE_PATH + `/${id}`)
 }
 
-const filter = (payload: any) => {
+const filter = (payload: SiteFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(SITE.FILTER, payload)
+  return httpService.post(SITE.FILTER, payload, {
+    params: {
+      isPageable,
+      size: pageableRequest?.size,
+      page: pageableRequest?.page
+    }
+  })
 }
 
 const getSiteProfile = () => {

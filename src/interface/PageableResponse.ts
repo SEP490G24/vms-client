@@ -20,3 +20,8 @@ export interface Pageable {
   paged: boolean;
   unpaged: boolean;
 }
+
+export interface PageableRequest {
+  page: number;
+  size?: number
+}

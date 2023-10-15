@@ -4,13 +4,13 @@ import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ExcelTitle, ExportProps, SharedButton, ShareExportExcel } from '~/common'
-import { PageableResponse, UserDto, UserFilterPayload } from '~/interface'
+import { PageableResponse, UserDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { PageWrapper } from '~/themes'
 import { checkPermission } from '~/utils'
 import { UserInfo } from './Info'
 import { UserFilter } from './Filter'
-import { userService } from '~/service'
+import { UserFilterPayload, userService } from '~/service'
 
 const User = () => {
   const { t } = useTranslation()
@@ -24,14 +24,13 @@ const User = () => {
 
 
   useEffect(() => {
-    userService.filter(filterPayload).then((response) => {
+    userService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
       setPageableResponse(response?.data)
     })
   }, [filterPayload])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    setFilterPayload({ ...filterPayload, pageNumber: page - 1 })
   }
 
   const onFilter = (filterPayload: UserFilterPayload) => {
@@ -41,7 +40,7 @@ const User = () => {
 
   const onSave = (payload: any) => {
     setConfirmLoading(true)
-    let request = !!user ? userService.update(user.username, payload) : userService.insert(payload);
+    let request = !!user ? userService.update(user.username, payload) : userService.insert(payload)
     request
       .then(async (res: any) => {
         console.log('res', res)
@@ -49,7 +48,7 @@ const User = () => {
           setOpenModal(false)
           setConfirmLoading(false)
           setUser(undefined)
-          userService.filter(filterPayload).then((response) => {
+          userService.filter(filterPayload, true, { page: currentPage, size: 10 }).then((response) => {
             setPageableResponse(response?.data)
           })
           await message.success(t('common.message.success.save'))
@@ -82,19 +81,19 @@ const User = () => {
         name: t('common.field.username'),
         width: 20,
         field: 'id',
-        textAlign: 'center',
+        textAlign: 'center'
       },
       {
         name: t('common.field.first_name'),
         width: 15,
         field: 'firstName',
-        textAlign: 'center',
+        textAlign: 'center'
       },
       {
         name: t('common.field.last_name'),
         width: 15,
         field: 'lastName',
-        textAlign: 'center',
+        textAlign: 'center'
       },
       {
         name: t('common.field.phoneNumber'),
@@ -135,7 +134,7 @@ const User = () => {
       }
     ]
     const exportProps: ExportProps = {
-      fileName: t('organization.user.export.file_name', {time: Date.now()}),
+      fileName: t('organization.user.export.file_name', { time: Date.now() }),
       titles: titles,
       data: pageableResponse?.content ?? []
     }

@@ -21,13 +21,5 @@ export interface UserDto {
   countryCode?: string
 }
 
-export interface UserFilterPayload {
-  pageNumber?: number;
-  roles?: string[];
-  usernames?: string[];
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
-  state?: string;
-  keyword?: string
-}
+
 

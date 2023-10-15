@@ -1,6 +1,7 @@
 import httpService from './httpServices'
 import authService from '~/service/authService.ts'
 import { DEPARTMENT } from '~/constants'
+import { PageableRequest } from '~/interface'
 
 export interface CreateDepartmentInfo {
   name: string
@@ -14,6 +15,17 @@ export interface UpdateDepartmentInfo {
   code?: string
   siteId?: string
   description?: string
+}
+
+export interface DepartmentFilterPayload {
+  names?: string[];
+  createdOnStart?: Date;
+  createdOnEnd?: Date;
+  createBy?: string;
+  lastUpdatedBy?: string;
+  enable?: string;
+  keyword?: string;
+  siteId?: string;
 }
 
 const findAll = () => {
@@ -41,10 +53,17 @@ const remove = (id: string) => {
   return httpService.delete(DEPARTMENT.BASE_PATH + `/${id}`)
 }
 
-const filter = (payload: any) => {
+const filter = (payload: DepartmentFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(DEPARTMENT.FILTER, payload)
+  return httpService.post(DEPARTMENT.FILTER, payload, {
+    params: {
+      isPageable,
+      size: pageableRequest?.size,
+      page: pageableRequest?.page
+    }
+  })
 }
+
 
 const getMyDepartment = () => {
   httpService.attachTokenToHeader(authService.getToken() as string)

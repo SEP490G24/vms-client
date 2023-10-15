@@ -6,7 +6,7 @@ import { SharedInput, SharedPhoneNumber, SharedSelect } from '~/common'
 import Password from 'antd/es/input/Password'
 import { useTranslation } from 'react-i18next'
 import { REGEX } from '~/constants'
-import { siteService } from '~/service'
+import { departmentService, siteService } from '~/service'
 
 interface UserFormArgs {
   form: FormInstance;
@@ -45,8 +45,12 @@ const FormData: React.FC<UserFormArgs> = (args) => {
   }, [args.user])
 
   const fetchDepartment = (siteId: string) => {
-    // departmentService.filter()
-    console.log(siteId)
+    args.form.setFieldsValue({
+      departmentId: ''
+    })
+    departmentService.filter({ siteId }).then((response) => {
+      setDepartments(response?.data)
+    })
   }
 
   const onPhoneNumberChange = (value: string) => {
@@ -125,17 +129,17 @@ const FormData: React.FC<UserFormArgs> = (args) => {
             value: 'OTHER'
           }]} placeholder={t('common.placeholder.gender')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.department')} name='departmentId'
+        <Form.Item className={'mb-3'} label={t('common.field.department')} name='department'
                    rules={[{ required: true }]}>
           <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>
-            <Form.Item style={{ marginBottom: 'unset' }} name='firstName' rules={[{ required: true }]}>
+            <Form.Item style={{ marginBottom: 'unset' }} name='siteId' rules={[{ required: true }]}>
               <SharedSelect options={sites.map((site) => {
                 return { label: site.name, value: site.id, key: site.id }
               }) ?? []}
                             onChange={fetchDepartment}
                             placeholder={t('common.placeholder.site')}></SharedSelect>
             </Form.Item>
-            <Form.Item style={{ marginBottom: 'unset' }} name='lastName' rules={[{ required: true }]}>
+            <Form.Item style={{ marginBottom: 'unset' }} name='departmentId' rules={[{ required: true }]}>
               <SharedSelect options={departments.map((department) => {
                 return { label: department.name, value: department.id, key: department.id }
               }) ?? []}

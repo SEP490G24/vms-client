@@ -19,14 +19,4 @@ export interface SiteDto {
   description?: string;
 }
 
-export interface SiteFilterPayload {
-  pageNumber?: number;
-  names?: string[];
-  usernames?: string[];
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
-  createBy?: string;
-  lastUpdatedBy?:string
-  enable?:string
-  keyword?:string
-}
+

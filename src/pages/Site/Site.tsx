@@ -6,12 +6,12 @@ import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { PageableResponse, SiteDto, SiteFilterPayload } from '~/interface'
+import { PageableResponse, SiteDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { checkPermission } from '~/utils'
 import { SiteInfo } from './Info'
 import { SiteFilter } from './Filter'
-import { siteService } from '~/service'
+import { SiteFilterPayload, siteService } from '~/service'
 
 const Site = () => {
   const { t } = useTranslation()
@@ -25,14 +25,13 @@ const Site = () => {
 
 
   useEffect(() => {
-    siteService.filter(filterPayload).then((response) => {
+    siteService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
       setPageableResponse(response?.data)
     })
   }, [filterPayload])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    setFilterPayload({ ...filterPayload, pageNumber: page - 1 })
   }
 
   const onFilter = (filterPayload: SiteFilterPayload) => {
@@ -42,7 +41,7 @@ const Site = () => {
 
   const onSave = (payload: any) => {
     setConfirmLoading(true)
-    let request = !!site ? siteService.update(site.id, payload) : siteService.insert(payload);
+    let request = !!site ? siteService.update(site.id, payload) : siteService.insert(payload)
     request
       .then(async (res: any) => {
         console.log('res', res)
@@ -50,7 +49,7 @@ const Site = () => {
           setOpenModal(false)
           setConfirmLoading(false)
           setSite(undefined)
-          siteService.filter(filterPayload).then((response) => {
+          siteService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
             setPageableResponse(response?.data)
           })
           await message.success(t('common.message.success.save'))

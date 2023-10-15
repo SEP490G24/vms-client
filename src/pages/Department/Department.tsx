@@ -6,12 +6,12 @@ import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { DepartmentDto, DepartmentFilterPayload, PageableResponse } from '~/interface'
+import { DepartmentDto, PageableResponse } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { checkPermission } from '~/utils'
 import { DepartmentInfo } from './Info'
 import { DepartmentFilter } from './Filter'
-import { departmentService } from '~/service'
+import { DepartmentFilterPayload, departmentService } from '~/service'
 
 const Department = () => {
 
@@ -26,14 +26,13 @@ const Department = () => {
 
 
   useEffect(() => {
-    departmentService.filter(filterPayload).then((response) => {
+    departmentService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
       setPageableResponse(response?.data)
     })
   }, [filterPayload])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    setFilterPayload({ ...filterPayload, pageNumber: page - 1 })
   }
 
   const onFilter = (filterPayload: DepartmentFilterPayload) => {
@@ -51,7 +50,7 @@ const Department = () => {
           setOpenModal(false)
           setConfirmLoading(false)
           setDepartment(undefined)
-          departmentService.filter(filterPayload).then((response) => {
+          departmentService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
             setPageableResponse(response?.data)
           })
           await message.success(t('common.message.success.save'))

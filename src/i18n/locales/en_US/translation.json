@@ -14,6 +14,7 @@
       "phoneNumber": "Phone No.",
       "email": "E-mail",
       "used": "Used",
+      "status": "Status",
       "registration_date": "Registration date",
       "created_by": "Create by",
       "modification_date": "Modification date",
@@ -88,9 +89,14 @@
       "close": "Close",
       "use": "Use",
       "not_use": "Not used",
+      "enable": "Enable",
+      "disable": "Disable",
+      "active": "Active",
+      "deactivate": "Deactivate",
       "reset": "Reset",
       "search": "Search",
-      "period": "Period"
+      "period": "Period",
+      "action": "Action"
     },
     "date_range": {
       "start_placeholder": "Start",

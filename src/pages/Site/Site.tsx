@@ -6,12 +6,13 @@ import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { PageableResponse, SiteDto } from '~/interface'
+import { PageableResponse, SiteDto, UserDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { checkPermission } from '~/utils'
 import { SiteInfo } from './Info'
 import { SiteFilter } from './Filter'
 import { SiteFilterPayload, siteService } from '~/service'
+import moment from 'moment/moment'
 
 const Site = () => {
   const { t } = useTranslation()
@@ -127,15 +128,17 @@ const Site = () => {
                 <Column title={t('common.field.district')} dataIndex='district' key='district' />
                 <Column title={t('common.field.ward')} dataIndex='ward' key='ward' />
                 <Column
-                  title={t('common.field.used')}
+                  title={t('common.field.status')}
                   dataIndex='enable'
                   key='enable'
                   render={(enable) =>
-                    enable ? t('common.label.use') : t('common.label.not_use')
+                    enable ? t('common.label.enable') : t('common.label.disable')
                   }
                 />
-                <Column title={t('common.field.registration_date')} dataIndex='createdOn' key='createdOn' />
-                <Column title={t('common.field.modification_date')} dataIndex='lastUpdatedOn' key='lastUpdatedOn' />
+                <Column title={t('common.field.registration_date')} key='createdOn'
+                        render={(value: UserDto) => moment(value.createdOn).format('L')} />
+                <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
+                        render={(value: UserDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />
               </Table>
             </Col>
             {openModal && (

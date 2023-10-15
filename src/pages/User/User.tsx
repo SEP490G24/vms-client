@@ -1,4 +1,4 @@
-import { Col, Divider, message, Row, Space, Spin, Table } from 'antd'
+import { Col, Divider, message, Row, Space, Spin, Table, TablePaginationConfig, Tag } from 'antd'
 import Modal from 'antd/es/modal/Modal'
 import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
@@ -11,6 +11,8 @@ import { checkPermission } from '~/utils'
 import { UserInfo } from './Info'
 import { UserFilter } from './Filter'
 import { UserFilterPayload, userService } from '~/service'
+import moment from 'moment'
+import { FilterValue } from 'antd/es/table/interface'
 
 const User = () => {
   const { t } = useTranslation()
@@ -138,6 +140,10 @@ const User = () => {
     setExportEx(false)
   }
 
+  const handleChange = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
+    console.log(pagination, filters, sorter)
+  }
+
   return (
     <PageWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
@@ -180,6 +186,7 @@ const User = () => {
                   showSizeChanger: false,
                   position: ['bottomCenter']
                 }}
+                onChange={handleChange}
                 className='vms-table no-bg'
                 scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
                 size='middle'
@@ -188,18 +195,29 @@ const User = () => {
                   title={t('common.field.user')}
                   render={(value) => <a onClick={() => openEdit(value)}>{value.firstName + ' ' + value.lastName}</a>}
                 />
+                <Column title={t('common.field.username')} dataIndex='username' key='username' sorter={true}/>
                 <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' />
                 <Column title={t('common.field.email')} dataIndex='email' key='email' />
                 <Column
-                  title={t('common.field.used')}
+                  title={t('common.field.status')}
                   dataIndex='enable'
                   key='enable'
+                  filters={[
+                    { text: t('common.label.enable'), value: true },
+                    { text: t('common.label.disable'), value: false }
+                  ]}
+                  filterMultiple={false}
                   render={(enable) =>
-                    enable ? t('common.label.use') : t('common.label.not_use')
+                    enable ? <Tag color='#87d068'>{t('common.label.enable')}</Tag> :
+                      <Tag color='#f50'>{t('common.label.disable')}</Tag>
                   }
                 />
-                <Column title={t('common.field.registration_date')} dataIndex='createdOn' key='createdOn' />
-                <Column title={t('common.field.modification_date')} dataIndex='lastUpdatedOn' key='lastUpdatedOn' />
+                <Column title={t('common.field.registration_date')} key='createdOn'
+                        render={(value: UserDto) => moment(value.createdOn).format('L')} />
+                <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
+                        render={(value: UserDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />
+                {/*<Column title={t('common.label.action')} fixed={'right'} key='action' width={70}*/}
+                {/*        render={() => <DeleteOutlined className={'text-[#f50]'}/>} />*/}
               </Table>
             </Col>
             {openModal && (

@@ -3,20 +3,17 @@ import authService from '~/service/authService.ts'
 import { DEPARTMENT } from '~/constants'
 
 export interface CreateDepartmentInfo {
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
-  enable: boolean;
+  name: string
+  code: string
+  siteId: string
+  description?: string
 }
 
 export interface UpdateDepartmentInfo {
-  password?: string;
-  phoneNumber?: string;
-  email?: string;
-  enable?: boolean;
+  name?: string
+  code?: string
+  siteId?: string
+  description?: string
 }
 
 const findAll = () => {

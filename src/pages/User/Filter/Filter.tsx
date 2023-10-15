@@ -45,13 +45,13 @@ const Filter: React.FC<FilterArgs> = (args) => {
       title={t('organization.user.search.title')}
       extra={
         <Space>
-          <SharedButton onClick={onReset}>{t('organization.user.search.reset')}</SharedButton>
+          <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
             // permissions={BUTTON_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
             disabled={disable}
           >
-            {t('organization.user.search.search')}
+            {t('common.label.search')}
           </SharedButton>
         </Space>
       }
@@ -69,7 +69,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className="vms-form"
         onFinish={onFinish}
       >
-        <Form.Item label={t('organization.user.search.period')}>
+        <Form.Item label={t('common.label.period')}>
           <RangePicker
             value={valueDate?.date}
             onChange={(val) => {

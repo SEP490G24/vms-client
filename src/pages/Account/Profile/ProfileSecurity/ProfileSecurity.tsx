@@ -1,16 +1,20 @@
 import { ProfileSecurityWrapper, PersonInfoSection } from './styles.ts'
-import { Button, Card, Form, Space } from 'antd'
+import { Button, Card, Form, message, Space } from 'antd'
 import Title from 'antd/es/typography/Title'
 import Password from 'antd/es/input/Password'
 import { useTranslation } from 'react-i18next'
+import { userService } from '~/service'
 
 const ProfileSecurity = () => {
 
   const { t } = useTranslation()
   const [form] = Form.useForm()
 
-  const onFinish = (value: string) => {
-    console.log(value)
+  const onFinish = (value: any) => {
+    userService.changePassword(value).then(async (response) => {
+      if (response?.status === 200) await message.success(t('common.message.success.save'))
+      else await message.error(t('common.message.error.save'))
+    }).catch(() => message.error(t('common.message.error.save')))
   }
 
   return (
@@ -25,7 +29,7 @@ const ProfileSecurity = () => {
               colon={false}
               onFinish={onFinish}
               labelAlign='left'
-              // requiredMark={false}
+          // requiredMark={false}
         >
           <Space className={'w-full'} direction={'vertical'} size={32}>
             <PersonInfoSection>

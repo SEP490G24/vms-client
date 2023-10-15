@@ -1,5 +1,5 @@
 import { PersonInfoSection, ProfileInfoWrapper } from './styles.ts'
-import { Button, Card, Form, Input, Select, Space } from 'antd'
+import { Button, Card, Form, Input, message, Select, Space } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { useTranslation } from 'react-i18next'
 import { authSelector, useAppSelector } from '~/redux'
@@ -56,11 +56,11 @@ const ProfileInfo = () => {
     })
   }
 
-  const onFinish = (value: string) => {
-    userService.updateUserProfile(value).then((response) => {
-      console.log(response)
-    })
-    console.log(value)
+  const onFinish = (value: any) => {
+    userService.updateUserProfile(value).then(async (response) => {
+      if (response?.status === 200) await message.success(t('common.message.success.save'))
+      else await message.error(t('common.message.error.save'))
+    }).catch(() => message.error(t('common.message.error.save')))
   }
 
 
@@ -88,7 +88,7 @@ const ProfileInfo = () => {
                   <SharedInput placeholder={t('common.placeholder.last_name')} />
                 </Form.Item>
                 <Form.Item label={t('common.field.username')} name={'username'}>
-                  <SharedInput placeholder={t('common.placeholder.username')} disabled/>
+                  <SharedInput placeholder={t('common.placeholder.username')} disabled />
                 </Form.Item>
                 <Form.Item label={t('common.field.gender')} name={'gender'}>
                   <SharedSelect options={[{ label: 'MALE', value: 'MALE' }, { label: 'FEMALE', value: 'FEMALE' }, {
@@ -112,7 +112,10 @@ const ProfileInfo = () => {
                     onChangePhone={onPhoneNumberChange} />
                 </Form.Item>
                 <Form.Item label={t('common.field.email')} name={'email'}
-                           rules={[{ required: true }, { pattern: REGEX.EMAIL, message: t('common.error.email_valid')}]}>
+                           rules={[{ required: true }, {
+                             pattern: REGEX.EMAIL,
+                             message: t('common.error.email_valid')
+                           }]}>
                   <Input placeholder={t('common.placeholder.email')} />
                 </Form.Item>
               </div>

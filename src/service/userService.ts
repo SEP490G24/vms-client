@@ -54,9 +54,14 @@ const getUserProfile = () => {
   return httpService.get(USER.MY_USER_PROFILE)
 }
 
-const updateUserProfile = (payload: any) => {
+const updateUserProfile = (payload: UpdateUserInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   return httpService.put(USER.MY_USER_PROFILE, payload)
+}
+
+const changePassword = (payload: {oldPassword: string, newPassword: string}) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  return httpService.post(USER.CHANGE_PASSWORD, payload)
 }
 
 const userService = {
@@ -67,7 +72,8 @@ const userService = {
   remove,
   filter,
   getUserProfile,
-  updateUserProfile
+  updateUserProfile,
+  changePassword
 }
 
 export default userService

@@ -87,7 +87,10 @@
       "export_data": "Export Data",
       "close": "Close",
       "use": "Use",
-      "not_use": "Not used"
+      "not_use": "Not used",
+      "reset": "Reset",
+      "search": "Search",
+      "period": "Period"
     },
     "date_range": {
       "start_placeholder": "Start",
@@ -124,9 +127,6 @@
       },
       "search": {
         "title": "Search",
-        "reset": "Reset",
-        "search": "Search",
-        "period": "Period",
         "counselor": "User",
         "counselor_placeholder": "Name, Phone number, E-mail"
       },
@@ -148,20 +148,38 @@
       },
       "search": {
         "title": "Search",
-        "reset": "Reset",
-        "search": "Search",
-        "period": "Period",
         "counselor": "Site",
         "counselor_placeholder": "Name"
       },
       "table": {
         "title": "Total {{count}} site",
-        "btn-add": "Register as a site"
+        "btn-add": "Create"
       },
       "popup": {
-        "title-add": "Register as a site",
+        "title-add": "Create new site",
         "title-edit": "Site Edit",
-        "btn-save": "Register",
+        "btn-save": "Save",
+        "btn-edit": "Save"
+      }
+    },
+    "department": {
+      "title": "Department Management",
+      "export": {
+        "file_name": "statistic_department_{{time}}"
+      },
+      "search": {
+        "title": "Search",
+        "counselor": "Department",
+        "counselor_placeholder": "Name"
+      },
+      "table": {
+        "title": "Total {{count}} department",
+        "btn-add": "Create"
+      },
+      "popup": {
+        "title-add": "Create new department",
+        "title-edit": "Department Edit",
+        "btn-save": "Save",
         "btn-edit": "Save"
       }
     }

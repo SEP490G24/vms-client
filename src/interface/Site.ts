@@ -20,11 +20,13 @@ export interface SiteDto {
 }
 
 export interface SiteFilterPayload {
-  // pageNumber?: number;
-  // roles?: string[];
-  // usernames?: string[];
-  // createdOnStart?: Date;
-  // createdOnEnd?: Date;
-  // state?: string;
-  // searchOr?:string
+  pageNumber?: number;
+  names?: string[];
+  usernames?: string[];
+  createdOnStart?: Date;
+  createdOnEnd?: Date;
+  createBy?: string;
+  lastUpdatedBy?:string
+  enable?:string
+  keyword?:string
 }

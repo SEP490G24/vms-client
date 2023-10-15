@@ -1,6 +1,6 @@
 import { SiteWrapper } from './styles.ts'
 
-import { Col, Divider, message, Row, Space, Spin, Table } from 'antd'
+import { Col, Divider, message, Row, Space, Table } from 'antd'
 import Modal from 'antd/es/modal/Modal'
 import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
@@ -73,8 +73,8 @@ const Site = () => {
     setOpenModal(false)
   }
 
-  const exportData = async () => {
-  }
+  // const exportData = async () => {
+  // }
 
 
   return (
@@ -100,11 +100,11 @@ const Site = () => {
                   >
                     {t('organization.site.table.btn-add')}
                   </SharedButton>
-                  <Spin spinning={false}>
-                    <SharedButton onClick={exportData} type={'primary'}>
-                      {t('common.label.export_data')}
-                    </SharedButton>
-                  </Spin>
+                  {/*<Spin spinning={false}>*/}
+                  {/*  <SharedButton onClick={exportData} type={'primary'}>*/}
+                  {/*    {t('common.label.export_data')}*/}
+                  {/*  </SharedButton>*/}
+                  {/*</Spin>*/}
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
@@ -124,7 +124,7 @@ const Site = () => {
                 size='middle'
               >
                 <Column
-                  title={t('common.field.site_name')}
+                  title={t('common.field.site.name')}
                   render={(value: SiteDto) => <a onClick={() => openEdit(value)}>{value.name}</a>}
                 />
                 <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' />

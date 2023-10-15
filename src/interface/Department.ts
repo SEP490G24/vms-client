@@ -3,6 +3,7 @@ export interface DepartmentDto {
   createdOn?: string;
   lastUpdatedBy?: string;
   lastUpdatedOn?: string;
+  description?: string;
   id: string;
   name: string;
   code?: string;
@@ -11,11 +12,12 @@ export interface DepartmentDto {
 }
 
 export interface DepartmentFilterPayload {
-  // pageNumber?: number;
-  // roles?: string[];
-  // usernames?: string[];
-  // createdOnStart?: Date;
-  // createdOnEnd?: Date;
-  // state?: string;
-  // searchOr?:string
+  pageNumber?: number;
+  names?: string[];
+  createdOnStart?: Date;
+  createdOnEnd?: Date;
+  createBy?: string;
+  lastUpdatedBy?: string;
+  enable?: string;
+  keyword?:string
 }

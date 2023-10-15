@@ -2,10 +2,10 @@ import { Card, DatePicker, Form, RadioChangeEvent, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedInput, SharedRadio } from '~/common'
-import { DateRadioRange, getDataRangeOptions, getDateRangeValue, SiteFilterPayload } from '~/interface'
+import { DateRadioRange, getDataRangeOptions, getDateRangeValue, DepartmentFilterPayload } from '~/interface'
 
 interface FilterArgs {
-  onFilter: (filterPayload: SiteFilterPayload) => void
+  onFilter: (filterPayload: DepartmentFilterPayload) => void
 }
 
 const Filter: React.FC<FilterArgs> = (args) => {
@@ -26,7 +26,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
   }
 
   const onFinish = (values: any) => {
-    const payload: SiteFilterPayload = {
+    const payload: DepartmentFilterPayload = {
       createdOnStart: valueDate?.date?.['0']?.toDate(),
       createdOnEnd: valueDate?.date?.['1']?.toDate(),
     }
@@ -42,7 +42,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   return (
     <Card
-      title={t('organization.site.search.title')}
+      title={t('organization.department.search.title')}
       extra={
         <Space>
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
@@ -89,9 +89,9 @@ const Filter: React.FC<FilterArgs> = (args) => {
             optionType="button"
           />
         </Form.Item>
-        <Form.Item label={t('organization.site.search.counselor')} name="query">
+        <Form.Item label={t('organization.department.search.counselor')} name="query">
           <SharedInput
-            placeholder={t('organization.site.search.counselor_placeholder')}
+            placeholder={t('organization.department.search.counselor_placeholder')}
             value={keyword}
             onChange={(e: any) => setKeyword(e.target.value)}
           />

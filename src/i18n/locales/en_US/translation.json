@@ -13,7 +13,7 @@
       "verify_password": "Verify password",
       "phoneNumber": "Phone No.",
       "email": "E-mail",
-      "used": "Whether to use",
+      "used": "Used",
       "registration_date": "Registration date",
       "created_by": "Create by",
       "modification_date": "Modification date",
@@ -31,7 +31,15 @@
       "company_registration_number": "Business registration No.",
       "business_registration": "Business registration card",
       "brand_introduction": "Brand introduction",
-      "department": "Department"
+      "department": "Department",
+      "province": "Province",
+      "district": "District",
+      "ward": "Ward",
+      "taxCode": "Tax Code",
+      "description": "Description",
+      "site": {
+        "name": "Site"
+      }
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -59,6 +67,12 @@
       "brand_introduction": "Please enter brand introduction information",
       "upload": "Select image",
       "department": "Please select a department",
+      "site": "Please select a site",
+      "province": "Please select a province",
+      "district": "Please select a district",
+      "ward": "Please enter a ward",
+      "taxCode": "Please enter a tax code",
+      "description": "Description",
       "site_name": "Please enter site name"
     },
     "error": {

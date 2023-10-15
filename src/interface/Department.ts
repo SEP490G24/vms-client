@@ -1,4 +1,4 @@
-export interface SiteDto {
+export interface DepartmentDto {
   createdBy?: string;
   createdOn?: string;
   lastUpdatedBy?: string;
@@ -6,20 +6,11 @@ export interface SiteDto {
   id: string;
   name: string;
   code?: string;
-  organizationId?: string;
-  phoneNumber?: string;
   enable?: boolean;
-  templateSiteMaps?: any;
-  pricePackageSiteMaps?: any;
-  district?: string;
-  province?: string;
-  ward?: string;
-  address?: string;
-  taxCode?: string;
-  description?: string;
+  siteId?: string;
 }
 
-export interface SiteFilterPayload {
+export interface DepartmentFilterPayload {
   // pageNumber?: number;
   // roles?: string[];
   // usernames?: string[];

@@ -2,7 +2,7 @@ export interface UserDto {
   departmentId: string;
   createdBy?: string;
   createdOn?: string;
-  lastUpdatedBy?: null;
+  lastUpdatedBy?: string;
   lastUpdatedOn?: string;
   username: string;
   openid?: string;

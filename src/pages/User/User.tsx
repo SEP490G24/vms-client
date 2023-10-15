@@ -41,12 +41,7 @@ const User = () => {
 
   const onSave = (payload: any) => {
     setConfirmLoading(true)
-    let request
-    if (!!user) {
-      request = userService.update(payload.username, payload)
-    } else {
-      request = userService.insert(payload)
-    }
+    let request = !!user ? userService.update(user.username, payload) : userService.insert(payload);
     request
       .then(async (res: any) => {
         console.log('res', res)

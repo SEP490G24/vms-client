@@ -3,20 +3,26 @@ import authService from '~/service/authService.ts'
 import { SITE } from '~/constants/api.ts'
 
 export interface CreateSiteInfo {
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   phoneNumber: string;
-  email: string;
-  enable: boolean;
+  province: string;
+  district: string;
+  ward: string;
+  address: string;
+  taxCode: string;
+  description: string;
 }
 
 export interface UpdateSiteInfo {
-  password?: string;
+  name?: string;
   phoneNumber?: string;
-  email?: string;
-  enable?: boolean;
+  province?: string;
+  district?: string;
+  ward?: string;
+  address?: string;
+  taxCode?: string;
+  description?: string;
+  enable?: string;
 }
 
 const findAll = () => {

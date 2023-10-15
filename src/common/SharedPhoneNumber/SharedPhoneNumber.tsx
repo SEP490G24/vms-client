@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { SharedInput, SharedSelect } from '~/common'
 import { PhoneNumberWrapper } from './styles'
 import { useTranslation } from 'react-i18next'
-import countryCode from '~/constants/country-code.json'
 import { REGEX } from '~/constants'
+import { Data } from '~/data'
 
 interface SharedInputProps {
   title?: string
@@ -20,7 +20,7 @@ interface SharedInputProps {
 export const SharedPhoneNumber: React.FC<SharedInputProps> = React.memo(
   ({ title, value, defaultValue, onChangeCode, onChangePhone, ...rest }) => {
     const { t } = useTranslation()
-    const COUNTRY_CODE = Object.entries(countryCode).map((key, index) => {
+    const COUNTRY_CODE = Object.entries(Data.COUNTRY_CODE).map((key, index) => {
       return {
         value: key[0],
         label: key[1],

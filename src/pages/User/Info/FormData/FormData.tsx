@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormDataWrapper } from './styles.ts'
 import { Col, Divider, Form, FormInstance, Radio, Row, Space } from 'antd'
-import { UserDto } from '~/interface'
+import { DepartmentDto, SiteDto, UserDto } from '~/interface'
 import { SharedInput, SharedPhoneNumber, SharedSelect } from '~/common'
 import Password from 'antd/es/input/Password'
 import { useTranslation } from 'react-i18next'
 import { REGEX } from '~/constants'
+import { siteService } from '~/service'
 
 interface UserFormArgs {
   form: FormInstance;
@@ -15,6 +16,16 @@ interface UserFormArgs {
 
 const FormData: React.FC<UserFormArgs> = (args) => {
   const { t } = useTranslation()
+
+  const [sites, setSites] = useState<SiteDto[]>([])
+  const [departments, setDepartments] = useState<DepartmentDto[]>([])
+
+  useEffect(() => {
+    siteService.findAll().then((response) => {
+      setSites(response?.data)
+    })
+  }, [])
+
   useEffect(() => {
     if (args.user) {
       args.form.setFieldsValue({
@@ -32,6 +43,11 @@ const FormData: React.FC<UserFormArgs> = (args) => {
       })
     }
   }, [args.user])
+
+  const fetchDepartment = (siteId: string) => {
+    // departmentService.filter()
+    console.log(siteId)
+  }
 
   const onPhoneNumberChange = (value: string) => {
     value &&
@@ -62,20 +78,16 @@ const FormData: React.FC<UserFormArgs> = (args) => {
         labelAlign='left'
       >
         <Form.Item className={'mb-3'} label={t('common.field.name')}>
-          <Row gutter={8}>
-            <Col span={12}>
-              <Form.Item style={{ marginBottom: 'unset' }} name='firstName' rules={[{ required: true }]}>
-                <SharedInput disabled={!!args.user}
-                             placeholder={t('common.placeholder.first_name')}></SharedInput>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item style={{ marginBottom: 'unset' }} name='lastName' rules={[{ required: true }]}>
-                <SharedInput disabled={!!args.user}
-                             placeholder={t('common.placeholder.last_name')}></SharedInput>
-              </Form.Item>
-            </Col>
-          </Row>
+          <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>
+            <Form.Item style={{ marginBottom: 'unset' }} name='firstName' rules={[{ required: true }]}>
+              <SharedInput disabled={!!args.user}
+                           placeholder={t('common.placeholder.first_name')}></SharedInput>
+            </Form.Item>
+            <Form.Item style={{ marginBottom: 'unset' }} name='lastName' rules={[{ required: true }]}>
+              <SharedInput disabled={!!args.user}
+                           placeholder={t('common.placeholder.last_name')}></SharedInput>
+            </Form.Item>
+          </Space>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.username')} name='username'
                    rules={[{ required: true }]}>
@@ -115,7 +127,21 @@ const FormData: React.FC<UserFormArgs> = (args) => {
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.department')} name='departmentId'
                    rules={[{ required: true }]}>
-          <SharedInput placeholder={t('common.placeholder.department')} />
+          <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>
+            <Form.Item style={{ marginBottom: 'unset' }} name='firstName' rules={[{ required: true }]}>
+              <SharedSelect options={sites.map((site) => {
+                return { label: site.name, value: site.id, key: site.id }
+              }) ?? []}
+                            onChange={fetchDepartment}
+                            placeholder={t('common.placeholder.site')}></SharedSelect>
+            </Form.Item>
+            <Form.Item style={{ marginBottom: 'unset' }} name='lastName' rules={[{ required: true }]}>
+              <SharedSelect options={departments.map((department) => {
+                return { label: department.name, value: department.id, key: department.id }
+              }) ?? []}
+                            placeholder={t('common.placeholder.department')}></SharedSelect>
+            </Form.Item>
+          </Space>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
                    rules={[{ required: true }]}>

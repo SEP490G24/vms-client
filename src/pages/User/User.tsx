@@ -1,9 +1,9 @@
-import { Col, Divider, message, Row, Space, Spin, Table, TablePaginationConfig, Tag } from 'antd'
+import { Col, Divider, message, Row, Space, Spin, Table, TablePaginationConfig, Tag, Upload } from 'antd'
 import Modal from 'antd/es/modal/Modal'
 import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ExcelTitle, ExportProps, SharedButton, ShareExportExcel } from '~/common'
+import { SharedButton } from '~/common'
 import { PageableResponse, UserDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { PageWrapper } from '~/themes'
@@ -13,6 +13,8 @@ import { UserFilter } from './Filter'
 import { UserFilterPayload, userService } from '~/service'
 import moment from 'moment'
 import { FilterValue } from 'antd/es/table/interface'
+import { RcFile } from 'antd/es/upload'
+import { DownloadOutlined, UploadOutlined } from '@ant-design/icons'
 
 const User = () => {
   const { t } = useTranslation()
@@ -71,77 +73,34 @@ const User = () => {
 
   const exportData = async () => {
     setExportEx(true)
-    // const dataExport = await userService.filter({}).then((res) => {
-    //   return res?.data
-    // })
-    const titles: ExcelTitle[] = [
-      {
-        name: t('common.field.username'),
-        width: 20,
-        field: 'id',
-        textAlign: 'center'
-      },
-      {
-        name: t('common.field.first_name'),
-        width: 15,
-        field: 'firstName',
-        textAlign: 'center'
-      },
-      {
-        name: t('common.field.last_name'),
-        width: 15,
-        field: 'lastName',
-        textAlign: 'center'
-      },
-      {
-        name: t('common.field.phoneNumber'),
-        width: 15,
-        field: 'phoneNumber',
-        textAlign: 'center'
-      },
-
-      {
-        name: t('common.field.email'),
-        field: 'email',
-        width: 30,
-        textAlign: 'center'
-      },
-      {
-        name: t('common.field.used'),
-        width: 15,
-        field: 'enable',
-        textAlign: 'center'
-      },
-      {
-        name: t('common.field.created_by'),
-        width: 15,
-        field: 'createdBy',
-        textAlign: 'center'
-      },
-      {
-        name: t('common.field.registration_date'),
-        width: 30,
-        field: 'createdOn',
-        textAlign: 'center'
-      },
-      {
-        name: t('common.field.modification_date'),
-        width: 30,
-        field: 'lastUpdatedOn',
-        textAlign: 'center'
-      }
-    ]
-    const exportProps: ExportProps = {
-      fileName: t('organization.user.export.file_name', { time: Date.now() }),
-      titles: titles,
-      data: pageableResponse?.content ?? []
-    }
-    await ShareExportExcel(exportProps)
+    userService.exportUser(filterPayload).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response?.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', `${t('organization.user.export.file_name', { time: Date.now() })}.xlsx`)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    })
     setExportEx(false)
   }
 
   const handleChange = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     console.log(pagination, filters, sorter)
+  }
+
+  const beforeUpload = (file: RcFile) => {
+    const formData = new FormData()
+    formData.append('file', file as RcFile)
+    userService.importUser(formData).then((res) => {
+      console.log(res?.data)
+    })
+      .then(() => {
+        message.success('upload successfully.').then()
+      })
+      .catch(() => {
+        message.error('upload failed.').then()
+      })
   }
 
   return (
@@ -160,18 +119,21 @@ const User = () => {
               <Space style={{ width: '100%', justifyContent: 'space-between' }}>
                 <strong> {t('organization.user.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
+                  <Spin spinning={exportEx}>
+                    <SharedButton onClick={exportData} icon={<DownloadOutlined />}>
+                      {t('common.label.export_data')}
+                    </SharedButton>
+                  </Spin>
+                  <Upload beforeUpload={beforeUpload} showUploadList={false}>
+                    <SharedButton icon={<UploadOutlined />}>{t('common.label.import_data')}</SharedButton>
+                  </Upload>
                   <SharedButton
                     // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
-                    type='default'
+                    type={'primary'}
                     onClick={() => setOpenModal(true)}
                   >
                     {t('organization.user.table.btn-add')}
                   </SharedButton>
-                  <Spin spinning={exportEx}>
-                    <SharedButton onClick={exportData} type={'primary'}>
-                      {t('common.label.export_data')}
-                    </SharedButton>
-                  </Spin>
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
@@ -195,7 +157,7 @@ const User = () => {
                   title={t('common.field.user')}
                   render={(value) => <a onClick={() => openEdit(value)}>{value.firstName + ' ' + value.lastName}</a>}
                 />
-                <Column title={t('common.field.username')} dataIndex='username' key='username' sorter={true}/>
+                <Column title={t('common.field.username')} dataIndex='username' key='username' sorter={true} />
                 <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' />
                 <Column title={t('common.field.email')} dataIndex='email' key='email' />
                 <Column

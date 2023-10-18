@@ -6,7 +6,9 @@ export const USER = {
   BASE_PATH: `${VITE_API_SERVER_URL}/user`,
   MY_USER_PROFILE: `${VITE_API_SERVER_URL}/user/profile`,
   FILTER: `${VITE_API_SERVER_URL}/user/filter`,
-  CHANGE_PASSWORD: `${VITE_API_SERVER_URL}/user/change-password`
+  CHANGE_PASSWORD: `${VITE_API_SERVER_URL}/user/change-password`,
+  IMPORT: `${VITE_API_SERVER_URL}/user/import`,
+  EXPORT: `${VITE_API_SERVER_URL}/user/export`
 }
 
 export const ORGANIZATION = {

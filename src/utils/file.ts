@@ -17,3 +17,4 @@ export function toBase64(file: any) {
     reader.onerror = reject
   })
 }
+

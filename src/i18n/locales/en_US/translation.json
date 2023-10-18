@@ -86,6 +86,7 @@
     "label": {
       "save": "Save",
       "export_data": "Export Data",
+      "import_data": "Import Data",
       "close": "Close",
       "use": "Use",
       "not_use": "Not used",

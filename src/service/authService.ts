@@ -47,7 +47,9 @@ export const getUserRoles = () => {
   return roles
 }
 
-const getToken = () => keycloak.token
+const getToken = () => {
+  return keycloak.token
+}
 
 const getRefreshToken = () => keycloak.refreshToken
 

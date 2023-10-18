@@ -80,6 +80,16 @@ const changePassword = (payload: { oldPassword: string, newPassword: string }) =
   return httpService.post(USER.CHANGE_PASSWORD, payload)
 }
 
+const importUser = (formData: FormData) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  return httpService.post(USER.IMPORT, formData)
+}
+
+const exportUser = (payload: UserFilterPayload) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  return httpService.post(USER.EXPORT, payload, {responseType: 'blob'})
+}
+
 const userService = {
   findAll,
   findById,
@@ -89,7 +99,9 @@ const userService = {
   filter,
   getUserProfile,
   updateUserProfile,
-  changePassword
+  changePassword,
+  importUser,
+  exportUser
 }
 
 export default userService

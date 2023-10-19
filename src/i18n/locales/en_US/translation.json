@@ -38,6 +38,8 @@
       "ward": "Ward",
       "taxCode": "Tax Code",
       "description": "Description",
+      "room" : "Room",
+      "device" : "Device",
       "site": {
         "name": "Site"
       }
@@ -210,6 +212,48 @@
         "btn-save": "Save",
         "btn-edit": "Save"
       }
+    },
+    "room": {
+      "title": "Room Management",
+      "export": {
+        "file_name": "statistic_department_{{time}}"
+      },
+      "search": {
+        "title": "Search",
+        "counselor": "Room",
+        "counselor_placeholder": "Name"
+      },
+      "table": {
+        "title": "Total {{count}} room",
+        "btn-add": "Create"
+      },
+      "popup": {
+        "title-add": "Create new room",
+        "title-edit": "Room Edit",
+        "btn-save": "Save",
+        "btn-edit": "Save"
+      }
+    },
+    "device": {
+      "title": "Device Management",
+      "export": {
+        "file_name": "statistic_device_{{time}}"
+      },
+      "search": {
+        "title": "Search",
+        "counselor": "Device",
+        "counselor_placeholder": "Name"
+      },
+      "table": {
+        "title": "Total {{count}} device",
+        "btn-add": "Create"
+      },
+      "popup": {
+        "title-add": "Create new device",
+        "title-edit": "Device Edit",
+        "btn-save": "Save",
+        "btn-edit": "Save"
+      }
     }
   },
   "sidebar": {
@@ -233,7 +277,9 @@
         "site": "Sites",
         "department": "Departments",
         "user": "User",
-        "rule": "Guard Rules"
+        "rule": "Guard Rules",
+        "room": "Room",
+        "device": "Device"
       }
     },
     "configuration": {
@@ -252,4 +298,5 @@
       "change_password": "Change Password"
     }
   }
+
 }

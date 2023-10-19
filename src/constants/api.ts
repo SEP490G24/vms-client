@@ -28,3 +28,9 @@ export const SITE = {
   FILTER: `${VITE_API_SERVER_URL}/site/filter`,
   MY_SITE: `${VITE_API_SERVER_URL}/site/profile`
 }
+
+export const ROOM = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/room`,
+  FILTER: `${VITE_API_SERVER_URL}/room/filter`,
+  MY_ROOM: `${VITE_API_SERVER_URL}/room/profile`
+}

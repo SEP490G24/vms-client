@@ -6,7 +6,9 @@ import {
   MeetingCalendar,
   MeetingList,
   Organization,
-  Profile
+  Profile,
+  Room,
+  Device
 } from '~/pages'
 import {
   PATH_CONFIGURATION,
@@ -18,7 +20,9 @@ import {
   PATH_ORGANIZATION,
   PATH_PROFILE,
   PATH_SITE,
-  PATH_USER
+  PATH_USER,
+  PATH_ROOM,
+  PATH_DEVICE
 } from './paths'
 import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
@@ -59,6 +63,16 @@ export const privateRoutes = [
   {
     path: PATH_USER,
     component: Agent,
+    layout: null
+  },
+  {
+    path: PATH_ROOM,
+    component: Room,
+    layout: null
+  },
+  {
+    path: PATH_DEVICE,
+    component: Device,
     layout: null
   },
   // {

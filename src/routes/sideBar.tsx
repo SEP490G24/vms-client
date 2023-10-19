@@ -1,5 +1,5 @@
 import {
-  PATH_CONFIGURATION,
+  PATH_CONFIGURATION, PATH_ROOM,
   PATH_DASHBOARD,
   PATH_DEPARTMENT,
   PATH_HISTORY,
@@ -8,7 +8,7 @@ import {
   PATH_MEETING_LIST,
   PATH_ORGANIZATION,
   PATH_SITE,
-  PATH_USER
+  PATH_USER, PATH_DEVICE
 } from './paths.ts'
 import {
   CalendarOutlined,
@@ -79,6 +79,18 @@ export const SIDE_BARS = [
         key: PATH_USER,
         title: 'sidebar.organization.sub.user',
         path: PATH_USER,
+        children: []
+      },
+      {
+        key: PATH_ROOM,
+        title: 'sidebar.organization.sub.room',
+        path: PATH_ROOM,
+        children: []
+      },
+      {
+        key: PATH_DEVICE,
+        title: 'sidebar.organization.sub.device',
+        path: PATH_DEVICE,
         children: []
       }
       // {

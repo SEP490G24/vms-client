@@ -4,7 +4,6 @@ import { checkPermission } from '~/utils'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { MeetingFilter } from '~/pages/Meeting/MeetingList/Filter'
-import { MeetingFilterPayload, meetingsService } from '~/service'
 import { useEffect, useState } from 'react'
 import { MeetingDto, PageableResponse, UserDto } from '~/interface'
 import { SharedButton } from '~/common'
@@ -13,6 +12,7 @@ import moment from 'moment'
 import Modal from 'antd/es/modal/Modal'
 import { MeetingInfo } from '~/pages/Meeting/MeetingList/Info'
 import { BarsOutlined, TableOutlined } from '@ant-design/icons'
+import { MeetingFilterPayload, meetingsService } from '~/service'
 
 const MeetingList = () => {
 

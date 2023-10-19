@@ -85,6 +85,7 @@
     },
     "label": {
       "save": "Save",
+      "create": "Create",
       "export_data": "Export Data",
       "import_data": "Import Data",
       "close": "Close",
@@ -123,6 +124,28 @@
       "error": "An unknown error!"
     }
   },
+  "meeting": {
+    "calendar": {
+      "title": "Meeting Calendar"
+    },
+    "manager": {
+      "title": "Meeting Management",
+      "table": {
+        "title": "Total {{count}} meetings"
+      },
+      "search": {
+        "title": "Search",
+        "counselor": "Meeting",
+        "counselor_placeholder": "User require, participants, ..."
+      },
+      "popup": {
+        "title-add": "Create new meeting",
+        "title-edit": "Meeting Edit",
+        "btn-save": "Insert",
+        "btn-edit": "Save"
+      }
+    }
+  },
   "organization": {
     "info": {
       "title": "Set basic information"
@@ -159,8 +182,7 @@
         "counselor_placeholder": "Name"
       },
       "table": {
-        "title": "Total {{count}} site",
-        "btn-add": "Create"
+        "title": "Total {{count}} site"
       },
       "popup": {
         "title-add": "Create new site",
@@ -180,8 +202,7 @@
         "counselor_placeholder": "Name"
       },
       "table": {
-        "title": "Total {{count}} department",
-        "btn-add": "Create"
+        "title": "Total {{count}} department"
       },
       "popup": {
         "title-add": "Create new department",
@@ -196,7 +217,11 @@
       "title": "Dashboard"
     },
     "meeting": {
-      "title": "Meeting Request"
+      "title": "Meeting Request",
+      "sub": {
+        "calendar": "Calendar",
+        "meetings": "Meetings"
+      }
     },
     "history": {
       "title": "Histories"

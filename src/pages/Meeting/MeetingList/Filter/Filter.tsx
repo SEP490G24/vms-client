@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedInput, SharedRadio } from '~/common'
 import { DateRadioRange, getDataRangeOptions, getDateRangeValue } from '~/interface'
-import { SiteFilterPayload } from '~/service'
+import { MeetingFilterPayload } from '~/service/meetingsService.ts'
 
 interface FilterArgs {
-  onFilter: (filterPayload: SiteFilterPayload) => void
+  onFilter: (filterPayload: MeetingFilterPayload) => void
 }
 
 const Filter: React.FC<FilterArgs> = (args) => {
@@ -20,16 +20,16 @@ const Filter: React.FC<FilterArgs> = (args) => {
   useEffect(() => {
     if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim()) setDisable(false)
     else setDisable(true)
-  }, [valueDate,keyword])
+  }, [valueDate, keyword])
 
   const onChange = ({ target: { value } }: RadioChangeEvent) => {
     setValueDate({ key: value, date: getDateRangeValue(value) })
   }
 
   const onFinish = (values: any) => {
-    const payload: SiteFilterPayload = {
+    const payload: MeetingFilterPayload = {
       createdOnStart: valueDate?.date?.['0']?.toDate(),
-      createdOnEnd: valueDate?.date?.['1']?.toDate(),
+      createdOnEnd: valueDate?.date?.['1']?.toDate()
     }
     if (values?.query?.trim()) payload.keyword = values?.query?.trim()
     args.onFilter(payload)
@@ -43,7 +43,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   return (
     <Card
-      title={t('organization.site.search.title')}
+      title={t('meeting.manager.search.title')}
       extra={
         <Space>
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
@@ -57,7 +57,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         </Space>
       }
       bordered={false}
-      className="vms-card filter-card"
+      className='vms-card filter-card'
     >
       <Form
         labelCol={{ span: 6 }}
@@ -66,8 +66,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
         form={form}
         initialValues={{ layout: 'horizontal' }}
         colon={false}
-        labelAlign="left"
-        className="vms-form"
+        labelAlign='left'
+        className='vms-form'
         onFinish={onFinish}
       >
         <Form.Item label={t('common.label.period')}>
@@ -77,22 +77,22 @@ const Filter: React.FC<FilterArgs> = (args) => {
               setValueDate({ key: undefined, date: val })
             }}
             changeOnBlur
-            className="vms-picker"
+            className='vms-picker'
             style={{ width: '100%' }}
             placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
           />
         </Form.Item>
-        <Form.Item label={<span></span>} name="duration">
+        <Form.Item label={<></>} name='duration'>
           <SharedRadio
             options={getDataRangeOptions(t)}
             onChange={onChange}
             value={valueDate?.key}
-            optionType="button"
+            optionType='button'
           />
         </Form.Item>
-        <Form.Item label={t('organization.site.search.counselor')} name="query">
+        <Form.Item label={t('meeting.manager.search.counselor')} name='query'>
           <SharedInput
-            placeholder={t('organization.site.search.counselor_placeholder')}
+            placeholder={t('meeting.manager.search.counselor_placeholder')}
             value={keyword}
             onChange={(e: any) => setKeyword(e.target.value)}
           />

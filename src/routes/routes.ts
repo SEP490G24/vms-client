@@ -1,10 +1,20 @@
-import { Configuration, Dashboard, Department, History, Meeting, Organization, Profile } from '~/pages'
+import {
+  Configuration,
+  Dashboard,
+  Department,
+  History,
+  MeetingCalendar,
+  MeetingList,
+  Organization,
+  Profile
+} from '~/pages'
 import {
   PATH_CONFIGURATION,
   PATH_DASHBOARD,
   PATH_DEPARTMENT,
   PATH_HISTORY,
-  PATH_MEETING,
+  PATH_MEETING_CALENDAR,
+  PATH_MEETING_LIST,
   PATH_ORGANIZATION,
   PATH_PROFILE,
   PATH_SITE,
@@ -22,8 +32,13 @@ export const privateRoutes = [
     layout: null
   },
   {
-    path: PATH_MEETING,
-    component: Meeting,
+    path: PATH_MEETING_CALENDAR,
+    component: MeetingCalendar,
+    layout: null
+  },
+  {
+    path: PATH_MEETING_LIST,
+    component: MeetingList,
     layout: null
   },
   {

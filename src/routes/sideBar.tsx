@@ -1,13 +1,21 @@
 import {
   PATH_CONFIGURATION,
-  PATH_DASHBOARD, PATH_DEPARTMENT, PATH_HISTORY, PATH_MEETING, PATH_ORGANIZATION, PATH_SITE, PATH_USER
+  PATH_DASHBOARD,
+  PATH_DEPARTMENT,
+  PATH_HISTORY,
+  PATH_MEETING,
+  PATH_MEETING_CALENDAR,
+  PATH_MEETING_LIST,
+  PATH_ORGANIZATION,
+  PATH_SITE,
+  PATH_USER
 } from './paths.ts'
 import {
+  CalendarOutlined,
   DesktopOutlined,
   HistoryOutlined,
-  CalendarOutlined,
-  UsergroupDeleteOutlined,
-  SettingOutlined
+  SettingOutlined,
+  UsergroupDeleteOutlined
 } from '@ant-design/icons'
 
 export const SIDE_BARS = [
@@ -22,8 +30,20 @@ export const SIDE_BARS = [
     key: PATH_MEETING,
     icon: <CalendarOutlined className={'text-[18px]'} />,
     title: 'sidebar.meeting.title',
-    path: PATH_MEETING,
-    children: []
+    children: [
+      {
+        key: PATH_MEETING_CALENDAR,
+        title: 'sidebar.meeting.sub.calendar',
+        path: PATH_MEETING_CALENDAR,
+        children: []
+      },
+      {
+        key: PATH_MEETING_LIST,
+        title: 'sidebar.meeting.sub.meetings',
+        path: PATH_MEETING_LIST,
+        children: []
+      }
+    ]
   },
   {
     key: PATH_HISTORY,
@@ -33,7 +53,7 @@ export const SIDE_BARS = [
     children: []
   },
   {
-    key: PATH_ORGANIZATION,
+    key: 'PATH_ORGANIZATION',
     icon: <UsergroupDeleteOutlined className={'text-[18px]'} />,
     title: 'sidebar.organization.title',
     children: [

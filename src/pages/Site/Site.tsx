@@ -94,7 +94,7 @@ const Site = () => {
                     type='default'
                     onClick={() => setOpenModal(true)}
                   >
-                    {t('organization.site.table.btn-add')}
+                    {t('common.label.create')}
                   </SharedButton>
                   {/*<Spin spinning={false}>*/}
                   {/*  <SharedButton onClick={exportData} type={'primary'}>*/}

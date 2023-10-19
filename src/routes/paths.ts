@@ -1,6 +1,8 @@
 export const PATH_DASHBOARD = '/'
 export const PATH_ORGANIZATION = '/organization'
 export const PATH_SITE = '/site'
+export const PATH_ROOM = '/room'
+export const PATH_DEVICE = '/device'
 export const PATH_DEPARTMENT = '/department'
 export const PATH_USER = '/user'
 export const PATH_PERMISSION = '/permission'

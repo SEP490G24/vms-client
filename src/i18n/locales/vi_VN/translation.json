@@ -109,7 +109,8 @@
         "site": "Trang web",
         "department": "Phòng ban",
         "user": "Người dùng",
-        "rule": "Quy tắc bảo vệ"
+        "rule": "Quy tắc bảo vệ",
+        "room": "Phòng"
       }
     },
     "configuration": {

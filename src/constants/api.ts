@@ -29,8 +29,34 @@ export const SITE = {
   MY_SITE: `${VITE_API_SERVER_URL}/site/profile`
 }
 
+export const ROLE = {
+  GET_ALL_ROLE: `${VITE_API_SERVER_URL}/role`,
+  GET_BY_ID_ROLE: `${VITE_API_SERVER_URL}/role/{id}`,
+  FILTER_ROLE: `${VITE_API_SERVER_URL}/role/filter`,
+  CREATE_ROLE: `${VITE_API_SERVER_URL}/role`,
+  UPDATE_ROLE: `${VITE_API_SERVER_URL}/role/{id}`,
+  UPDATE_PERMISSION_ROLE: `${VITE_API_SERVER_URL}/role/{id}/permission`,
+  DELETE_ROLE: `${VITE_API_SERVER_URL}/role/{id}`
+}
+
 export const ROOM = {
   BASE_PATH: `${VITE_API_SERVER_URL}/room`,
   FILTER: `${VITE_API_SERVER_URL}/room/filter`,
   MY_ROOM: `${VITE_API_SERVER_URL}/room/profile`
+}
+
+export const MODULE_PERMISSION = {
+  GET_ALL_MODULE: `${VITE_API_SERVER_URL}/module`,
+  GET_ALL_BY_MODULE_ID: `${VITE_API_SERVER_URL}/module/{mId}`,
+  GET_BY_ID_AND_MODULE_ID: `${VITE_API_SERVER_URL}/module/{mId}/permission/{pId}`,
+  FILTER_PERMISSION: `${VITE_API_SERVER_URL}/module/filter`,
+  CREATE_PERMISSION: `${VITE_API_SERVER_URL}/module/{mId}/permission`,
+  UPDATE_PERMISSION: `${VITE_API_SERVER_URL}/module/{mId}/permission/{pId}`,
+  UPDATE_ATTRIBUTE_PERMISSION: `${VITE_API_SERVER_URL}/module/{mId}/permission/attribute`,
+  DELETE_PERMISSION: `${VITE_API_SERVER_URL}/module/{mId}/permission/{pId}`
+}
+
+export const KEYCLOAK = {
+  SYNC_ALL: `${VITE_API_SERVER_URL}/keycloak/sync`,
+  SYNC_WITH_CLIENT: `${VITE_API_SERVER_URL}/keycloak/sync/{clientId}`,
 }

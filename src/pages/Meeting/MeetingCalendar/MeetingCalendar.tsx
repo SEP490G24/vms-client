@@ -91,6 +91,11 @@ const MeetingCalendar = () => {
         </Space>
         {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
           <Row gutter={24} wrap={false}>
+            <Col flex={'auto'}>
+              <Card>
+                <Calendar cellRender={cellRender} />
+              </Card>
+            </Col>
             <Col flex={'none'} style={{ width: 450 }}>
               <PerfectScrollbar className={'w-full h-[85vh]'}>
                 <Space className={'w-full'} align={'center'} direction={'vertical'} size={24}>
@@ -119,11 +124,6 @@ const MeetingCalendar = () => {
                   ))}
                 </Space>
               </PerfectScrollbar>
-            </Col>
-            <Col flex={'auto'}>
-              <Card>
-                <Calendar cellRender={cellRender} />
-              </Card>
             </Col>
           </Row>
         )}

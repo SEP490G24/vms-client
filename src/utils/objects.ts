@@ -24,3 +24,17 @@ export const flatten = (obj: any) => {
   return flattenedObject
 }
 
+export function groupBy<T, X>(list: T[], keyGetter: (t: T) => X) {
+  const map = new Map<X, T[]>()
+  list.forEach((item) => {
+    const key = keyGetter(item)
+    const collection = map.get(key)
+    if (!collection) {
+      map.set(key, [item])
+    } else {
+      collection.push(item)
+    }
+  })
+  return map
+}
+

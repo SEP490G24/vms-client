@@ -8,7 +8,8 @@ import {
   Organization,
   Profile,
   Room,
-  Device
+  Device,
+  Permission
 } from '~/pages'
 import {
   PATH_CONFIGURATION,
@@ -22,7 +23,7 @@ import {
   PATH_SITE,
   PATH_USER,
   PATH_ROOM,
-  PATH_DEVICE
+  PATH_DEVICE, PATH_PERMISSION
 } from './paths'
 import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
@@ -75,11 +76,11 @@ export const privateRoutes = [
     component: Device,
     layout: null
   },
-  // {
-  //   path: PATH_PERMISSION,
-  //   component: Permissions,
-  //   layout: null
-  // },
+  {
+    path: PATH_PERMISSION,
+    component: Permission,
+    layout: null
+  },
   {
     path: PATH_HISTORY,
     component: History,

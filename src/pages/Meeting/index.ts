@@ -1,2 +1,2 @@
 export * from './MeetingCalendar'
-export * from './MeetingList'
+export * from './MeetingStatistics'

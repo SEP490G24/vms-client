@@ -9,7 +9,7 @@ import { DeviceForm } from './FormData'
 import { CreateDeviceInfo } from '~/service'
 
 interface CreateDeviceFormArgs {
-  department?: DeviceDto
+  device?: DeviceDto
   onSave: (department: CreateDeviceInfo) => void
   onClose: () => void
 }
@@ -31,20 +31,20 @@ const Info: React.FC<CreateDeviceFormArgs> = (args) => {
     <InfoWrapper>
       <ModalGlobalStyle />
       <Card
-        title={t(!!args.department ? 'organization.department.popup.title-edit' : 'organization.department.popup.title-add')}
+        title={t(!!args.device ? 'organization.department.popup.title-edit' : 'organization.department.popup.title-add')}
         extra={
           <Space>
             <SharedButton onClick={onClose}>{t('common.label.close')}</SharedButton>
             <SharedButton
               // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
               type='primary' onClick={form.submit}>
-              {t(`organization.department.popup.${!!args.department ? 'btn-edit' : 'btn-save'}`)}
+              {t(`organization.department.popup.${!!args.device ? 'btn-edit' : 'btn-save'}`)}
             </SharedButton>
           </Space>
         }
         style={{ padding: '10px' }}
       >
-        <DeviceForm department={args.department} form={form} onFinish={onFinish} />
+        <DeviceForm department={args.device} form={form} onFinish={onFinish} />
       </Card>
     </InfoWrapper>
   )

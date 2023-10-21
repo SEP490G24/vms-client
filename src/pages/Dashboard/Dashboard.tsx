@@ -3,10 +3,8 @@ import { DashboardWrapper } from './styles.ts'
 const Dashboard = () => {
 
 
-
   return (
     <DashboardWrapper>
-
     </DashboardWrapper>
   )
 }

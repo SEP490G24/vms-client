@@ -1,26 +1,26 @@
+import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { FormDataWrapper } from './styles.ts'
-import { Col, Divider, Form, FormInstance, Radio, Row, Space } from 'antd'
-import { SharedInput, SharedSelect } from '~/common'
-import { useTranslation } from 'react-i18next'
-import TextArea from 'antd/es/input/TextArea'
 import { Commune, District, MeetingDto } from '~/interface'
+import { InfoWrapper } from './styles.ts'
+import { useTranslation } from 'react-i18next'
+import { CreateMeetingInfo } from '~/service'
+import { SharedInput, SharedSelect } from '~/common'
 import { Data } from '~/data'
+import TextArea from 'antd/es/input/TextArea'
 
-interface MeetingFormArgs {
-  form: FormInstance;
-  meeting?: MeetingDto,
-  onFinish: (values: any) => void,
+interface MeetingInfoArgs {
+  meeting?: MeetingDto
+  onSave: (meeting: CreateMeetingInfo) => void
+  onClose: () => void
 }
 
-const FormData: React.FC<MeetingFormArgs> = (props) => {
-
+const Info: React.FC<MeetingInfoArgs> = (props) => {
+  const { t } = useTranslation()
+  const [form] = Form.useForm()
   const [provinceSelected, setProvinceSelected] = useState('')
   const [districtSelected, setDistrictSelected] = useState('')
   const [districts, setDistricts] = useState<District[]>()
   const [communes, setCommunes] = useState<Commune[]>()
-
-  const { t } = useTranslation()
 
   useEffect(() => {
     const _provinceId = Data.PROVINCE.find((province) => province.name === provinceSelected)?.id
@@ -32,9 +32,18 @@ const FormData: React.FC<MeetingFormArgs> = (props) => {
     setCommunes(Data.COMMUNE.filter((commune) => commune.districtId == _districtId))
   }, [districtSelected])
 
+  const onFinish = (values: any) => {
+    props.onSave(values)
+  }
+
+  const onClose = () => {
+    props.onClose()
+    form.resetFields()
+  }
+
   useEffect(() => {
     if (props.meeting) {
-      props.form.setFieldsValue({
+      form.setFieldsValue({
         name: props.meeting.name,
         phoneNumber: props.meeting.phoneNumber,
         province: props.meeting.province,
@@ -43,22 +52,26 @@ const FormData: React.FC<MeetingFormArgs> = (props) => {
         address: props.meeting.address,
         taxCode: props.meeting.taxCode,
         description: props.meeting.description,
-        enable: props.meeting.enable,
+        enable: props.meeting.enable
       })
     }
   }, [props.meeting])
 
   return (
-    <FormDataWrapper>
+    <InfoWrapper
+      title={t(!!props.meeting ? 'organization.meeting.popup.title-edit' : 'organization.meeting.popup.title-add')}
+      onCancel={onClose}
+      onOk={form.submit}
+    >
       <Form
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 18 }}
         layout={'horizontal'}
-        form={props.form}
+        form={form}
         initialValues={{ layout: 'horizontal' }}
         style={{ width: '100%' }}
         colon={false}
-        onFinish={props.onFinish}
+        onFinish={onFinish}
         labelAlign='left'
       >
         <Form.Item className={'mb-3'} label={t('common.field.name')} name='name'
@@ -129,8 +142,8 @@ const FormData: React.FC<MeetingFormArgs> = (props) => {
           </>
         }
       </Form>
-    </FormDataWrapper>
+    </InfoWrapper>
   )
 }
 
-export default FormData
+export default Info

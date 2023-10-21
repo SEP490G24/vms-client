@@ -1,22 +1,24 @@
 import { MeetingListWrapper } from './styles.ts'
-import { Col, Divider, message, Row, Segmented, Space, Table } from 'antd'
+import { Card, Col, Divider, message, Row, Segmented, Space } from 'antd'
 import { checkPermission } from '~/utils'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
-import { MeetingFilter } from '~/pages/Meeting/MeetingList/Filter'
+import { MeetingFilter } from '~/pages/Meeting/MeetingStatistics/Filter'
 import { useEffect, useState } from 'react'
-import { MeetingDto, PageableResponse, UserDto } from '~/interface'
+import { MeetingDto, PageableResponse } from '~/interface'
 import { SharedButton } from '~/common'
-import Column from 'antd/es/table/Column'
-import moment from 'moment'
 import Modal from 'antd/es/modal/Modal'
-import { MeetingInfo } from '~/pages/Meeting/MeetingList/Info'
-import { BarsOutlined, TableOutlined } from '@ant-design/icons'
+import { MeetingInfo } from '~/pages/Meeting/MeetingStatistics/Info'
+import { AppstoreOutlined, TableOutlined } from '@ant-design/icons'
 import { MeetingFilterPayload, meetingsService } from '~/service'
+import MeetingTable from '~/pages/Meeting/MeetingStatistics/MeetingTable/MeetingTable.tsx'
+import { MeetingKanban } from './MeetingKanban'
+import { SegmentedValue } from 'rc-segmented'
 
-const MeetingList = () => {
+const MeetingStatistics = () => {
 
   const { t } = useTranslation()
+  const [typeViews, setTypeViews] = useState('TABLE')
   const [pageableResponse, setPageableResponse] = useState<PageableResponse<MeetingDto>>()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [meeting, setMeeting] = useState<MeetingDto>()
@@ -74,16 +76,17 @@ const MeetingList = () => {
         <Space className={'w-full justify-between'}>
           <h2>{t('meeting.manager.title')}</h2>
           <Segmented
+            onChange={(value: SegmentedValue) => setTypeViews(value as string)}
             options={[
               {
                 label: 'Table',
-                value: 'Table',
+                value: 'TABLE',
                 icon: <TableOutlined />
               },
               {
-                label: 'List',
-                value: 'List',
-                icon: <BarsOutlined />
+                label: 'Kanban',
+                value: 'KANBAN',
+                icon: <AppstoreOutlined />
               }
             ]}
           />
@@ -94,60 +97,29 @@ const MeetingList = () => {
               <MeetingFilter onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
-              <Space className={'w-full justify-between'}>
-                <strong> {t('meeting.manager.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
-                <Space>
-                  <SharedButton
-                    // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
-                    type='primary'
-                    onClick={() => setOpenModal(true)}
-                  >
-                    {t('common.label.create')}
-                  </SharedButton>
-                  {/*<Spin spinning={false}>*/}
-                  {/*  <SharedButton onClick={exportData} type={'primary'}>*/}
-                  {/*    {t('common.label.export_data')}*/}
-                  {/*  </SharedButton>*/}
-                  {/*</Spin>*/}
+              <Card>
+                <Space className={'w-full justify-between'}>
+                  <strong> {t('meeting.manager.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
+                  <Space>
+                    <SharedButton
+                      // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
+                      type='primary'
+                      onClick={() => setOpenModal(true)}
+                    >
+                      {t('common.label.create')}
+                    </SharedButton>
+                    {/*<Spin spinning={false}>*/}
+                    {/*  <SharedButton onClick={exportData} type={'primary'}>*/}
+                    {/*    {t('common.label.export_data')}*/}
+                    {/*  </SharedButton>*/}
+                    {/*</Spin>*/}
+                  </Space>
                 </Space>
-              </Space>
-              <Divider style={{ margin: '16px 0 0' }} />
-              <Table
-                dataSource={pageableResponse?.content}
-                rowKey='sitename'
-                pagination={{
-                  current: currentPage,
-                  total: pageableResponse?.totalElements as number,
-                  onChange: setCurrentPage,
-                  pageSize: pageableResponse?.pageable?.pageSize as number,
-                  showSizeChanger: false,
-                  position: ['bottomCenter']
-                }}
-                className='vms-table no-bg'
-                scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
-                size='middle'
-              >
-                <Column
-                  title={t('common.field.site.name')}
-                  render={(value: MeetingDto) => <a onClick={() => openEdit(value)}>{value.name}</a>}
-                />
-                <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' />
-                <Column title={t('common.field.province')} dataIndex='province' key='province' />
-                <Column title={t('common.field.district')} dataIndex='district' key='district' />
-                <Column title={t('common.field.ward')} dataIndex='ward' key='ward' />
-                <Column
-                  title={t('common.field.status')}
-                  dataIndex='enable'
-                  key='enable'
-                  render={(enable) =>
-                    enable ? t('common.label.enable') : t('common.label.disable')
-                  }
-                />
-                <Column title={t('common.field.registration_date')} key='createdOn'
-                        render={(value: UserDto) => moment(value.createdOn).format('L')} />
-                <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
-                        render={(value: UserDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />
-              </Table>
+                <Divider style={{ margin: '16px 0 0' }} />
+                {typeViews === 'TABLE' ? <MeetingTable pageableResponse={pageableResponse} currentPage={currentPage}
+                                                       setCurrentPage={setCurrentPage} onEdit={openEdit} /> :
+                  <MeetingKanban pageableResponse={pageableResponse} onEdit={openEdit} />}
+              </Card>
             </Col>
             {openModal && (
               <Modal
@@ -169,4 +141,4 @@ const MeetingList = () => {
   )
 }
 
-export default MeetingList
+export default MeetingStatistics

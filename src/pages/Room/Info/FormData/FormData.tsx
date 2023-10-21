@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FormDataWrapper } from './styles.ts'
-import { Col, Divider, Form, FormInstance, Radio, Row, Space } from 'antd'
-import { RoomDto, SiteDto } from '~/interface'
-import { SharedInput, SharedSelect } from '~/common'
+import { Form, FormInstance } from 'antd'
+import { RoomDto } from '~/interface'
+import { SharedInput } from '~/common'
 import { useTranslation } from 'react-i18next'
 import TextArea from 'antd/es/input/TextArea'
-import { Commune, District } from '~/interface'
-import { Data } from '~/data'
 
 interface RoomFormArgs {
   form: FormInstance;
@@ -16,23 +14,7 @@ interface RoomFormArgs {
 
 const FormData: React.FC<RoomFormArgs> = (props) => {
 
-  const [provinceSelected, setProvinceSelected] = useState('')
-  const [districtSelected, setDistrictSelected] = useState('')
-  const [districts, setDistricts] = useState<District[]>()
-  const [communes, setCommunes] = useState<Commune[]>()
-  const [rooms, setRooms] = useState<RoomDto[]>([])
-
   const { t } = useTranslation()
-
-  useEffect(() => {
-    const _provinceId = Data.PROVINCE.find((province) => province.name === provinceSelected)?.id
-    setDistricts(Data.DISTRICT.filter((district) => district.provinceId == _provinceId))
-  }, [provinceSelected])
-
-  useEffect(() => {
-    const _districtId = Data.DISTRICT.find((district) => district.name === districtSelected)?.id
-    setCommunes(Data.COMMUNE.filter((commune) => commune.districtId == _districtId))
-  }, [districtSelected])
 
   useEffect(() => {
     if (props.room) {
@@ -65,7 +47,7 @@ const FormData: React.FC<RoomFormArgs> = (props) => {
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
                    rules={[{ required: true }]}>
-          <SharedInput disabled={!!props.department} placeholder={t('common.placeholder.name')} />
+          <SharedInput disabled={!!props.room} placeholder={t('common.placeholder.name')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
                    rules={[{ required: true }]}>

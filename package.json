@@ -19,6 +19,7 @@
     "@ckeditor/ckeditor5-react": "^6.1.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@rollup/plugin-commonjs": "^25.0.3",
+    "@syncfusion/ej2-react-schedule": "^23.1.40",
     "antd": "^5.9.3",
     "axios": "^1.5.0",
     "dayjs": "^1.11.9",

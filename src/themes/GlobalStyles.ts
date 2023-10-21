@@ -48,6 +48,13 @@ export const GlobalStyles = createGlobalStyle`
 
     }
   }
+  
+  //#mttContainer + iframe + div + div,
+  //#mttContainer + iframe + div,
+  //#mttContainer + div + div,
+  #mttContainer + div {
+    display: none !important;
+  }
 `
 
 export const PageWrapper = styled.div`

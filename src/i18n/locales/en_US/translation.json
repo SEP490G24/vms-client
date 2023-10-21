@@ -38,8 +38,8 @@
       "ward": "Ward",
       "taxCode": "Tax Code",
       "description": "Description",
-      "room" : "Room",
-      "device" : "Device",
+      "room": "Room",
+      "device": "Device",
       "site": {
         "name": "Site"
       }
@@ -256,6 +256,9 @@
       }
     }
   },
+  "configuration": {
+    "title": "Configuration Manager"
+  },
   "sidebar": {
     "home": {
       "title": "Dashboard"
@@ -298,5 +301,4 @@
       "change_password": "Change Password"
     }
   }
-
 }

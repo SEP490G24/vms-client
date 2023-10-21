@@ -51,7 +51,7 @@ function App() {
           components: {
             Button: {
               controlItemBgActiveDisabled: selectedTheme.themes.disabled,
-              controlHeight: 42
+              controlHeight: 32
             }
           }
         }}

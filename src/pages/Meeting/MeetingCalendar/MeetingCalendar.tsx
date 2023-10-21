@@ -1,5 +1,5 @@
 import { MeetingCalendarWrapper } from './styles.ts'
-import { Avatar, Badge, BadgeProps, Calendar, CalendarProps, Card, Col, Row, Space } from 'antd'
+import { Badge, BadgeProps, Calendar, CalendarProps, Card, Col, Descriptions, Row, Space } from 'antd'
 import { Dayjs } from 'dayjs'
 import { useTranslation } from 'react-i18next'
 import { checkPermission } from '~/utils'
@@ -7,8 +7,8 @@ import { BUTTON_ROLE_MAP } from '~/role'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 
-import { SettingOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons'
-import Meta from 'antd/es/card/Meta'
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+import DescriptionsItem from 'antd/es/descriptions/Item'
 
 
 const getListData = (value: Dayjs) => {
@@ -96,34 +96,39 @@ const MeetingCalendar = () => {
                 <Calendar cellRender={cellRender} />
               </Card>
             </Col>
-            <Col flex={'none'} style={{ width: 450 }}>
-              <PerfectScrollbar className={'w-full h-[85vh]'}>
-                <Space className={'w-full'} align={'center'} direction={'vertical'} size={24}>
-                  {[...Array(10)].map((_, i) => (
-                    <Card
-                      key={i}
-                      style={{ width: 300 }}
-                      cover={
-                        <img
-                          alt='example'
-                          src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-                        />
-                      }
-                      actions={[
-                        <SettingOutlined key='setting' />,
-                        <EditOutlined key='edit' />,
-                        <EllipsisOutlined key='ellipsis' />
-                      ]}
-                    >
-                      <Meta
-                        avatar={<Avatar src='https://xsgames.co/randomusers/avatar.php?g=pixel' />}
-                        title='Card title'
-                        description='This is the description'
-                      />
-                    </Card>
-                  ))}
-                </Space>
-              </PerfectScrollbar>
+            <Col flex={'none'} style={{ width: 550 }}>
+              <Card className={'w-full'} bodyStyle={{padding: '24px 0'}}>
+                <PerfectScrollbar className={'w-full px-6 max-h-[792px]'}>
+                  <Space className={'w-full'} align={'center'} direction={'vertical'} size={24} classNames={{item: 'w-full flex-1'}}>
+                    {[...Array(10)].map((_, i) => (
+                      <Card
+                        key={i}
+                        className={'bg-body w-full'}
+                        actions={[
+                          <SettingOutlined key='setting' />,
+                          <EditOutlined key='edit' />,
+                          <EllipsisOutlined key='ellipsis' />
+                        ]}
+                      >
+                        <Descriptions bordered >
+                          <DescriptionsItem label={'Product'} span={3}>
+                            Cloud Database
+                          </DescriptionsItem>
+                          <DescriptionsItem label={'Room'} span={3}>
+                            Room Meeting 2
+                          </DescriptionsItem>
+                          <DescriptionsItem label={'Order time'} span={3}>
+                            2018-04-24 18:00:00
+                          </DescriptionsItem>
+                          <DescriptionsItem label={'Status'} span={3}>
+                            <Badge status="processing" text="Running" />
+                          </DescriptionsItem>
+                        </Descriptions>
+                      </Card>
+                    ))}
+                  </Space>
+                </PerfectScrollbar>
+              </Card>
             </Col>
           </Row>
         )}

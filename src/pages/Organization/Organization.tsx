@@ -1,26 +1,25 @@
-import { Avatar, Badge, Card, Col, Form, FormInstance, message, Row, Upload, UploadFile, UploadProps } from 'antd'
+import { Avatar, Card, Col, Form, FormInstance, Image, message, Row, Upload, UploadFile, UploadProps } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
-import Modal from 'antd/es/modal/Modal'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { SharedButton, SharedInput } from '~/common'
 import { OrganizationEntity } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
-import { PageWrapper } from '~/themes'
 import { baseUploadTemplate, toBase64 } from '~/utils'
 import { checkPermission } from '~/utils/common'
 import { organizationService } from '~/service'
+import { EditCircleTwoTone, ImageOutlined } from '~/icon'
+import { OrganizationWrapper } from './styles'
 
 const Organization = () => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const formRef = React.useRef<FormInstance>(null)
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState<string>('')
   const [organization, setOrganization] = useState<OrganizationEntity | null>()
-  const [previewTitle, setPreviewTitle] = useState('')
-  const [licenses, setLicenses] = useState<UploadFile[]>([])
+  const [license, setLicense] = useState<UploadFile>()
+  const [logo, setLogo] = useState<UploadFile>()
+
 
   useEffect(() => {
     organizationService.getMyOrganization().then((response) => {
@@ -40,7 +39,7 @@ const Organization = () => {
       businessLicenseFile: organization?.businessLicenseFile,
       about: organization?.about
     })
-    !!organization?.businessLicenseFile && setLicenses([baseUploadTemplate(organization.businessLicenseFile)])
+    !!organization?.businessLicenseFile && setLicense(baseUploadTemplate(organization.businessLicenseFile))
   }, [organization])
 
   const onFinish = (values: any) => {
@@ -59,36 +58,35 @@ const Organization = () => {
       })
   }
 
-  const onChange: UploadProps['onChange'] = async (data) => {
-    if (data.file.status === 'removed') {
-      form.setFieldsValue({ businessLicenseFile: null })
-      setLicenses([])
-      return
-    }
+  const onChangeLicenses: UploadProps['onChange'] = async (data) => {
     const url = await toBase64(data.file)
     form.setFieldsValue({ businessLicenseFile: url })
-    setLicenses([
+    setLicense(
       {
         ...data.fileList,
         // @ts-ignore
         url: url
       }
-    ])
+    )
   }
 
-  const onPreview = async (file: any) => {
-    setPreviewImage(file.url || previewImage)
-    setPreviewOpen(true)
-    setPreviewTitle(file[0].name)
+  const onChaneLogo: UploadProps['onChange'] = async (data) => {
+    const url = await toBase64(data.file)
+    form.setFieldsValue({ logo: url })
+    setLogo({
+      ...data.fileList,
+      // @ts-ignore
+      url: url
+    })
   }
 
   return (
-    <PageWrapper>
+    <OrganizationWrapper>
       <h2 className='page-header-text'>{t('organization.info.title')}</h2>
       {checkPermission(BUTTON_ROLE_MAP.R_ORGANIZATION_FIND) && (
         <PerfectScrollbar>
           <Row className={'m-0'} style={{ maxHeight: 'calc(100vh - 160px)' }}>
-            <Col span={18}>
+            <Col span={24}>
               <Card
                 title={t('organization.info.title')}
                 extra={
@@ -105,20 +103,20 @@ const Organization = () => {
               >
                 <Row align='top'>
                   <Col span={3}>
-                    <Badge
-                      count={'A'}
-                      offset={['-10%', '80%']}
-                      style={{
-                        width: '24px',
-                        height: '24px',
-                        boxShadow: '0 0 0 2px #fff',
-                        backgroundColor: '#6384EB'
-                      }}
-                    >
-                      <Avatar className={'bg-[#002484] align-middle'} size={126}>
-                        A
-                      </Avatar>
-                    </Badge>
+                    <div className={'w-[96px] relative'}>
+                      {logo ? <Avatar style={{ border: '1px solid #ccc' }} src={logo.url} size={96}>A</Avatar> :
+                        <Avatar style={{ backgroundColor: '#002484', verticalAlign: 'middle' }}
+                                size={96}>{organization?.name}</Avatar>}
+                      <Upload
+                        accept='image/png, image/jpeg'
+                        maxCount={1}
+                        showUploadList={false}
+                        onChange={onChaneLogo}
+                        beforeUpload={() => false}
+                      >
+                        <EditCircleTwoTone className={'btn-edit-icon'}></EditCircleTwoTone>
+                      </Upload>
+                    </div>
                   </Col>
                   <Col span={15}>
                     <Form
@@ -142,8 +140,8 @@ const Organization = () => {
                       </Form.Item>
                       <Form.Item label={t('common.field.representative_email')} name='email'>
                         <SharedInput size={'large'}
-                          placeholder={t('common.placeholder.representative_email')}
-                          inputMode={'email'}
+                                     placeholder={t('common.placeholder.representative_email')}
+                                     inputMode={'email'}
                         />
                       </Form.Item>
                       <Form.Item label={t('common.field.code')} name='code' rules={[{ required: true }]}>
@@ -162,8 +160,8 @@ const Organization = () => {
                         rules={[{ required: true }]}
                       >
                         <SharedInput size={'large'}
-                          placeholder={t('common.field.contact_phone_number')}
-                          inputMode={'tel'}
+                                     placeholder={t('common.field.contact_phone_number')}
+                                     inputMode={'tel'}
                         />
                       </Form.Item>
                       <Form.Item label={t('common.field.homepage_address')} name='website'>
@@ -177,30 +175,24 @@ const Organization = () => {
                         <SharedInput size={'large'} placeholder={t('common.placeholder.company_registration_number')} />
                       </Form.Item>
                       <Form.Item label={t('common.field.business_registration')} name='businessLicenseFile'>
-                        <Upload
-                          listType='picture-card'
-                          fileList={licenses}
-                          beforeUpload={() => false}
-                          onChange={onChange}
-                          onPreview={onPreview}
-                        >
-                          {licenses.length === 0 ? (
-                            <div>
-                              <span>+</span>
-                              <div className='ant-upload-text'>{t('common.placeholder.upload')}</div>
-                            </div>
-                          ) : (
-                            ''
-                          )}
-                        </Upload>
-                        <Modal
-                          open={previewOpen}
-                          title={previewTitle}
-                          footer={null}
-                          onCancel={() => setPreviewOpen(false)}
-                        >
-                          <img alt='example' className={'w-full'} src={previewImage} />
-                        </Modal>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <Upload
+                            accept='image/png, image/jpeg'
+                            maxCount={1}
+                            showUploadList={false}
+                            beforeUpload={() => false}
+                            onChange={onChangeLicenses}
+                          >
+                            <SharedButton type={'default'} className={'h-[48px]'}
+                                          icon={<ImageOutlined style={{ fontSize: '20px' }} />}>
+                              {'Upload image'}
+                            </SharedButton>
+                          </Upload>
+                          {license &&
+                            <Image preview={false} width={48} height={48}
+                                   style={{ borderRadius: '8px', border: '1px solid #cccccc' }}
+                                   src={license.url ?? ''} />}
+                        </div>
                         <span className={'text-[12px] text-[#ccc]'}>
                           {t('common.field.business_registration')}
                         </span>
@@ -226,7 +218,7 @@ const Organization = () => {
           </Row>
         </PerfectScrollbar>
       )}
-    </PageWrapper>
+    </OrganizationWrapper>
   )
 }
 

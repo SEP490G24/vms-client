@@ -1,5 +1,5 @@
 import { ProfileNavWrapper } from './styles.ts'
-import { Card, Menu, MenuProps, Space, Upload, UploadFile, UploadProps } from 'antd'
+import { Avatar, Card, Menu, MenuProps, Space, Upload, UploadFile, UploadProps } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { CalendarOutlined, MailOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
@@ -8,6 +8,7 @@ import { authSelector, useAppSelector } from '~/redux'
 import { authService } from '~/service'
 import { useState } from 'react'
 import { toBase64 } from '~/utils'
+import { EditCircleTwoTone } from '~/icon'
 
 
 const ProfileNav = () => {
@@ -16,7 +17,7 @@ const ProfileNav = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const userInfo = authService.getUserInfo()
-  const [avatar, setAvatar] = useState<UploadFile[]>([])
+  const [avatar, setAvatar] = useState<UploadFile>()
 
 
   const profileNavs: MenuProps['items'] = [
@@ -37,28 +38,15 @@ const ProfileNav = () => {
   }
 
   const onChange: UploadProps['onChange'] = async (data) => {
-    if (data.file.status === 'removed') {
-      setAvatar([])
-      return
-    }
     const url = await toBase64(data.file)
-    setAvatar([
+    setAvatar(
       {
         ...data.fileList,
         // @ts-ignore
         url: url
       }
-    ])
+    )
   }
-
-
-  const onPreview = async (file: any) => {
-    console.log(file)
-    // setPreviewImage(file.url || previewImage)
-    // setPreviewOpen(true)
-    // setPreviewTitle(file[0].name)
-  }
-
 
   return (
     <ProfileNavWrapper>
@@ -66,25 +54,20 @@ const ProfileNav = () => {
         <Space className={'w-full'} classNames={{ item: 'w-full' }} direction={'vertical'} align={'center'}
                size={32}>
           <Space className={'w-full'} direction={'vertical'} align={'center'} size={24}>
-            <Upload
-              listType='picture-circle'
-              fileList={avatar}
-              beforeUpload={() => false}
-              onChange={onChange}
-              onPreview={onPreview}
-            >
-              {avatar.length === 0 ? (
-                <div>
-                  <span>+</span>
-                  <div className='ant-upload-text'>{t('common.placeholder.upload')}</div>
-                </div>
-              ) : (
-                ''
-              )}
-            </Upload>
-            {/*<Avatar*/}
-            {/*  className={'bg-[#f56a00] align-middle text-4xl'} size={132} gap={1}*/}
-            {/*>{userInfo.fullName.at(0)}</Avatar>*/}
+            <div className={'relative'}>
+              {avatar ? <Avatar style={{ border: '1px solid #ccc' }} src={avatar.url} size={96}>A</Avatar> :
+                <Avatar style={{ backgroundColor: '#002484', verticalAlign: 'middle' }}
+                        size={96}>{userInfo.username}</Avatar>}
+              <Upload
+                accept='image/png, image/jpeg, application/pdf'
+                maxCount={1}
+                showUploadList={false}
+                onChange={onChange}
+                beforeUpload={() => false}
+              >
+                <EditCircleTwoTone className={'btn-edit-icon'}></EditCircleTwoTone>
+              </Upload>
+            </div>
             <Title level={2}>{userInfo.fullName}</Title>
             <Title level={4}>@{userInfo.username}</Title>
           </Space>

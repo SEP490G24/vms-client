@@ -120,6 +120,7 @@ const Department = () => {
                   title={t('common.field.department')}
                   render={(value: DepartmentDto) => <a onClick={() => openEdit(value)}>{value.name}</a>}
                 />
+                <Column title={t('common.field.site.name')} dataIndex='siteName' key='siteName' />
                 <Column title={t('common.field.code')} dataIndex='code' key='code' />
                 <Column
                   title={t('common.field.status')}

@@ -12,7 +12,9 @@
     "prettier": "prettier --check \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
     "prettier:fix": "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
     "preview": "vite preview",
-    "docker:up": "docker compose up --wait"
+    "docker:up": "docker compose up --wait",
+    "docker:down": "docker compose down -v",
+    "docker:build": "docker compose build"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-decoupled-document": "^39.0.2",

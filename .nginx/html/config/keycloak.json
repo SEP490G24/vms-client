@@ -1,0 +1,10 @@
+{
+  "realm": "vms",
+  "auth-server-url": "http://localhost:9080/",
+  "ssl-required": "external",
+  "resource": "vms-app",
+  "credentials": {
+    "secret": "7r5uiBkk4lDoXKzwt20UYWACNRxwfeZD"
+  },
+  "confidential-port": 0
+}

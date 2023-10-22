@@ -1,6 +1,6 @@
 {
   "realm": "vms",
-  "auth-server-url": "http://localhost:9080/",
+  "auth-server-url": "https://keycloak-vms.azurewebsites.net/",
   "ssl-required": "external",
   "resource": "vms-app",
   "credentials": {

@@ -7,7 +7,6 @@ COPY package.json /app/package.json
 COPY package-lock.json /app/package-lock.json
 # Same as npm install
 RUN npm install
-RUN npm install @emotion/react @emotion/styled
 COPY . /app
 CMD [ "npm", "start" ]
 FROM development AS build

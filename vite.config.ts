@@ -62,7 +62,7 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       plugins: [
-        myPlugin('./public/runtime-config.js', `./.env.${mode}`)
+        myPlugin('./public/config/runtime-config.js', `./.env.${mode}`)
       ],
       rollupOptions: {
         plugins: [commonjs()],

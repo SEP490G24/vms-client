@@ -62,7 +62,7 @@ const deleteById = (mId: string, pId: string) => {
   return httpService.delete(MODULE_PERMISSION.DELETE_PERMISSION.replace('{mId}', mId).replace('{pId}', pId))
 }
 
-const modulePermissionService = {
+const permissionService = {
   getAllModule,
   getAllByModuleId,
   getByIdAndModuleId,
@@ -73,4 +73,4 @@ const modulePermissionService = {
   deleteById
 }
 
-export default modulePermissionService
+export default permissionService

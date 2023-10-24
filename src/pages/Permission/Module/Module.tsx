@@ -3,10 +3,10 @@ import { Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ModuleDto, PermissionDto, RoleDto } from '~/interface/Permission.ts'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
-import permissionService from '~/service/permissionService.ts'
 import { useTranslation } from 'react-i18next'
 import { groupBy } from '~/utils'
 import { FeaturePermission } from './Feature'
+import { permissionService } from '~/service'
 
 interface ModuleArgs {
   module: ModuleDto;
@@ -24,9 +24,10 @@ const Module: React.FC<ModuleArgs> = (args) => {
   }, [args, i18n.language])
 
   const onEditLabelFeature = (value: string, permissions: PermissionDto[]) => {
-    let objTmp: any = {}
-    objTmp[`feature:${i18n.language}`] = [value]
-    permissionService.updateAttribute(args.module.id, { attributes: objTmp, permissionDtos: permissions }).then(
+    permissionService.updateAttribute(args.module.id, {
+      attributes: { [`feature:${i18n.language}`]: [value] },
+      permissionDtos: permissions
+    }).then(
       (response) => {
         console.log(response)
       }

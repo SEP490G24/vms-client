@@ -56,6 +56,18 @@ export const MODULE_PERMISSION = {
   DELETE_PERMISSION: `${VITE_API_SERVER_URL}/module/{mId}/permission/{pId}`
 }
 
+export const SETTING_GROUP = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/settingGroup`,
+}
+
+export const SETTING_SITE = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/settingSiteMap`,
+}
+
+export const SETTING = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/setting`,
+}
+
 export const KEYCLOAK = {
   SYNC_ALL: `${VITE_API_SERVER_URL}/keycloak/sync`,
   SYNC_WITH_CLIENT: `${VITE_API_SERVER_URL}/keycloak/sync/{clientId}`,

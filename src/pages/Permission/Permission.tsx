@@ -2,7 +2,6 @@ import { Space } from 'antd'
 import { PermissionWrapper } from './styles.ts'
 import { useEffect, useState } from 'react'
 import { ModuleDto, PermissionDto, RoleDto } from '~/interface/Permission.ts'
-import modulePermissionService from '~/service/permissionService.ts'
 import { ModulePermission } from './Module'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +9,7 @@ import { checkPermission } from '~/utils/common.ts'
 import { BUTTON_ROLE_MAP, REALM_ROLE_MAP } from '~/role/index.ts'
 import { SharedButton } from '~/common'
 import keycloakService from '~/service/keycloakService.ts'
-import { roleService } from '~/service'
+import { permissionService, roleService } from '~/service'
 
 const Permission = () => {
   const { t } = useTranslation()
@@ -19,7 +18,7 @@ const Permission = () => {
   const [activeTab, setActiveTab] = useState('')
 
   useEffect(() => {
-    modulePermissionService.getAllModule(true).then((response) => {
+    permissionService.getAllModule(true).then((response) => {
       setModules(response?.data)
       setActiveTab(response?.data?.[0]?.clientId)
     })

@@ -44,7 +44,7 @@ const Feature: React.FC<FeatureArgs> = (args) => {
                className='permissions-table'
                pagination={false}
         >
-          <Column className={'w-5'} title='' render={(value) => <Space direction={'vertical'}
+          <Column className={'w-1/5'} title='' render={(value) => <Space direction={'vertical'}
                                                                         size={2}><Text
             strong>{value.label[i18n.language]?.name}</Text><Text type='secondary'>{value.name}</Text></Space>}
                   key='name' />

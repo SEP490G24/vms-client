@@ -40,10 +40,10 @@ const Header = () => {
       </Space>
       <Space size={16} className={'cursor-pointer'}>
         <GlobeTwoTone className={'text-[28px]'} />
-        <Select bordered={false} className='bg-body w-[100px]' defaultValue={i18n.language || 'en_US'}
+        <Select bordered={false} className='bg-body w-[100px]' defaultValue={i18n.language || 'en'}
                 onChange={(value) => i18n.changeLanguage(value)} options={[
-          { label: 'English', value: 'en_US' },
-          { label: 'Tiếng Việt', value: 'vi_VN' }
+          { label: 'English', value: 'en' },
+          { label: 'Tiếng Việt', value: 'vi' }
         ]} />
       </Space>
       <Dropdown menu={{ items: userSettings }} placement='bottomRight' trigger={['click']}>

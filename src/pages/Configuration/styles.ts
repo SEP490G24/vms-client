@@ -9,6 +9,7 @@ export const ConfigurationWrapper = styled.div`
       margin-bottom: 16px;
       padding: 8px;
       font-size: 16px;
+      //border-bottom: 1px solid ${(props) => props.theme.mute};
     }
   }
 

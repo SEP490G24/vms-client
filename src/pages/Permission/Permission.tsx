@@ -1,4 +1,4 @@
-import { Space, Tabs } from 'antd'
+import { Space } from 'antd'
 import { PermissionWrapper } from './styles.ts'
 import { useEffect, useState } from 'react'
 import { ModuleDto, PermissionDto, RoleDto } from '~/interface/Permission.ts'
@@ -29,39 +29,29 @@ const Permission = () => {
   }, [])
 
   const onChange = (rId: string, permission: PermissionDto, event: CheckboxChangeEvent) => {
-    roleService.updatePermission(rId, { permissionDto: permission, state: event.target.checked }).then(() => {})
+    roleService.updatePermission(rId, { permissionDto: permission, state: event.target.checked }).then(() => {
+    })
   }
 
-  const onSave = () => {}
+  const onSave = () => {
+  }
 
   const syncRole = () => {
-    keycloakService.syncWithClient(activeTab).then(() => {})
+    keycloakService.syncWithClient(activeTab).then(() => {
+    })
   }
 
   return (
     <PermissionWrapper>
       <Space className={'w-full justify-center'}>
-        <h2 className="page-title">{t('setting.permission.title')}</h2>
+        <h2 className='page-title'>{t('setting.permission.title')}</h2>
         <SharedButton className={'mb-5'} onClick={syncRole} permissions={REALM_ROLE_MAP.REALM_ADMIN}>
           Sync
         </SharedButton>
       </Space>
       {checkPermission(BUTTON_ROLE_MAP.R_PERMISSION_FIND) && (
-        <div className="page-content">
-          {Array.isArray(modules) && (
-            <Tabs
-              rootClassName={'module-tabs'}
-              onChange={setActiveTab}
-              tabPosition={'left'}
-              items={modules?.map((module) => {
-                return {
-                  label: module.name,
-                  key: module.clientId,
-                  children: <ModulePermission module={module} roles={roles} onChange={onChange} onSave={onSave} />,
-                }
-              })}
-            />
-          )}
+        <div className='page-content'>
+          {modules && <ModulePermission module={modules[0]} roles={roles} onChange={onChange} onSave={onSave} />}
         </div>
       )}
     </PermissionWrapper>

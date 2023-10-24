@@ -1,10 +1,10 @@
 export interface ConfigurationDto {
-  id: string
+  // id: string
   name: string
-  code: string
+  // code: string
   type: string
   valueList?: string[],
-  group?: string,
+  // group?: string,
   value?: any,
   defaultValue?: any
 }

@@ -15,6 +15,7 @@ export interface PermissionDto {
   id: string,
   name: string;
   moduleId: string;
+  group: string;
   attributes: { [key: string]: string[] };
   label: { [key: string]: Label };
 }

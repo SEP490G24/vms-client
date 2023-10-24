@@ -1,14 +1,11 @@
 import { ConfigurationWrapper } from './styles.ts'
-import { Card, Col, Divider, Menu, MenuProps, Row, Space, Switch } from 'antd'
+import { Card, Col, Divider, Menu, MenuProps, Row, Space } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { CalendarOutlined, MailOutlined } from '@ant-design/icons'
-import { useNavigate } from 'react-router-dom'
 import { ListView } from '~/components/ListView'
-import { SharedButton, SharedInput } from '~/common'
-import Title from 'antd/es/typography/Title'
+import { ConfigurationItem } from '~/pages/Configuration/ConfigurationItem'
 
 const Configuration = () => {
-  const navigate = useNavigate()
 
   const { t } = useTranslation()
 
@@ -25,8 +22,9 @@ const Configuration = () => {
     }
   ]
 
-  const handleNavigate = (key: string) => {
-    navigate(key)
+  const handleGroup = (key: string) => {
+    console.log(key)
+    // navigate(key)
   }
 
   return (
@@ -42,7 +40,7 @@ const Configuration = () => {
               <Menu className={'w-full'}
                     defaultSelectedKeys={['1']}
                     defaultOpenKeys={['sub1']}
-                    onSelect={({ key }) => handleNavigate(key)}
+                    onSelect={({ key }) => handleGroup(key)}
                     mode={'inline'}
                     items={profileNavs}>
               </Menu>
@@ -51,21 +49,9 @@ const Configuration = () => {
           <Col flex={'auto'}>
             <Card title={'Configuration'}>
               <ListView className={'gap-4'}>
-                <Row className={'w-full'} gutter={24} align={'middle'}>
-                  <Col span={4} className={'min-w-[240px]'}><Title level={5}> Use Card </Title></Col>
-                  <Col flex={1}><SharedInput></SharedInput></Col>
-                  <Col><SharedButton type={'primary'}>Save</SharedButton></Col>
-                </Row>
-                <Row className={'w-full'} gutter={24} align={'middle'}>
-                  <Col span={4}><strong> Use Card </strong></Col>
-                  <Col flex={1}><Switch></Switch></Col>
-                  <Col><SharedButton type={'primary'}>Save</SharedButton></Col>
-                </Row>
-                <Row className={'w-full'} gutter={24} align={'middle'}>
-                  <Col span={4}><strong> Use Card </strong></Col>
-                  <Col flex={1}><Switch></Switch></Col>
-                  <Col><SharedButton type={'primary'}>Save</SharedButton></Col>
-                </Row>
+                <ConfigurationItem configuration={{ name: 'Email Host', type: 'input' }}></ConfigurationItem>
+                <ConfigurationItem configuration={{ name: 'Email Host', type: 'switch' }}></ConfigurationItem>
+                <ConfigurationItem configuration={{ name: 'Email Host', type: 'select' }}></ConfigurationItem>
               </ListView>
             </Card>
           </Col>

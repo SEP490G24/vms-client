@@ -1,7 +1,7 @@
 import httpService from './httpServices'
-import authService from '~/service/authService.ts'
 import { DEPARTMENT } from '~/constants'
 import { PageableRequest } from '~/interface'
+import authService from './authService'
 
 export interface CreateDepartmentInfo {
   name: string

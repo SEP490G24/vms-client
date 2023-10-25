@@ -1,5 +1,5 @@
 import httpService from './httpServices'
-import authService from '~/service/authService.ts'
+import authService from './authService'
 import { ROOM } from '~/constants/api.ts'
 import { PageableRequest } from '~/interface'
 

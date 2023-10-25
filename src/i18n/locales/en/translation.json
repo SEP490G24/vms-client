@@ -254,6 +254,9 @@
         "btn-save": "Save",
         "btn-edit": "Save"
       }
+    },
+    "permission": {
+      "title": "Permission Management"
     }
   },
   "configuration": {

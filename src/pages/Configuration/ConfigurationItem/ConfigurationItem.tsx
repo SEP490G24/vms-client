@@ -1,48 +1,56 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Row, Space } from 'antd'
 import { SharedButton, SharedInput, SharedSelect } from '~/common'
-import { ConfigurationDto } from '~/interface'
 import Title from 'antd/es/typography/Title'
+import { SettingDto, SettingType } from '~/interface/Setting.ts'
 
 interface PageTitleProps {
-  configuration: ConfigurationDto
+  setting: SettingDto,
+  value?: string
+  defaultValue: string,
+  onSaveSetting: (value: string) => void
 }
 
 export const ConfigurationItem: React.FC<PageTitleProps> = React.memo((props) => {
 
-  const [value, setValue] = useState<string | boolean | number | undefined>()
+  const [value, setValue] = useState<string>('')
 
   useEffect(() => {
-    setValue(props.configuration.value)
-  }, [props.configuration])
+    setValue(props.value ?? props.defaultValue)
+  }, [])
 
   const save = () => {
-    console.log(value)
+    props.onSaveSetting(value)
   }
 
-  const configurationField = (type: string) => {
+  const settingField = (type: string) => {
     switch (type) {
-      case 'input' : {
-          return <SharedInput defaultValue={props.configuration.value}
-                              onChange={(event) => setValue(event.target.value)}></SharedInput>
+      case SettingType.INPUT : {
+        return <SharedInput defaultValue={props.value ?? props.defaultValue}
+                            onChange={(event) => setValue(event.target.value)}></SharedInput>
       }
-      case 'switch' : {
-        return <SharedSelect className={'w-full'} options={[{ label: 'TRUE', value: 'true' }, { label: 'FALSE', value: 'false' }]} onChange={setValue}></SharedSelect>
+      case SettingType.SWITCH: {
+        return <SharedSelect className={'w-full'}
+                             defaultValue={props.value ?? props.defaultValue}
+                             options={[{ label: 'TRUE', value: 'true' }, { label: 'FALSE', value: 'false' }]}
+                             onChange={setValue}></SharedSelect>
       }
-      case 'select' : {
-        return <SharedSelect className={'w-full'} options={props.configuration.valueList?.map((option) => {
-          return { label: option, value: option }
-        }) ?? []} onChange={setValue}></SharedSelect>
+      case SettingType.SELECT : {
+        return <SharedSelect className={'w-full'}
+                             defaultValue={props.value ?? props.defaultValue}
+                             options={JSON.parse(props.setting.valueList ?? '[]').map((option: string) => {
+                               return { label: option, value: option }
+                             }) ?? []} onChange={setValue}></SharedSelect>
       }
     }
   }
 
   return (
     <Space className={'w-full'} direction={'vertical'}>
-      <Title level={5} className={'mb-0'}>{props.configuration.name} </Title>
+      <Title level={5} className={'mb-0'}>{props.setting.name} </Title>
       <span className={'text-muted'}>Description</span>
       <Row gutter={32}>
-        <Col flex={1}>{configurationField(props.configuration.type)}</Col>
+        <Col flex={1}>{settingField(props.setting.type)}</Col>
         <Col><SharedButton type={'primary'} onClick={save}>Save</SharedButton></Col>
       </Row>
     </Space>

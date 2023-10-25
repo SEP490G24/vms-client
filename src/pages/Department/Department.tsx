@@ -78,7 +78,7 @@ const Department = () => {
         </Space>
         {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
           <Row gutter={24} wrap={false}>
-            <Col flex={'none'} style={{ width: 450 }}>
+            <Col flex={'none'} span={12}>
               <DepartmentFilter onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>

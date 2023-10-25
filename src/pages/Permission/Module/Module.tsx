@@ -1,5 +1,5 @@
 import { ModuleWrapper } from './styles.ts'
-import { Space } from 'antd'
+import { message, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ModuleDto, PermissionDto, RoleDto } from '~/interface/Permission.ts'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
@@ -16,7 +16,7 @@ interface ModuleArgs {
 }
 
 const Module: React.FC<ModuleArgs> = (args) => {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [features, setFeatures] = useState<Map<string, PermissionDto[]>>()
 
   useEffect(() => {
@@ -27,11 +27,7 @@ const Module: React.FC<ModuleArgs> = (args) => {
     permissionService.updateAttribute(args.module.id, {
       attributes: { [`feature:${i18n.language}`]: [value] },
       permissionDtos: permissions
-    }).then(
-      (response) => {
-        console.log(response)
-      }
-    )
+    }).then(() => message.success(t('common.message.success.save')))
   }
 
   return (

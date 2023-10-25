@@ -1,5 +1,5 @@
 import httpService from './httpServices'
-import authService from '~/service/authService.ts'
+import authService from './authService'
 import { ORGANIZATION } from '~/constants/api.ts'
 
 export interface CreateOrganizationInfo {

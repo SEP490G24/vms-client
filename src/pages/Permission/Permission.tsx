@@ -1,4 +1,4 @@
-import { Space } from 'antd'
+import { message, Space } from 'antd'
 import { PermissionWrapper } from './styles.ts'
 import { useEffect, useState } from 'react'
 import { ModuleDto, PermissionDto, RoleDto } from '~/interface/Permission.ts'
@@ -8,8 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { checkPermission } from '~/utils/common.ts'
 import { BUTTON_ROLE_MAP, REALM_ROLE_MAP } from '~/role/index.ts'
 import { SharedButton } from '~/common'
-import keycloakService from '~/service/keycloakService.ts'
-import { permissionService, roleService } from '~/service'
+import { keycloakService, permissionService, roleService } from '~/service'
 
 const Permission = () => {
   const { t } = useTranslation()
@@ -28,8 +27,8 @@ const Permission = () => {
   }, [])
 
   const onChange = (rId: string, permission: PermissionDto, event: CheckboxChangeEvent) => {
-    roleService.updatePermission(rId, { permissionDto: permission, state: event.target.checked }).then(() => {
-    })
+    roleService.updatePermission(rId, { permissionDto: permission, state: event.target.checked })
+      .then(() => message.success(t('common.message.success.save')))
   }
 
   const onSave = () => {
@@ -43,7 +42,7 @@ const Permission = () => {
   return (
     <PermissionWrapper>
       <Space className={'w-full justify-center'}>
-        <h2 className='page-title'>{t('setting.permission.title')}</h2>
+        <h2 className='page-title'>{t('organization.permission.title')}</h2>
         <SharedButton className={'mb-5'} onClick={syncRole} permissions={REALM_ROLE_MAP.REALM_ADMIN}>
           Sync
         </SharedButton>

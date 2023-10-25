@@ -1,5 +1,5 @@
-import { Avatar, ConfigProvider, Layout, Menu } from 'antd'
-import { useState } from 'react'
+import { Avatar, ConfigProvider } from 'antd'
+import React, { useState } from 'react'
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { SIDE_BARS } from '~/routes'
@@ -11,9 +11,11 @@ import { useTranslation } from 'react-i18next'
 import { UserOutlined } from '@ant-design/icons'
 
 
-const { Sider } = Layout
+interface SideBarProps {
+  collapsed: boolean
+}
 
-const SideBar = () => {
+const SideBar: React.FC<SideBarProps> = ({ collapsed }) => {
   const { t } = useTranslation()
   const MENU_ITEMS = SIDE_BARS.map((item) => {
     return getItem(
@@ -25,7 +27,6 @@ const SideBar = () => {
   })
   const location = useLocation()
   const navigate = useNavigate()
-  const [collapsed, setCollapsed] = useState(false)
   const [currentMenuKeys, setCurrentMenuKeys] = useState([PATH_DASHBOARD])
   const { id } = useParams()
 
@@ -51,46 +52,38 @@ const SideBar = () => {
       theme={{
         components: {
           Menu: {
-            colorBgTextHover: themes.primary.light,
-            colorBorder: themes.primary.normal,
-            colorPrimary: themes.black,
-            itemSelectedBg: themes.primary.light,
-            itemSelectedColor: themes.primary.normal,
-            itemMarginBlock: 8
+            colorBgTextHover: themes.sidebar.bgHover,
+            colorPrimary: themes.white,
+            itemSelectedBg: themes.sidebar.bg,
+            itemActiveBg: themes.sidebar.bgActive,
+            itemSelectedColor: themes.white,
+            itemHoverColor: themes.white,
+            itemMarginBlock: 8,
+            itemMarginInline: 8
           },
           Layout: {
-            headerBg: themes.white,
-            siderBg: themes.white,
+            headerBg: themes.black,
+            siderBg: themes.black,
             triggerBg: themes.black
           }
         }
       }}
     >
       <SideBarWrapper>
-        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-          <SideHeader
-            onClick={() => handleSelectedItem(PATH_DASHBOARD)}
-            className={'cursor-pointer flex justify-center mx-4 my-16'}
-          >
-            <Avatar size="large" icon={<UserOutlined />} />
-            {/*{collapsed ? (*/}
-            {/*  // <Image src={imagePng.logo} preview={false} />*/}
-            {/*  <Title level={5}>VMS</Title>*/}
-            {/*) : (*/}
-            {/*  <Title level={5}>Visor Manager System</Title>*/}
-            {/*)}*/}
-          </SideHeader>
-          <SideContent className={'w-full h-full'}>
-            <Menu
-              className='bg-inherit text-gray-500 hover:text-gray-700'
-              defaultSelectedKeys={[location.pathname]}
-              items={MENU_ITEMS}
-              mode='inline'
-              onSelect={({ key }) => handleSelectedItem(key)}
-              selectedKeys={currentMenuKeys}
-            />
-          </SideContent>
-        </Sider>
+        <SideHeader
+          onClick={() => handleSelectedItem(PATH_DASHBOARD)}
+          className={'cursor-pointer flex justify-center my-16'}
+        >
+          <Avatar size='large' icon={<UserOutlined />} />
+        </SideHeader>
+        <SideContent
+          className='h-full bg-inherit text-gray-400 hover:text-gray-300'
+          defaultSelectedKeys={[location.pathname]}
+          items={MENU_ITEMS}
+          mode='inline'
+          inlineCollapsed={collapsed}
+          onSelect={({ key }) => handleSelectedItem(key)}
+          selectedKeys={currentMenuKeys} />
       </SideBarWrapper>
     </ConfigProvider>
   )

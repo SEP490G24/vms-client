@@ -80,8 +80,8 @@ const Site = () => {
           <Divider type='vertical' />
         </Space>
         {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
-          <Row gutter={24} wrap={false}>
-            <Col flex={'none'} style={{ width: 450 }}>
+          <Row className={'w-full m-0'} gutter={24} wrap={false}>
+            <Col flex={'none'} span={12}>
               <SiteFilter onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>

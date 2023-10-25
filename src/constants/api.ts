@@ -62,6 +62,7 @@ export const SETTING_GROUP = {
 
 export const SETTING_SITE = {
   BASE_PATH: `${VITE_API_SERVER_URL}/settingSiteMap`,
+  FIND_ALL_BY_SITE_ID_AND_GROUP_ID: `${VITE_API_SERVER_URL}/settingSiteMap/site/{siteId}/group/{settingGroupId}`,
 }
 
 export const SETTING = {

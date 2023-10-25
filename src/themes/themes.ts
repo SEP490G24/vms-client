@@ -15,6 +15,11 @@ delete colors['blueGray'];
 
 export const themes = {
   ...colors,
+  'sidebar': {
+    'bgHover': '#3a3b3c',
+    'bg': '#282a2a',
+    'bgActive': '#161617',
+  },
   'primary': {
     'light': '#e6edff',
     'normal': '#006bf6',

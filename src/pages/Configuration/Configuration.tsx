@@ -1,30 +1,38 @@
 import { ConfigurationWrapper } from './styles.ts'
-import { Card, Col, Divider, Menu, MenuProps, Row, Space } from 'antd'
+import { Card, Col, Divider, Menu, message, Row, Space } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { CalendarOutlined, MailOutlined } from '@ant-design/icons'
 import { ListView } from '~/components/ListView'
 import { ConfigurationItem } from '~/pages/Configuration/ConfigurationItem'
+import { useEffect, useState } from 'react'
+import { settingGroupService, settingService, settingSiteService, SITE_ID } from '~/service'
+import { SettingDto, SettingGroupDto, SettingSiteDto } from '~/interface/Setting.ts'
 
 const Configuration = () => {
 
   const { t } = useTranslation()
+  const [settingGroups, setSettingGroups] = useState<SettingGroupDto[]>([])
+  const [settings, setSettings] = useState<SettingDto[]>([])
+  const [settingSiteValues, setSettingSiteValues] = useState<SettingSiteDto>()
 
-  const profileNavs: MenuProps['items'] = [
-    {
-      key: 'info',
-      label: t('user.profile.label'),
-      icon: <MailOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'} />
-    },
-    {
-      key: 'security',
-      label: t('user.security.label'),
-      icon: <CalendarOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'} />
-    }
-  ]
+  useEffect(() => {
+    settingGroupService.findAll().then((response) => {
+      setSettingGroups(response?.data)
+    })
+  }, [])
 
-  const handleGroup = (key: string) => {
-    console.log(key)
-    // navigate(key)
+  const handleGroup = (key: any) => {
+    settingService.findAll(key).then((response) => {
+      setSettings(response?.data)
+    })
+    settingSiteService.findAllBySiteIdAndGroupId(SITE_ID, key).then((response) => {
+      setSettingSiteValues(response?.data)
+    })
+  }
+
+  const handleSave = (settingId: number, value: string) => {
+    settingSiteService.update({ siteId: SITE_ID, settingId, value }).then((response) => {
+      console.log(response)
+    }).then(() => message.success(t('common.message.success.save')))
   }
 
   return (
@@ -42,16 +50,20 @@ const Configuration = () => {
                     defaultOpenKeys={['sub1']}
                     onSelect={({ key }) => handleGroup(key)}
                     mode={'inline'}
-                    items={profileNavs}>
+                    items={settingGroups.map((settingGroup) => {
+                      return { key: settingGroup.id, label: settingGroup.name }
+                    })}>
               </Menu>
             </Card>
           </Col>
           <Col flex={'auto'}>
             <Card title={'Configuration'}>
               <ListView className={'gap-4'}>
-                <ConfigurationItem configuration={{ name: 'Email Host', type: 'input' }}></ConfigurationItem>
-                <ConfigurationItem configuration={{ name: 'Email Host', type: 'switch' }}></ConfigurationItem>
-                <ConfigurationItem configuration={{ name: 'Email Host', type: 'select' }}></ConfigurationItem>
+                {settings.map((setting, index) => <ConfigurationItem key={index} setting={setting}
+                                                                     defaultValue={setting.defaultValue}
+                                                                     value={settingSiteValues?.settings?.[setting.code]}
+                                                                     onSaveSetting={(value) => handleSave(setting.id, value)}
+                />)}
               </ListView>
             </Card>
           </Col>

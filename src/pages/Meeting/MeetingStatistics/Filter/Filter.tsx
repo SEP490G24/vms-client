@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedInput, SharedRadio } from '~/common'
 import { DateRadioRange, getDataRangeOptions, getDateRangeValue } from '~/interface'
-import { MeetingFilterPayload } from '~/service/meetingsService.ts'
+import { MeetingFilterPayload } from '~/service'
 
 interface FilterArgs {
   onFilter: (filterPayload: MeetingFilterPayload) => void

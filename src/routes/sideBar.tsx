@@ -8,7 +8,7 @@ import {
   PATH_MEETING_LIST,
   PATH_ORGANIZATION,
   PATH_SITE,
-  PATH_USER, PATH_DEVICE, PATH_PERMISSION
+  PATH_USER, PATH_DEVICE, PATH_PERMISSION, PATH_TEMPLATE,
 } from './paths.ts'
 import {
   CalendarOutlined,
@@ -85,6 +85,12 @@ export const SIDE_BARS = [
         key: PATH_ROOM,
         title: 'sidebar.organization.sub.room',
         path: PATH_ROOM,
+        children: []
+      },
+      {
+        key: PATH_TEMPLATE,
+        title: 'sidebar.organization.sub.template',
+        path: PATH_TEMPLATE,
         children: []
       },
       {

@@ -29,6 +29,12 @@ export const SITE = {
   MY_SITE: `${VITE_API_SERVER_URL}/site/profile`
 }
 
+export const TEMPLATE = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/template`,
+  FILTER: `${VITE_API_SERVER_URL}/template/filter`,
+  MY_TEMPLATE: `${VITE_API_SERVER_URL}/template/profile`
+}
+
 export const ROLE = {
   GET_ALL_ROLE: `${VITE_API_SERVER_URL}/role`,
   GET_BY_ID_ROLE: `${VITE_API_SERVER_URL}/role/{id}`,

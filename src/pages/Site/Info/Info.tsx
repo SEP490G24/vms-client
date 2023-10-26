@@ -82,7 +82,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
                    rules={[{ required: true }]}>
           <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.province')} name='province'
+        <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'
                    rules={[{ required: true }]}>
           <SharedSelect options={Data.PROVINCE.map((province) => {
             return { label: province.name, value: province.name, key: province.id }
@@ -90,7 +90,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
                         onChange={setProvinceSelected}
                         placeholder={t('common.placeholder.province')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.district')} name='district'
+        <Form.Item className={'mb-3'} label={t('common.field.district')} name='districtName'
                    rules={[{ required: true }]}>
           <SharedSelect options={districts?.map((district) => {
             return { label: district.name, value: district.name, key: district.id }

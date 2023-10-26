@@ -26,6 +26,7 @@
       "organization": "Organization",
       "representative_email": "Representative email",
       "code": "Code",
+      "type": "Type",
       "contact_person_in_charge": "Contact information",
       "contact_phone_number": "Contact phone number",
       "homepage_address": "Homepage",
@@ -238,6 +239,27 @@
         "btn-edit": "Save"
       }
     },
+    "template": {
+      "title": "Template Management",
+      "export": {
+        "file_name": "statistic_template_{{time}}"
+      },
+      "search": {
+        "title": "Search",
+        "counselor": "Template",
+        "counselor_placeholder": "Name"
+      },
+      "table": {
+        "title": "Total {{count}} template",
+        "btn-add": "Create"
+      },
+      "popup": {
+        "title-add": "Create new template",
+        "title-edit": "Template Edit",
+        "btn-save": "Save",
+        "btn-edit": "Save"
+      }
+    },
     "device": {
       "title": "Device Management",
       "export": {
@@ -289,6 +311,7 @@
         "user": "User",
         "rule": "Guard Rules",
         "room": "Room",
+        "template": "Template",
         "device": "Device"
       }
     },

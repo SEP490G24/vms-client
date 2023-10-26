@@ -37,9 +37,9 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
         render={(value: SiteDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
       <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' />
-      <Column title={t('common.field.province')} dataIndex='province' key='province' />
-      <Column title={t('common.field.district')} dataIndex='district' key='district' />
-      <Column title={t('common.field.ward')} dataIndex='ward' key='ward' />
+      <Column title={t('common.field.province')} dataIndex='provinceName' key='provinceName' />
+      <Column title={t('common.field.district')} dataIndex='districtName' key='districtName' />
+      <Column title={t('common.field.ward')} dataIndex='wardName' key='wardName' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'

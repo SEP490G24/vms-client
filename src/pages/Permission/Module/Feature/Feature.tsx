@@ -29,6 +29,7 @@ const Feature: React.FC<FeatureArgs> = (args) => {
   }
 
   useEffect(() => {
+    console.log(args.permissions)
     setTitle(args.title)
   }, [])
 
@@ -39,13 +40,13 @@ const Feature: React.FC<FeatureArgs> = (args) => {
                                      style={{ margin: '0 0 0 16px' }}>{title}</Typography.Title>}
       >
         <Table dataSource={args.permissions}
-               rowKey='id'
+               rowKey={'id'}
                size='small'
                className='permissions-table'
                pagination={false}
         >
           <Column className={'w-1/5'} title='' render={(value) => <Space direction={'vertical'}
-                                                                        size={2}><Text
+                                                                         size={2}><Text
             strong>{value.label[i18n.language]?.name}</Text><Text type='secondary'>{value.name}</Text></Space>}
                   key='name' />
           {args.roles?.map((role) =>

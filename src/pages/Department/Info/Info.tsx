@@ -89,7 +89,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
         {!!props.department &&
           <>
             <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.used')} name='enable'
-                    x   rules={[{ required: true }]}>
+                       rules={[{ required: true }]}>
               <Radio.Group name='enable'>
                 <Space>
                   <Radio value={true}>{t('common.label.use')}</Radio>

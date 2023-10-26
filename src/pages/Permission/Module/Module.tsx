@@ -35,7 +35,7 @@ const Module: React.FC<ModuleArgs> = (args) => {
       <Space size={24} direction={'vertical'} className={'w-full'}>
         {Array.from(features?.entries() ?? []).map((entry, index) => {
           return (
-            <FeaturePermission key={index} title={entry[1][0].label[i18n.language].feature ?? ''}
+            <FeaturePermission key={index} title={entry?.[1]?.[0]?.label?.[i18n.language]?.feature ?? ''}
                                permissions={entry[1]}
                                roles={args.roles} onSave={args.onSave}
                                onChange={args.onChange} onEditLabelFeature={onEditLabelFeature} />)

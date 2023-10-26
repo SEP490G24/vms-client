@@ -17,7 +17,7 @@ export interface TemplateDto {
   dateOfBirth?: null;
   lastLoginTime?: null;
   departmentUserMaps?: any;
-  id?: string;
+  id: string;
   countryCode?: string
 }
 

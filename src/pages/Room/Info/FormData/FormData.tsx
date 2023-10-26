@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormDataWrapper } from './styles.ts'
-import { Form, FormInstance } from 'antd'
-import { RoomDto } from '~/interface'
-import { SharedInput } from '~/common'
+import { Form, FormInstance, Radio, Space } from 'antd'
+import { RoomDto, SiteDto } from '~/interface'
+import { SharedInput, SharedSelect } from '~/common'
 import { useTranslation } from 'react-i18next'
 import TextArea from 'antd/es/input/TextArea'
+import { siteService } from '~/service'
 
 interface RoomFormArgs {
   form: FormInstance;
@@ -15,17 +16,21 @@ interface RoomFormArgs {
 const FormData: React.FC<RoomFormArgs> = (props) => {
 
   const { t } = useTranslation()
+  const [sites, setSites] = useState<SiteDto[]>([])
+
+  useEffect(() => {
+    siteService.findAll().then((response) => {
+      setSites(response?.data)
+    })
+  }, [])
 
   useEffect(() => {
     if (props.room) {
       props.form.setFieldsValue({
         name: props.room.name,
-        phoneNumber: props.room.phoneNumber,
-        province: props.room.province,
-        district: props.room.district,
-        ward: props.room.ward,
-        address: props.room.address,
-        taxCode: props.room.taxCode,
+        code: props.room.code,
+        siteName: props.room.siteName,
+        siteId: props.room.siteId,
         description: props.room.description,
         enable: props.room.enable,
       })
@@ -47,18 +52,29 @@ const FormData: React.FC<RoomFormArgs> = (props) => {
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
                    rules={[{ required: true }]}>
-          <SharedInput disabled={!!props.room} placeholder={t('common.placeholder.name')} />
+          <SharedInput placeholder={t('common.placeholder.site_name')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
                    rules={[{ required: true }]}>
-          <SharedInput placeholder={t('common.placeholder.code')} />
+          <SharedInput disabled={!!props.room}  placeholder={t('common.placeholder.code')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
                    rules={[{ required: true }]}>
-          {/*<SharedSelect options={rooms.map((site) => {*/}
-          {/*  return { label: site.name, value: site.id, key: site.id }*/}
-          {/*}) ?? []}*/}
-          {/*              placeholder={t('common.placeholder.site')}></SharedSelect>*/}
+          <SharedSelect
+            options={sites.map((site) => {
+            return { label: site.name, value: site.id, key: site.id }
+          }) ?? []}
+                        placeholder={t('common.placeholder.site')}
+          ></SharedSelect>
+        </Form.Item>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.status')} name='enable'
+                   rules={[{ required: true }]}>
+          <Radio.Group name='enable'>
+            <Space>
+              <Radio value={true}>{t('common.field.status_.enable')}</Radio>
+              <Radio value={false}>{t('common.field.status_.disable')}</Radio>
+            </Space>
+          </Radio.Group>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
           <TextArea

@@ -37,7 +37,8 @@ const Organization = () => {
       website: organization?.website,
       businessRegistrationNumber: organization?.businessRegistrationNumber,
       businessLicenseFile: organization?.businessLicenseFile,
-      about: organization?.about
+      about: organization?.about,
+      contactInfo: organization?.contactInfo,
     })
     !!organization?.businessLicenseFile && setLicense(baseUploadTemplate(organization.businessLicenseFile))
   }, [organization])

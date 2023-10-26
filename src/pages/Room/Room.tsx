@@ -51,7 +51,7 @@ const Room = () => {
           })
           await message.success(t('common.message.success.save'))
         } else {
-          await message.error(t('common.message.error.save'))
+          await message.error(t('common.message.failed.save'))
         }
       })
       .catch(async () => {

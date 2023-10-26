@@ -15,4 +15,5 @@ export interface OrganizationEntity {
   representativePhone?: string;
   businessRegistrationNumber?: string;
   businessLicenseFile?: string;
+  contactInfo: string;
 }

@@ -3,18 +3,12 @@ export interface RoomDto {
   createdOn?: string;
   lastUpdatedBy?: string;
   lastUpdatedOn?: string;
+  siteName: string;
   id: string;
   name: string;
   code?: string;
   organizationId?: string;
-  phoneNumber?: string;
   enable?: boolean;
-  templateSiteMaps?: any;
-  pricePackageSiteMaps?: any;
-  district?: string;
-  province?: string;
-  ward?: string;
-  address?: string;
   taxCode?: string;
   description?: string;
 }

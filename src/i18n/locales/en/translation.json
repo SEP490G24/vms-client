@@ -42,6 +42,10 @@
       "device": "Device",
       "site": {
         "name": "Site"
+      },
+      "status_": {
+        "enable" : "Enable",
+        "disable" : "Disable"
       }
     },
     "placeholder": {

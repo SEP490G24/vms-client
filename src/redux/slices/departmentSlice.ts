@@ -11,8 +11,8 @@ const initialState = {
 
 export const filterDepartments = createAsyncThunk(
   'department/filter', (arg: any) => {
-    const { payload, isPageable, pageableRequest } = arg
-    return departmentService.filter(payload, isPageable, pageableRequest)
+    const { filterPayload, isPageable, pageableRequest } = arg
+    return departmentService.filter(filterPayload, isPageable, pageableRequest)
   }
 )
 

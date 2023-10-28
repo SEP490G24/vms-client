@@ -30,9 +30,12 @@ const Setting = () => {
   }
 
   const handleSave = (settingId: number, value: string) => {
-    settingSiteService.update({ siteId: SITE_ID, settingId, value }).then((response) => {
-      console.log(response)
+    settingSiteService.update({
+      siteId: SITE_ID,
+      settingId,
+      value
     }).then(() => message.success(t('common.message.success.save')))
+      .catch(() => message.error(t('common.message.error')))
   }
 
   return (
@@ -60,9 +63,9 @@ const Setting = () => {
             <Card title={'Setting'}>
               <ListView className={'gap-4'}>
                 {settings.map((setting, index) => <SettingItem key={index} setting={setting}
-                                                                     defaultValue={setting.defaultValue}
-                                                                     value={settingSiteValues?.settings?.[setting.code]}
-                                                                     onSaveSetting={(value) => handleSave(setting.id, value)}
+                                                               defaultValue={setting.defaultValue}
+                                                               value={settingSiteValues?.settings?.[setting.code]}
+                                                               onSaveSetting={(value) => handleSave(setting.id, value)}
                 />)}
               </ListView>
             </Card>

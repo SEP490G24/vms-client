@@ -6,6 +6,7 @@ import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateDepartmentInfo, UpdateDepartmentInfo, siteService } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
+import moment from 'moment/moment'
 
 interface InfoDepartmentFormArgs {
   department?: DepartmentDto
@@ -100,9 +101,9 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>
-              <Col span={7}>{props.department.createdOn}</Col>
+              <Col span={7}>{moment(props.department.createdOn).format('L')}</Col>
               <Col span={5}>{t('common.field.modification_date')}</Col>
-              <Col span={6}>{props.department.lastUpdatedOn}</Col>
+              <Col span={6}>{props.department.lastUpdatedOn ? moment(props.department.lastUpdatedOn).format('L') : null}</Col>
             </Row>
           </>
         }

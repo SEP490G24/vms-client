@@ -1,12 +1,10 @@
-import { Col, Divider, Form, Radio, Row, Space } from 'antd'
+import { Form, Radio, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { DepartmentDto, SiteDto, TemplateDto } from '~/interface'
-import { SharedInput, SharedPhoneNumber, SharedSelect } from '~/common'
+import { SiteDto, TemplateDto } from '~/interface'
+import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
-import { CreateTemplateInfo, departmentService, siteService } from '~/service'
-import Password from 'antd/es/input/Password'
-import { REGEX } from '~/constants'
+import { CreateTemplateInfo, siteService } from '~/service'
 import { SharedTextArea } from '~/common/SharedTextArea'
 
 interface CreateTemplateFormArgs {
@@ -20,7 +18,6 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
   const [form] = Form.useForm()
 
   const [sites, setSites] = useState<SiteDto[]>([])
-  const [departments, setDepartments] = useState<DepartmentDto[]>([])
 
   useEffect(() => {
     siteService.findAll().then((response) => {
@@ -37,36 +34,13 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
         type: props.template.type,
         enable: props.template.enable,
         body: props.template.body,
+        siteId: props.template.siteId,
         description: props.template.description,
-        departmentId: props.template.departmentId,
         createdOn: props.template.createdOn,
-        lastUpdatedOn:props.template.createdOn
+        lastUpdatedOn: props.template.createdOn
       })
     }
   }, [props.template])
-
-  const fetchDepartment = (siteId: string) => {
-    form.setFieldsValue({
-      departmentId: ''
-    })
-    departmentService.filter({ siteId }).then((response) => {
-      setDepartments(response?.data)
-    })
-  }
-
-  const onPhoneNumberChange = (value: string) => {
-    value &&
-    form.setFieldsValue({
-      phoneNumber: value
-    })
-  }
-
-  const onCountryCodeChange = (value: string) => {
-    value &&
-    form.setFieldsValue({
-      countryCode: value
-    })
-  }
 
   const onFinish = (values: any) => {
     props.onSave(values)
@@ -99,10 +73,29 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
           <SharedInput disabled={!!props.template} placeholder={t('common.placeholder.code')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.name')} name='name' rules={[{ required: true }]}>
-              <SharedInput placeholder={t('common.placeholder.template_name')}></SharedInput>
+          <SharedInput placeholder={t('common.placeholder.template_name')}></SharedInput>
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.type')} name='type' rules={[{ required: true}]}>
-          <SharedSelect options={[{ label: 'EMAIL', value: 'EMAIL' }, { label: 'SMS', value: 'SMS' },]} placeholder={t('common.placeholder.type')} />
+        <Form.Item className={'mb-3'} label={t('common.field.type')} name='type' rules={[{ required: true }]}>
+          <SharedSelect options={[{ label: 'EMAIL', value: 'EMAIL' }, { label: 'SMS', value: 'SMS' }]}
+                        placeholder={t('common.placeholder.type')} />
+        </Form.Item>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
+                   rules={[{ required: true }]}>
+          <SharedSelect options={sites.map((site) => {
+            return { label: site.name, value: site.id, key: site.id }
+          }) ?? []}
+                        placeholder={t('common.placeholder.site')}></SharedSelect>
+        </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.subject')} name='subject'
+                   rules={[{ required: true }]}>
+          <SharedInput placeholder={t('common.placeholder.subject')} />
+        </Form.Item>
+        <Form.Item className='mb-3' label={t('common.field.body')} name='body' rules={[{ required: true }]}>
+          <SharedTextArea></SharedTextArea>
+        </Form.Item>
+        <Form.Item className='mb-3' label={t('common.field.description')} name='description'
+                   rules={[{ required: true }]}>
+          <SharedInput placeholder={t('common.placeholder.description')}></SharedInput>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
                    rules={[{ required: true }]}>
@@ -112,16 +105,6 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
               <Radio value={false}>{t('common.label.disable')}</Radio>
             </Space>
           </Radio.Group>
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.subject')} name='subject'
-                   rules={[{ required: true }]}>
-          <SharedInput placeholder={t('common.placeholder.subject')} />
-        </Form.Item>
-        <Form.Item className='mb-3' label={t('common.field.body')} name='body' rules={[{required: true}]}>
-          <SharedTextArea></SharedTextArea>
-        </Form.Item>
-        <Form.Item className='mb-3' label={t('common.field.description')} name='description' rules={[{required: true}]}>
-          <SharedInput placeholder={t('common.placeholder.description')}></SharedInput>
         </Form.Item>
         {/*{!!props.template &&*/}
         {/*  <>*/}

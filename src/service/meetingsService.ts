@@ -37,50 +37,58 @@ export interface MeetingFilterPayload {
   keyword?: string
 }
 
-const findAll = () => {
+const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SITE.BASE_PATH)
+  const response = await httpService.get(SITE.BASE_PATH)
+  return httpService.handleResponseStatus(response)
 }
 
-const findById = (id: string) => {
+const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SITE.BASE_PATH + `/${id}`)
+  const response = await httpService.get(SITE.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const insert = (payload: CreateMeetingInfo) => {
+const insert = async (payload: CreateMeetingInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(SITE.BASE_PATH, payload)
+  const response = await httpService.post(SITE.BASE_PATH, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const update = (id: string, payload: UpdateMeetingInfo) => {
+const update = async (id: string, payload: UpdateMeetingInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(SITE.BASE_PATH + `/${id}`, payload)
+  const response = await httpService.put(SITE.BASE_PATH + `/${id}`, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const remove = (id: string) => {
+const remove = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.delete(SITE.BASE_PATH + `/${id}`)
+  const response = await httpService.delete(SITE.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const filter = (payload: MeetingFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
+const filter = async (payload: MeetingFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(SITE.FILTER, payload, {
+  const response = await httpService.post(SITE.FILTER, payload, {
     params: {
       isPageable,
       size: pageableRequest?.size,
       page: pageableRequest?.page
     }
   })
+  return httpService.handleResponseStatus(response)
 }
 
-const getMyMeetings = () => {
+const getMyMeetings = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SITE.MY_SITE)
+  const response = await httpService.get(SITE.MY_SITE)
+  return httpService.handleResponseStatus(response)
 }
 
-const createMyMeeting = (payload: any) => {
+const createMyMeeting = async (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(SITE.MY_SITE, payload)
+  const response = await httpService.post(SITE.MY_SITE, payload)
+  return httpService.handleResponseStatus(response)
 }
 
 const siteService = {

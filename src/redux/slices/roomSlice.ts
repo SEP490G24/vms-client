@@ -11,8 +11,8 @@ const initialState = {
 
 export const filterRooms = createAsyncThunk(
   'room/filter', (arg: any) => {
-    const { payload, isPageable, pageableRequest } = arg
-    return roomService.filter(payload, isPageable, pageableRequest)
+    const { filterPayload, isPageable, pageableRequest } = arg
+    return roomService.filter(filterPayload, isPageable, pageableRequest)
   }
 )
 

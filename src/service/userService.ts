@@ -29,65 +29,76 @@ export interface UserFilterPayload {
   keyword?: string
 }
 
-const findAll = () => {
+const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(USER.BASE_PATH)
+  const response = await httpService.get(USER.BASE_PATH)
+  return httpService.handleResponseStatus(response)
 }
 
-const findById = (username: string) => {
+const findById = async (username: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(USER.BASE_PATH + `/${username}`)
+  const response = await httpService.get(USER.BASE_PATH + `/${username}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const insert = (payload: CreateUserInfo) => {
+const insert = async (payload: CreateUserInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(USER.BASE_PATH, payload)
+  const response = await httpService.post(USER.BASE_PATH, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const update = (username: string, payload: UpdateUserInfo) => {
+const update = async (username: string, payload: UpdateUserInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(USER.BASE_PATH + `/${username}`, payload)
+  const response = await httpService.put(USER.BASE_PATH + `/${username}`, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const remove = (username: string) => {
+const remove = async (username: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.delete(USER.BASE_PATH + `/${username}`)
+  const response = await httpService.delete(USER.BASE_PATH + `/${username}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const filter = (payload: UserFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
+const filter = async (payload: UserFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(USER.FILTER, payload, {
+  const response = await httpService.post(USER.FILTER, payload, {
     params: {
       isPageable,
       size: pageableRequest?.size,
       page: pageableRequest?.page
     }
   })
+  return httpService.handleResponseStatus(response)
 }
 
-const getUserProfile = () => {
+const getUserProfile = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(USER.MY_USER_PROFILE)
+  const response = await httpService.get(USER.MY_USER_PROFILE)
+  return httpService.handleResponseStatus(response)
 }
 
-const updateUserProfile = (payload: UpdateUserInfo) => {
+const updateUserProfile = async (payload: UpdateUserInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(USER.MY_USER_PROFILE, payload)
+  const response = await httpService.put(USER.MY_USER_PROFILE, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const changePassword = (payload: { oldPassword: string, newPassword: string }) => {
+const changePassword = async (payload: { oldPassword: string, newPassword: string }) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(USER.CHANGE_PASSWORD, payload)
+  const response = await httpService.post(USER.CHANGE_PASSWORD, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const importUser = (formData: FormData) => {
+const importUser = async (formData: FormData) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(USER.IMPORT, formData)
+  const response = await httpService.post(USER.IMPORT, formData)
+  return httpService.handleResponseStatus(response)
 }
 
-const exportUser = (payload: UserFilterPayload) => {
+const exportUser = async (payload: UserFilterPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(USER.EXPORT, payload, {responseType: 'blob'})
+  const response = await httpService.post(USER.EXPORT, payload, { responseType: 'blob' })
+  return httpService.handleResponseStatus(response)
 }
 
 const userService = {

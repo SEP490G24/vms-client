@@ -9,25 +9,29 @@ interface SettingValuePayload {
   value: string;
 }
 
-const findAll = () => {
+const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SETTING_SITE.BASE_PATH)
+  const response = await httpService.get(SETTING_SITE.BASE_PATH)
+  return httpService.handleResponseStatus(response)
 }
 
-const findById = (id: string) => {
+const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SETTING_SITE.BASE_PATH + `/${id}`)
+  const response = await httpService.get(SETTING_SITE.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const findAllBySiteIdAndGroupId = (siteId: string, settingGroupId: number) => {
+const findAllBySiteIdAndGroupId = async (siteId: string, settingGroupId: number) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SETTING_SITE.FIND_ALL_BY_SITE_ID_AND_GROUP_ID.replace('{siteId}', siteId)
+  const response = await httpService.get(SETTING_SITE.FIND_ALL_BY_SITE_ID_AND_GROUP_ID.replace('{siteId}', siteId)
     .replace('{settingGroupId}', settingGroupId.toString()))
+  return httpService.handleResponseStatus(response)
 }
 
-const update = (payload: SettingValuePayload) => {
+const update = async (payload: SettingValuePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(SETTING_SITE.BASE_PATH, payload)
+  const response = await httpService.post(SETTING_SITE.BASE_PATH, payload)
+  return httpService.handleResponseStatus(response)
 }
 
 const settingSiteService = {

@@ -19,44 +19,52 @@ export interface UpdateOrganizationInfo {
   enable?: boolean;
 }
 
-const findAll = () => {
+const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(ORGANIZATION.BASE_PATH)
+  const response = await httpService.get(ORGANIZATION.BASE_PATH)
+  return httpService.handleResponseStatus(response)
 }
 
-const findById = (id: string) => {
+const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(ORGANIZATION.BASE_PATH + `/${id}`)
+  const response = await httpService.get(ORGANIZATION.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const insert = (payload: CreateOrganizationInfo) => {
+const insert = async (payload: CreateOrganizationInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(ORGANIZATION.BASE_PATH, payload)
+  const response = await httpService.post(ORGANIZATION.BASE_PATH, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const update = (id: string, payload: UpdateOrganizationInfo) => {
+const update = async (id: string, payload: UpdateOrganizationInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(ORGANIZATION.BASE_PATH + `/${id}`, payload)
+  const response = await httpService.put(ORGANIZATION.BASE_PATH + `/${id}`, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const remove = (id: string) => {
+const remove = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.delete(ORGANIZATION.BASE_PATH + `/${id}`)
+  const response = await httpService.delete(ORGANIZATION.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const filter = (payload: any) => {
+const filter = async (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(ORGANIZATION.FILTER, payload)
+  let response = await httpService.post(ORGANIZATION.FILTER, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const getMyOrganization = () => {
+const getMyOrganization = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(ORGANIZATION.MY_ORGANIZATION)
+  let response = await httpService.get(ORGANIZATION.MY_ORGANIZATION)
+  return httpService.handleResponseStatus(response)
 }
 
-const updateMyOrganization = (payload: any) => {
+const updateMyOrganization = async (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(ORGANIZATION.MY_ORGANIZATION, payload)
+  let response = await httpService.post(ORGANIZATION.MY_ORGANIZATION, payload)
+  return httpService.handleResponseStatus(response)
 }
 
 const organizationService = {

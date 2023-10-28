@@ -6,7 +6,7 @@ import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { DepartmentDto, PageableResponse, RoomDto, UserDto } from '~/interface'
+import { PageableResponse, RoomDto, UserDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { checkPermission } from '~/utils'
 import { RoomInfo } from './Info'
@@ -121,7 +121,7 @@ const Room = () => {
               >
                 <Column
                   title={t('common.field.room')}
-                  render={(value: DepartmentDto) => <a onClick={() => openEdit(value)}>{value.name}</a>}
+                  render={(value: RoomDto) => <a onClick={() => openEdit(value)}>{value.name}</a>}
                 />
                 <Column title={t('common.field.code')} dataIndex='code' key='code' />
                 <Column

@@ -5,12 +5,13 @@ export interface TemplateDto {
   createdOn?: string;
   lastUpdatedBy?: string;
   lastUpdatedOn?: string;
+  siteId?: string;
   code: string;
   subject?: string;
   body?: string;
   type: string;
   description: string;
-  enable?: boolean;
+  enable: boolean;
 }
 
 

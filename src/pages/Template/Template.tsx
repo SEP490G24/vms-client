@@ -4,7 +4,7 @@ import { checkPermission } from '~/utils'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { TemplateItem } from '~/pages/Template/TemplateItem'
-import { siteService, templateService } from '~/service'
+import { templateService } from '~/service'
 import { PageableResponse, TemplateDto } from '~/interface'
 import { useEffect, useState } from 'react'
 import Modal from 'antd/es/modal/Modal'
@@ -35,7 +35,7 @@ const Template = () => {
           setOpenModal(false)
           setConfirmLoading(false)
           setTemplate(undefined)
-          templateService.filter({ }, true, { page: currentPage - 1, size: 10 }).then((response) => {
+          templateService.filter({}, true, { page: currentPage - 1, size: 10 }).then((response) => {
             setPageableResponse(response?.data)
           })
           await message.success(t('common.message.success.save'))
@@ -73,11 +73,12 @@ const Template = () => {
           {t('common.label.create')}
         </SharedButton>
         {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
-          <Space className={'mb-4'} direction={'vertical'} size={24} align={'center'}>
-            <List grid={{ column: 4, gutter: 12 }}
+          <Space className={'w-full mb-4'} direction={'vertical'} size={24} align={'center'}
+                 classNames={{ item: 'w-full' }}>
+            <List grid={{ column: 3, gutter: 12 }}
                   dataSource={pageableResponse?.content}
                   renderItem={(template) => (<List.Item>
-                    <TemplateItem dataList={template} onEdit={openEdit} ></TemplateItem>
+                    <TemplateItem templateDto={template} onEdit={openEdit}></TemplateItem>
                   </List.Item>)}
             >
             </List>
@@ -92,7 +93,7 @@ const Template = () => {
           title={null}
           footer={null}
           confirmLoading={confirmLoading}
-          width={1000}
+          width={750}
           onCancel={onClose}
         >
           <TemplateInfo onClose={onClose} template={template} onSave={onSave} />

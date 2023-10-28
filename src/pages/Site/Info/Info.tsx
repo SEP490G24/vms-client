@@ -1,15 +1,23 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { Commune, District, SiteDto } from '~/interface'
+import React, { useEffect } from 'react'
 import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateSiteInfo } from '~/service'
-import { Data } from '~/data'
 import TextArea from 'antd/es/input/TextArea'
+import {
+  fetchCommune,
+  fetchDistrict,
+  fetchProvince,
+  locationsSelector, resetCommune,
+  resetDistrict
+} from '~/redux/slices/locationSlice.ts'
+import { useSelector } from 'react-redux'
+import { useAppDispatch } from '~/redux'
+import { sitesSelector } from '~/redux/slices/siteSlice.ts'
+import moment from 'moment/moment'
 
 interface CreateSiteFormArgs {
-  site?: SiteDto
   onSave: (site: CreateSiteInfo) => void
   onClose: () => void
 }
@@ -17,34 +25,41 @@ interface CreateSiteFormArgs {
 const Info: React.FC<CreateSiteFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const [provinceSelected, setProvinceSelected] = useState('')
-  const [districtSelected, setDistrictSelected] = useState('')
-  const [districts, setDistricts] = useState<District[]>()
-  const [communes, setCommunes] = useState<Commune[]>()
+  const dispatch = useAppDispatch()
+
+  const { siteSelected } = useSelector(sitesSelector)
+  const { communes, districts, provinces } = useSelector(locationsSelector)
+  const provinceId = Form.useWatch('provinceId', form)
+  const districtId = Form.useWatch('districtId', form)
 
   useEffect(() => {
-    setDistricts(Data.DISTRICT.filter((district) => district.provinceId == provinceSelected))
-  }, [provinceSelected])
+    provinceId ? dispatch(fetchDistrict(provinceId) as any) : dispatch(resetDistrict())
+  }, [provinceId])
 
   useEffect(() => {
-    setCommunes(Data.COMMUNE.filter((commune) => commune.districtId == districtSelected))
-  }, [districtSelected])
+    districtId ? dispatch(fetchCommune(districtId) as any) : dispatch(resetCommune())
+  }, [districtId])
 
   useEffect(() => {
-    if (props.site) {
+    !provinces.length && dispatch(fetchProvince() as any)
+  }, [])
+
+  useEffect(() => {
+    if (siteSelected) {
       form.setFieldsValue({
-        name: props.site.name,
-        phoneNumber: props.site.phoneNumber,
-        provinceId: props.site.provinceId,
-        districtId: props.site.districtId,
-        communeId: props.site.communeId,
-        address: props.site.address,
-        taxCode: props.site.taxCode,
-        description: props.site.description,
-        enable: props.site.enable
+        name: siteSelected.name,
+        phoneNumber: siteSelected.phoneNumber,
+        provinceId: siteSelected.provinceId,
+        districtId: siteSelected.districtId,
+        communeId: siteSelected.communeId,
+        address: siteSelected.address,
+        taxCode: siteSelected.taxCode,
+        description: siteSelected.description,
+        enable: siteSelected.enable
       })
     }
-  }, [props.site])
+    console.log(siteSelected)
+  }, [siteSelected])
 
   const onClose = () => {
     props.onClose()
@@ -53,7 +68,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
 
   return (
     <InfoWrapper
-      title={t(!!props.site ? 'organization.site.popup.title-edit' : 'organization.site.popup.title-add')}
+      title={t(!!siteSelected ? 'organization.site.popup.title-edit' : 'organization.site.popup.title-add')}
       onOk={form.submit}
       onCancel={onClose}
     >
@@ -78,26 +93,25 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'
                    rules={[{ required: true }]}>
-          <SharedSelect options={Data.PROVINCE.map((province) => {
+          <SharedSelect options={provinces.map((province) => {
             return { label: province.name, value: province.id, key: province.id }
           })}
-                        onChange={setProvinceSelected}
                         placeholder={t('common.placeholder.province')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.district')} name='districtName'
+        <Form.Item className={'mb-3'} label={t('common.field.district')} name='districtId'
                    rules={[{ required: true }]}>
-          <SharedSelect options={districts?.map((district) => {
-            return { label: district.name, value: district.id, key: district.id }
-          }) ?? []}
-                        onChange={setDistrictSelected}
-                        placeholder={t('common.placeholder.district')} />
+          <SharedSelect
+            options={districts?.map((district) => {
+              return { label: district.name, value: district.id, key: district.id }
+            }) ?? []}
+            placeholder={t('common.placeholder.district')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.ward')} name='ward'
+        <Form.Item className={'mb-3'} label={t('common.field.commune')} name='communeId'
                    rules={[{ required: true }]}>
           <SharedSelect options={communes?.map((commune) => {
-            return { label: commune.name, value: commune.name, key: commune.id }
+            return { label: commune.name, value: commune.id, key: commune.id }
           }) ?? []}
-                        placeholder={t('common.placeholder.ward')} />
+                        placeholder={t('common.placeholder.commune')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.address')} name='address'
                    rules={[{ required: true }]}>
@@ -115,7 +129,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
             placeholder={t('common.placeholder.description')}
           />
         </Form.Item>
-        {!!props.site &&
+        {!!siteSelected &&
           <>
             <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
                        rules={[{ required: true }]}>
@@ -129,9 +143,9 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>
-              <Col span={7}>{props.site.createdOn}</Col>
+              <Col span={7}>{moment(siteSelected.createdOn).format('L')}</Col>
               <Col span={5}>{t('common.field.modification_date')}</Col>
-              <Col span={6}>{props.site.lastUpdatedOn}</Col>
+              <Col span={6}>{siteSelected.lastUpdatedOn ? moment(siteSelected.lastUpdatedOn).format('L') : null}</Col>
             </Row>
           </>
         }

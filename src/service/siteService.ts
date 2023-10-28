@@ -37,50 +37,58 @@ export interface SiteFilterPayload {
   keyword?: string
 }
 
-const findAll = () => {
+const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SITE.BASE_PATH)
+  const response = await httpService.get(SITE.BASE_PATH)
+  return httpService.handleResponseStatus(response)
 }
 
-const findById = (id: string) => {
+const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SITE.BASE_PATH + `/${id}`)
+  const response = await httpService.get(SITE.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const insert = (payload: CreateSiteInfo) => {
+const insert = async (payload: CreateSiteInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(SITE.BASE_PATH, payload)
+  const response = await httpService.post(SITE.BASE_PATH, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const update = (id: string, payload: UpdateSiteInfo) => {
+const update = async (id: string, payload: UpdateSiteInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(SITE.BASE_PATH + `/${id}`, payload)
+  const response = await httpService.put(SITE.BASE_PATH + `/${id}`, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const remove = (id: string) => {
+const remove = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.delete(SITE.BASE_PATH + `/${id}`)
+  const response = await httpService.delete(SITE.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const filter = (payload: SiteFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
+const filter = async (payload: SiteFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(SITE.FILTER, payload, {
+  const response = await httpService.post(SITE.FILTER, payload, {
     params: {
       isPageable,
       size: pageableRequest?.size,
       page: pageableRequest?.page
     }
   })
+  return httpService.handleResponseStatus(response)
 }
 
-const getSiteProfile = () => {
+const getSiteProfile = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SITE.MY_SITE)
+  const response = await httpService.get(SITE.MY_SITE)
+  return httpService.handleResponseStatus(response)
 }
 
-const updateSiteProfile = (payload: any) => {
+const updateSiteProfile = async (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(SITE.MY_SITE, payload)
+  const response = await httpService.post(SITE.MY_SITE, payload)
+  return httpService.handleResponseStatus(response)
 }
 
 const siteService = {

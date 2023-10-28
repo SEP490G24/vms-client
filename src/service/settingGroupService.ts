@@ -2,14 +2,16 @@ import httpService from './httpServices'
 import authService from './authService'
 import { SETTING_GROUP } from '~/constants/api.ts'
 
-const findAll = () => {
+const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SETTING_GROUP.BASE_PATH)
+  const response = await httpService.get(SETTING_GROUP.BASE_PATH)
+  return httpService.handleResponseStatus(response)
 }
 
-const findById = (id: string) => {
+const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(SETTING_GROUP.BASE_PATH + `/${id}`)
+  const response = await httpService.get(SETTING_GROUP.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
 const settingGroupService = {

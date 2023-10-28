@@ -2,29 +2,34 @@ import httpService from '~/service/httpServices.ts'
 import authService from '~/service/authService.ts'
 import { LOCATION } from '~/constants'
 
-const findAllProvince = () => {
+const findAllProvince = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(LOCATION.PROVINCE)
+  const response = await httpService.get(LOCATION.PROVINCE)
+  return httpService.handleResponseStatus(response)
 }
 
-const findAllDistrict = () => {
+const findAllDistrict = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(LOCATION.DISTRICT)
+  const response = await httpService.get(LOCATION.DISTRICT)
+  return httpService.handleResponseStatus(response)
 }
 
-const findAllDistrictByProvinceId = (provinceId: number) => {
+const findAllDistrictByProvinceId = async (provinceId: number) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(LOCATION.GET_ALL_COMMUNE_BY_PROVINCE_ID.replace('{provinceId}', provinceId.toString()))
+  const response = await httpService.get(LOCATION.GET_ALL_COMMUNE_BY_PROVINCE_ID.replace('{provinceId}', provinceId.toString()))
+  return httpService.handleResponseStatus(response)
 }
 
-const findAllCommune = () => {
+const findAllCommune = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(LOCATION.COMMUNE)
+  const response = await httpService.get(LOCATION.COMMUNE)
+  return httpService.handleResponseStatus(response)
 }
 
-const findAllCommuneByDistrictId = (districtId: number) => {
+const findAllCommuneByDistrictId = async (districtId: number) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(LOCATION.GET_ALL_COMMUNE_BY_DISTRICT_ID.replace('{districtId}', districtId.toString()))
+  const response = await httpService.get(LOCATION.GET_ALL_COMMUNE_BY_DISTRICT_ID.replace('{districtId}', districtId.toString()))
+  return httpService.handleResponseStatus(response)
 }
 
 const locationService = {

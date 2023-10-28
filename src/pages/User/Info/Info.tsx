@@ -8,6 +8,7 @@ import { CreateUserInfo, departmentService, roleService, siteService } from '~/s
 import Password from 'antd/es/input/Password'
 import { REGEX } from '~/constants'
 import { RoleDto } from '~/interface/Permission.ts'
+import moment from 'moment'
 
 interface CreateUserFormArgs {
   user?: UserDto
@@ -41,6 +42,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
         password: '',
         cPassword: '',
         username: props.user.username,
+        roles: props.user.roles,
         phoneNumber: props.user.phoneNumber,
         email: props.user.email,
         enable: props.user.enable,
@@ -184,9 +186,9 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>
-              <Col span={7}>{props.user.createdOn}</Col>
+              <Col span={7}>{moment(props.user.createdOn).format('L')}</Col>
               <Col span={5}>{t('common.field.modification_date')}</Col>
-              <Col span={6}>{props.user.lastUpdatedOn}</Col>
+              <Col span={6}>{props.user.lastUpdatedOn ? moment(props.user.lastUpdatedOn).format('L') : null}</Col>
             </Row>
           </>
         }

@@ -1,18 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '~/redux'
-import { PageableResponse, UserDto } from '~/interface'
+import { PageableResponse, SiteDto } from '~/interface'
 import { siteService } from '~/service'
 
 const initialState = {
-  pageableResponse: {} as PageableResponse<UserDto>,
-  sites: [] as UserDto[],
-  siteSelected: {} as UserDto
+  pageableResponse: {} as PageableResponse<SiteDto>,
+  sites: [] as SiteDto[],
+  siteSelected: {} as SiteDto
 }
 
 export const filterSites = createAsyncThunk(
   'site/filter', (arg: any) => {
-    const { payload, isPageable, pageableRequest } = arg
-    return siteService.filter(payload, isPageable, pageableRequest)
+    const { filterPayload, isPageable, pageableRequest } = arg
+    return siteService.filter(filterPayload, isPageable, pageableRequest)
   }
 )
 

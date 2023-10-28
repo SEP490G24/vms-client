@@ -37,50 +37,58 @@ export interface RoomFilterPayload {
   keyword?: string
 }
 
-const findAll = () => {
+const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(ROOM.BASE_PATH)
+  const response = await httpService.get(ROOM.BASE_PATH)
+  return httpService.handleResponseStatus(response)
 }
 
-const findById = (id: string) => {
+const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(ROOM.BASE_PATH + `/${id}`)
+  const response = await httpService.get(ROOM.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const insert = (payload: CreateRoomInfo) => {
+const insert = async (payload: CreateRoomInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(ROOM.BASE_PATH, payload)
+  const response = await httpService.post(ROOM.BASE_PATH, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const update = (id: string, payload: UpdateRoomInfo) => {
+const update = async (id: string, payload: UpdateRoomInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(ROOM.BASE_PATH + `/${id}`, payload)
+  const response = await httpService.put(ROOM.BASE_PATH + `/${id}`, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const remove = (id: string) => {
+const remove = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.delete(ROOM.BASE_PATH + `/${id}`)
+  const response = await httpService.delete(ROOM.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const filter = (payload: RoomFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
+const filter = async (payload: RoomFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(ROOM.FILTER, payload, {
+  const response = await httpService.post(ROOM.FILTER, payload, {
     params: {
       isPageable,
       size: pageableRequest?.size,
       page: pageableRequest?.page
     }
   })
+  return httpService.handleResponseStatus(response)
 }
 
-const getRoomProfile = () => {
+const getRoomProfile = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(ROOM.MY_ROOM)
+  const response = await httpService.get(ROOM.MY_ROOM)
+  return httpService.handleResponseStatus(response)
 }
 
-const updateRoomProfile = (payload: any) => {
+const updateRoomProfile = async (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(ROOM.MY_ROOM, payload)
+  const response = await httpService.post(ROOM.MY_ROOM, payload)
+  return httpService.handleResponseStatus(response)
 }
 
 const roomService = {

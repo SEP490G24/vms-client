@@ -30,40 +30,46 @@ export interface TemplateFilterPayload {
   keyword?: string
 }
 
-const findAll = () => {
+const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(TEMPLATE.BASE_PATH)
+  const response = await httpService.get(TEMPLATE.BASE_PATH)
+  return httpService.handleResponseStatus(response)
 }
 
-const findById = (templatename: string) => {
+const findById = async (templatename: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(TEMPLATE.BASE_PATH + `/${templatename}`)
+  const response = await httpService.get(TEMPLATE.BASE_PATH + `/${templatename}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const insert = (payload: CreateTemplateInfo) => {
+const insert = async (payload: CreateTemplateInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(TEMPLATE.BASE_PATH, payload)
+  const response = await httpService.post(TEMPLATE.BASE_PATH, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const update = (templatename: string, payload: UpdateTemplateInfo) => {
+const update = async (templatename: string, payload: UpdateTemplateInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(TEMPLATE.BASE_PATH + `/${templatename}`, payload)
+  const response = await httpService.put(TEMPLATE.BASE_PATH + `/${templatename}`, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const remove = (templatename: string) => {
+const remove = async (templatename: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.delete(TEMPLATE.BASE_PATH + `/${templatename}`)
+  const response = await httpService.delete(TEMPLATE.BASE_PATH + `/${templatename}`)
+  return httpService.handleResponseStatus(response)
 }
 
-const filter = (payload: TemplateFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
+const filter = async (payload: TemplateFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(TEMPLATE.FILTER, payload, {
+  const response = await httpService.post(TEMPLATE.FILTER, payload, {
     params: {
       isPageable,
       size: pageableRequest?.size,
       page: pageableRequest?.page
     }
   })
+  return httpService.handleResponseStatus(response)
 }
 
 const templateService = {

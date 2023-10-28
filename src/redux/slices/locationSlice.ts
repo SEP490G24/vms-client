@@ -16,21 +16,28 @@ export const fetchProvince = createAsyncThunk(
 )
 
 export const fetchDistrict = createAsyncThunk(
-  'location/districts', () => {
-    return locationService.findAllDistrict()
+  'location/districts', (provinceId: number) => {
+    return locationService.findAllDistrictByProvinceId(provinceId)
   }
 )
 
 export const fetchCommune = createAsyncThunk(
-  'location/communes', () => {
-    return locationService.findAllCommune()
+  'location/communes', (districtId: number) => {
+    return locationService.findAllCommuneByDistrictId(districtId)
   }
 )
 
 const locationsSlice = createSlice({
   name: 'location',
   initialState,
-  reducers: {},
+  reducers: {
+    resetDistrict: (state) => {
+      state.districts = []
+    },
+    resetCommune: (state) => {
+      state.communes = []
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProvince.fulfilled, (state, action) => {
@@ -51,6 +58,6 @@ const locationsSlice = createSlice({
   }
 })
 
-export const {} = locationsSlice.actions
+export const { resetDistrict, resetCommune } = locationsSlice.actions
 export const locationsSelector = (state: RootState) => state.location
 export default locationsSlice.reducer

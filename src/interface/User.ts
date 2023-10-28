@@ -6,7 +6,7 @@ export interface UserDto {
   lastUpdatedOn?: string;
   username: string;
   openid?: string;
-  role?: string;
+  roles?: string[];
   firstName: string;
   lastName: string;
   avatar?: null;

@@ -11,8 +11,8 @@ const initialState = {
 
 export const filterUsers = createAsyncThunk(
   'user/filter', (arg: any) => {
-    const { payload, isPageable, pageableRequest } = arg
-    return userService.filter(payload, isPageable, pageableRequest)
+    const { filterPayload, isPageable, pageableRequest } = arg
+    return userService.filter(filterPayload, isPageable, pageableRequest)
   }
 )
 

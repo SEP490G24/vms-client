@@ -6,16 +6,9 @@ export interface DeviceDto {
   id: string;
   name: string;
   code?: string;
-  organizationId?: string;
-  phoneNumber?: string;
   enable?: boolean;
-  templateSiteMaps?: any;
-  pricePackageSiteMaps?: any;
-  district?: string;
-  province?: string;
-  ward?: string;
-  address?: string;
-  taxCode?: string;
+  siteId?: string;
+  siteName?: string;
   description?: string;
 }
 

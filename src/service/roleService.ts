@@ -20,39 +20,46 @@ interface UpdateRolePermissionPayload {
   state: boolean,
 }
 
-const getAll = () => {
+const getAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(ROLE.GET_ALL_ROLE)
+  let response = await httpService.get(ROLE.GET_ALL_ROLE)
+  return httpService.handleResponseStatus(response)
 }
 
-const getById = (id: string) => {
+const getById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(ROLE.GET_BY_ID_ROLE.replace('{id}', id))
+  let response = await httpService.get(ROLE.GET_BY_ID_ROLE.replace('{id}', id))
+  return httpService.handleResponseStatus(response)
 }
 
-const filter = (payload: any) => {
+const filter = async (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(ROLE.FILTER_ROLE, payload)
+  let response = await httpService.post(ROLE.FILTER_ROLE, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const create = (payload: CreateRolePayload) => {
+const create = async (payload: CreateRolePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(ROLE.CREATE_ROLE, payload)
+  let response = await httpService.post(ROLE.CREATE_ROLE, payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const update = (id: string, payload: UpdateRolePayload) => {
+const update = async (id: string, payload: UpdateRolePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(ROLE.UPDATE_ROLE.replace('{id}', id), payload)
+  let response = await httpService.put(ROLE.UPDATE_ROLE.replace('{id}', id), payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const updatePermission = (id: string, payload: UpdateRolePermissionPayload) => {
+const updatePermission = async (id: string, payload: UpdateRolePermissionPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(ROLE.UPDATE_PERMISSION_ROLE.replace('{id}', id), payload)
+  const response = await httpService.put(ROLE.UPDATE_PERMISSION_ROLE.replace('{id}', id), payload)
+  return httpService.handleResponseStatus(response)
 }
 
-const deleteById = (id: string) => {
+const deleteById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.delete(ROLE.DELETE_ROLE.replace('{id}', id))
+  const response = await httpService.delete(ROLE.DELETE_ROLE.replace('{id}', id))
+  return httpService.handleResponseStatus(response)
 }
 
 const roleService = {

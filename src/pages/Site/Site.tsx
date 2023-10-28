@@ -5,7 +5,7 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { PageableResponse, SiteDto } from '~/interface'
+import { SiteDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { checkPermission } from '~/utils'
 import { SiteInfo } from './Info'
@@ -13,12 +13,18 @@ import { SiteFilter } from './Filter'
 import { SiteTable } from './Table'
 import { SiteFilterPayload, siteService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
+import { useAppDispatch } from '~/redux'
+import { useSelector } from 'react-redux'
+import { filterSites, setSiteSelected, sitesSelector } from '~/redux/slices/siteSlice.ts'
 
 const Site = () => {
   const { t } = useTranslation()
-  const [pageableResponse, setPageableResponse] = useState<PageableResponse<SiteDto>>()
+
+  const dispatch = useAppDispatch()
+
+  const { pageableResponse, siteSelected } = useSelector(sitesSelector)
+
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [site, setSite] = useState<SiteDto>()
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [filterPayload, setFilterPayload] = useState<SiteFilterPayload>({})
@@ -26,9 +32,14 @@ const Site = () => {
 
 
   useEffect(() => {
-    siteService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-      setPageableResponse(response?.data)
-    })
+    dispatch(filterSites({
+      filterPayload,
+      isPageable: true,
+      pageableRequest: { page: currentPage - 1, size: 10 }
+    }) as any)
+    // siteService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
+    //   setPageableResponse(response?.data)
+    // })
   }, [filterPayload, currentPage])
 
   const onFilter = (filterPayload: SiteFilterPayload) => {
@@ -38,17 +49,18 @@ const Site = () => {
 
   const onSave = (payload: any) => {
     setConfirmLoading(true)
-    let request = !!site ? siteService.update(site.id, payload) : siteService.insert(payload)
+    let request = !!siteSelected ? siteService.update(siteSelected.id, payload) : siteService.insert(payload)
     request
       .then(async (res: any) => {
-        console.log('res', res)
         if (res?.status === 200) {
           setOpenModal(false)
           setConfirmLoading(false)
-          setSite(undefined)
-          siteService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-            setPageableResponse(response?.data)
-          })
+          dispatch(setSiteSelected({}))
+          dispatch(filterSites({
+            filterPayload,
+            isPageable: true,
+            pageableRequest: { page: currentPage - 1, size: 10 }
+          }) as any)
           await message.success(t('common.message.success.save'))
         } else {
           await message.error(t('common.message.error.save'))
@@ -60,12 +72,12 @@ const Site = () => {
   }
 
   const openEdit = (siteDto: SiteDto) => {
-    setSite(siteDto)
+    dispatch(setSiteSelected(siteDto))
     setOpenModal(true)
   }
 
   const onClose = () => {
-    setSite(undefined)
+    dispatch(setSiteSelected({}))
     setOpenModal(false)
   }
 
@@ -121,7 +133,7 @@ const Site = () => {
                 width={650}
                 onCancel={onClose}
               >
-                <SiteInfo onClose={onClose} site={site} onSave={onSave} />
+                <SiteInfo onClose={onClose} onSave={onSave} />
               </Modal>
             )}
           </Row>

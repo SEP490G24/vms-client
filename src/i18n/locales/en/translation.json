@@ -84,6 +84,7 @@
       "site": "Please select a site",
       "province": "Please select a province",
       "district": "Please select a district",
+      "commune": "Please select a commune",
       "ward": "Please enter a ward",
       "taxCode": "Please enter a tax code",
       "description": "Description",

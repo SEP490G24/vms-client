@@ -84,6 +84,6 @@ export const LOCATION = {
   DISTRICT: `${VITE_API_SERVER_URL}/location/district`,
   PROVINCE: `${VITE_API_SERVER_URL}/location/province`,
   COMMUNE: `${VITE_API_SERVER_URL}/location/commune`,
-  GET_ALL_COMMUNE_BY_PROVINCE_ID: `${VITE_API_SERVER_URL}/location/district/{provinceId}`,
-  GET_ALL_COMMUNE_BY_DISTRICT_ID: `${VITE_API_SERVER_URL}/location/commune/{districtId}`
+  GET_ALL_COMMUNE_BY_PROVINCE_ID: `${VITE_API_SERVER_URL}/location/district/province/{provinceId}`,
+  GET_ALL_COMMUNE_BY_DISTRICT_ID: `${VITE_API_SERVER_URL}/location/commune/district/{districtId}`
 }

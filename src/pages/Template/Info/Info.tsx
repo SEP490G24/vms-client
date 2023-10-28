@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { CreateTemplateInfo, departmentService, siteService } from '~/service'
 import Password from 'antd/es/input/Password'
 import { REGEX } from '~/constants'
+import { SharedTextArea } from '~/common/SharedTextArea'
 
 interface CreateTemplateFormArgs {
   template?: TemplateDto
@@ -30,16 +31,16 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
   useEffect(() => {
     if (props.template) {
       form.setFieldsValue({
-        firstName: props.template.firstName,
-        lastName: props.template.lastName,
-        password: '',
-        cPassword: '',
-        phoneNumber: props.template.phoneNumber,
-        email: props.template.email,
+        name: props.template.name,
+        code: props.template.code,
+        subject: props.template.subject,
+        type: props.template.type,
         enable: props.template.enable,
-        countryCode: props.template.countryCode,
-        gender: props.template.gender,
-        departmentId: props.template.departmentId
+        body: props.template.body,
+        description: props.template.description,
+        departmentId: props.template.departmentId,
+        createdOn: props.template.createdOn,
+        lastUpdatedOn:props.template.createdOn
       })
     }
   }, [props.template])
@@ -93,98 +94,46 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
         onFinish={onFinish}
         labelAlign='left'
       >
-        <Form.Item className={'mb-3'} label={t('common.field.name')}>
-          <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>
-            <Form.Item style={{ marginBottom: 'unset' }} name='firstName' rules={[{ required: true }]}>
-              <SharedInput disabled={!!props.template}
-                           placeholder={t('common.placeholder.first_name')}></SharedInput>
-            </Form.Item>
-            <Form.Item style={{ marginBottom: 'unset' }} name='lastName' rules={[{ required: true }]}>
-              <SharedInput disabled={!!props.template}
-                           placeholder={t('common.placeholder.last_name')}></SharedInput>
-            </Form.Item>
-          </Space>
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.templatename')} name='templatename'
+        <Form.Item className={'mb-3'} label={t('common.field.code')} name='code'
                    rules={[{ required: true }]}>
-          <SharedInput disabled={!!props.template} placeholder={t('common.placeholder.templatename')} />
+          <SharedInput disabled={!!props.template} placeholder={t('common.placeholder.code')} />
         </Form.Item>
-        {!props.template &&
-          <>
-            <Form.Item className={'mb-3'} label={t('common.field.password')} name='password'
-                       rules={[{ required: !props.template }]}>
-              <Password placeholder={t('common.placeholder.password')} rootClassName='vms-input' />
-            </Form.Item>
-            <Form.Item className={'mb-3'} label={t('common.field.verify_password')}
-                       name='cPassword' rules={[{ required: !props.template },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve()
-                  }
-                  return Promise.reject(new Error('The new password that you entered do not match!'))
-                }
-              })]}>
-              <Password placeholder={t('common.placeholder.verify_password')} rootClassName='vms-input' />
-            </Form.Item>
-          </>
-        }
-        <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')}>
-          <SharedPhoneNumber
-            defaultValue={{
-              countryCode: props.template?.countryCode as any,
-              phone: props.template?.phoneNumber as any
-            }}
-            onChangeCode={onCountryCodeChange}
-            onChangePhone={onPhoneNumberChange} />
+        <Form.Item className={'mb-3'} label={t('common.field.name')} name='name' rules={[{ required: true }]}>
+              <SharedInput placeholder={t('common.placeholder.template_name')}></SharedInput>
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.email')} name='email'
-                   rules={[{ required: true }, { pattern: REGEX.EMAIL, message: t('common.error.email_valid') }]}>
-          <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')} />
+        <Form.Item className={'mb-3'} label={t('common.field.type')} name='type' rules={[{ required: true}]}>
+          <SharedSelect options={[{ label: 'EMAIL', value: 'EMAIL' }, { label: 'SMS', value: 'SMS' },]} placeholder={t('common.placeholder.type')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.gender')} name={'gender'}>
-          <SharedSelect options={[{ label: 'MALE', value: 'MALE' }, { label: 'FEMALE', value: 'FEMALE' }, {
-            label: 'OTHER',
-            value: 'OTHER'
-          }]} placeholder={t('common.placeholder.gender')} />
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.department')} name='department'>
-          <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>
-            <Form.Item style={{ marginBottom: 'unset' }} name='siteId' rules={[{ required: true }]}>
-              <SharedSelect options={sites.map((site) => {
-                return { label: site.name, value: site.id, key: site.id }
-              }) ?? []}
-                            onChange={fetchDepartment}
-                            placeholder={t('common.placeholder.site')}></SharedSelect>
-            </Form.Item>
-            <Form.Item style={{ marginBottom: 'unset' }} name='departmentId' rules={[{ required: true }]}>
-              <SharedSelect options={departments.map((department) => {
-                return { label: department.name, value: department.id, key: department.id }
-              }) ?? []}
-                            placeholder={t('common.placeholder.department')}></SharedSelect>
-            </Form.Item>
-          </Space>
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
+        <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
                    rules={[{ required: true }]}>
           <Radio.Group name='enable'>
             <Space>
-              <Radio value={true}>{t('common.label.use')}</Radio>
-              <Radio value={false}>{t('common.label.not_use')}</Radio>
+              <Radio value={true}>{t('common.label.enable')}</Radio>
+              <Radio value={false}>{t('common.label.disable')}</Radio>
             </Space>
           </Radio.Group>
         </Form.Item>
-        {!!props.template &&
-          <>
-            <Divider style={{ margin: '10px 0' }} />
-            <Row>
-              <Col span={6}>{t('common.field.registration_date')}</Col>
-              <Col span={7}>{props.template.createdOn}</Col>
-              <Col span={5}>{t('common.field.modification_date')}</Col>
-              <Col span={6}>{props.template.lastUpdatedOn}</Col>
-            </Row>
-          </>
-        }
+        <Form.Item className={'mb-3'} label={t('common.field.subject')} name='subject'
+                   rules={[{ required: true }]}>
+          <SharedInput placeholder={t('common.placeholder.subject')} />
+        </Form.Item>
+        <Form.Item className='mb-3' label={t('common.field.body')} name='body' rules={[{required: true}]}>
+          <SharedTextArea></SharedTextArea>
+        </Form.Item>
+        <Form.Item className='mb-3' label={t('common.field.description')} name='description' rules={[{required: true}]}>
+          <SharedInput placeholder={t('common.placeholder.description')}></SharedInput>
+        </Form.Item>
+        {/*{!!props.template &&*/}
+        {/*  <>*/}
+        {/*    <Divider style={{ margin: '10px 0' }} />*/}
+        {/*    <Row>*/}
+        {/*      <Col span={6}>{t('common.field.registration_date')}</Col>*/}
+        {/*      <Col span={7}>{props.template.createdOn}</Col>*/}
+        {/*      <Col span={5}>{t('common.field.modification_date')}</Col>*/}
+        {/*      <Col span={6}>{props.template.lastUpdatedOn}</Col>*/}
+        {/*    </Row>*/}
+        {/*  </>*/}
+        {/*}*/}
       </Form>
     </InfoWrapper>
   )

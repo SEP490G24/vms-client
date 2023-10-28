@@ -44,6 +44,8 @@
       "room": "Room",
       "device": "Device",
       "contact_number": "Contact number",
+      "subject": "Subject",
+      "body": "Body",
       "site": {
         "name": "Site"
       },
@@ -86,7 +88,11 @@
       "taxCode": "Please enter a tax code",
       "description": "Description",
       "site_name": "Please enter site name",
-      "department_name": "Please enter department name"
+      "department_name": "Please enter department name",
+      "template_name": "Please enter template name",
+      "subject": "Please enter subject",
+      "type": "Choose type",
+      "body": "Enter body"
     },
     "error": {
       "email_valid": "Email is not valid",

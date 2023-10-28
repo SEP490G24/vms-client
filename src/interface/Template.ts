@@ -1,24 +1,16 @@
 export interface TemplateDto {
-  departmentId: string;
+  id: string;
+  name: string;
   createdBy?: string;
   createdOn?: string;
   lastUpdatedBy?: string;
   lastUpdatedOn?: string;
-  username: string;
-  openid?: string;
-  role?: string;
-  firstName: string;
-  lastName: string;
-  avatar?: null;
-  email?: string;
-  phoneNumber?: string;
+  code: string;
+  subject?: string;
+  body?: string;
+  type: string;
+  description: string;
   enable?: boolean;
-  gender?: null;
-  dateOfBirth?: null;
-  lastLoginTime?: null;
-  departmentUserMaps?: any;
-  id: string;
-  countryCode?: string
 }
 
 

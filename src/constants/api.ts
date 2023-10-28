@@ -63,19 +63,27 @@ export const MODULE_PERMISSION = {
 }
 
 export const SETTING_GROUP = {
-  BASE_PATH: `${VITE_API_SERVER_URL}/settingGroup`,
+  BASE_PATH: `${VITE_API_SERVER_URL}/settingGroup`
 }
 
 export const SETTING_SITE = {
   BASE_PATH: `${VITE_API_SERVER_URL}/settingSiteMap`,
-  FIND_ALL_BY_SITE_ID_AND_GROUP_ID: `${VITE_API_SERVER_URL}/settingSiteMap/site/{siteId}/group/{settingGroupId}`,
+  FIND_ALL_BY_SITE_ID_AND_GROUP_ID: `${VITE_API_SERVER_URL}/settingSiteMap/site/{siteId}/group/{settingGroupId}`
 }
 
 export const SETTING = {
-  BASE_PATH: `${VITE_API_SERVER_URL}/setting`,
+  BASE_PATH: `${VITE_API_SERVER_URL}/setting`
 }
 
 export const KEYCLOAK = {
   SYNC_ALL: `${VITE_API_SERVER_URL}/keycloak/sync`,
-  SYNC_WITH_CLIENT: `${VITE_API_SERVER_URL}/keycloak/sync/{clientId}`,
+  SYNC_WITH_CLIENT: `${VITE_API_SERVER_URL}/keycloak/sync/{clientId}`
+}
+
+export const LOCATION = {
+  DISTRICT: `${VITE_API_SERVER_URL}/location/district`,
+  PROVINCE: `${VITE_API_SERVER_URL}/location/province`,
+  COMMUNE: `${VITE_API_SERVER_URL}/location/commune`,
+  GET_ALL_COMMUNE_BY_PROVINCE_ID: `${VITE_API_SERVER_URL}/location/district/{provinceId}`,
+  GET_ALL_COMMUNE_BY_DISTRICT_ID: `${VITE_API_SERVER_URL}/location/commune/{districtId}`
 }

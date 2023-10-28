@@ -23,13 +23,11 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
   const [communes, setCommunes] = useState<Commune[]>()
 
   useEffect(() => {
-    const _provinceId = Data.PROVINCE.find((province) => province.name === provinceSelected)?.id
-    setDistricts(Data.DISTRICT.filter((district) => district.provinceId == _provinceId))
+    setDistricts(Data.DISTRICT.filter((district) => district.provinceId == provinceSelected))
   }, [provinceSelected])
 
   useEffect(() => {
-    const _districtId = Data.DISTRICT.find((district) => district.name === districtSelected)?.id
-    setCommunes(Data.COMMUNE.filter((commune) => commune.districtId == _districtId))
+    setCommunes(Data.COMMUNE.filter((commune) => commune.districtId == districtSelected))
   }, [districtSelected])
 
   useEffect(() => {
@@ -37,9 +35,9 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
       form.setFieldsValue({
         name: props.site.name,
         phoneNumber: props.site.phoneNumber,
-        province: props.site.province,
-        district: props.site.district,
-        ward: props.site.ward,
+        provinceId: props.site.provinceId,
+        districtId: props.site.districtId,
+        communeId: props.site.communeId,
         address: props.site.address,
         taxCode: props.site.taxCode,
         description: props.site.description,
@@ -47,10 +45,6 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
       })
     }
   }, [props.site])
-
-  const onFinish = (values: any) => {
-    props.onSave(values)
-  }
 
   const onClose = () => {
     props.onClose()
@@ -71,7 +65,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         initialValues={{ layout: 'horizontal' }}
         style={{ width: '100%' }}
         colon={false}
-        onFinish={onFinish}
+        onFinish={props.onSave}
         labelAlign='left'
       >
         <Form.Item className={'mb-3'} label={t('common.field.name')} name='name'
@@ -85,7 +79,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'
                    rules={[{ required: true }]}>
           <SharedSelect options={Data.PROVINCE.map((province) => {
-            return { label: province.name, value: province.name, key: province.id }
+            return { label: province.name, value: province.id, key: province.id }
           })}
                         onChange={setProvinceSelected}
                         placeholder={t('common.placeholder.province')} />
@@ -93,7 +87,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         <Form.Item className={'mb-3'} label={t('common.field.district')} name='districtName'
                    rules={[{ required: true }]}>
           <SharedSelect options={districts?.map((district) => {
-            return { label: district.name, value: district.name, key: district.id }
+            return { label: district.name, value: district.id, key: district.id }
           }) ?? []}
                         onChange={setDistrictSelected}
                         placeholder={t('common.placeholder.district')} />

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { EVENTS } from '~/data/event.ts'
 import { Scheduler } from '@aldabil/react-scheduler'
+import { MeetingInfo } from '~/pages/Meeting/common/MeetingInfo'
 
 
 const MeetingCalendar = () => {
@@ -19,29 +20,14 @@ const MeetingCalendar = () => {
         {/*{checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (*/}
         <Card>
           <Scheduler
+            fields={[{ name: 'id', type: 'input' }]}
+            dialogMaxWidth={'xl'}
+            customEditor={(scheduler) => <MeetingInfo classname={'w-[650px]'} scheduler={scheduler} />}
             events={EVENTS}
           /></Card>
-          {/*<Row gutter={24} wrap={false}>*/}
-          {/*  <Col flex={'auto'}>*/}
-          {/*    </Card>*/}
-          {/*  </Col>*/}
-          {/*<Col flex={'none'} style={{ width: 550 }}>*/}
-          {/*  <Card className={'w-full'} bodyStyle={{ padding: '24px 0' }}>*/}
-          {/*    <PerfectScrollbar className={'w-full px-6 max-h-[792px]'}>*/}
-          {/*      <Space className={'w-full'} align={'center'} direction={'vertical'} size={24}*/}
-          {/*             classNames={{ item: 'w-full flex-1' }}>*/}
-          {/*        {[...Array(10)].map((_, i) => (*/}
-          {/*          */}
-          {/*        ))}*/}
-          {/*      </Space>*/}
-          {/*    </PerfectScrollbar>*/}
-          {/*  </Card>*/}
-          {/*</Col>*/}
-          {/*</Row>*/}
-          {/*)}*/}
       </Space>
     </MeetingCalendarWrapper>
-)
+  )
 }
 
 export default MeetingCalendar

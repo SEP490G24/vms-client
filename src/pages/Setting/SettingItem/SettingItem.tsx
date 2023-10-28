@@ -11,7 +11,7 @@ interface PageTitleProps {
   onSaveSetting: (value: string) => void
 }
 
-export const ConfigurationItem: React.FC<PageTitleProps> = React.memo((props) => {
+export const SettingItem: React.FC<PageTitleProps> = React.memo((props) => {
 
   const [value, setValue] = useState<string>('')
 
@@ -47,8 +47,8 @@ export const ConfigurationItem: React.FC<PageTitleProps> = React.memo((props) =>
 
   return (
     <Space className={'w-full'} direction={'vertical'}>
-      <Title level={5} className={'mb-0'}>{props.setting.name} </Title>
-      <span className={'text-muted'}>Description</span>
+      <Title level={5} className={'mb-0'}>{props.setting.name}</Title>
+      <span className={'text-muted'}>{props.setting.description}</span>
       <Row gutter={32}>
         <Col flex={1}>{settingField(props.setting.type)}</Col>
         <Col><SharedButton type={'primary'} onClick={save}>Save</SharedButton></Col>

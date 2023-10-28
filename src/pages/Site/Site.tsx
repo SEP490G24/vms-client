@@ -1,6 +1,6 @@
 import { SiteWrapper } from './styles.ts'
 
-import { Card, Col, Divider, message, Row, Space } from 'antd'
+import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
 import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +12,7 @@ import { SiteInfo } from './Info'
 import { SiteFilter } from './Filter'
 import { SiteTable } from './Table'
 import { SiteFilterPayload, siteService } from '~/service'
+import { FilterValue } from 'antd/es/table/interface'
 
 const Site = () => {
   const { t } = useTranslation()
@@ -68,8 +69,10 @@ const Site = () => {
     setOpenModal(false)
   }
 
-  // const exportData = async () => {
-  // }
+  const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
+    setCurrentPage(pagination.current ?? 1)
+    console.log(pagination, filters, sorter)
+  }
 
 
   return (
@@ -103,7 +106,8 @@ const Site = () => {
                 </Space>
               </Space>}>
                 <Divider style={{ margin: '16px 0 0' }} />
-                <SiteTable pageableResponse={pageableResponse} currentPage={currentPage} setCurrentPage={setCurrentPage}
+                <SiteTable onChangeTable={handleChangeTable} pageableResponse={pageableResponse}
+                           currentPage={currentPage}
                            onEdit={openEdit} />
               </Card>
             </Col>

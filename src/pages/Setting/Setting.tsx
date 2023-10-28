@@ -1,13 +1,13 @@
-import { ConfigurationWrapper } from './styles.ts'
+import { SettingWrapper } from './styles.ts'
 import { Card, Col, Divider, Menu, message, Row, Space } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { ListView } from '~/components/ListView'
-import { ConfigurationItem } from '~/pages/Configuration/ConfigurationItem'
 import { useEffect, useState } from 'react'
 import { settingGroupService, settingService, settingSiteService, SITE_ID } from '~/service'
 import { SettingDto, SettingGroupDto, SettingSiteDto } from '~/interface/Setting.ts'
+import { SettingItem } from '~/pages/Setting/SettingItem'
 
-const Configuration = () => {
+const Setting = () => {
 
   const { t } = useTranslation()
   const [settingGroups, setSettingGroups] = useState<SettingGroupDto[]>([])
@@ -36,15 +36,15 @@ const Configuration = () => {
   }
 
   return (
-    <ConfigurationWrapper>
+    <SettingWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
         <Space>
           <h2>{t('configuration.title')}</h2>
           <Divider type='vertical' />
         </Space>
         <Row gutter={24} wrap={false}>
-          <Col flex={'none'} style={{ width: 450 }}>
-            <Card title={'Group Configuration'}>
+          <Col flex={'none'} span={12}>
+            <Card title={'Group Setting'}>
               <Menu className={'w-full'}
                     defaultSelectedKeys={['1']}
                     defaultOpenKeys={['sub1']}
@@ -57,9 +57,9 @@ const Configuration = () => {
             </Card>
           </Col>
           <Col flex={'auto'}>
-            <Card title={'Configuration'}>
+            <Card title={'Setting'}>
               <ListView className={'gap-4'}>
-                {settings.map((setting, index) => <ConfigurationItem key={index} setting={setting}
+                {settings.map((setting, index) => <SettingItem key={index} setting={setting}
                                                                      defaultValue={setting.defaultValue}
                                                                      value={settingSiteValues?.settings?.[setting.code]}
                                                                      onSaveSetting={(value) => handleSave(setting.id, value)}
@@ -69,8 +69,8 @@ const Configuration = () => {
           </Col>
         </Row>
       </Space>
-    </ConfigurationWrapper>
+    </SettingWrapper>
   )
 }
 
-export default Configuration
+export default Setting

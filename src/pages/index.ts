@@ -1,5 +1,5 @@
 export * from './Account'
-export * from './Configuration'
+export * from './Setting'
 export * from './Dashboard'
 export * from './DefaultPage'
 export * from './Department'

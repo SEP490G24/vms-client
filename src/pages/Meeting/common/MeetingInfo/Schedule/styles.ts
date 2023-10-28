@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
-export const FormDataWrapper = styled.div`
+export const ScheduleWrapper = styled.div`
   
 `
+

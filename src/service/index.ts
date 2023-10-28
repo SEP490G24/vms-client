@@ -13,6 +13,7 @@ export { default as permissionService } from './permissionService'
 export { default as settingGroupService } from './settingGroupService'
 export { default as settingSiteService } from './settingSiteService'
 export { default as settingService } from './settingService'
+export { default as locationService } from './locationService'
 
 export * from './departmentService'
 export * from './organizationService'

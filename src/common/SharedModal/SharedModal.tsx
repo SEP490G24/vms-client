@@ -6,6 +6,7 @@ import { SharedButton } from '~/common'
 import { useTranslation } from 'react-i18next'
 
 interface SharedModalProps {
+  className?: string;
   title?: string | React.ReactNode
   children: React.ReactNode
   labelCancel?: string | React.ReactNode
@@ -19,7 +20,7 @@ export const SharedModal: React.FC<SharedModalProps> = React.memo((props) => {
     const { t } = useTranslation()
 
     return (
-      <ModalWrapper>
+      <ModalWrapper className={props.className}>
         <ModalGlobalStyle />
         <Card
           title={props.title}

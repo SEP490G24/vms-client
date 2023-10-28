@@ -16,29 +16,31 @@ interface SharedSelectProps {
   showSearch?: boolean
   labelInValue?: boolean
   style?: any
-  mode?: any
+  mode?: 'multiple' | 'tags';
+  allowClear?: boolean
   onSelect?: any
   suffixIcon?: any
 }
 
 export const SharedSelect: React.FC<SharedSelectProps> = memo(
   ({
-    options,
-    onChange,
-    defaultValue,
-    className,
-    value,
-    placeholder,
-    filterOption,
-    onSearch,
-    notFoundContent,
-    showSearch,
-    labelInValue,
-    style,
-    mode,
-    onSelect,
-    suffixIcon,
-  }) => {
+     options,
+     onChange,
+     defaultValue,
+     className,
+     value,
+     placeholder,
+     filterOption,
+     onSearch,
+     notFoundContent,
+     showSearch,
+     labelInValue,
+     style,
+     allowClear,
+     mode,
+     onSelect,
+     suffixIcon
+   }) => {
     return (
       <Select
         className={className ? className + ' vms-select' : 'vms-select'}
@@ -52,11 +54,12 @@ export const SharedSelect: React.FC<SharedSelectProps> = memo(
         notFoundContent={notFoundContent}
         showSearch={showSearch}
         labelInValue={labelInValue}
+        allowClear={allowClear}
         style={style}
         mode={mode}
         onSelect={onSelect}
         suffixIcon={suffixIcon}
       />
     )
-  },
+  }
 )

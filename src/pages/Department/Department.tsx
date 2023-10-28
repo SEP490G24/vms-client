@@ -1,6 +1,6 @@
 import { DepartmentWrapper } from './styles.ts'
 
-import { Col, Divider, message, Row, Space } from 'antd'
+import { Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
 import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +12,7 @@ import { DepartmentInfo } from './Info'
 import { DepartmentFilter } from './Filter'
 import { DepartmentTable } from './Table'
 import { DepartmentFilterPayload, departmentService } from '~/service'
+import { FilterValue } from 'antd/es/table/interface'
 
 const Department = () => {
 
@@ -69,6 +70,11 @@ const Department = () => {
     setOpenModal(false)
   }
 
+  const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
+    setCurrentPage(pagination.current ?? 1)
+    console.log(pagination, filters, sorter)
+  }
+
   return (
     <DepartmentWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
@@ -100,8 +106,8 @@ const Department = () => {
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
-              <DepartmentTable pageableResponse={pageableResponse} currentPage={currentPage}
-                               setCurrentPage={setCurrentPage} onEdit={openEdit} />
+              <DepartmentTable onChangeTable={handleChangeTable} pageableResponse={pageableResponse}
+                               currentPage={currentPage} onEdit={openEdit} />
             </Col>
             {openModal && (
               <Modal

@@ -1,15 +1,15 @@
-import { Avatar, Card, Col, Form, FormInstance, Image, message, Row, Upload, UploadFile, UploadProps } from 'antd'
+import { Card, Col, Form, FormInstance, Image, message, Row, Upload, UploadFile, UploadProps } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { SharedButton, SharedInput } from '~/common'
+import { SharedAvatar, SharedButton, SharedInput } from '~/common'
 import { OrganizationEntity } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { baseUploadTemplate, toBase64 } from '~/utils'
 import { checkPermission } from '~/utils/common'
 import { organizationService } from '~/service'
-import { EditCircleTwoTone, ImageOutlined } from '~/icon'
+import { ImageOutlined } from '~/icon'
 import { OrganizationWrapper } from './styles'
 
 const Organization = () => {
@@ -38,7 +38,7 @@ const Organization = () => {
       businessRegistrationNumber: organization?.businessRegistrationNumber,
       businessLicenseFile: organization?.businessLicenseFile,
       about: organization?.about,
-      contactInfo: organization?.contactInfo,
+      contactInfo: organization?.contactInfo
     })
     !!organization?.businessLicenseFile && setLicense(baseUploadTemplate(organization.businessLicenseFile))
   }, [organization])
@@ -104,20 +104,7 @@ const Organization = () => {
               >
                 <Row align='top'>
                   <Col span={3}>
-                    <div className={'w-[96px] relative'}>
-                      {logo ? <Avatar style={{ border: '1px solid #ccc' }} src={logo.url} size={96}>A</Avatar> :
-                        <Avatar style={{ backgroundColor: '#002484', verticalAlign: 'middle' }}
-                                size={96}>{organization?.name}</Avatar>}
-                      <Upload
-                        accept='image/png, image/jpeg'
-                        maxCount={1}
-                        showUploadList={false}
-                        onChange={onChaneLogo}
-                        beforeUpload={() => false}
-                      >
-                        <EditCircleTwoTone className={'btn-edit-icon'}></EditCircleTwoTone>
-                      </Upload>
-                    </div>
+                    <SharedAvatar url={logo?.url} name={organization?.name} onChange={onChaneLogo} />
                   </Col>
                   <Col span={15}>
                     <Form

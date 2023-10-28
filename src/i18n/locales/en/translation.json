@@ -5,6 +5,7 @@
       "id": "ID",
       "username": "Username",
       "gender": "Gender",
+      "roles": "Roles",
       "dob": "Birthday",
       "user": "User",
       "first_name": "First name",
@@ -36,17 +37,19 @@
       "department": "Department",
       "province": "Province",
       "district": "District",
+      "commune": "Commune",
       "ward": "Ward",
       "taxCode": "Tax Code",
       "description": "Description",
       "room": "Room",
       "device": "Device",
+      "contact_number": "Contact number",
       "site": {
         "name": "Site"
       },
       "status_": {
-        "enable" : "Enable",
-        "disable" : "Disable"
+        "enable": "Enable",
+        "disable": "Disable"
       }
     },
     "placeholder": {
@@ -56,6 +59,7 @@
       "username": "Please enter the username",
       "password": "Please enter a password",
       "email": "Please enter a email address",
+      "roles": "Please select roles",
       "verify_password": "Please enter verify password",
       "dob": "Please select a birthday",
       "gender": "Please select a gender",
@@ -81,7 +85,8 @@
       "ward": "Please enter a ward",
       "taxCode": "Please enter a tax code",
       "description": "Description",
-      "site_name": "Please enter site name"
+      "site_name": "Please enter site name",
+      "department_name": "Please enter department name"
     },
     "error": {
       "email_valid": "Email is not valid",

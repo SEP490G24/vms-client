@@ -1,5 +1,5 @@
 import { Button, Popover } from 'antd'
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import { ButtonType } from 'antd/es/button'
 import { RenderFunction } from 'antd/es/_util/getRenderPropValue'
 import authService from '~/service/authService.ts'
@@ -16,8 +16,9 @@ interface SharedButtonProps {
   tooltipArrow?: boolean
   tooltipContent?: React.ReactNode | RenderFunction
   tooltipPlacement?: 'top' | 'left' | 'right' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom'
-  type?:  ButtonType
+  type?: ButtonType
   onClick?: () => void
+  style?: CSSProperties | undefined;
   permissions?: string[]
 }
 
@@ -26,9 +27,10 @@ export const SharedButton: React.FC<SharedButtonProps> = React.memo((props) => {
     (!props.permissions || authService.hasRole(props.permissions)) ?
       <Button
         block={props.block}
+        style={props.style}
         className={props.className}
         disabled={props.disabled}
-        htmlType={ props.htmlType }
+        htmlType={props.htmlType}
         icon={props.icon}
         onClick={props.onClick}
         shape={props.shape}
@@ -49,8 +51,9 @@ export const SharedButtonWithTooltip: React.FC<SharedButtonProps> = React.memo((
         >
           <Button
             block={props.block}
+            style={props.style}
             className={props.className}
-            htmlType={ props.htmlType }
+            htmlType={props.htmlType}
             icon={props.icon}
             onClick={props.onClick}
             shape={props.shape}

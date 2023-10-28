@@ -6,26 +6,40 @@ import thunk from 'redux-thunk'
 
 import authReducer from './slices/authSlice'
 import themeReducer from './slices/themeSlice'
+import userReduce from './slices/userSlice'
+import organizationReduce from './slices/organizationSlice'
+import siteReduce from './slices/siteSlice'
+import departmentReduce from './slices/departmentSlice'
+import roomReduce from './slices/roomSlice'
+import locationReduce from './slices/locationSlice'
+import settingReduce from './slices/settingSlice'
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'theme'],
+  whitelist: ['auth', 'theme']
 }
 
 const rootReducer = combineReducers({
   auth: authReducer,
   themeMode: themeReducer,
+  user: userReduce,
+  organization: organizationReduce,
+  site: siteReduce,
+  department: departmentReduce,
+  room: roomReduce,
+  location: locationReduce,
+  setting: settingReduce
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: [thunk],
+  middleware: [thunk]
 })
 
-export const persistor = persistStore(store)
+export const persist = persistStore(store)
 
 export type RootState = ReturnType<typeof store.getState>
 

@@ -1,14 +1,16 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { PageableResponse, SiteDto, UserDto } from '~/interface'
+import { PageableResponse, SiteDto } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
-import { Table } from 'antd'
+import { Space, Table, TablePaginationConfig } from 'antd'
+import { SharedStatus } from '~/common'
+import { FilterValue } from 'antd/es/table/interface'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<SiteDto>
+  onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
   currentPage: number
-  setCurrentPage: (value: number) => void
   onEdit: (value: SiteDto) => void
 }
 
@@ -19,39 +21,47 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
   return (
     <Table
       dataSource={props.pageableResponse?.content}
-      rowKey='sitename'
+      rowKey='id'
       pagination={{
         current: props.currentPage,
         total: props.pageableResponse?.totalElements as number,
-        onChange: props.setCurrentPage,
         pageSize: props.pageableResponse?.pageable?.pageSize as number,
         showSizeChanger: false,
         position: ['bottomCenter']
       }}
+      onChange={props.onChangeTable}
       className='vms-table no-bg'
-      scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
       size='middle'
     >
       <Column
         title={t('common.field.site.name')}
+        sorter={true}
         render={(value: SiteDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
-      <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' />
-      <Column title={t('common.field.province')} dataIndex='provinceName' key='provinceName' />
-      <Column title={t('common.field.district')} dataIndex='districtName' key='districtName' />
-      <Column title={t('common.field.ward')} dataIndex='wardName' key='wardName' />
+      <Column title={t('common.field.contact_number')} sorter={true} dataIndex='phoneNumber' key='phoneNumber' />
+      <Column title={t('common.field.province')}
+              render={(site: SiteDto) => site.provinceName ? <Space direction={'vertical'}>
+                <strong>{site.provinceName}</strong>
+                <span>{site.districtName} - {site.communeName}</span>
+              </Space> : null}
+      />
+      <Column title={t('common.field.address')} dataIndex='address' key='address' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'
         key='enable'
-        render={(enable) =>
-          enable ? t('common.label.enable') : t('common.label.disable')
-        }
+        filters={[
+          { text: t('common.label.enable'), value: true },
+          { text: t('common.label.disable'), value: false }
+        ]}
+        sorter={true}
+        filterMultiple={false}
+        render={(enable) => <SharedStatus status={enable} />}
       />
-      <Column title={t('common.field.registration_date')} key='createdOn'
-              render={(value: UserDto) => moment(value.createdOn).format('L')} />
-      <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
-              render={(value: UserDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />
+      <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
+              render={(value: SiteDto) => moment(value.createdOn).format('L')} />
+      <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
+              render={(value: SiteDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : null} />
     </Table>
   )
 }

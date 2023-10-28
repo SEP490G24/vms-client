@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ConfigurationWrapper = styled.div`
+export const SettingWrapper = styled.div`
   .ant-menu-inline {
     border-inline-end: unset !important;
 

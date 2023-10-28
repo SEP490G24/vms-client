@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { DateRangeWrapper } from './styles'
 
-import { DatePicker, DatePickerProps, Space } from 'antd'
+import { Col, DatePicker, DatePickerProps, Row } from 'antd'
 import { RangePickerProps } from 'antd/es/date-picker'
+import { Dayjs } from 'dayjs'
 
 const { RangePicker } = DatePicker
-
-import { Dayjs } from 'dayjs'
 
 interface SharedDateRangeProps {
   format?: string
@@ -45,15 +44,19 @@ export const SharedDateRange: React.FC<SharedDateRangeProps> = React.memo(
     switch (theme) {
       case 'outline' :
         return (
-          <Space>
-            <DatePicker onChange={handleOnStartDateChange} format={dateFormat}
-              // @ts-ignore
-                        disabledDate={(picker: Dayjs) => picker && rangeValue[1] && picker > rangeValue[1].endOf('day')} />
-            <span>~</span>
-            <DatePicker onChange={handleOnEndDateChange} format={dateFormat}
-              // @ts-ignore
-                        disabledDate={(picker: Dayjs) => picker && rangeValue[0] && picker < rangeValue[0].endOf('day')} />
-          </Space>
+          <Row className={'w-full'} align={'middle'}>
+            <Col flex={1}>
+              <DatePicker className={'w-full'} onChange={handleOnStartDateChange} format={dateFormat}
+                // @ts-ignore
+                          disabledDate={(picker: Dayjs) => picker && rangeValue[1] && picker > rangeValue[1].endOf('day')} />
+            </Col>
+            <Col span={2}><span>~</span></Col>
+            <Col flex={1}>
+              <DatePicker className={'w-full'} onChange={handleOnEndDateChange} format={dateFormat}
+                // @ts-ignore
+                          disabledDate={(picker: Dayjs) => picker && rangeValue[0] && picker < rangeValue[0].endOf('day')} />
+            </Col>
+          </Row>
         )
       default:
       case 'inline':

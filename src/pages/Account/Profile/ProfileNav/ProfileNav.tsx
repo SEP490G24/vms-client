@@ -1,5 +1,5 @@
 import { ProfileNavWrapper } from './styles.ts'
-import { Avatar, Card, Menu, MenuProps, Space, Upload, UploadFile, UploadProps } from 'antd'
+import { Card, Menu, MenuProps, Space, UploadFile, UploadProps } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { CalendarOutlined, MailOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
@@ -8,7 +8,7 @@ import { authSelector, useAppSelector } from '~/redux'
 import { authService } from '~/service'
 import { useState } from 'react'
 import { toBase64 } from '~/utils'
-import { EditCircleTwoTone } from '~/icon'
+import { SharedAvatar } from '~/common'
 
 
 const ProfileNav = () => {
@@ -54,20 +54,7 @@ const ProfileNav = () => {
         <Space className={'w-full'} classNames={{ item: 'w-full' }} direction={'vertical'} align={'center'}
                size={32}>
           <Space className={'w-full'} direction={'vertical'} align={'center'} size={24}>
-            <div className={'relative'}>
-              {avatar ? <Avatar style={{ border: '1px solid #ccc' }} src={avatar.url} size={96}>A</Avatar> :
-                <Avatar style={{ backgroundColor: '#002484', verticalAlign: 'middle' }}
-                        size={96}>{userInfo.username}</Avatar>}
-              <Upload
-                accept='image/png, image/jpeg, application/pdf'
-                maxCount={1}
-                showUploadList={false}
-                onChange={onChange}
-                beforeUpload={() => false}
-              >
-                <EditCircleTwoTone className={'btn-edit-icon'}></EditCircleTwoTone>
-              </Upload>
-            </div>
+            <SharedAvatar url={avatar?.url} name={userInfo.username} onChange={onChange} />
             <Title level={2}>{userInfo.fullName}</Title>
             <Title level={4}>@{userInfo.username}</Title>
           </Space>

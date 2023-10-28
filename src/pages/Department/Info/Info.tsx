@@ -65,7 +65,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
                    rules={[{ required: true }]}>
-          <SharedInput disabled={!!props.department} placeholder={t('common.placeholder.name')} />
+          <SharedInput disabled={!!props.department} placeholder={t('common.placeholder.department_name')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
                    rules={[{ required: true }]}>

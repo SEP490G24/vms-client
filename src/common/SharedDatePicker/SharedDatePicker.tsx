@@ -4,7 +4,7 @@ import { DatePicker, Input } from 'antd'
 import { Dayjs } from 'dayjs'
 
 interface SharedDatePickerProps {
-  onChangeDate: (value: string) => void
+  onChangeDate?: (value: string) => void
   value?: any
   className?: string
   placeholder?: string
@@ -20,7 +20,7 @@ export const SharedDatePicker: React.FC<SharedDatePickerProps> = memo(
     const [valueDate, setValueDate] = useState(value)
 
     const handleChangeDate: DatePickerProps['onChange'] = (day, dateString) => {
-      onChangeDate(dateString)
+      onChangeDate && onChangeDate(dateString)
       setValueDate(day)
     }
 

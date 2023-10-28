@@ -13,7 +13,8 @@ export const EVENTS = [
     start: new Date(new Date(new Date().setHours(10)).setMinutes(0)),
     end: new Date(new Date(new Date().setHours(12)).setMinutes(0)),
     admin_id: 2,
-    color: "#50b500"
+    color: "#50b500",
+    id: 'abc'
   },
   {
     event_id: 3,

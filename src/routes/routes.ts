@@ -1,5 +1,5 @@
 import {
-  Configuration,
+  Setting,
   Dashboard,
   Department,
   History,
@@ -95,7 +95,7 @@ export const privateRoutes = [
   },
   {
     path: PATH_CONFIGURATION,
-    component: Configuration,
+    component: Setting,
     layout: null
   },
   {

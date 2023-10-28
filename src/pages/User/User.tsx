@@ -1,6 +1,5 @@
-import { Col, Divider, message, Row, Space, Spin, Table, TablePaginationConfig, Tag, Upload } from 'antd'
+import { Col, Divider, message, Row, Space, Spin, TablePaginationConfig, Upload } from 'antd'
 import Modal from 'antd/es/modal/Modal'
-import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
@@ -11,10 +10,10 @@ import { checkPermission } from '~/utils'
 import { UserInfo } from './Info'
 import { UserFilter } from './Filter'
 import { UserFilterPayload, userService } from '~/service'
-import moment from 'moment'
 import { FilterValue } from 'antd/es/table/interface'
 import { RcFile } from 'antd/es/upload'
 import { DownloadOutlined, UploadOutlined } from '@ant-design/icons'
+import { UserTable } from '~/pages/User/Table'
 
 const User = () => {
   const { t } = useTranslation()
@@ -22,7 +21,6 @@ const User = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [user, setUser] = useState<UserDto>()
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [filterPayload, setFilterPayload] = useState<UserFilterPayload>({})
   const [exportEx, setExportEx] = useState<boolean>(false)
 
@@ -39,14 +37,12 @@ const User = () => {
   }
 
   const onSave = (payload: any) => {
-    setConfirmLoading(true)
     let request = !!user ? userService.update(user.username, payload) : userService.insert(payload)
     request
       .then(async (res: any) => {
         console.log('res', res)
         if (res?.status === 200) {
           setOpenModal(false)
-          setConfirmLoading(false)
           setUser(undefined)
           userService.filter(filterPayload, true, { page: currentPage, size: 10 }).then((response) => {
             setPageableResponse(response?.data)
@@ -85,7 +81,8 @@ const User = () => {
     setExportEx(false)
   }
 
-  const handleChange = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
+  const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
+    setCurrentPage(pagination.current ?? 1)
     console.log(pagination, filters, sorter)
   }
 
@@ -137,50 +134,8 @@ const User = () => {
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
-              <Table
-                dataSource={pageableResponse?.content}
-                rowKey='username'
-                pagination={{
-                  current: currentPage,
-                  total: pageableResponse?.totalElements as number,
-                  onChange: setCurrentPage,
-                  pageSize: pageableResponse?.pageable?.pageSize as number,
-                  showSizeChanger: false,
-                  position: ['bottomCenter']
-                }}
-                onChange={handleChange}
-                className='vms-table no-bg'
-                scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
-                size='middle'
-              >
-                <Column
-                  title={t('common.field.user')}
-                  render={(value) => <a onClick={() => openEdit(value)}>{value.firstName + ' ' + value.lastName}</a>}
-                />
-                <Column title={t('common.field.username')} dataIndex='username' key='username' sorter={true} />
-                <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' />
-                <Column title={t('common.field.email')} dataIndex='email' key='email' />
-                <Column
-                  title={t('common.field.status')}
-                  dataIndex='enable'
-                  key='enable'
-                  filters={[
-                    { text: t('common.label.enable'), value: true },
-                    { text: t('common.label.disable'), value: false }
-                  ]}
-                  filterMultiple={false}
-                  render={(enable) =>
-                    enable ? <Tag color='#87d068'>{t('common.label.enable')}</Tag> :
-                      <Tag color='#f50'>{t('common.label.disable')}</Tag>
-                  }
-                />
-                <Column title={t('common.field.registration_date')} key='createdOn'
-                        render={(value: UserDto) => moment(value.createdOn).format('L')} />
-                <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
-                        render={(value: UserDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />
-                {/*<Column title={t('common.label.action')} fixed={'right'} key='action' width={70}*/}
-                {/*        render={() => <DeleteOutlined className={'text-[#f50]'}/>} />*/}
-              </Table>
+              <UserTable onChangeTable={handleChangeTable} pageableResponse={pageableResponse} currentPage={currentPage}
+                         onEdit={openEdit} />
             </Col>
             {openModal && (
               <Modal
@@ -188,8 +143,7 @@ const User = () => {
                 closable={false}
                 title={null}
                 footer={null}
-                confirmLoading={confirmLoading}
-                width={550}
+                width={650}
                 onCancel={onClose}
               >
                 <UserInfo onClose={onClose} user={user} onSave={onSave} />

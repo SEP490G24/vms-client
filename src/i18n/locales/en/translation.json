@@ -41,6 +41,8 @@
       "description": "Description",
       "room": "Room",
       "device": "Device",
+      "subject": "Subject",
+      "body": "Body",
       "site": {
         "name": "Site"
       },
@@ -67,7 +69,7 @@
       "confirm_password": "Please enter a confirm password",
       "organization": "Please enter within 20 characters",
       "representative_email": "Please enter your representative email",
-      "code": "Enter code here!",
+      "code": "Enter code here",
       "contact_person_in_charge": "Please enter without “-”",
       "contact_phone_number": "Enter your contact phone number here",
       "homepage_address": "Please enter the homepage URL.",
@@ -81,7 +83,11 @@
       "ward": "Please enter a ward",
       "taxCode": "Please enter a tax code",
       "description": "Description",
-      "site_name": "Please enter site name"
+      "site_name": "Please enter site name",
+      "template_name": "Please enter template name",
+      "subject": "Please enter subject",
+      "type": "Choose type",
+      "body": "Enter body"
     },
     "error": {
       "email_valid": "Email is not valid",

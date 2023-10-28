@@ -11,6 +11,7 @@ export interface CreateTemplateInfo {
   phoneNumber: string;
   email: string;
   enable: boolean;
+
 }
 
 export interface UpdateTemplateInfo {
@@ -65,43 +66,13 @@ const filter = (payload: TemplateFilterPayload, isPageable?: boolean, pageableRe
   })
 }
 
-const getTemplateProfile = () => {
-  httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.get(TEMPLATE.MY_TEMPLATE_PROFILE)
-}
-
-const updateTemplateProfile = (payload: UpdateTemplateInfo) => {
-  httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.put(TEMPLATE.MY_TEMPLATE_PROFILE, payload)
-}
-
-const changePassword = (payload: { oldPassword: string, newPassword: string }) => {
-  httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(TEMPLATE.CHANGE_PASSWORD, payload)
-}
-
-const importTemplate = (formData: FormData) => {
-  httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(TEMPLATE.IMPORT, formData)
-}
-
-const exportTemplate = (payload: TemplateFilterPayload) => {
-  httpService.attachTokenToHeader(authService.getToken() as string)
-  return httpService.post(TEMPLATE.EXPORT, payload, {responseType: 'blob'})
-}
-
 const templateService = {
   findAll,
   findById,
   insert,
   update,
   remove,
-  filter,
-  getTemplateProfile,
-  updateTemplateProfile,
-  changePassword,
-  importTemplate,
-  exportTemplate
+  filter
 }
 
 export default templateService

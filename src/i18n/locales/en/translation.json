@@ -93,7 +93,8 @@
       "template_name": "Please enter template name",
       "subject": "Please enter subject",
       "type": "Choose type",
-      "body": "Enter body"
+      "body": "Enter body",
+      "role_name": "Please enter role name"
     },
     "error": {
       "email_valid": "Email is not valid",
@@ -294,7 +295,11 @@
       }
     },
     "permission": {
-      "title": "Permission Management"
+      "title": "Permission Management",
+      "popup": {
+        "title-add": "Create new role",
+        "btn-save": "Save"
+      }
     }
   },
   "configuration": {

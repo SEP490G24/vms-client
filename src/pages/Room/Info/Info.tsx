@@ -1,4 +1,4 @@
-import { Form, Radio, Space } from 'antd'
+import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { RoomDto, SiteDto } from '~/interface'
 import { SharedInput, SharedSelect } from '~/common'
@@ -6,6 +6,7 @@ import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateRoomInfo, siteService } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
+import moment from 'moment'
 
 interface CreateRoomFormArgs {
   room?: RoomDto
@@ -76,15 +77,6 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
             placeholder={t('common.placeholder.site')}
           ></SharedSelect>
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.status')} name='enable'
-                   rules={[{ required: true }]}>
-          <Radio.Group name='enable'>
-            <Space>
-              <Radio value={true}>{t('common.field.status_.enable')}</Radio>
-              <Radio value={false}>{t('common.field.status_.disable')}</Radio>
-            </Space>
-          </Radio.Group>
-        </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
           <TextArea
             showCount
@@ -93,6 +85,26 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
             placeholder={t('common.placeholder.description')}
           />
         </Form.Item>
+        {!!props.room &&
+          <>
+            <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
+                       rules={[{ required: true }]}>
+              <Radio.Group name='enable'>
+                <Space>
+                  <Radio value={true}>{t('common.label.use')}</Radio>
+                  <Radio value={false}>{t('common.label.not_use')}</Radio>
+                </Space>
+              </Radio.Group>
+            </Form.Item>
+            <Divider style={{ margin: '10px 0' }} />
+            <Row>
+              <Col span={6}>{t('common.field.registration_date')}</Col>
+              <Col span={7}>{moment(props.room.createdOn).format('L')}</Col>
+              <Col span={5}>{t('common.field.modification_date')}</Col>
+              <Col span={6}>{props.room.lastUpdatedOn ? moment(props.room.lastUpdatedOn).format('L') : null}</Col>
+            </Row>
+          </>
+        }
       </Form>
     </InfoWrapper>
   )

@@ -9,7 +9,7 @@ interface ListViewProps {
 
 export const ListView: React.FC<ListViewProps> = React.memo((props) => {
   return (
-    <ListViewWrapper className={props.className + ' h-full flex justify-between flex-col list-square text-primary-normal ml-5'}>
+    <ListViewWrapper className={props.className + ' h-full flex justify-between flex-col list-disc text-primary-normal ml-5'}>
       {React.Children.map(props.children, child => {
         return (<ListViewItem>
           {child}

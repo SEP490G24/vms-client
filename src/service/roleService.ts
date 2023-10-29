@@ -5,7 +5,9 @@ import authService from './authService'
 
 interface RoleBasePayload {
   name: string;
-  attributes: { [key: string]: string[] };
+  siteId: string;
+  description: string;
+  attributes?: { [key: string]: string[] };
 }
 
 interface CreateRolePayload extends RoleBasePayload {

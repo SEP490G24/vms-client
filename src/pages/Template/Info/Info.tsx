@@ -1,4 +1,4 @@
-import { Form, Radio, Space } from 'antd'
+import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { SiteDto, TemplateDto } from '~/interface'
 import { SharedInput, SharedSelect } from '~/common'
@@ -6,6 +6,7 @@ import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateTemplateInfo, siteService } from '~/service'
 import { SharedTextArea } from '~/common/SharedTextArea'
+import moment from 'moment/moment'
 
 interface CreateTemplateFormArgs {
   template?: TemplateDto
@@ -97,26 +98,26 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
                    rules={[{ required: true }]}>
           <SharedInput placeholder={t('common.placeholder.description')}></SharedInput>
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
-                   rules={[{ required: true }]}>
-          <Radio.Group name='enable'>
-            <Space>
-              <Radio value={true}>{t('common.label.enable')}</Radio>
-              <Radio value={false}>{t('common.label.disable')}</Radio>
-            </Space>
-          </Radio.Group>
-        </Form.Item>
-        {/*{!!props.template &&*/}
-        {/*  <>*/}
-        {/*    <Divider style={{ margin: '10px 0' }} />*/}
-        {/*    <Row>*/}
-        {/*      <Col span={6}>{t('common.field.registration_date')}</Col>*/}
-        {/*      <Col span={7}>{props.template.createdOn}</Col>*/}
-        {/*      <Col span={5}>{t('common.field.modification_date')}</Col>*/}
-        {/*      <Col span={6}>{props.template.lastUpdatedOn}</Col>*/}
-        {/*    </Row>*/}
-        {/*  </>*/}
-        {/*}*/}
+        {!!props.template &&
+          <>
+            <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
+                       rules={[{ required: true }]}>
+              <Radio.Group name='enable'>
+                <Space>
+                  <Radio value={true}>{t('common.label.use')}</Radio>
+                  <Radio value={false}>{t('common.label.not_use')}</Radio>
+                </Space>
+              </Radio.Group>
+            </Form.Item>
+            <Divider style={{ margin: '10px 0' }} />
+            <Row>
+              <Col span={6}>{t('common.field.registration_date')}</Col>
+              <Col span={7}>{moment(props.template.createdOn).format('L')}</Col>
+              <Col span={5}>{t('common.field.modification_date')}</Col>
+              <Col span={6}>{props.template.lastUpdatedOn ? moment(props.template.lastUpdatedOn).format('L') : null}</Col>
+            </Row>
+          </>
+        }
       </Form>
     </InfoWrapper>
   )

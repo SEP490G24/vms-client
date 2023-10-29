@@ -1,18 +1,18 @@
 import { RoomWrapper } from './styles.ts'
 
-import { Col, Divider, message, Row, Space, Table } from 'antd'
+import { Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
 import Modal from 'antd/es/modal/Modal'
-import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { PageableResponse, RoomDto, UserDto } from '~/interface'
+import { PageableResponse, RoomDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { checkPermission } from '~/utils'
 import { RoomInfo } from './Info'
 import { RoomFilter } from './Filter'
 import { RoomFilterPayload, roomService } from '~/service'
-import moment from 'moment/moment'
+import { RoomTable } from '~/pages/Room/Table'
+import { FilterValue } from 'antd/es/table/interface'
 
 const Room = () => {
   const { t } = useTranslation()
@@ -69,6 +69,11 @@ const Room = () => {
     setOpenModal(false)
   }
 
+  const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
+    setCurrentPage(pagination.current ?? 1)
+    console.log(pagination, filters, sorter)
+  }
+
   // const exportData = async () => {
   // }
 
@@ -104,39 +109,8 @@ const Room = () => {
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
-              <Table
-                dataSource={pageableResponse?.content}
-                rowKey='roomname'
-                pagination={{
-                  current: currentPage,
-                  total: pageableResponse?.totalElements as number,
-                  onChange: setCurrentPage,
-                  pageSize: pageableResponse?.pageable?.pageSize as number,
-                  showSizeChanger: false,
-                  position: ['bottomCenter']
-                }}
-                className='vms-table no-bg'
-                scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
-                size='middle'
-              >
-                <Column
-                  title={t('common.field.room')}
-                  render={(value: RoomDto) => <a onClick={() => openEdit(value)}>{value.name}</a>}
-                />
-                <Column title={t('common.field.code')} dataIndex='code' key='code' />
-                <Column
-                  title={t('common.field.status')}
-                  dataIndex='enable'
-                  key='enable'
-                  render={(enable) =>
-                    enable ? t('common.label.enable') : t('common.label.disable')
-                  }
-                />
-                <Column title={t('common.field.registration_date')} key='createdOn'
-                        render={(value: UserDto) => moment(value.createdOn).format('L')} />
-                <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
-                        render={(value: UserDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />
-              </Table>
+              <RoomTable pageableResponse={pageableResponse} currentPage={currentPage} onChangeTable={handleChangeTable}
+                         onEdit={openEdit} />
             </Col>
             {openModal && (
               <Modal

@@ -1,6 +1,14 @@
 import React from 'react'
-import dayjs, {Dayjs} from "dayjs";
-import moment from 'moment';
+import dayjs, { Dayjs } from 'dayjs'
+import moment from 'moment'
+
+export enum Purpose {
+  CONFERENCES = 'CONFERENCES',
+  INTERVIEW = 'INTERVIEW',
+  MEETING = 'MEETING',
+  WORKING = 'WORKING',
+  OTHERS = 'OTHERS'
+}
 
 export interface OptionItem {
   label: string
@@ -16,14 +24,14 @@ export interface ConsultationHistoryItem {
   status: string
   issueDate: string
   isBot?: boolean
-  livechatSessionId?:string
+  livechatSessionId?: string
 }
 
 export interface ButtonItem {
   label: string
   action?: () => void
-  isSelect?:boolean
-  value?:string
+  isSelect?: boolean
+  value?: string
 }
 
 export interface RateItem {
@@ -33,11 +41,11 @@ export interface RateItem {
 }
 
 export const durationOption = {
-  "TODAY": "common.durationOption.today",
-  "1WEEK": "common.durationOption.1week",
-  "1MONTH": "common.durationOption.1month",
-  "3MONTHS": "common.durationOption.3months",
-};
+  'TODAY': 'common.durationOption.today',
+  '1WEEK': 'common.durationOption.1week',
+  '1MONTH': 'common.durationOption.1month',
+  '3MONTHS': 'common.durationOption.3months'
+}
 
 export type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
@@ -46,13 +54,13 @@ export interface DateRadioRange {
   date?: RangeValue
 }
 
-export const getDataRangeOptions = (t:any)  => {
+export const getDataRangeOptions = (t: any) => {
   const options: OptionItem[] = []
-  const entries = Object.entries(durationOption);
+  const entries = Object.entries(durationOption)
   entries.forEach(([key, value]) => {
-    options.push({label: t(value), value: key})
-  });
-  return options;
+    options.push({ label: t(value), value: key })
+  })
+  return options
 }
 
 /**
@@ -62,14 +70,14 @@ export const getDataRangeOptions = (t:any)  => {
 export const getDateRangeValue = (key: string): RangeValue => {
   const today = new Date(moment().format('yyyy/MM/DD'))
   switch (key) {
-    case "TODAY":
-      return [dayjs(today), dayjs(today).add(+1, "day")]
-    case "1WEEK":
-      return [dayjs(today).add(-1, "week"), dayjs(today)]
-    case "1MONTH":
-      return [dayjs(today).add(-1, "month"), dayjs(today)]
-    case "3MONTHS":
-      return [dayjs(today).add(-3, "months"), dayjs(today)]
+    case 'TODAY':
+      return [dayjs(today), dayjs(today).add(+1, 'day')]
+    case '1WEEK':
+      return [dayjs(today).add(-1, 'week'), dayjs(today)]
+    case '1MONTH':
+      return [dayjs(today).add(-1, 'month'), dayjs(today)]
+    case '3MONTHS':
+      return [dayjs(today).add(-3, 'months'), dayjs(today)]
   }
   return null
 }

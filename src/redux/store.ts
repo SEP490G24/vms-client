@@ -13,6 +13,8 @@ import departmentReduce from './slices/departmentSlice'
 import roomReduce from './slices/roomSlice'
 import locationReduce from './slices/locationSlice'
 import settingReduce from './slices/settingSlice'
+import meetingReduce from './slices/meetingSlice'
+import customerReduce from './slices/customerSlice'
 
 const persistConfig = {
   key: 'root',
@@ -29,7 +31,9 @@ const rootReducer = combineReducers({
   department: departmentReduce,
   room: roomReduce,
   location: locationReduce,
-  setting: settingReduce
+  setting: settingReduce,
+  meeting: meetingReduce,
+  customer: customerReduce
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

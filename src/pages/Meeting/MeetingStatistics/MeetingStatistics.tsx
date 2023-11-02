@@ -1,5 +1,5 @@
 import { MeetingListWrapper } from './styles.ts'
-import { Card, Col, Divider, message, Row, Segmented, Space } from 'antd'
+import { Card, Col, Divider, Row, Segmented, Space } from 'antd'
 import { checkPermission } from '~/utils'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,7 @@ import { SharedButton } from '~/common'
 import Modal from 'antd/es/modal/Modal'
 import { MeetingInfo } from '~/pages/Meeting/common/MeetingInfo'
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons'
-import { MeetingFilterPayload, meetingsService } from '~/service'
+import { MeetingFilterPayload, ticketService } from '~/service'
 import MeetingTable from '~/pages/Meeting/MeetingStatistics/MeetingTable/MeetingTable.tsx'
 import { MeetingKanban } from './MeetingKanban'
 import { SegmentedValue } from 'rc-segmented'
@@ -23,11 +23,10 @@ const MeetingStatistics = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [meeting, setMeeting] = useState<MeetingDto>()
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [filterPayload, setFilterPayload] = useState<MeetingFilterPayload>({})
 
   useEffect(() => {
-    meetingsService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
+    ticketService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
       setPageableResponse(response?.data)
     })
   }, [filterPayload, currentPage])
@@ -35,29 +34,6 @@ const MeetingStatistics = () => {
   const onFilter = (filterPayload: MeetingFilterPayload) => {
     setCurrentPage(1)
     setFilterPayload(filterPayload)
-  }
-
-  const onSave = (payload: any) => {
-    setConfirmLoading(true)
-    let request = !!meeting ? meetingsService.update(meeting.id, payload) : meetingsService.insert(payload)
-    request
-      .then(async (res: any) => {
-        console.log('res', res)
-        if (res?.status === 200) {
-          setOpenModal(false)
-          setConfirmLoading(false)
-          setMeeting(undefined)
-          meetingsService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-            setPageableResponse(response?.data)
-          })
-          await message.success(t('common.message.success.save'))
-        } else {
-          await message.error(t('common.message.error.save'))
-        }
-      })
-      .catch(async () => {
-        await message.error(t('common.message.error'))
-      })
   }
 
   const openEdit = (meetingDto: MeetingDto) => {
@@ -127,11 +103,10 @@ const MeetingStatistics = () => {
                 closable={false}
                 title={null}
                 footer={null}
-                confirmLoading={confirmLoading}
                 width={650}
                 onCancel={onClose}
               >
-                <MeetingInfo onClose={onClose} meeting={meeting} onSave={onSave} />
+                <MeetingInfo onClose={onClose} id={meeting?.id} />
               </Modal>
             )}
           </Row>

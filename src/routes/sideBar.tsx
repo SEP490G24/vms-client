@@ -8,7 +8,7 @@ import {
   PATH_MEETING_LIST,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
-  PATH_ROOM,
+  PATH_ROOM, PATH_ROOM_MEETING_CALENDAR,
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_USER
@@ -44,6 +44,12 @@ export const SIDE_BARS = [
         key: PATH_MEETING_LIST,
         title: 'sidebar.meeting.sub.meetings',
         path: PATH_MEETING_LIST,
+        children: []
+      },
+      {
+        key: PATH_ROOM_MEETING_CALENDAR,
+        title: 'sidebar.meeting.sub.rooms',
+        path: PATH_ROOM_MEETING_CALENDAR,
         children: []
       }
     ]

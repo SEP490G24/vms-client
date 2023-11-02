@@ -48,6 +48,11 @@ export const GlobalStyles = createGlobalStyle`
 
     }
   }
+
+  .MuiDialog-root,
+  .MuiModal-root {
+    z-index: 1049 !important;
+  }
 `
 
 export const PageWrapper = styled.div`

@@ -12,7 +12,13 @@ const initialState = {
 export const filterRooms = createAsyncThunk(
   'room/filter', (arg: any) => {
     const { filterPayload, isPageable, pageableRequest } = arg
-    return roomService.filter(filterPayload, isPageable, pageableRequest)
+    return roomService.filter(filterPayload || {}, isPageable, pageableRequest)
+  }
+)
+
+export const findAllRoom = createAsyncThunk(
+  'room/findAll', (filterPayload: any) => {
+    return roomService.filter(filterPayload)
   }
 )
 
@@ -36,6 +42,11 @@ const roomsSlice = createSlice({
         if (action.payload?.data) {
           state.pageableResponse = action.payload.data
           state.rooms = action.payload.data.content
+        }
+      })
+      .addCase(findAllRoom.fulfilled, (state, action) => {
+        if (action.payload?.data) {
+          state.rooms = action.payload.data
         }
       })
       .addCase(fetchRoomById.fulfilled, (state, action) => {

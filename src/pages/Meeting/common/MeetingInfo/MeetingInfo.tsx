@@ -1,52 +1,97 @@
 import { Form, message, Steps } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { MeetingDto } from '~/interface'
 import { ContentWrapper, MeetingInfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { Participants } from './Participants'
 import { ScheduleMeeting } from './Schedule'
 import { ConfirmResults } from './ConfirmResults'
-import { CreateMeetingInfo } from '~/service'
 import { SchedulerHelpers } from '@aldabil/react-scheduler/types'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchMeetingById, meetingSelector, patchMeetingForm, resetMeetingForm } from '~/redux/slices/meetingSlice.ts'
+import { findAllRoom } from '~/redux/slices/roomSlice.ts'
+import { findByOrganizationId } from '~/redux/slices/customerSlice.ts'
+import meetingTicketService from '~/service/meetingTicketService.ts'
 
 interface MeetingInfoArgs {
   classname?: string
   scheduler?: SchedulerHelpers
-  meeting?: MeetingDto
-  onSave?: (meeting: CreateMeetingInfo) => void
+  id?: string
   onClose?: () => void
 }
 
 const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
+  const templateId = '05869a1a-fc60-4084-be89-422442a8ad69'
+
   const { t } = useTranslation()
   const [form] = Form.useForm()
+
+  const dispatch = useDispatch()
+  const { meetingSelected } = useSelector(meetingSelector)
+  const { meetingForm } = useSelector(meetingSelector)
 
   const description = 'This is a description.'
   const [currentStep, setCurrentStep] = useState(0)
 
   useEffect(() => {
-    console.log(props.scheduler)
+    if (props.id) {
+      dispatch(fetchMeetingById(props.id) as any)
+    } else {
+      if (props.scheduler?.state.id.value) {
+        dispatch(fetchMeetingById(props.scheduler?.state.id.value) as any)
+      } else {
+        console.log('a')
+        dispatch(patchMeetingForm({
+          startTime: new Date(props.scheduler?.state.start.value),
+          endTime: new Date(props.scheduler?.state.end.value)
+        }))
+      }
+    }
+  }, [props.id, props.scheduler?.state])
+
+  useEffect(() => {
+    dispatch(findAllRoom({}) as any)
+    dispatch(findByOrganizationId() as any)
   }, [])
 
   const onFinish = (values: any) => {
-    console.log(values)
+    const payload = {
+      ...values,
+      ...meetingForm,
+      templateId
+    }
+    meetingTicketService.insert(payload).then((response) => {
+      if (props.scheduler) {
+        const event = {
+          event_id: Math.random(),
+          title: response.data.name,
+          start: response.data.startTime,
+          end: response.data.endTime,
+          description: response.data.description,
+          id: response.data.id
+        }
+        props.scheduler.onConfirm(event, 'create')
+      }
+      onClose()
+    }).catch((error) => {
+      message.error(error.data.message)
+    })
   }
 
   const steps = [
     {
       title: 'Schedule',
-      content: <ScheduleMeeting form={form} onFinish={onFinish} />,
+      content: <ScheduleMeeting meeting={meetingForm} form={form} onFinish={onFinish} />,
       description
     },
     {
       title: 'Participants',
-      content: <Participants form={form} onFinish={onFinish} />,
+      content: <Participants meeting={meetingForm} form={form} onFinish={onFinish} />,
       description
     },
     {
       title: 'Confirm',
-      content: <ConfirmResults />,
+      content: <ConfirmResults meeting={meetingForm} form={form} />,
       description
     }
   ]
@@ -59,37 +104,33 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
     setCurrentStep(currentStep - 1)
   }
 
-
   const onClose = () => {
     props.onClose && props.onClose()
     props.scheduler && props.scheduler.close()
+    dispatch(resetMeetingForm())
     form.resetFields()
   }
-
 
   return (
     <MeetingInfoWrapper
       className={props.classname}
-      title={t(!!props.meeting ? 'organization.meeting.popup.title-edit' : 'organization.meeting.popup.title-add')}
+      title={t(!!meetingSelected ? 'meeting.manager.popup.title-edit' : 'meeting.manager.popup.title-add')}
       onCancel={onClose}
       onOk={form.submit}
+      labelOk={t('meeting.manager.popup.btn-save' + ((meetingForm.draft === undefined || meetingForm.draft == true) ? '-draft' : ''))}
     >
       <Steps current={currentStep} labelPlacement='vertical' items={steps} />
-      <ContentWrapper>{steps[currentStep].content}</ContentWrapper>
+      {steps.map((step, index) => <ContentWrapper
+        className={currentStep === index ? '' : 'hidden'}>{step.content}</ContentWrapper>)}
       <div style={{ marginTop: 24 }}>
-        {currentStep < steps.length - 1 && (
-          <SharedButton type='primary' onClick={() => next()}>
-            Next
-          </SharedButton>
-        )}
-        {currentStep === steps.length - 1 && (
-          <SharedButton type='primary' onClick={() => message.success('Processing complete!')}>
-            Done
-          </SharedButton>
-        )}
         {currentStep > 0 && (
           <SharedButton style={{ margin: '0 8px' }} onClick={() => prev()}>
             Previous
+          </SharedButton>
+        )}
+        {currentStep < steps.length - 1 && (
+          <SharedButton type='primary' onClick={() => next()}>
+            Next
           </SharedButton>
         )}
       </div>

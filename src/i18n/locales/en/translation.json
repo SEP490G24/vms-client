@@ -1,12 +1,14 @@
 {
   "common": {
     "field": {
+      "customers": "Customers",
       "name": "Name",
       "id": "ID",
       "username": "Username",
       "gender": "Gender",
       "roles": "Roles",
       "dob": "Birthday",
+      "duration": "Duration",
       "user": "User",
       "first_name": "First name",
       "last_name": "Last name",
@@ -46,6 +48,9 @@
       "contact_number": "Contact number",
       "subject": "Subject",
       "body": "Body",
+      "purposeNote": "Purpose Note",
+      "purpose": "Purpose",
+      "identificationNumber": "ID Card",
       "site": {
         "name": "Site"
       },
@@ -79,7 +84,11 @@
       "homepage_address": "Please enter the homepage URL.",
       "company_registration_number": "Example) 123-45-6789",
       "brand_introduction": "Please enter brand introduction information",
+      "identificationNumber": "Please enter id card",
       "upload": "Select image",
+      "purposeNote": "Enter purpose note",
+      "purpose": "Select a purpose",
+      "room": "Select a room",
       "department": "Please select a department",
       "site": "Please select a site",
       "province": "Please select a province",
@@ -161,8 +170,8 @@
       "popup": {
         "title-add": "Create new meeting",
         "title-edit": "Meeting Edit",
-        "btn-save": "Insert",
-        "btn-edit": "Save"
+        "btn-save-draft": "Save Draft",
+        "btn-save": "Save"
       }
     }
   },
@@ -313,7 +322,8 @@
       "title": "Meeting Request",
       "sub": {
         "calendar": "Calendar",
-        "meetings": "Meetings"
+        "meetings": "Meetings",
+        "rooms": "Rooms"
       }
     },
     "history": {

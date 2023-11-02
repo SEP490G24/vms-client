@@ -38,3 +38,16 @@ export function groupBy<T, X>(list: T[], keyGetter: (t: T) => X) {
   return map
 }
 
+type EnumType = { [key: string]: string | number };
+type EnumAsArrayType = {
+  key: string;
+  value: string | number;
+}[];
+export const enumToArray = (data: EnumType): EnumAsArrayType =>
+  Object.keys(data)
+    .filter((key) => Number.isNaN(+key))
+    .map((key: string) => ({
+      key,
+      value: data[key]
+    }))
+

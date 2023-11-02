@@ -75,6 +75,16 @@ export const SETTING = {
   BASE_PATH: `${VITE_API_SERVER_URL}/setting`
 }
 
+export const TICKET = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/ticket`,
+  FILTER: `${VITE_API_SERVER_URL}/ticket/filter`,
+}
+
+export const CUSTOMER = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/customer`,
+  FILTER: `${VITE_API_SERVER_URL}/customer/filter`
+}
+
 export const KEYCLOAK = {
   SYNC_ALL: `${VITE_API_SERVER_URL}/keycloak/sync`,
   SYNC_WITH_CLIENT: `${VITE_API_SERVER_URL}/keycloak/sync/{clientId}`

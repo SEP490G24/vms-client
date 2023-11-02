@@ -10,7 +10,7 @@ import {
   Room,
   Template,
   Device,
-  Permission
+  Permission, RoomMeetingCalendar
 } from '~/pages'
 import {
   PATH_CONFIGURATION,
@@ -25,7 +25,8 @@ import {
   PATH_USER,
   PATH_ROOM,
   PATH_TEMPLATE,
-  PATH_DEVICE, PATH_PERMISSION
+  PATH_DEVICE, PATH_PERMISSION,
+  PATH_ROOM_MEETING_CALENDAR
 } from './paths'
 import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
@@ -41,6 +42,11 @@ export const privateRoutes = [
   {
     path: PATH_MEETING_CALENDAR,
     component: MeetingCalendar,
+    layout: null
+  },
+  {
+    path: PATH_ROOM_MEETING_CALENDAR,
+    component: RoomMeetingCalendar,
     layout: null
   },
   {

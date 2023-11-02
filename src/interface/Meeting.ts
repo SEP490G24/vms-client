@@ -3,20 +3,18 @@ export interface MeetingDto {
   createdOn?: string;
   lastUpdatedBy?: string;
   lastUpdatedOn?: string;
-  id: string;
-  name: string;
+  id?: string;
   code?: string;
-  organizationId?: string;
-  phoneNumber?: string;
-  enable?: boolean;
-  templateSiteMaps?: any;
-  pricePackageSiteMaps?: any;
-  district?: string;
-  province?: string;
-  ward?: string;
-  address?: string;
-  taxCode?: string;
+  name?: string;
+  purpose?: string;
+  startTime?: string;
+  endTime?: string;
   description?: string;
+  status?: string;
+  username?: string;
+  roomId?: string;
+  templateId?: string;
+  bookmark?: boolean;
 }
 
 

@@ -8,7 +8,8 @@ import { Dayjs } from 'dayjs'
 const { RangePicker } = DatePicker
 
 interface SharedDateRangeProps {
-  format?: string
+  format?: string,
+  showTime?: boolean,
   onChange: (rangeValue: [string, string]) => void,
   theme?: 'outline' | 'inline'
 }
@@ -17,11 +18,12 @@ export const SharedDateRange: React.FC<SharedDateRangeProps> = React.memo(
   ({
      format,
      onChange,
+     showTime,
      theme
    }) => {
     const [rangeValueString, setRangeValueString] = useState<[string, string]>(['', ''])
     const [rangeValue, setRangeValue] = useState<[Dayjs | null, Dayjs | null]>([null, null])
-    const dateFormat = format ?? 'YYYY/MM/DD'
+    const dateFormat = format ?? 'YYYY/MM/DD HH:mm'
 
 
     const handleOnDateRangeChange: RangePickerProps['onChange'] = (_, rangeString) => {
@@ -46,15 +48,16 @@ export const SharedDateRange: React.FC<SharedDateRangeProps> = React.memo(
         return (
           <Row className={'w-full'} align={'middle'}>
             <Col flex={1}>
-              <DatePicker className={'w-full'} onChange={handleOnStartDateChange} format={dateFormat}
+              <DatePicker showTime={showTime} className={'w-full'} onChange={handleOnStartDateChange}
+                          format={dateFormat}
                 // @ts-ignore
-                          disabledDate={(picker: Dayjs) => picker && rangeValue[1] && picker > rangeValue[1].endOf('day')} />
+                          disabledDate={(picker: Dayjs) => picker && rangeValue[1] && picker.isAfter(rangeValue[1])} />
             </Col>
             <Col span={2}><span>~</span></Col>
             <Col flex={1}>
-              <DatePicker className={'w-full'} onChange={handleOnEndDateChange} format={dateFormat}
+              <DatePicker showTime={showTime} className={'w-full'} onChange={handleOnEndDateChange} format={dateFormat}
                 // @ts-ignore
-                          disabledDate={(picker: Dayjs) => picker && rangeValue[0] && picker < rangeValue[0].endOf('day')} />
+                          disabledDate={(picker: Dayjs) => picker && rangeValue[0] && picker.isBefore(rangeValue[0])} />
             </Col>
           </Row>
         )
@@ -64,6 +67,7 @@ export const SharedDateRange: React.FC<SharedDateRangeProps> = React.memo(
           <DateRangeWrapper>
             <RangePicker
               changeOnBlur
+              showTime={showTime}
               onChange={handleOnDateRangeChange}
               format={dateFormat} />
           </DateRangeWrapper>

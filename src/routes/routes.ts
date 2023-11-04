@@ -1,39 +1,44 @@
 import {
-  Setting,
   Dashboard,
   Department,
+  Device,
   History,
   MeetingCalendar,
   MeetingList,
   Organization,
+  Permission,
   Profile,
-  Room,
-  Template,
-  Device,
-  Permission, RoomMeetingCalendar, TicketResult,
   Role,
+  Room,
+  RoomMeetingCalendar,
+  Setting,
+  Template,
+  TicketResult
 } from '~/pages'
 
-import {RoleInfo} from '~/pages/Role/Info'
-
+import { RoleInfo } from '~/pages/Role/Info'
+import { Agent } from '~/pages/User'
+import { Site } from '~/pages/Site'
 import {
   PATH_CONFIGURATION,
   PATH_DASHBOARD,
   PATH_DEPARTMENT,
+  PATH_DEVICE,
   PATH_HISTORY,
   PATH_MEETING_CALENDAR,
   PATH_MEETING_LIST,
   PATH_ORGANIZATION,
+  PATH_PERMISSION,
   PATH_PROFILE,
-  PATH_SITE,
-  PATH_USER,
+  PATH_ROLE,
+  PATH_ROLE_DETAIL,
   PATH_ROOM,
+  PATH_ROOM_MEETING_CALENDAR,
+  PATH_SITE,
   PATH_TEMPLATE,
-  PATH_DEVICE, PATH_PERMISSION, PATH_ROLE, PATH_ROLE_DETAIL
-  PATH_ROOM_MEETING_CALENDAR, PATH_TICKET_RESULT
+  PATH_TICKET_RESULT,
+  PATH_USER
 } from './paths'
-import { Agent } from '~/pages/User'
-import { Site } from '~/pages/Site'
 
 export const publicRoutes = []
 

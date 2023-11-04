@@ -3,6 +3,11 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import { constants, promises as fsp } from "fs";
 import commonjs from '@rollup/plugin-commonjs'
+import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5'
+import { createRequire } from 'node:module'
+
+const require = createRequire( import.meta.url )
+
 
 async function myPlugin(envConfig, envFile) {
   const runtimeConfig: any = {};
@@ -56,6 +61,7 @@ export default defineConfig(({ mode }) => {
     base: process.env.BASE || '',
     plugins: [
       react(),
+      ckeditor5( { theme: require.resolve( '@ckeditor/ckeditor5-theme-lark' ) } )
     ],
     optimizeDeps: {
       include: [ ]

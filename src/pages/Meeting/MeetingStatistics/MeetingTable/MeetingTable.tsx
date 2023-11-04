@@ -1,14 +1,16 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { MeetingDto, PageableResponse, UserDto } from '~/interface'
+import { MeetingDto, PageableResponse } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
-import { Table } from 'antd'
+import { Space, Table, TablePaginationConfig } from 'antd'
+import { FilterValue } from 'antd/es/table/interface'
+import { MeetingActions } from '~/pages/Meeting/common'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<MeetingDto>
+  onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
   currentPage: number
-  setCurrentPage: (value: number) => void
   onEdit: (value: MeetingDto) => void
 }
 
@@ -19,39 +21,64 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
   return (
     <Table
       dataSource={props.pageableResponse?.content}
-      rowKey='sitename'
+      rowKey='id'
       pagination={{
         current: props.currentPage,
         total: props.pageableResponse?.totalElements as number,
-        onChange: props.setCurrentPage,
         pageSize: props.pageableResponse?.pageable?.pageSize as number,
         showSizeChanger: false,
         position: ['bottomCenter']
       }}
+      onChange={props.onChangeTable}
       className='vms-table no-bg'
       scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
       size='middle'
     >
       <Column
         title={t('common.field.site.name')}
-        render={(value: MeetingDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
+        sorter={true}
+        render={(value: MeetingDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>}
       />
-      <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' />
-      <Column title={t('common.field.province')} dataIndex='province' key='province' />
-      <Column title={t('common.field.district')} dataIndex='district' key='district' />
-      <Column title={t('common.field.ward')} dataIndex='ward' key='ward' />
-      <Column
-        title={t('common.field.status')}
-        dataIndex='enable'
-        key='enable'
-        render={(enable) =>
-          enable ? t('common.label.enable') : t('common.label.disable')
-        }
+      <Column title={t('common.field.purpose')}
+              filters={[
+                { text: 'CONFERENCES', value: 'CONFERENCES' },
+                { text: 'INTERVIEW', value: 'INTERVIEW' },
+                { text: 'MEETING', value: 'MEETING' },
+                { text: 'WORKING', value: 'WORKING' },
+                { text: 'OTHERS', value: 'OTHERS' }
+              ]}
+              filterMultiple={true}
+              render={(value: MeetingDto) => <Space direction={'vertical'}>
+                <strong>{value.purpose}</strong>
+                <span>{value.purposeNote}</span>
+              </Space>}
       />
-      <Column title={t('common.field.registration_date')} key='createdOn'
-              render={(value: UserDto) => moment(value.createdOn).format('L')} />
-      <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
-              render={(value: UserDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />
+      <Column title={t('common.field.participate')} key='participate'
+              render={(value: MeetingDto) => value.customers && <>{value.customers.length} people</>} />
+      <Column title={t('common.field.room')} sorter={true} dataIndex='roomName' key='roomName' />
+      <Column title={t('common.field.duration')} key='duration'
+              render={(value: MeetingDto) => <Space direction={'horizontal'} size={4}>
+                <strong>{moment(value.startTime).format('LTS')}</strong>
+                <span>~</span>
+                <strong>{moment(value.endTime).format('LTS')}</strong>
+              </Space>} />
+      <Column title={t('common.field.status')} dataIndex='status' key='status'
+              filters={[
+                { text: 'DRAFT', value: 'DRAFT' },
+                { text: 'PENDING', value: 'PENDING' },
+                { text: 'CHECK_IN', value: 'CHECK_IN' },
+                { text: 'CHECK_OUT', value: 'CHECK_OUT' },
+                { text: 'CANCEL', value: 'CANCEL' }
+              ]}
+              filterMultiple={true}
+      />
+      {/*<Column title={t('common.field.registration_date')} key='createdOn' sorter={true}*/}
+      {/*        render={(value: MeetingDto) => moment(value.createdOn).format('L')} />*/}
+      {/*<Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}*/}
+      {/*        render={(value: MeetingDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />*/}
+      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
+              render={(value: MeetingDto) => <MeetingActions meeting={value}
+                                                             directionIcon={'vertical'} />} />
     </Table>
   )
 }

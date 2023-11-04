@@ -8,7 +8,13 @@ import { ScheduleMeeting } from './Schedule'
 import { ConfirmResults } from './ConfirmResults'
 import { SchedulerHelpers } from '@aldabil/react-scheduler/types'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchMeetingById, meetingSelector, patchMeetingForm, resetMeetingForm } from '~/redux/slices/meetingSlice.ts'
+import {
+  fetchMeetingById,
+  meetingSelector,
+  patchMeetingForm,
+  resetMeetingForm,
+  resetMeetingSelected
+} from '~/redux/slices/meetingSlice.ts'
 import { findAllRoom } from '~/redux/slices/roomSlice.ts'
 import { findByOrganizationId } from '~/redux/slices/customerSlice.ts'
 import meetingTicketService from '~/service/meetingTicketService.ts'
@@ -40,7 +46,6 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       if (props.scheduler?.state.id.value) {
         dispatch(fetchMeetingById(props.scheduler?.state.id.value) as any)
       } else {
-        console.log('a')
         dispatch(patchMeetingForm({
           startTime: new Date(props.scheduler?.state.start.value),
           endTime: new Date(props.scheduler?.state.end.value)
@@ -48,6 +53,16 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       }
     }
   }, [props.id, props.scheduler?.state])
+
+  useEffect(() => {
+    form.setFieldsValue({
+      name: meetingSelected.name,
+      purpose: meetingSelected.purpose,
+      roomId: meetingSelected.roomId,
+      description: meetingSelected.description,
+      oldCustomers: meetingSelected.customers?.map(customer => customer.id) ?? []
+    })
+  }, [meetingSelected])
 
   useEffect(() => {
     dispatch(findAllRoom({}) as any)
@@ -108,6 +123,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
     props.onClose && props.onClose()
     props.scheduler && props.scheduler.close()
     dispatch(resetMeetingForm())
+    dispatch(resetMeetingSelected())
     form.resetFields()
   }
 

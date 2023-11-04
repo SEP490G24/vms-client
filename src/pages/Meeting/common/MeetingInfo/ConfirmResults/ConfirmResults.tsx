@@ -5,7 +5,7 @@ import { Descriptions, Form, FormInstance, Space } from 'antd'
 import { SharedCheckbox } from '~/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { roomsSelector } from '~/redux/slices/roomSlice.ts'
-import { patchMeetingForm } from '~/redux/slices/meetingSlice.ts'
+import { meetingSelector, patchMeetingForm } from '~/redux/slices/meetingSlice.ts'
 import moment from 'moment/moment'
 import { CreateMeetingInfo } from '~/service'
 
@@ -18,11 +18,11 @@ const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = (props) => {
   // const { t } = useTranslation()
 
   const { rooms } = useSelector(roomsSelector)
+  const { meetingSelected } = useSelector(meetingSelector)
   const dispatch = useDispatch()
 
   const oldCustomers = Form.useWatch('oldCustomers', props.form)
   const newCustomers = Form.useWatch('newCustomers', props.form)
-
 
   return (
     <ConfirmResultsWrapper>
@@ -30,9 +30,9 @@ const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = (props) => {
         <DescriptionsItem label={'Title'} span={3}>{props.form.getFieldValue('name')}</DescriptionsItem>
         <DescriptionsItem label={'Duration'} span={3}>
           <Space size={4}>
-            <span>{moment(props.meeting.startTime).format('LLL')}</span>
+            <span>{moment(props.meeting.startTime).format('LTS')}</span>
             <span>~</span>
-            <span>{moment(props.meeting.startTime).format('LLL')}</span>
+            <span>{moment(props.meeting.startTime).format('LTS')}</span>
           </Space>
         </DescriptionsItem>
         <DescriptionsItem label={'Room'}
@@ -42,10 +42,12 @@ const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = (props) => {
           {(!!oldCustomers || !!newCustomers) && <>{(oldCustomers?.length ?? 0) + (newCustomers?.length ?? 0)} people</>}
         </DescriptionsItem>
       </Descriptions>
-      <SharedCheckbox title={'Xác nhận'} defaultChecked={props.meeting.draft && !props.meeting.draft}
-                      onChange={(e) => {
-                        dispatch(patchMeetingForm({ draft: !e.target.checked }))
-                      }} />
+      {!meetingSelected &&
+        <SharedCheckbox title={'Xác nhận'} defaultChecked={props.meeting.draft && !props.meeting.draft}
+                        onChange={(e) => {
+                          dispatch(patchMeetingForm({ draft: !e.target.checked }))
+                        }} />
+      }
     </ConfirmResultsWrapper>
   )
 }

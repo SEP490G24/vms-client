@@ -92,7 +92,7 @@ class Services {
     }
   }
 
-  handleResponseStatus = (response?: any) => {
+  handleResponseStatus = (response?: AxiosResponse<any, any>) => {
     if (!response) return Promise.reject(response)
     if (response?.status >= 200 && response?.status < 300) {
       return Promise.resolve(response)

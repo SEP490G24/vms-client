@@ -6,10 +6,10 @@ import { Scheduler } from '@aldabil/react-scheduler'
 import { MeetingInfo } from '~/pages/Meeting/common/MeetingInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAllMeeting, meetingSelector } from '~/redux/slices/meetingSlice.ts'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ProcessedEvent } from '@aldabil/react-scheduler/types'
 import { MeetingDto } from '~/interface'
-import { EVENTS } from '~/data/event.ts'
+import moment from 'moment'
 
 
 const MeetingCalendar = () => {
@@ -17,7 +17,6 @@ const MeetingCalendar = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { meetings } = useSelector(meetingSelector)
-  const [event, setEvent] = useState([])
 
 
   useEffect(() => {
@@ -48,12 +47,13 @@ const MeetingCalendar = () => {
               return {
                 event_id: index,
                 title: 'Test',
-                start: new Date(meeting.startTime as string),
-                end: new Date(meeting.endTime as string),
+                start: moment(meeting.startTime).toDate(),
+                end: moment(meeting.endTime).toDate(),
                 color: '#50b500',
                 id: meeting.id
               } as ProcessedEvent
             })}
+            // events={EVENTS}
           /></Card>
       </Space>
     </MeetingCalendarWrapper>

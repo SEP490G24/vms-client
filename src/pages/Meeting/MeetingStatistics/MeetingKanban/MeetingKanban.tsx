@@ -14,11 +14,11 @@ const MeetingKanban: React.FC<MeetingItemProps> = (props) => {
 
   return (
     <List
-      grid={{ gutter: 16, column: 4 }}
+      grid={{ gutter: 16, column: 3 }}
       dataSource={props.pageableResponse?.content}
-      renderItem={() => (
+      renderItem={(item) => (
         <List.Item>
-          <MeetingItem />
+          <MeetingItem meeting={item} onEdit={props.onEdit} />
         </List.Item>
       )}
     />

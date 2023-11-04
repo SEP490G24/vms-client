@@ -1,5 +1,5 @@
 import { MeetingListWrapper } from './styles.ts'
-import { Card, Col, Divider, Row, Segmented, Space } from 'antd'
+import { Card, Col, Divider, Row, Segmented, Space, TablePaginationConfig } from 'antd'
 import { checkPermission } from '~/utils'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
@@ -14,6 +14,7 @@ import { MeetingFilterPayload, ticketService } from '~/service'
 import MeetingTable from '~/pages/Meeting/MeetingStatistics/MeetingTable/MeetingTable.tsx'
 import { MeetingKanban } from './MeetingKanban'
 import { SegmentedValue } from 'rc-segmented'
+import { FilterValue } from 'antd/es/table/interface'
 
 const MeetingStatistics = () => {
 
@@ -27,6 +28,7 @@ const MeetingStatistics = () => {
 
   useEffect(() => {
     ticketService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
+      console.log(response.data)
       setPageableResponse(response?.data)
     })
   }, [filterPayload, currentPage])
@@ -44,6 +46,11 @@ const MeetingStatistics = () => {
   const onClose = () => {
     setMeeting(undefined)
     setOpenModal(false)
+  }
+
+  const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
+    setCurrentPage(pagination.current ?? 1)
+    console.log(pagination, filters, sorter)
   }
 
   return (
@@ -93,7 +100,7 @@ const MeetingStatistics = () => {
                 </Space>
                 <Divider style={{ margin: '16px 0 0' }} />
                 {typeViews === 'TABLE' ? <MeetingTable pageableResponse={pageableResponse} currentPage={currentPage}
-                                                       setCurrentPage={setCurrentPage} onEdit={openEdit} /> :
+                                                       onChangeTable={handleChangeTable} onEdit={openEdit} /> :
                   <MeetingKanban pageableResponse={pageableResponse} onEdit={openEdit} />}
               </Card>
             </Col>
@@ -103,7 +110,7 @@ const MeetingStatistics = () => {
                 closable={false}
                 title={null}
                 footer={null}
-                width={650}
+                width={750}
                 onCancel={onClose}
               >
                 <MeetingInfo onClose={onClose} id={meeting?.id} />

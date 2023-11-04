@@ -1,11 +1,10 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { SiteDto, TemplateDto } from '~/interface'
-import { SharedInput, SharedSelect } from '~/common'
+import { SharedCkEditor, SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateTemplateInfo, siteService } from '~/service'
-import { SharedTextArea } from '~/common/SharedTextArea'
 import moment from 'moment/moment'
 
 interface CreateTemplateFormArgs {
@@ -15,7 +14,7 @@ interface CreateTemplateFormArgs {
 }
 
 const Info: React.FC<CreateTemplateFormArgs> = (props) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [form] = Form.useForm()
 
   const [sites, setSites] = useState<SiteDto[]>([])
@@ -44,7 +43,8 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
   }, [props.template])
 
   const onFinish = (values: any) => {
-    props.onSave(values)
+    console.log(values)
+    // props.onSave(values)
   }
 
   const onClose = () => {
@@ -91,8 +91,29 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
                    rules={[{ required: true }]}>
           <SharedInput placeholder={t('common.placeholder.subject')} />
         </Form.Item>
-        <Form.Item className='mb-3' label={t('common.field.body')} name='body' rules={[{ required: true }]}>
-          <SharedTextArea></SharedTextArea>
+        <Form.Item className='mb-3' label={t('common.field.body')} name='body'>
+          <SharedCkEditor
+            id={i18n.language}
+            config={{
+              mention: {
+                feeds: [
+                  {
+                    marker: '@',
+                    feed: ['@{connectAgent}']
+                  }
+                ]
+              },
+              placeholder: t('common.placeholder.body')
+            }}
+            onChange={(_, editor) => {
+              form.setFieldValue('body', editor.getData())
+            }}
+            data={'Test'}
+            onMaxLengthSubceeded={() => {
+              form.setFields([{ name: 'body', errors: [] }])
+            }}
+          />
+          <span className={'text-[12px] text-[#ccc]'}>* Please enter @ to mention variable</span>
         </Form.Item>
         <Form.Item className='mb-3' label={t('common.field.description')} name='description'
                    rules={[{ required: true }]}>
@@ -114,7 +135,8 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
               <Col span={6}>{t('common.field.registration_date')}</Col>
               <Col span={7}>{moment(props.template.createdOn).format('L')}</Col>
               <Col span={5}>{t('common.field.modification_date')}</Col>
-              <Col span={6}>{props.template.lastUpdatedOn ? moment(props.template.lastUpdatedOn).format('L') : null}</Col>
+              <Col
+                span={6}>{props.template.lastUpdatedOn ? moment(props.template.lastUpdatedOn).format('L') : null}</Col>
             </Row>
           </>
         }

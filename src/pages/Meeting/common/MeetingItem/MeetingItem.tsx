@@ -1,35 +1,44 @@
 import React from 'react'
-import { Badge, Card, Descriptions } from 'antd'
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+import { Card, Descriptions, Space } from 'antd'
+import { EditOutlined } from '@ant-design/icons'
 import DescriptionsItem from 'antd/es/descriptions/Item'
+import { MeetingDto } from '~/interface'
+import { useTranslation } from 'react-i18next'
+import moment from 'moment'
+import { MeetingActions } from '~/pages/Meeting/common'
 
 interface MeetingItemProps {
+  meeting: MeetingDto
+  onEdit: (value: MeetingDto) => void
 }
 
-export const MeetingItem: React.FC<MeetingItemProps> = React.memo(() => {
+export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
+  const { t } = useTranslation()
 
   return (
     <Card
       className={'bg-body w-full'}
       actions={[
-        <SettingOutlined key='setting' />,
-        <EditOutlined key='edit' />,
-        <EllipsisOutlined key='ellipsis' />
+        <EditOutlined key='edit' onClick={() => props.onEdit(props.meeting)} />,
+        <MeetingActions meeting={props.meeting} />
       ]}
     >
       <Descriptions bordered>
-        <DescriptionsItem label={'Product'} span={3}>
-          Cloud Database
+        <DescriptionsItem label={'Title'} span={3}>{props.meeting.name}</DescriptionsItem>
+        <DescriptionsItem label={t('common.field.purpose')} span={3}>{props.meeting.purpose}</DescriptionsItem>
+        <DescriptionsItem label={t('common.field.duration')} span={3}>
+          <Space direction={'horizontal'} size={4}>
+            <strong>{moment(props.meeting.startTime).format('LTS')}</strong>
+            <span>~</span>
+            <strong>{moment(props.meeting.endTime).format('LTS')}</strong>
+          </Space>
         </DescriptionsItem>
-        <DescriptionsItem label={'Room'} span={3}>
-          Room Meeting 2
+        <DescriptionsItem label={t('common.field.room')} span={3}>{props.meeting.roomName}</DescriptionsItem>
+        <DescriptionsItem label={'Guest'} span={3}>
+          {props.meeting.customers.length} people
         </DescriptionsItem>
-        <DescriptionsItem label={'Order time'} span={3}>
-          2018-04-24 18:00:00
-        </DescriptionsItem>
-        <DescriptionsItem label={'Status'} span={3}>
-          <Badge status='processing' text='Running' />
-        </DescriptionsItem>
+        <DescriptionsItem label={t('common.field.purposeNote')} span={3}>{props.meeting.purposeNote}</DescriptionsItem>
+        <DescriptionsItem label={t('common.field.description')} span={3}>{props.meeting.description}</DescriptionsItem>
       </Descriptions>
     </Card>
   )

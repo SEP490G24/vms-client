@@ -1,7 +1,7 @@
 export interface CustomerDto {
   id: string
   visitorName: string,
-  identificationNumber: number,
+  identificationNumber: string,
   email: string,
   phoneNumber: string,
   gender: string,

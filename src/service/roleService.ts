@@ -1,6 +1,6 @@
 import httpService from '~/service/httpServices.ts'
 import { ROLE } from '~/constants/api.ts'
-import { PermissionDto } from '~/interface/Permission.ts'
+import { RoleDto } from '~/interface/Role.ts'
 import authService from './authService'
 
 interface RoleBasePayload {
@@ -14,11 +14,11 @@ interface CreateRolePayload extends RoleBasePayload {
 }
 
 interface UpdateRolePayload extends RoleBasePayload {
-  permissionDtos: PermissionDto[];
+  roleDtos: RoleDto[];
 }
 
-interface UpdateRolePermissionPayload {
-  permissionDto: PermissionDto,
+interface UpdateRoleRolePayload {
+  roleDto: RoleDto,
   state: boolean,
 }
 
@@ -52,7 +52,7 @@ const update = async (id: string, payload: UpdateRolePayload) => {
   return httpService.handleResponseStatus(response)
 }
 
-const updatePermission = async (id: string, payload: UpdateRolePermissionPayload) => {
+const updateRole = async (id: string, payload: UpdateRoleRolePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.put(ROLE.UPDATE_PERMISSION_ROLE.replace('{id}', id), payload)
   return httpService.handleResponseStatus(response)
@@ -70,7 +70,7 @@ const roleService = {
   filter,
   create,
   update,
-  updatePermission,
+  updateRole,
   deleteById
 }
 

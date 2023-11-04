@@ -12,7 +12,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(true)
 
   return (
-    <LayoutWrapper className={'flex bg-body min-h-screen overflow-hidden'}>
+    <LayoutWrapper className={'flex min-h-screen overflow-hidden'} style={{backgroundColor:"#f5f4f4"}}>
       <SideBar collapsed={collapsed} />
       <Wrapper className={'w-full pt-0 px-8'}>
         <Header collapsed={collapsed} toggleCollapsed={setCollapsed} />

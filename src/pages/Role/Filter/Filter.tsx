@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedInput, SharedRadio, SharedSelect } from '~/common'
 import { DateRadioRange, getDataRangeOptions, getDateRangeValue } from '~/interface'
-import { SiteFilterPayload } from '~/service'
+import { RoleFilterPayload } from '~/service'
 import { useSelector } from 'react-redux'
 import { fetchDistrict, fetchProvince, locationsSelector, resetDistrict } from '~/redux/slices/locationSlice'
 import { useAppDispatch } from '~/redux'
 
 interface FilterArgs {
-  onFilter: (filterPayload: SiteFilterPayload) => void
+  onFilter: (filterPayload: RoleFilterPayload) => void
 }
 
 const Filter: React.FC<FilterArgs> = (args) => {
@@ -40,7 +40,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
 
   const onFinish = (values: any) => {
-    const payload: SiteFilterPayload = {
+    const payload: RoleFilterPayload = {
       createdOnStart: valueDate?.date?.['0']?.toDate(),
       createdOnEnd: valueDate?.date?.['1']?.toDate(),
     }
@@ -63,7 +63,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   return (
     <Card
-      title={t('organization.site.search.title')}
+      title={t('organization.role.search.title')}
       extra={
         <Space>
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
@@ -109,10 +109,10 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
         <Row>
           <Col span={12}>
-            <Form.Item label={t('organization.site.search.counselor')} name='query' className={'mb-3'}
+            <Form.Item label={t('organization.role.search.counselor')} name='query' className={'mb-3'}
                        wrapperCol={{ span: '12' }}>
               <SharedInput
-                placeholder={t('organization.site.search.counselor_placeholder')}
+                placeholder={t('organization.role.search.counselor_placeholder')}
                 value={keyword}
                 onChange={(e: any) => setKeyword(e.target.value)}
               />

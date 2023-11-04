@@ -33,6 +33,7 @@ export interface MeetingFilterPayload {
   createdOnEnd?: Date;
   createBy?: string;
   siteId?: string;
+  query?: string;
 }
 
 const findAll = async () => {
@@ -44,6 +45,13 @@ const findAll = async () => {
 const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.get(TICKET.BASE_PATH + `/${id}`)
+  return httpService.handleResponseStatus(response)
+}
+
+const findByQRCode = async (id: string, customerId: string) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.get(TICKET.FIND_BY_QR.replace('{ticketId}', id)
+    .replace('{customerId}', customerId))
   return httpService.handleResponseStatus(response)
 }
 
@@ -92,6 +100,7 @@ const filter = async (payload: MeetingFilterPayload, isPageable?: boolean, pagea
 const meetingTicketService = {
   findAll,
   findById,
+  findByQRCode,
   insert,
   update,
   remove,

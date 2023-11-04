@@ -6,6 +6,7 @@ import meetingTicketService from '~/service/meetingTicketService.ts'
 
 const initialState = {
   meetingSelected: {} as MeetingDto,
+  meetingTicketQR: {} as MeetingDto,
   meetingForm: {} as CreateMeetingInfo,
   meetings: [] as MeetingDto[]
 }
@@ -19,6 +20,13 @@ export const fetchAllMeeting = createAsyncThunk(
 export const fetchMeetingById = createAsyncThunk(
   'meeting/fetchById', (id: string) => {
     return meetingTicketService.findById(id)
+  }
+)
+
+export const fetchMeetingByQR = createAsyncThunk(
+  'meeting/fetchByQR', (arg: { ticketId: string, customerId: string }) => {
+    const { ticketId, customerId } = arg
+    return meetingTicketService.findByQRCode(ticketId, customerId)
   }
 )
 

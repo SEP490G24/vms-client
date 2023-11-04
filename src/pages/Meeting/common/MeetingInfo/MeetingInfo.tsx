@@ -137,6 +137,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
     >
       <Steps current={currentStep} labelPlacement='vertical' items={steps} />
       {steps.map((step, index) => <ContentWrapper
+        key={index}
         className={currentStep === index ? '' : 'hidden'}>{step.content}</ContentWrapper>)}
       <div style={{ marginTop: 24 }}>
         {currentStep > 0 && (

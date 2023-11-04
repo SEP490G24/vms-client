@@ -77,6 +77,7 @@ export const SETTING = {
 
 export const TICKET = {
   BASE_PATH: `${VITE_API_SERVER_URL}/ticket`,
+  FIND_BY_QR: `${VITE_API_SERVER_URL}/ticket/{ticketId}/customer/{customerId}`,
   FILTER: `${VITE_API_SERVER_URL}/ticket/filter`,
 }
 

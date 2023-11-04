@@ -11,7 +11,8 @@ import {
   PATH_ROOM, PATH_ROOM_MEETING_CALENDAR,
   PATH_SITE,
   PATH_TEMPLATE,
-  PATH_USER
+  PATH_USER,
+  PATH_ROLE
 } from './paths.ts'
 import {
   CalendarOutlined,
@@ -112,6 +113,12 @@ export const SIDE_BARS = [
         key: PATH_PERMISSION,
         title: 'Permission',
         path: PATH_PERMISSION,
+        children: []
+      },
+      {
+        key: PATH_ROLE,
+        title: 'Role',
+        path: PATH_ROLE,
         children: []
       }
     ]

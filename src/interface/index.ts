@@ -1,6 +1,7 @@
 export * from './PageableResponse.ts'
 export * from './User.ts'
 export * from './Site.ts'
+export * from './Role.ts'
 export * from './Room.ts'
 export * from './Device.ts'
 export * from './common.ts'

@@ -10,8 +10,13 @@ import {
   Room,
   Template,
   Device,
-  Permission, RoomMeetingCalendar
+  Permission,
+  Role,
+
 } from '~/pages'
+
+import {RoleInfo} from '~/pages/Role/Info'
+
 import {
   PATH_CONFIGURATION,
   PATH_DASHBOARD,
@@ -25,8 +30,7 @@ import {
   PATH_USER,
   PATH_ROOM,
   PATH_TEMPLATE,
-  PATH_DEVICE, PATH_PERMISSION,
-  PATH_ROOM_MEETING_CALENDAR
+  PATH_DEVICE, PATH_PERMISSION, PATH_ROLE, PATH_ROLE_DETAIL
 } from './paths'
 import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
@@ -95,6 +99,11 @@ export const privateRoutes = [
     layout: null
   },
   {
+    path: PATH_ROLE,
+    component: Role,
+    layout: null
+  },
+  {
     path: PATH_HISTORY,
     component: History,
     layout: null
@@ -107,6 +116,11 @@ export const privateRoutes = [
   {
     path: PATH_PROFILE,
     component: Profile,
+    layout: null
+  },
+  {
+    path: PATH_ROLE_DETAIL,
+    component: RoleInfo,
     layout: null
   }
 ]

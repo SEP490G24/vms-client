@@ -27,6 +27,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
   }, [])
 
   useEffect(() => {
+
     if (props.department) {
       form.setFieldsValue({
         name: props.department.name,
@@ -66,11 +67,11 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
                    rules={[{ required: true }]}>
-          <SharedInput disabled={!!props.department} placeholder={t('common.placeholder.department_name')} />
+          <SharedInput  placeholder={t('common.placeholder.department_name')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
                    rules={[{ required: true }]}>
-          <SharedInput placeholder={t('common.placeholder.code')} />
+          <SharedInput disabled={!!props.department} placeholder={t('common.placeholder.code')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
                    rules={[{ required: true }]}>
@@ -89,12 +90,12 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
         </Form.Item>
         {!!props.department &&
           <>
-            <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.used')} name='enable'
+            <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
                        rules={[{ required: true }]}>
               <Radio.Group name='enable'>
                 <Space>
-                  <Radio value={true}>{t('common.label.use')}</Radio>
-                  <Radio value={false}>{t('common.label.not_use')}</Radio>
+                  <Radio value={true}>{t('common.label.enable')}</Radio>
+                  <Radio value={false}>{t('common.label.disable')}</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>

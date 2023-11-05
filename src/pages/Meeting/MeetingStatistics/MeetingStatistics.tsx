@@ -15,6 +15,7 @@ import MeetingTable from '~/pages/Meeting/MeetingStatistics/MeetingTable/Meeting
 import { MeetingKanban } from './MeetingKanban'
 import { SegmentedValue } from 'rc-segmented'
 import { FilterValue } from 'antd/es/table/interface'
+import { MeetingCancelModals } from '~/pages/Meeting/common/MeetingCancelModal'
 
 const MeetingStatistics = () => {
 
@@ -23,7 +24,8 @@ const MeetingStatistics = () => {
   const [pageableResponse, setPageableResponse] = useState<PageableResponse<MeetingDto>>()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [meeting, setMeeting] = useState<MeetingDto>()
-  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [editModal, setEditModal] = useState({ openModal: false })
+  const [cancelModal, setCancelModal] = useState({ openModal: false, meeting: {} as MeetingDto })
   const [filterPayload, setFilterPayload] = useState<MeetingFilterPayload>({})
 
   useEffect(() => {
@@ -40,12 +42,16 @@ const MeetingStatistics = () => {
 
   const openEdit = (meetingDto: MeetingDto) => {
     setMeeting(meetingDto)
-    setOpenModal(true)
+    setEditModal({ openModal: true })
   }
 
-  const onClose = () => {
+  const onEditClose = () => {
     setMeeting(undefined)
-    setOpenModal(false)
+    setEditModal({ openModal: false })
+  }
+
+  const onCancelMeeting = (values: any) => {
+    console.log(values)
   }
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
@@ -87,7 +93,7 @@ const MeetingStatistics = () => {
                     <SharedButton
                       // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
                       type='primary'
-                      onClick={() => setOpenModal(true)}
+                      onClick={() => setEditModal({ openModal: true })}
                     >
                       {t('common.label.create')}
                     </SharedButton>
@@ -99,22 +105,30 @@ const MeetingStatistics = () => {
                   </Space>
                 </Space>
                 <Divider style={{ margin: '16px 0 0' }} />
-                {typeViews === 'TABLE' ? <MeetingTable pageableResponse={pageableResponse} currentPage={currentPage}
-                                                       onChangeTable={handleChangeTable} onEdit={openEdit} /> :
-                  <MeetingKanban pageableResponse={pageableResponse} onEdit={openEdit} />}
+                {typeViews === 'TABLE' ?
+                  <MeetingTable onCancelMeeting={(meeting: MeetingDto) => setCancelModal({ openModal: true, meeting })}
+                                pageableResponse={pageableResponse} currentPage={currentPage}
+                                onChangeTable={handleChangeTable} onEdit={openEdit} /> :
+                  <MeetingKanban onCancelMeeting={(meeting: MeetingDto) => setCancelModal({ openModal: true, meeting })}
+                                 pageableResponse={pageableResponse} onEdit={openEdit} />}
               </Card>
             </Col>
-            {openModal && (
+            {editModal.openModal && (
               <Modal
-                open={openModal}
+                open={editModal.openModal}
                 closable={false}
                 title={null}
                 footer={null}
                 width={750}
-                onCancel={onClose}
+                onCancel={onEditClose}
               >
-                <MeetingInfo onClose={onClose} id={meeting?.id} />
+                <MeetingInfo onClose={onEditClose} id={meeting?.id} />
               </Modal>
+            )}
+            {cancelModal.openModal && (
+              <MeetingCancelModals openModal={cancelModal.openModal} meeting={cancelModal.meeting}
+                                   onOk={onCancelMeeting}
+                                   onClose={() => setCancelModal({ openModal: false, meeting: {} as MeetingDto })} />
             )}
           </Row>
         )}

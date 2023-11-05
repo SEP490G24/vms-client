@@ -10,6 +10,7 @@ import { MeetingActions } from '~/pages/Meeting/common'
 interface MeetingItemProps {
   meeting: MeetingDto
   onEdit: (value: MeetingDto) => void
+  onCancelMeeting: (meeting: MeetingDto) => void
 }
 
 export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
@@ -20,7 +21,7 @@ export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
       className={'bg-body w-full'}
       actions={[
         <EditOutlined key='edit' onClick={() => props.onEdit(props.meeting)} />,
-        <MeetingActions meeting={props.meeting} />
+        <MeetingActions onCancel={props.onCancelMeeting} meeting={props.meeting} />
       ]}
     >
       <Descriptions bordered>

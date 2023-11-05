@@ -8,7 +8,6 @@ import {
   Organization,
   Permission,
   Profile,
-  Role,
   Room,
   RoomMeetingCalendar,
   Setting,
@@ -16,7 +15,6 @@ import {
   TicketResult
 } from '~/pages'
 
-import { RoleInfo } from '~/pages/Role/Info'
 import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
 import {
@@ -30,8 +28,6 @@ import {
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_PROFILE,
-  PATH_ROLE,
-  PATH_ROLE_DETAIL,
   PATH_ROOM,
   PATH_ROOM_MEETING_CALENDAR,
   PATH_SITE,
@@ -104,11 +100,6 @@ export const privateRoutes = [
     layout: null
   },
   {
-    path: PATH_ROLE,
-    component: Role,
-    layout: null
-  },
-  {
     path: PATH_HISTORY,
     component: History,
     layout: null
@@ -128,9 +119,4 @@ export const privateRoutes = [
     component: TicketResult,
     layout: null
   },
-  {
-    path: PATH_ROLE_DETAIL,
-    component: RoleInfo,
-    layout: null
-  }
 ]

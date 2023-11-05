@@ -6,6 +6,7 @@ import { MeetingItem } from '~/pages/Meeting/common'
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<MeetingDto>
   onEdit: (value: MeetingDto) => void
+  onCancelMeeting: (meeting: MeetingDto) => void
 }
 
 const MeetingKanban: React.FC<MeetingItemProps> = (props) => {
@@ -18,7 +19,7 @@ const MeetingKanban: React.FC<MeetingItemProps> = (props) => {
       dataSource={props.pageableResponse?.content}
       renderItem={(item) => (
         <List.Item>
-          <MeetingItem meeting={item} onEdit={props.onEdit} />
+          <MeetingItem meeting={item} onCancelMeeting={props.onCancelMeeting} onEdit={props.onEdit} />
         </List.Item>
       )}
     />

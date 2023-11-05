@@ -11,6 +11,7 @@ interface MeetingItemProps {
   pageableResponse?: PageableResponse<MeetingDto>
   onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
   currentPage: number
+  onCancelMeeting: (meeting: MeetingDto) => void
   onEdit: (value: MeetingDto) => void
 }
 
@@ -77,7 +78,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       {/*<Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}*/}
       {/*        render={(value: MeetingDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />*/}
       <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
-              render={(value: MeetingDto) => <MeetingActions meeting={value}
+              render={(value: MeetingDto) => <MeetingActions onCancel={props.onCancelMeeting} meeting={value}
                                                              directionIcon={'vertical'} />} />
     </Table>
   )

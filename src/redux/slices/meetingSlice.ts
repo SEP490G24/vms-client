@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '~/redux'
-import { MeetingDto } from '~/interface'
+import { MeetingDto, MeetingQRDto } from '~/interface'
 import { CreateMeetingInfo } from '~/service'
 import meetingTicketService from '~/service/meetingTicketService.ts'
 
 const initialState = {
   meetingSelected: {} as MeetingDto,
-  meetingTicketQR: {} as MeetingDto,
+  meetingTicketQR: {} as MeetingQRDto,
   meetingForm: {} as CreateMeetingInfo,
   meetings: [] as MeetingDto[]
 }
@@ -51,6 +51,11 @@ const meetingSlice = createSlice({
     builder.addCase(fetchAllMeeting.fulfilled, (state, action) => {
       if (action.payload?.data) {
         state.meetings = action.payload.data
+      }
+    })
+    builder.addCase(fetchMeetingByQR.fulfilled, (state, action) => {
+      if (action.payload?.data) {
+        state.meetingTicketQR = action.payload.data
       }
     })
     builder.addCase(fetchMeetingById.fulfilled, (state, action) => {

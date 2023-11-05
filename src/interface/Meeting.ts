@@ -23,4 +23,19 @@ export interface MeetingDto {
   customers: CustomerDto[]
 }
 
+export interface MeetingQRDto {
+  ticketId?: string;
+  ticketCode?: string;
+  ticketName?: string;
+  purpose?: string;
+  startTime?: string;
+  endTime?: string;
+  createBy?: string;
+  roomId?: string;
+  roomName?: string;
+  customerInfo: CustomerDto;
+}
+
+
+
 

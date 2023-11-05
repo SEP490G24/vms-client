@@ -1,4 +1,5 @@
 import {
+  Customer,
   Dashboard,
   Department,
   Device,
@@ -18,7 +19,7 @@ import {
 import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
 import {
-  PATH_CONFIGURATION,
+  PATH_CONFIGURATION, PATH_CUSTOMER,
   PATH_DASHBOARD,
   PATH_DEPARTMENT,
   PATH_DEVICE,
@@ -67,6 +68,11 @@ export const privateRoutes = [
   {
     path: PATH_SITE,
     component: Site,
+    layout: null
+  },
+  {
+    path: PATH_CUSTOMER,
+    component: Customer,
     layout: null
   },
   {

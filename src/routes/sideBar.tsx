@@ -1,5 +1,5 @@
 import {
-  PATH_CONFIGURATION,
+  PATH_CONFIGURATION, PATH_CUSTOMER,
   PATH_DASHBOARD,
   PATH_DEPARTMENT,
   PATH_HISTORY,
@@ -14,24 +14,24 @@ import {
   PATH_USER
 } from './paths.ts'
 import {
-  CalendarOutlined,
-  DesktopOutlined,
-  HistoryOutlined,
+  ScheduleOutlined,
+  DashboardOutlined,
+  UserSwitchOutlined,
   SettingOutlined,
-  UsergroupDeleteOutlined
+  ApartmentOutlined
 } from '@ant-design/icons'
 
 export const SIDE_BARS = [
   {
     key: PATH_DASHBOARD,
-    icon: <DesktopOutlined className={'text-[18px]'} />,
+    icon: <DashboardOutlined className={'text-[18px]'} />,
     title: 'sidebar.home.title',
     path: PATH_DASHBOARD,
     children: []
   },
   {
     key: PATH_MEETING,
-    icon: <CalendarOutlined className={'text-[18px]'} />,
+    icon: <ScheduleOutlined className={'text-[18px]'} />,
     title: 'sidebar.meeting.title',
     children: [
       {
@@ -55,15 +55,27 @@ export const SIDE_BARS = [
     ]
   },
   {
-    key: PATH_HISTORY,
-    icon: <HistoryOutlined className={'text-[18px]'} />,
-    title: 'sidebar.history.title',
-    path: PATH_HISTORY,
-    children: []
+    key: 'PATH_CUSTOMER',
+    icon: <UserSwitchOutlined className={'text-[18px]'} />,
+    title: 'sidebar.customer.title',
+    children: [
+      {
+        key: PATH_CUSTOMER,
+        title: 'sidebar.customer.sub.customer',
+        path: PATH_CUSTOMER,
+        children: []
+      },
+      {
+        key: PATH_HISTORY,
+        title: 'sidebar.customer.sub.history',
+        path: PATH_HISTORY,
+        children: []
+      }
+    ]
   },
   {
     key: 'PATH_ORGANIZATION',
-    icon: <UsergroupDeleteOutlined className={'text-[18px]'} />,
+    icon: <ApartmentOutlined className={'text-[18px]'} />,
     title: 'sidebar.organization.title',
     children: [
       {

@@ -27,6 +27,7 @@ export interface CustomerFilterPayload {
   createdOnEnd?: Date;
   createBy?: string;
   siteId?: string;
+  keyword?: string;
 }
 
 const findAll = async () => {

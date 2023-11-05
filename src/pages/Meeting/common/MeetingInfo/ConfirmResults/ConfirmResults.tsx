@@ -32,7 +32,7 @@ const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = (props) => {
           <Space size={4}>
             <span>{moment(props.meeting.startTime).format('LTS')}</span>
             <span>~</span>
-            <span>{moment(props.meeting.startTime).format('LTS')}</span>
+            <span>{moment(props.meeting.endTime).format('LTS')}</span>
           </Space>
         </DescriptionsItem>
         <DescriptionsItem label={'Room'}

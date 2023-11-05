@@ -8,7 +8,11 @@ export interface CustomerDto {
   description: string,
   provinceId: number,
   districtId: number,
-  communeId: number
+  communeId: number,
+  createdOn: string,
+  createdBy: string,
+  lastUpdatedOn: string,
+  lastUpdatedBy: string,
 }
 
 

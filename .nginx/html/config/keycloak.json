@@ -1,6 +1,6 @@
 {
   "realm": "vms",
-  "auth-server-url": "https://keycloak-vms.azurewebsites.net/",
+  "auth-server-url": "https://idm-vms.azurewebsites.net/",
   "ssl-required": "external",
   "resource": "vms-app",
   "credentials": {

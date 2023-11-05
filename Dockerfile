@@ -2,6 +2,7 @@
 FROM node:lts AS development
 # Set working directory
 WORKDIR /app
+ENV NODE_OPTIONS="--max-old-space-size=8192"
 #
 COPY package.json /app/package.json
 COPY package-lock.json /app/package-lock.json

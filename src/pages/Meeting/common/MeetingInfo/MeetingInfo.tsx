@@ -43,9 +43,8 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
     if (props.id) {
       dispatch(fetchMeetingById(props.id) as any)
     } else {
-      if (props.scheduler?.state.id.value) {
+      if (props.scheduler) {
         dispatch(fetchMeetingById(props.scheduler?.state.id.value) as any)
-      } else {
         dispatch(patchMeetingForm({
           startTime: new Date(props.scheduler?.state.start.value),
           endTime: new Date(props.scheduler?.state.end.value)

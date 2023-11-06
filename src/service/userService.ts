@@ -23,8 +23,8 @@ export interface UpdateUserInfo {
 export interface UserFilterPayload {
   roles?: string[];
   usernames?: string[];
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
+  createdOnStart?: string | Date;
+  createdOnEnd?: string | Date;
   state?: string;
   keyword?: string
 }

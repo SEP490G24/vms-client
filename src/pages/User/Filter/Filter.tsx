@@ -1,9 +1,10 @@
-import { Card, DatePicker, Form, RadioChangeEvent, Space } from 'antd'
+import { Card, Form, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton, SharedInput, SharedRadio } from '~/common'
-import { DateRadioRange, getDataRangeOptions, getDateRangeValue } from '~/interface'
+import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput } from '~/common'
+import { DateRadioRange } from '~/interface'
 import { UserFilterPayload } from '~/service'
+import { DATE_TIME } from '~/constants'
 
 interface FilterArgs {
   onFilter: (filterPayload: UserFilterPayload) => void
@@ -12,31 +13,31 @@ interface FilterArgs {
 const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const [valueDate, setValueDate] = useState<DateRadioRange | null>()
-  const { RangePicker } = DatePicker
+  const [valueDate, setValueDate] = useState<DateRadioRange>()
   const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
+
+
+  useEffect(() => {
+  }, [])
 
   useEffect(() => {
     if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim()) setDisable(false)
     else setDisable(true)
-  }, [valueDate,keyword])
+  }, [valueDate, keyword])
 
-  const onChange = ({ target: { value } }: RadioChangeEvent) => {
-    setValueDate({ key: value, date: getDateRangeValue(value) })
-  }
 
   const onFinish = (values: any) => {
     const payload: UserFilterPayload = {
-      createdOnStart: valueDate?.date?.['0']?.toDate(),
-      createdOnEnd: valueDate?.date?.['1']?.toDate(),
+      createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
+      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
     }
     if (values?.query?.trim()) payload.keyword = values?.query?.trim()
     args.onFilter(payload)
   }
 
   const onReset = () => {
-    setValueDate(null)
+    setValueDate(undefined)
     form.resetFields()
     args.onFilter({})
   }
@@ -57,7 +58,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         </Space>
       }
       bordered={false}
-      className="vms-card filter-card"
+      className='vms-card filter-card'
     >
       <Form
         labelCol={{ span: 6 }}
@@ -66,37 +67,19 @@ const Filter: React.FC<FilterArgs> = (args) => {
         form={form}
         initialValues={{ layout: 'horizontal' }}
         colon={false}
-        labelAlign="left"
-        className="vms-form"
+        labelAlign='left'
+        className='vms-form'
         onFinish={onFinish}
       >
-        <Form.Item label={t('common.label.period')}>
-          <RangePicker
-            value={valueDate?.date}
-            onChange={(val) => {
-              setValueDate({ key: undefined, date: val })
-            }}
-            changeOnBlur
-            className="vms-picker"
-            style={{ width: '100%' }}
-            placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
-          />
-        </Form.Item>
-        <Form.Item label={<span></span>} name="duration">
-          <SharedRadio
-            options={getDataRangeOptions(t)}
-            onChange={onChange}
-            value={valueDate?.key}
-            optionType="button"
-          />
-        </Form.Item>
-        <Form.Item label={t('organization.user.search.counselor')} name="query">
+        <SharedFilterScope />
+        <Form.Item label={t('organization.user.search.counselor')} name='query'>
           <SharedInput
             placeholder={t('organization.user.search.counselor_placeholder')}
             value={keyword}
             onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
+        <SharedFilterPeriod onChange={setValueDate} />
       </Form>
     </Card>
   )

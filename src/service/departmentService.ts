@@ -19,8 +19,8 @@ export interface UpdateDepartmentInfo {
 
 export interface DepartmentFilterPayload {
   names?: string[];
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
+  createdOnStart?: string | Date;
+  createdOnEnd?: string | Date;
   createBy?: string;
   lastUpdatedBy?: string;
   enable?: string;

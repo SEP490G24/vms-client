@@ -23,8 +23,8 @@ export interface UpdateCustomerInfo {
 }
 
 export interface CustomerFilterPayload {
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
+  createdOnStart?: string | Date;
+  createdOnEnd?: string | Date;
   createBy?: string;
   siteId?: string;
   keyword?: string;

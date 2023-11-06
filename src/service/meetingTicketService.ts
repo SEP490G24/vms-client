@@ -29,8 +29,8 @@ export interface UpdateMeetingInfo {
 
 export interface MeetingFilterPayload {
   usernames?: string[];
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
+  createdOnStart?: string | Date;
+  createdOnEnd?: string | Date;
   createBy?: string;
   siteId?: string;
   query?: string;

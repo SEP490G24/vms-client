@@ -132,6 +132,7 @@
       "reset": "Reset",
       "search": "Search",
       "period": "Period",
+      "scope": "Scope",
       "action": "Action"
     },
     "date_range": {

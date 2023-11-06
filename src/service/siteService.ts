@@ -29,8 +29,8 @@ export interface UpdateSiteInfo {
 export interface SiteFilterPayload {
   names?: string[];
   usernames?: string[];
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
+  createdOnStart?: string;
+  createdOnEnd?: string;
   createBy?: string;
   lastUpdatedBy?: string
   enable?: string

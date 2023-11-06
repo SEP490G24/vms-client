@@ -12,6 +12,8 @@ interface RoleBasePayload {
 
 interface CreateRolePayload extends RoleBasePayload {
 }
+interface CreateRoleInfo extends RoleBasePayload {
+}
 
 interface UpdateRolePayload extends RoleBasePayload {
   permissionDtos: PermissionDto[];
@@ -20,6 +22,18 @@ interface UpdateRolePayload extends RoleBasePayload {
 interface UpdateRolePermissionPayload {
   permissionDto: PermissionDto,
   state: boolean,
+}
+
+export interface RoleFilterPayload {
+  names?: string[];
+  usernames?: string[];
+  createdOnStart?: Date;
+  createdOnEnd?: Date;
+  createBy?: string;
+  lastUpdatedBy?: string
+  enable?: string
+  keyword?: string
+  provinceId?: string
 }
 
 const getAll = async () => {

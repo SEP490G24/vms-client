@@ -66,6 +66,9 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
     form.resetFields()
   }
 
+  const resetDistrictAndCommune = () =>{
+    form.resetFields(["districtId","communeId"]);
+  }
   return (
     <InfoWrapper
       title={t(!!siteSelected ? 'organization.site.popup.title-edit' : 'organization.site.popup.title-add')}
@@ -96,6 +99,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
           <SharedSelect options={provinces.map((province) => {
             return { label: province.name, value: province.id, key: province.id }
           })}
+                        onChange = {resetDistrictAndCommune}
                         placeholder={t('common.placeholder.province')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.district')} name='districtId'
@@ -131,12 +135,12 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         </Form.Item>
         {!!siteSelected &&
           <>
-            <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
+            <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
                        rules={[{ required: true }]}>
               <Radio.Group name='enable'>
                 <Space>
-                  <Radio value={true}>{t('common.label.use')}</Radio>
-                  <Radio value={false}>{t('common.label.not_use')}</Radio>
+                  <Radio value={true}>{t('common.label.enable')}</Radio>
+                  <Radio value={false}>{t('common.label.disable')}</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>

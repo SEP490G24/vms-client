@@ -35,6 +35,7 @@ export interface SiteFilterPayload {
   lastUpdatedBy?: string
   enable?: string
   keyword?: string
+  provinceId?: string
 }
 
 const findAll = async () => {

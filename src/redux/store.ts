@@ -11,6 +11,7 @@ import organizationReduce from './slices/organizationSlice'
 import siteReduce from './slices/siteSlice'
 import departmentReduce from './slices/departmentSlice'
 import roomReduce from './slices/roomSlice'
+import roleReduce from './slices/roleSlice'
 import locationReduce from './slices/locationSlice'
 import settingReduce from './slices/settingSlice'
 import meetingReduce from './slices/meetingSlice'
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   site: siteReduce,
   department: departmentReduce,
   room: roomReduce,
+  role: roleReduce,
   location: locationReduce,
   setting: settingReduce,
   meeting: meetingReduce,

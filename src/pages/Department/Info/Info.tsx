@@ -33,7 +33,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
         code: props.department.code,
         siteId: props.department.siteId,
         description: props.department.description,
-        enable: props.department.enable
+        enable: props.department.enable,
       })
     }
   }, [props.department])
@@ -64,13 +64,13 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
         onFinish={onFinish}
         labelAlign='left'
       >
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
-                   rules={[{ required: true }]}>
-          <SharedInput disabled={!!props.department} placeholder={t('common.placeholder.department_name')} />
-        </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
                    rules={[{ required: true }]}>
-          <SharedInput placeholder={t('common.placeholder.code')} />
+          <SharedInput disabled={!!props.department} placeholder={t('common.placeholder.code')} />
+        </Form.Item>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
+                   rules={[{ required: true }]}>
+          <SharedInput placeholder={t('common.placeholder.department_name')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
                    rules={[{ required: true }]}>
@@ -89,12 +89,12 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
         </Form.Item>
         {!!props.department &&
           <>
-            <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.used')} name='enable'
+            <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.status')} name='enable'
                        rules={[{ required: true }]}>
               <Radio.Group name='enable'>
                 <Space>
-                  <Radio value={true}>{t('common.label.use')}</Radio>
-                  <Radio value={false}>{t('common.label.not_use')}</Radio>
+                  <Radio value={true}>{t('common.label.enable')}</Radio>
+                  <Radio value={false}>{t('common.label.disable')}</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>
@@ -103,7 +103,8 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
               <Col span={6}>{t('common.field.registration_date')}</Col>
               <Col span={7}>{moment(props.department.createdOn).format('L')}</Col>
               <Col span={5}>{t('common.field.modification_date')}</Col>
-              <Col span={6}>{props.department.lastUpdatedOn ? moment(props.department.lastUpdatedOn).format('L') : null}</Col>
+              <Col
+                span={6}>{props.department.lastUpdatedOn ? moment(props.department.lastUpdatedOn).format('L') : null}</Col>
             </Row>
           </>
         }

@@ -1,9 +1,7 @@
 {
   "common": {
     "field": {
-      "customers": "Customers",
-      "name": "Name",
-      "id": "ID",
+      "customers" : "Customers",
       "username": "Username",
       "gender": "Gender",
       "reason": "Reason",
@@ -58,12 +56,9 @@
       "purposeNote": "Purpose Note",
       "purpose": "Purpose",
       "identificationNumber": "ID Card",
+      "name": "Name",
       "site": {
         "name": "Site"
-      },
-      "status_": {
-        "enable": "Enable",
-        "disable": "Disable"
       }
     },
     "placeholder": {

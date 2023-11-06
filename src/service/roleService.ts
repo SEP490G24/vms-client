@@ -12,8 +12,8 @@ interface RoleBasePayload {
 
 interface CreateRolePayload extends RoleBasePayload {
 }
-interface CreateRoleInfo extends RoleBasePayload {
-}
+// interface CreateRoleInfo extends RoleBasePayload {
+// }
 
 interface UpdateRolePayload extends RoleBasePayload {
   permissionDtos: PermissionDto[];

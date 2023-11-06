@@ -1,5 +1,6 @@
 import {
-  PATH_CONFIGURATION, PATH_CUSTOMER,
+  PATH_CONFIGURATION,
+  PATH_CUSTOMER,
   PATH_DASHBOARD,
   PATH_DEPARTMENT,
   PATH_HISTORY,
@@ -8,17 +9,18 @@ import {
   PATH_MEETING_LIST,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
-  PATH_ROOM, PATH_ROOM_MEETING_CALENDAR,
+  PATH_ROOM,
+  PATH_ROOM_MEETING_CALENDAR,
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_USER
 } from './paths.ts'
 import {
-  ScheduleOutlined,
+  ApartmentOutlined,
   DashboardOutlined,
-  UserSwitchOutlined,
+  ScheduleOutlined,
   SettingOutlined,
-  ApartmentOutlined
+  UserSwitchOutlined
 } from '@ant-design/icons'
 
 export const SIDE_BARS = [

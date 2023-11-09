@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
+import { TableAction } from '~/interface'
 
 export const TICKET_STATE_LABELS: any = {
   PRE_CONSULTANT: 'common.ticketStatus.preConsultation',
@@ -80,6 +81,36 @@ export const convertMsToTime = (milliseconds: any) => {
   return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}:${padTo2Digits(
     seconds
   )}`
+}
+
+function padTo2Digits(num: number) {
+  return num.toString().padStart(2, '0')
+}
+
+export function formatDate(date: Date) {
+  return (
+    [
+      date.getFullYear(),
+      padTo2Digits(date.getMonth() + 1),
+      padTo2Digits(date.getDate())
+    ].join('-') +
+    ' ' +
+    [
+      padTo2Digits(date.getHours()),
+      padTo2Digits(date.getMinutes()),
+      padTo2Digits(date.getSeconds())
+    ].join(':')
+  )
+}
+
+export function resetTableAction(tableAction: TableAction) {
+  return {
+    ...tableAction,
+    pagination: {
+      ...tableAction.pagination,
+      current: 1
+    }
+  }
 }
 
 // export const checkPermission=(permissions:any):any=>{

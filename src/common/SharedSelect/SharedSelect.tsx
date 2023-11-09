@@ -6,7 +6,7 @@ import { OptionItem } from '~/interface/common'
 interface SharedSelectProps {
   options: OptionItem[]
   defaultValue?: string | any
-  onChange?: (value: string) => void
+  onChange?: (value: any) => void
   className?: string
   value?: string
   placeholder?: string

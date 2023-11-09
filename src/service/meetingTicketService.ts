@@ -6,8 +6,8 @@ import { CreateCustomerInfo } from '~/service/customerService.ts'
 
 export interface CreateMeetingInfo {
   name: string;
-  startTime?: string | Date;
-  endTime?: string | Date;
+  startTime: Date;
+  endTime: Date;
   roomId?: string
   templateId?: string
   newCustomers: CreateCustomerInfo[];

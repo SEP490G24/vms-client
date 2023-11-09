@@ -8,9 +8,6 @@ import { GlobalStyles } from './themes'
 import { ConfigProvider } from 'antd'
 import React, { useLayoutEffect, useState } from 'react'
 import { BrowserHistory, createBrowserHistory } from 'history'
-import { Profile } from '~/pages'
-import { ProfileInfo } from '~/pages/Account/Profile/ProfileInfo'
-import { ProfileSecurity } from '~/pages/Account/Profile/ProfileSecurity'
 
 const history = createBrowserHistory()
 
@@ -59,10 +56,10 @@ function App() {
         <CustomRouter history={history} basename={window.__RUNTIME_CONFIG__.VITE_BASE_PATH}>
           <Routes>
             <Route element={<AuthRoute />}>
-              <Route path={'/profile'} element={<DefaultLayout><Profile /></DefaultLayout>}>
-                <Route path={'/profile/info'} element={<ProfileInfo />} />
-                <Route path={'/profile/security'} element={<ProfileSecurity />} />
-              </Route>
+              {/*<Route path={'/profile'} element={<DefaultLayout><Profile /></DefaultLayout>}>*/}
+              {/*  <Route path={'/profile/info'} element={<ProfileInfo />} />*/}
+              {/*  <Route path={'/profile/security'} element={<ProfileSecurity />} />*/}
+              {/*</Route>*/}
               {privateRoutes.map((route, index) => {
                 const Page = route.component
                 const Layout = route.layout || DefaultLayout

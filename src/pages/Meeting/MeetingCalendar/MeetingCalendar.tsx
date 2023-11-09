@@ -32,13 +32,14 @@ const MeetingCalendar = () => {
         {/*{checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (*/}
         <Card>
           <Scheduler
-            week={null}
+            // week={null}
             day={{
               startHour: 3,
               endHour: 23,
               step: 60,
               navigation: true
             }}
+            deletable={false}
             hourFormat={'24'}
             fields={[{ name: 'id', type: 'input' }]}
             dialogMaxWidth={'xl'}

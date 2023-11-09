@@ -1,11 +1,12 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { SiteDto, TemplateDto } from '~/interface'
+import { SiteDto, TemplateDto, TemplateType } from '~/interface'
 import { SharedCkEditor, SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateTemplateInfo, siteService } from '~/service'
 import moment from 'moment/moment'
+import { enumToArray } from '~/utils'
 
 interface CreateTemplateFormArgs {
   template?: TemplateDto
@@ -77,8 +78,11 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
           <SharedInput placeholder={t('common.placeholder.template_name')}></SharedInput>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.type')} name='type' rules={[{ required: true }]}>
-          <SharedSelect options={[{ label: 'EMAIL', value: 'EMAIL' }, { label: 'SMS', value: 'SMS' }]}
-                        placeholder={t('common.placeholder.type')} />
+          <SharedSelect
+            options={enumToArray(TemplateType).map(item => {
+              return { label: item.key, value: item.value }
+            })}
+            placeholder={t('common.placeholder.type')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
                    rules={[{ required: true }]}>

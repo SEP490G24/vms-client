@@ -22,12 +22,12 @@ export interface UpdateTemplateInfo {
 }
 
 export interface TemplateFilterPayload {
-  roles?: string[];
-  templatenames?: string[];
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
-  state?: string;
+  createdOnStart?: string | Date;
+  createdOnEnd?: string | Date;
+  enable?: boolean;
   keyword?: string
+  siteId?: string
+  type?: string
 }
 
 const findAll = async () => {

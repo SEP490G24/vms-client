@@ -1,6 +1,8 @@
 import React from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import moment from 'moment'
+import { TablePaginationConfig } from 'antd'
+import { FilterValue } from 'antd/es/table/interface'
 
 export enum Purpose {
   CONFERENCES = 'CONFERENCES',
@@ -10,13 +12,30 @@ export enum Purpose {
   OTHERS = 'OTHERS'
 }
 
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHER = 'OTHER'
+}
+
+export enum TemplateType {
+  EMAIL = 'EMAIL',
+  SMS = 'SMS'
+}
+
 export interface OptionItem {
   label: string
-  value: string
+  value: any
   disabled?: boolean
 }
 
 export type TargetKey = React.MouseEvent | React.KeyboardEvent | string
+
+export interface TableAction {
+  pagination?: TablePaginationConfig,
+  filters?: Record<string, FilterValue | null>,
+  sorter?: any
+}
 
 export interface ConsultationHistoryItem {
   ticketId: string

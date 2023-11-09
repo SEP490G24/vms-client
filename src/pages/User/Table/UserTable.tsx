@@ -3,14 +3,14 @@ import Column from 'antd/es/table/Column'
 import { PageableResponse, UserDto } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
-import { Table, TablePaginationConfig } from 'antd'
+import { Space, Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedStatus } from '~/common'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<UserDto>
   onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
-  currentPage: number
+  currentPage?: number
   onEdit: (value: UserDto) => void
 }
 
@@ -38,21 +38,28 @@ const UserTable: React.FC<MeetingItemProps> = (props) => {
               render={(value) => <a onClick={() => props.onEdit(value)}>{value.username}</a>}
       />
       <Column
-        title={t('common.field.user')}
+        title={t('common.field.fullName')}
         render={(value) => <>{value.firstName + ' ' + value.lastName}</>}
       />
-      <Column title={t('common.field.phoneNumber')} dataIndex='phoneNumber' key='phoneNumber' sorter={true} />
-      <Column title={t('common.field.email')} dataIndex='email' key='email' sorter={true} />
+      <Column title={t('common.field.dob')} dataIndex='dateOfBirth' key='dateOfBirth' />
       <Column
         title={t('common.field.gender')}
+        key={'gender'}
         dataIndex='gender'
-        key='gender'
-        filters={[
-          { text: 'MALE', value: true },
-          { text: 'FEMALE', value: false }
-        ]}
-        filterMultiple={false}
       />
+      <Column title={t('common.field.contact')}
+              render={(user: UserDto) => <Space direction={'vertical'}>
+                <strong>{user.phoneNumber}</strong>
+                <span>{user.email}</span>
+              </Space>}
+      />
+      <Column title={t('common.field.province')}
+              render={(user: UserDto) => user.provinceName ? <Space direction={'vertical'}>
+                <strong>{user.provinceName}</strong>
+                <span>{user.districtName} - {user.communeName}</span>
+              </Space> : null}
+      />
+      <Column title={t('common.field.address')} dataIndex='address' key='address' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'
@@ -66,8 +73,6 @@ const UserTable: React.FC<MeetingItemProps> = (props) => {
       />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
               render={(value: UserDto) => moment(value.createdOn).format('L')} />
-      <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
-              render={(value: UserDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : null} />
     </Table>
   )
 }

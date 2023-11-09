@@ -1,41 +1,38 @@
 import { ProfileNavWrapper } from './styles.ts'
-import { Card, Menu, MenuProps, Space, UploadFile, UploadProps } from 'antd'
+import { Card, Descriptions, Space, UploadFile, UploadProps } from 'antd'
 import Title from 'antd/es/typography/Title'
-import { CalendarOutlined, MailOutlined } from '@ant-design/icons'
-import { useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import { authSelector, useAppSelector } from '~/redux'
 import { authService } from '~/service'
 import { useState } from 'react'
 import { toBase64 } from '~/utils'
 import { SharedAvatar } from '~/common'
+import DescriptionsItem from 'antd/es/descriptions/Item'
 
 
 const ProfileNav = () => {
 
   useAppSelector(authSelector)
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  // const { t } = useTranslation()
+  // const navigate = useNavigate()
   const userInfo = authService.getUserInfo()
   const [avatar, setAvatar] = useState<UploadFile>()
 
+  // const profileNavs: MenuProps['items'] = [
+  //   {
+  //     key: 'info',
+  //     label: t('user.profile.label'),
+  //     icon: <MailOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'} />
+  //   },
+  //   {
+  //     key: 'security',
+  //     label: t('user.security.label'),
+  //     icon: <CalendarOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'} />
+  //   }
+  // ]
 
-  const profileNavs: MenuProps['items'] = [
-    {
-      key: 'info',
-      label: t('user.profile.label'),
-      icon: <MailOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'} />
-    },
-    {
-      key: 'security',
-      label: t('user.security.label'),
-      icon: <CalendarOutlined className={'text-lg bg-[#f2f5f8] p-2 rounded'} />
-    }
-  ]
-
-  const handleNavigate = (key: string) => {
-    navigate(key)
-  }
+  // const handleNavigate = (key: string) => {
+  //   navigate(key)
+  // }
 
   const onChange: UploadProps['onChange'] = async (data) => {
     const url = await toBase64(data.file)
@@ -58,13 +55,24 @@ const ProfileNav = () => {
             <Title level={2}>{userInfo.fullName}</Title>
             <Title level={4}>@{userInfo.username}</Title>
           </Space>
-          <Menu className={'w-full'}
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
-                onSelect={({ key }) => handleNavigate(key)}
-                mode={'inline'}
-                items={profileNavs}>
-          </Menu>
+          <Descriptions title='More Info'>
+            <DescriptionsItem label={'Site'} span={3}>
+              VMS_HN
+            </DescriptionsItem>
+            <DescriptionsItem label={'Department'} span={3}>
+              IT Human
+            </DescriptionsItem>
+            <DescriptionsItem label={'Role'} span={3}>
+              VMS_ADMIN
+            </DescriptionsItem>
+          </Descriptions>
+          {/*<Menu className={'w-full'}*/}
+          {/*      defaultSelectedKeys={['1']}*/}
+          {/*      defaultOpenKeys={['sub1']}*/}
+          {/*      onSelect={({ key }) => handleNavigate(key)}*/}
+          {/*      mode={'inline'}*/}
+          {/*      items={profileNavs}>*/}
+          {/*</Menu>*/}
         </Space>
       </Card>
     </ProfileNavWrapper>

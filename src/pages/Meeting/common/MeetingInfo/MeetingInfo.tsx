@@ -18,6 +18,7 @@ import {
 import { findAllRoom } from '~/redux/slices/roomSlice.ts'
 import { findByOrganizationId } from '~/redux/slices/customerSlice.ts'
 import meetingTicketService from '~/service/meetingTicketService.ts'
+import { formatDate } from '~/utils'
 
 interface MeetingInfoArgs {
   classname?: string
@@ -71,9 +72,12 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
   const onFinish = (values: any) => {
     const payload = {
       ...values,
-      ...meetingForm,
+      startTime: formatDate(meetingForm.startTime),
+      endTime: formatDate(meetingForm.endTime),
+      draft: meetingForm.draft,
       templateId
     }
+    console.log(payload)
     meetingTicketService.insert(payload).then((response) => {
       if (props.scheduler) {
         const event = {

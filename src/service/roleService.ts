@@ -48,6 +48,12 @@ const getById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
+const getBySiteId = async (siteIds: string[]) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  let response = await httpService.post(ROLE.GET_BY_SITE_ID_ROLE, siteIds)
+  return httpService.handleResponseStatus(response)
+}
+
 const filter = async (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   let response = await httpService.post(ROLE.FILTER_ROLE, payload)
@@ -81,6 +87,7 @@ const deleteById = async (id: string) => {
 const roleService = {
   getAll,
   getById,
+  getBySiteId,
   filter,
   create,
   update,

@@ -8,7 +8,7 @@ export interface TemplateDto {
   siteId?: string;
   code: string;
   subject?: string;
-  body?: string;
+  body: string;
   type: string;
   description: string;
   enable: boolean;

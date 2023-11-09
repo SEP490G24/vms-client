@@ -13,7 +13,7 @@ interface FilterArgs {
 const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const [valueDate, setValueDate] = useState<DateRadioRange | null>()
+  const [valueDate, setValueDate] = useState<DateRadioRange>()
   const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
 
@@ -32,7 +32,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
   }
 
   const onReset = () => {
-    setValueDate(null)
+    setValueDate(undefined)
     form.resetFields()
     args.onFilter({})
   }
@@ -74,7 +74,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
-        <SharedFilterPeriod onChange={setValueDate} />
+        <SharedFilterPeriod valueDate={valueDate} setValueDate={setValueDate} />
       </Form>
     </Card>
   )

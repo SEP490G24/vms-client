@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '~/redux'
-import { PageableResponse, DepartmentDto } from '~/interface'
-import { departmentService } from '~/service'
+import { PageableResponse, DepartmentDto, PageableRequest } from '~/interface'
+import { DepartmentFilterPayload, departmentService } from '~/service'
 
 const initialState = {
   pageableResponse: {} as PageableResponse<DepartmentDto>,
@@ -10,7 +10,11 @@ const initialState = {
 }
 
 export const filterDepartments = createAsyncThunk(
-  'department/filter', (arg: any) => {
+  'department/filter', (arg: {
+    filterPayload: DepartmentFilterPayload,
+    isPageable?: boolean,
+    pageableRequest?: PageableRequest
+  }) => {
     const { filterPayload, isPageable, pageableRequest } = arg
     return departmentService.filter(filterPayload, isPageable, pageableRequest)
   }
@@ -34,8 +38,12 @@ const departmentsSlice = createSlice({
     builder
       .addCase(filterDepartments.fulfilled, (state, action) => {
         if (action.payload?.data) {
-          state.pageableResponse = action.payload.data
-          state.departments = action.payload.data.content
+          if (action.payload.data.content) {
+            state.pageableResponse = action.payload.data
+            state.departments = action.payload.data.content
+          } else {
+            state.departments = action.payload.data
+          }
         }
       })
       .addCase(fetchDepartmentById.fulfilled, (state, action) => {

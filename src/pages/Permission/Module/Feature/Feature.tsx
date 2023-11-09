@@ -50,10 +50,10 @@ const Feature: React.FC<FeatureArgs> = (args) => {
             strong>{value.label[i18n.language]?.name}</Text><Text type='secondary'>{value.name}</Text></Space>}
                   key='name' />
           {args.roles?.map((role) =>
-            <Column align={'center'} title={role.name} render={(value) =>
+            <Column align={'center'} title={role.code} render={(value) =>
               <Checkbox
                 defaultChecked={role.permissionDtos.some(r => r.moduleId === value.moduleId && r.name === value.name)}
-                onChange={(event) => args.onChange(role.name, value, event)} />
+                onChange={(event) => args.onChange(role.code, value, event)} />
             } />)
           }
         </Table>

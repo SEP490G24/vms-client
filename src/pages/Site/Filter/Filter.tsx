@@ -13,26 +13,26 @@ interface FilterArgs {
 const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const [valueDate, setValueDate] = useState<DateRadioRange | null>()
+  const [valueDate, setValueDate] = useState<DateRadioRange>()
   const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
 
   useEffect(() => {
     if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim()) setDisable(false)
     else setDisable(true)
-  }, [valueDate,keyword])
+  }, [valueDate, keyword])
 
   const onFinish = (values: any) => {
     const payload: SiteFilterPayload = {
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
+      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY)
     }
     if (values?.query?.trim()) payload.keyword = values?.query?.trim()
     args.onFilter(payload)
   }
 
   const onReset = () => {
-    setValueDate(null)
+    setValueDate(undefined)
     form.resetFields()
     args.onFilter({})
   }
@@ -53,7 +53,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         </Space>
       }
       bordered={false}
-      className="vms-card filter-card"
+      className='vms-card filter-card'
     >
       <Form
         labelCol={{ span: 6 }}
@@ -62,8 +62,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
         form={form}
         initialValues={{ layout: 'horizontal' }}
         colon={false}
-        labelAlign="left"
-        className="vms-form"
+        labelAlign='left'
+        className='vms-form'
         onFinish={onFinish}
       >
         <Form.Item label={t('organization.site.search.counselor')} name='query'>
@@ -73,7 +73,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
-        <SharedFilterPeriod onChange={setValueDate} />
+        <SharedFilterPeriod valueDate={valueDate} setValueDate={setValueDate} />
       </Form>
     </Card>
   )

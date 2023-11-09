@@ -5,9 +5,10 @@ export interface MeetingDto {
   createdOn?: string;
   lastUpdatedBy?: string;
   lastUpdatedOn?: string;
-  id?: string;
-  code?: string;
-  name?: string;
+  id: string;
+  siteId: string;
+  code: string;
+  name: string;
   purpose: string;
   purposeNote?: string;
   startTime: string;

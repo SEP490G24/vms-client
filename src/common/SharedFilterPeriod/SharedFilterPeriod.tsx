@@ -1,35 +1,31 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo } from 'react'
 import { SharedRadio } from '~/common'
 import { DatePicker, Form, RadioChangeEvent } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { DateRadioRange, getDataRangeOptions, getDateRangeValue } from '~/interface'
 
 interface SharedFilterScopeProps {
-  onChange: (value?: DateRadioRange) => void
+  valueDate?: DateRadioRange
+  setValueDate: (value?: DateRadioRange) => void
 }
 
 export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props) => {
 
   const { t } = useTranslation()
   const { RangePicker } = DatePicker
-  const [valueDate, setValueDate] = useState<DateRadioRange>()
 
   const onChange = ({ target: { value } }: RadioChangeEvent) => {
-    setValueDate({ key: value, date: getDateRangeValue(value) })
+    props.setValueDate({ key: value, date: getDateRangeValue(value) })
   }
-
-  useEffect(() => {
-    props.onChange(valueDate)
-  }, [valueDate])
 
   return (
     <>
       <Form.Item label={t('common.label.period')}>
         <RangePicker
           format={'YYYY-MM-DD'}
-          value={valueDate?.date}
+          value={props.valueDate?.date}
           onChange={(val) => {
-            setValueDate({ key: undefined, date: val })
+            props.setValueDate({ key: undefined, date: val })
           }}
           changeOnBlur
           className='vms-picker'
@@ -41,7 +37,7 @@ export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props)
         <SharedRadio
           options={getDataRangeOptions(t)}
           onChange={onChange}
-          value={valueDate?.key}
+          value={props.valueDate?.key}
           optionType='button'
         />
       </Form.Item>

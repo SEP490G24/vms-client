@@ -8,6 +8,7 @@ import { roomsSelector } from '~/redux/slices/roomSlice.ts'
 import { meetingSelector, patchMeetingForm } from '~/redux/slices/meetingSlice.ts'
 import moment from 'moment/moment'
 import { CreateMeetingInfo } from '~/service'
+import { isNullish } from '~/utils'
 
 interface ConfirmResultsWrapperArgs {
   meeting: CreateMeetingInfo
@@ -42,7 +43,7 @@ const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = (props) => {
           {(!!oldCustomers || !!newCustomers) && <>{(oldCustomers?.length ?? 0) + (newCustomers?.length ?? 0)} people</>}
         </DescriptionsItem>
       </Descriptions>
-      {!meetingSelected &&
+      {isNullish(meetingSelected) &&
         <SharedCheckbox title={'Xác nhận'} defaultChecked={props.meeting.draft && !props.meeting.draft}
                         onChange={(e) => {
                           dispatch(patchMeetingForm({ draft: !e.target.checked }))

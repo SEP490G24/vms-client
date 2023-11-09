@@ -1,10 +1,11 @@
 import { ProfileWrapper } from './styles.ts'
-import { Col, Row } from 'antd'
+import { Col, Row, Space } from 'antd'
 import { ProfileNav } from './ProfileNav'
-import { Outlet } from 'react-router-dom'
 import { useEffect } from 'react'
 import { userService } from '~/service'
 import { setProfile, useAppDispatch } from '~/redux'
+import { ProfileInfo } from '~/pages/Account/Profile/ProfileInfo'
+import { ProfileSecurity } from '~/pages/Account/Profile/ProfileSecurity'
 
 const Profile = () => {
 
@@ -20,11 +21,14 @@ const Profile = () => {
   return (
     <ProfileWrapper>
       <Row gutter={32}>
-        <Col span={8}>
+        <Col span={6}>
           <ProfileNav />
         </Col>
         <Col span={16}>
-          <Outlet />
+          <Space className={'w-full'} direction={'vertical'} size={32}>
+            <ProfileInfo />
+            <ProfileSecurity />
+          </Space>
         </Col>
       </Row>
     </ProfileWrapper>

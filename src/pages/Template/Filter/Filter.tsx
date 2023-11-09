@@ -1,33 +1,30 @@
 import { Card, Form, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput } from '~/common'
-import { DateRadioRange } from '~/interface'
-import { MeetingFilterPayload } from '~/service'
+import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput, SharedSelect } from '~/common'
+import { DateRadioRange, TemplateType } from '~/interface'
+import { TemplateFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
+import { enumToArray } from '~/utils'
 
 interface FilterArgs {
-  onFilter: (filterPayload: MeetingFilterPayload) => void
+  onFilter: (filterPayload: TemplateFilterPayload) => void
 }
 
 const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
-  const [disable, setDisable] = useState<boolean>(true)
-  const [keyword, setKeyword] = useState<string>('')
-
-  useEffect(() => {
-    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim()) setDisable(false)
-    else setDisable(true)
-  }, [valueDate, keyword])
+  const [siteFilter, setSiteFilter] = useState('')
 
   const onFinish = (values: any) => {
-    const payload: MeetingFilterPayload = {
+    const payload: TemplateFilterPayload = {
+      siteId: values['siteId'],
+      type: values['type'],
+      keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
+      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY)
     }
-    if (values?.query?.trim()) payload.query = values?.query?.trim()
     args.onFilter(payload)
   }
 
@@ -39,14 +36,14 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   return (
     <Card
-      title={t('meeting.manager.search.title')}
+      title={t('organization.template.search.title')}
       extra={
         <Space>
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
+            type={'primary'}
             // permissions={BUTTON_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
-            disabled={disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -66,12 +63,17 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className='vms-form'
         onFinish={onFinish}
       >
-        <SharedFilterScope />
-        <Form.Item label={t('meeting.manager.search.counselor')} name='query'>
+        <SharedFilterScope siteId={siteFilter} onChangeSite={setSiteFilter} />
+        <Form.Item label={t('common.field.type')} name='type'>
+          <SharedSelect
+            options={enumToArray(TemplateType).map(item => {
+              return { label: item.key, value: item.value }
+            })}
+            placeholder={t('common.placeholder.type')} />
+        </Form.Item>
+        <Form.Item label={t('organization.template.search.counselor')} name='keyword'>
           <SharedInput
-            placeholder={t('meeting.manager.search.counselor_placeholder')}
-            value={keyword}
-            onChange={(e: any) => setKeyword(e.target.value)}
+            placeholder={t('organization.template.search.counselor_placeholder')}
           />
         </Form.Item>
         <SharedFilterPeriod valueDate={valueDate} setValueDate={setValueDate} />

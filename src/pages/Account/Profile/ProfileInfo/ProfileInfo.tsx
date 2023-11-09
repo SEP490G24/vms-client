@@ -1,20 +1,52 @@
 import { PersonInfoSection, ProfileInfoWrapper } from './styles.ts'
-import { Button, Card, Form, Input, message, Select, Space } from 'antd'
+import { Button, Card, Form, Input, message, Space } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { useTranslation } from 'react-i18next'
-import { authSelector, useAppSelector } from '~/redux'
+import { authSelector, useAppDispatch, useAppSelector } from '~/redux'
 import { useEffect } from 'react'
 import { SharedInput, SharedPhoneNumber, SharedSelect } from '~/common'
 import { SharedDatePicker } from '~/common/SharedDatePicker'
 import { REGEX } from '~/constants'
 import { userService } from '~/service'
+import { useSelector } from 'react-redux'
+import {
+  fetchCommune,
+  fetchDistrict,
+  fetchProvince,
+  locationsSelector,
+  resetCommune,
+  resetDistrict
+} from '~/redux/slices/locationSlice.ts'
+import { enumToArray } from '~/utils'
+import { Gender } from '~/interface'
 
 const ProfileInfo = () => {
 
   const { profile } = useAppSelector(authSelector)
   const [form] = Form.useForm()
+  const dispatch = useAppDispatch()
 
   const { t } = useTranslation()
+
+  const { communes, districts, provinces } = useSelector(locationsSelector)
+  const provinceId = Form.useWatch('provinceId', form)
+  const districtId = Form.useWatch('districtId', form)
+
+  useEffect(() => {
+    provinceId ? dispatch(fetchDistrict(provinceId) as any) : dispatch(resetDistrict())
+  }, [provinceId])
+
+  useEffect(() => {
+    districtId ? dispatch(fetchCommune(districtId) as any) : dispatch(resetCommune())
+  }, [districtId])
+
+  useEffect(() => {
+    !provinces.length && dispatch(fetchProvince() as any)
+  }, [])
+
+  const resetDistrictAndCommune = () => {
+    form.resetFields(['districtId', 'communeId'])
+  }
 
   useEffect(() => {
     console.log(profile)
@@ -29,25 +61,10 @@ const ProfileInfo = () => {
         gender: profile.gender,
         dateOfBirth: profile.dateOfBirth,
         email: profile.email,
-        phoneNumber: profile.phoneNumber,
-        countryCode: profile.countryCode
+        phoneNumber: profile.phoneNumber
       })
     }
   }, [profile])
-
-  const onPhoneNumberChange = (value: string) => {
-    value &&
-    form.setFieldsValue({
-      phoneNumber: value
-    })
-  }
-
-  const onCountryCodeChange = (value: string) => {
-    value &&
-    form.setFieldsValue({
-      countryCode: value
-    })
-  }
 
   const onDateOfBirthChange = (value: string) => {
     value &&
@@ -91,10 +108,11 @@ const ProfileInfo = () => {
                   <SharedInput placeholder={t('common.placeholder.username')} disabled />
                 </Form.Item>
                 <Form.Item label={t('common.field.gender')} name={'gender'}>
-                  <SharedSelect options={[{ label: 'MALE', value: 'MALE' }, { label: 'FEMALE', value: 'FEMALE' }, {
-                    label: 'OTHER',
-                    value: 'OTHER'
-                  }]} placeholder={t('common.placeholder.gender')} />
+                  <SharedSelect
+                    options={enumToArray(Gender).map(item => {
+                      return { label: item.key, value: item.value }
+                    })}
+                    placeholder={t('common.placeholder.gender')} />
                 </Form.Item>
                 <Form.Item label={t('common.field.dob')} name={'dateOfBirth'}>
                   <SharedDatePicker className={'w-full'} placeholder={t('common.placeholder.dob')}
@@ -106,10 +124,7 @@ const ProfileInfo = () => {
               <Title level={3}>{t('user.profile.contact_info')}</Title>
               <div className={'grid grid-cols-2 gap-x-8'}>
                 <Form.Item label={t('common.field.phoneNumber')} name={'phoneNumber'} rules={[{ required: true }]}>
-                  <SharedPhoneNumber
-                    defaultValue={{ countryCode: profile?.countryCode as any, phone: profile?.phoneNumber as any }}
-                    onChangeCode={onCountryCodeChange}
-                    onChangePhone={onPhoneNumberChange} />
+                  <SharedPhoneNumber placeholder={t('common.placeholder.phoneNumber')} />
                 </Form.Item>
                 <Form.Item label={t('common.field.email')} name={'email'}
                            rules={[{ required: true }, {
@@ -123,13 +138,32 @@ const ProfileInfo = () => {
             <PersonInfoSection>
               <Title level={3}>{t('user.profile.address_info')}</Title>
               <div className={'grid grid-cols-2 gap-x-8'}>
-                <Form.Item label={t('common.field.city')}>
-                  <Select options={[{ label: 'Ha Noi', value: true }, { label: 'Can Tho', value: false }]}
-                          placeholder={t('common.placeholder.city')}>
-                  </Select>
+                <Form.Item label={t('common.field.province')} name='provinceId'
+                           rules={[{ required: true }]}>
+                  <SharedSelect options={provinces.map((province) => {
+                    return { label: province.name, value: province.id, key: province.id }
+                  })}
+                                onChange={resetDistrictAndCommune}
+                                placeholder={t('common.placeholder.province')} />
                 </Form.Item>
-                <Form.Item label={t('common.field.address')}>
-                  <Input placeholder={t('common.placeholder.address')} />
+                <Form.Item label={t('common.field.district')} name='districtId'
+                           rules={[{ required: true }]}>
+                  <SharedSelect
+                    options={districts?.map((district) => {
+                      return { label: district.name, value: district.id, key: district.id }
+                    }) ?? []}
+                    placeholder={t('common.placeholder.district')} />
+                </Form.Item>
+                <Form.Item label={t('common.field.commune')} name='communeId'
+                           rules={[{ required: true }]}>
+                  <SharedSelect options={communes?.map((commune) => {
+                    return { label: commune.name, value: commune.id, key: commune.id }
+                  }) ?? []}
+                                placeholder={t('common.placeholder.commune')} />
+                </Form.Item>
+                <Form.Item label={t('common.field.address')} name='address'
+                           rules={[{ required: true }]}>
+                  <SharedInput placeholder={t('common.placeholder.address')} />
                 </Form.Item>
               </div>
             </PersonInfoSection>

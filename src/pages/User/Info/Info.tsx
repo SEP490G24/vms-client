@@ -1,14 +1,16 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { DepartmentDto, SiteDto, UserDto } from '~/interface'
+import { DepartmentDto, Gender, RoleDto, UserDto } from '~/interface'
 import { SharedInput, SharedPhoneNumber, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
-import { CreateUserInfo, departmentService, roleService, siteService } from '~/service'
+import { CreateUserInfo, departmentService, roleService } from '~/service'
 import Password from 'antd/es/input/Password'
 import { REGEX } from '~/constants'
-import { RoleDto } from '~/interface/Permission.ts'
 import moment from 'moment'
+import { useDispatch, useSelector } from 'react-redux'
+import { findAllSites, sitesSelector } from '~/redux/slices/siteSlice.ts'
+import { enumToArray } from '~/utils'
 
 interface CreateUserFormArgs {
   user?: UserDto
@@ -20,18 +22,21 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
 
-  const [roles, setRoles] = useState<RoleDto[]>([])
-  const [sites, setSites] = useState<SiteDto[]>([])
+  const dispatch = useDispatch()
+  const [siteId, setSiteId] = useState('')
+  const { sites } = useSelector(sitesSelector)
   const [departments, setDepartments] = useState<DepartmentDto[]>([])
+  const [roles, setRoles] = useState<RoleDto[]>([])
 
   useEffect(() => {
-    siteService.findAll().then((response) => {
-      setSites(response?.data)
-    })
-    roleService.getAll().then((response) => {
-      setRoles(response?.data)
-    })
+    dispatch(findAllSites({}) as any)
   }, [])
+
+  useEffect(() => {
+    departmentService.filter({ siteId: siteId }).then((response) => setDepartments(response.data))
+    roleService.getBySiteId([siteId]).then((response) => setRoles(response.data))
+  }, [siteId])
+
 
   useEffect(() => {
     console.log(props.user)
@@ -46,35 +51,11 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
         phoneNumber: props.user.phoneNumber,
         email: props.user.email,
         enable: props.user.enable,
-        countryCode: props.user.countryCode,
         gender: props.user.gender,
         departmentId: props.user.departmentId
       })
     }
   }, [props.user])
-
-  const fetchDepartment = (siteId: string) => {
-    form.setFieldsValue({
-      departmentId: ''
-    })
-    departmentService.filter({ siteId }).then((response) => {
-      setDepartments(response?.data)
-    })
-  }
-
-  const onPhoneNumberChange = (value: string) => {
-    value &&
-    form.setFieldsValue({
-      phoneNumber: value
-    })
-  }
-
-  const onCountryCodeChange = (value: string) => {
-    value &&
-    form.setFieldsValue({
-      countryCode: value
-    })
-  }
 
   const onClose = () => {
     props.onClose()
@@ -132,45 +113,46 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
             </Form.Item>
           </>
         }
-        <Form.Item className={'mb-3'} label={t('common.field.roles')} name='roles'
-                   rules={[{ required: true }]}>
-          <SharedSelect mode={'multiple'} allowClear className={'w-full'} placeholder={t('common.placeholder.roles')}
-                        options={roles.map((role) => {
-                          return { label: role.name, value: role.name }
-                        })} />
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')}>
-          <SharedPhoneNumber
-            defaultValue={{ countryCode: props.user?.countryCode as any, phone: props.user?.phoneNumber as any }}
-            onChangeCode={onCountryCodeChange}
-            onChangePhone={onPhoneNumberChange} />
-        </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.email')} name='email'
                    rules={[{ required: true }, { pattern: REGEX.EMAIL, message: t('common.error.email_valid') }]}>
           <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.gender')} name={'gender'}>
-          <SharedSelect options={[{ label: 'MALE', value: 'MALE' }, { label: 'FEMALE', value: 'FEMALE' }, {
-            label: 'OTHER',
-            value: 'OTHER'
-          }]} placeholder={t('common.placeholder.gender')} />
+          <SharedSelect
+            options={enumToArray(Gender).map(item => {
+              return { label: item.key, value: item.value }
+            })}
+            placeholder={t('common.placeholder.gender')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.department')} name='department'>
-          <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>
-            <Form.Item style={{ marginBottom: 'unset' }} name='siteId' rules={[{ required: true }]}>
-              <SharedSelect options={sites.map((site) => {
-                return { label: site.name, value: site.id, key: site.id }
-              }) ?? []}
-                            onChange={fetchDepartment}
-                            placeholder={t('common.placeholder.site')}></SharedSelect>
-            </Form.Item>
-            <Form.Item style={{ marginBottom: 'unset' }} name='departmentId' rules={[{ required: true }]}>
+        <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'
+                   rules={[{ required: true }]}>
+          <SharedSelect options={sites.map((site) => {
+            return { label: site.name, value: site.id, key: site.id }
+          }) ?? []}
+                        onChange={setSiteId}
+                        placeholder={t('common.placeholder.site')}></SharedSelect>
+        </Form.Item>
+        {siteId &&
+          <>
+            <Form.Item className={'mb-3'} label={t('common.field.department')} name='departmentId'
+                       rules={[{ required: true }]}>
               <SharedSelect options={departments.map((department) => {
                 return { label: department.name, value: department.id, key: department.id }
               }) ?? []}
                             placeholder={t('common.placeholder.department')}></SharedSelect>
             </Form.Item>
-          </Space>
+            <Form.Item className={'mb-3'} label={t('common.field.roles')} name='roles'
+                       rules={[{ required: true }]}>
+              <SharedSelect mode={'multiple'} allowClear className={'w-full'}
+                            placeholder={t('common.placeholder.roles')}
+                            options={roles.map((role) => {
+                              return { label: role.code, value: role.code }
+                            })} />
+            </Form.Item>
+          </>
+        }
+        <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')}>
+          <SharedPhoneNumber placeholder={t('common.placeholder.phoneNumber')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
                    rules={[{ required: true }]}>

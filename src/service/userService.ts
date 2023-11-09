@@ -25,8 +25,11 @@ export interface UserFilterPayload {
   usernames?: string[];
   createdOnStart?: string | Date;
   createdOnEnd?: string | Date;
-  state?: string;
+  enable?: string;
   keyword?: string
+  departmentId?: string[]
+  siteId?: string[]
+  role?: string
 }
 
 const findAll = async () => {
@@ -64,8 +67,7 @@ const filter = async (payload: UserFilterPayload, isPageable?: boolean, pageable
   const response = await httpService.post(USER.FILTER, payload, {
     params: {
       isPageable,
-      size: pageableRequest?.size,
-      page: pageableRequest?.page
+      ...pageableRequest
     }
   })
   return httpService.handleResponseStatus(response)

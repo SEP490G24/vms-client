@@ -51,3 +51,9 @@ export const enumToArray = (data: EnumType): EnumAsArrayType =>
       value: data[key]
     }))
 
+export function isNullish(object: Object): boolean {
+  if (Object.keys(object).length === 0) return true
+  return Object.values(object).every(value => !value)
+}
+
+

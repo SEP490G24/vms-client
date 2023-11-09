@@ -22,6 +22,8 @@ export interface Pageable {
 }
 
 export interface PageableRequest {
-  page: number;
+  page?: number;
   size?: number
+  sortKey?: string,
+  order?: 'ascend' | 'descend'
 }

@@ -3,10 +3,10 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { PageableResponse, UserDto } from '~/interface'
+import { PageableResponse, TableAction, UserDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { PageWrapper } from '~/themes'
-import { checkPermission } from '~/utils'
+import { checkPermission, resetTableAction } from '~/utils'
 import { UserInfo } from './Info'
 import { UserFilter } from './Filter'
 import { UserFilterPayload, userService } from '~/service'
@@ -18,21 +18,30 @@ import { UserTable } from '~/pages/User/Table'
 const User = () => {
   const { t } = useTranslation()
   const [pageableResponse, setPageableResponse] = useState<PageableResponse<UserDto>>()
-  const [currentPage, setCurrentPage] = useState<number>(1)
   const [user, setUser] = useState<UserDto>()
   const [openModal, setOpenModal] = useState<boolean>(false)
+  const [tableAction, setTableAction] = useState<TableAction>({})
   const [filterPayload, setFilterPayload] = useState<UserFilterPayload>({})
   const [exportEx, setExportEx] = useState<boolean>(false)
 
 
   useEffect(() => {
-    userService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
+    const payload = {
+      ...filterPayload,
+      enable: tableAction.filters?.enable?.[0]
+    } as UserFilterPayload
+    userService.filter(payload, true, {
+      page: (tableAction.pagination?.current ?? 1) - 1,
+      size: 10,
+      sortKey: tableAction.sorter?.columnKey,
+      order: tableAction.sorter?.order
+    }).then((response) => {
       setPageableResponse(response?.data)
     })
-  }, [filterPayload, currentPage])
+  }, [filterPayload, tableAction])
 
   const onFilter = (filterPayload: UserFilterPayload) => {
-    setCurrentPage(1)
+    setTableAction(resetTableAction(tableAction))
     setFilterPayload(filterPayload)
   }
 
@@ -40,13 +49,10 @@ const User = () => {
     let request = !!user ? userService.update(user.username, payload) : userService.insert(payload)
     request
       .then(async (res: any) => {
-        console.log('res', res)
         if (res?.status === 200) {
           setOpenModal(false)
           setUser(undefined)
-          userService.filter(filterPayload, true, { page: currentPage, size: 10 }).then((response) => {
-            setPageableResponse(response?.data)
-          })
+          setTableAction(resetTableAction(tableAction))
           await message.success(t('common.message.success.save'))
         } else {
           await message.error(t('common.message.error.save'))
@@ -82,8 +88,7 @@ const User = () => {
   }
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
-    setCurrentPage(pagination.current ?? 1)
-    console.log(pagination, filters, sorter)
+    setTableAction({ pagination, filters, sorter })
   }
 
   const beforeUpload = (file: RcFile) => {
@@ -134,7 +139,8 @@ const User = () => {
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
-              <UserTable onChangeTable={handleChangeTable} pageableResponse={pageableResponse} currentPage={currentPage}
+              <UserTable onChangeTable={handleChangeTable} pageableResponse={pageableResponse}
+                         currentPage={tableAction.pagination?.current}
                          onEdit={openEdit} />
             </Col>
             {openModal && (

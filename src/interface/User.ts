@@ -17,6 +17,13 @@ export interface UserDto {
   dateOfBirth?: null;
   lastLoginTime?: null;
   departmentUserMaps?: any;
+  provinceId: number;
+  communeId: number;
+  districtId: number;
+  provinceName?: string;
+  districtName?: string;
+  communeName?: string;
+  address?: string;
   id?: string;
   countryCode?: string
 }

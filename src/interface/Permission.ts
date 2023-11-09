@@ -1,5 +1,5 @@
 export interface RoleDto {
-  name: string;
+  code: string;
   attributes: { [key: string]: string[] };
   permissionDtos: PermissionDto[];
 }

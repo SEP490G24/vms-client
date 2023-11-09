@@ -9,7 +9,8 @@ import {
   fetchCommune,
   fetchDistrict,
   fetchProvince,
-  locationsSelector, resetCommune,
+  locationsSelector,
+  resetCommune,
   resetDistrict
 } from '~/redux/slices/locationSlice.ts'
 import { useSelector } from 'react-redux'

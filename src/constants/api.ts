@@ -35,9 +35,16 @@ export const TEMPLATE = {
   MY_TEMPLATE: `${VITE_API_SERVER_URL}/template/profile`
 }
 
+export const REASON = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/reason`,
+  FILTER: `${VITE_API_SERVER_URL}/reason/filter`,
+  GET_BY_SITE_ID: `${VITE_API_SERVER_URL}/role/site/{siteId}`,
+}
+
 export const ROLE = {
   GET_ALL_ROLE: `${VITE_API_SERVER_URL}/role`,
   GET_BY_ID_ROLE: `${VITE_API_SERVER_URL}/role/{id}`,
+  GET_BY_SITE_ID_ROLE: `${VITE_API_SERVER_URL}/role/site`,
   FILTER_ROLE: `${VITE_API_SERVER_URL}/role/filter`,
   CREATE_ROLE: `${VITE_API_SERVER_URL}/role`,
   UPDATE_ROLE: `${VITE_API_SERVER_URL}/role/{id}`,
@@ -73,6 +80,11 @@ export const SETTING_SITE = {
 
 export const SETTING = {
   BASE_PATH: `${VITE_API_SERVER_URL}/setting`
+}
+
+export const FILE = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/file`,
+  UPLOAD_IMAGE: `${VITE_API_SERVER_URL}/file/uploadImage`
 }
 
 export const TICKET = {

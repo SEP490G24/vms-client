@@ -92,6 +92,15 @@ class Services {
     }
   }
 
+  async patch(url: string, data?: any, config?: AxiosRequestConfig) {
+    try {
+      const response = await this.axios.patch(url, data, config)
+      return this.handleResponse(response, {} as AxiosError, true)
+    } catch (error: any) {
+      return this.handleResponse({} as AxiosResponse, error, false)
+    }
+  }
+
   handleResponseStatus = (response?: AxiosResponse<any, any>) => {
     if (!response) return Promise.reject(response)
     if (response?.status >= 200 && response?.status < 300) {

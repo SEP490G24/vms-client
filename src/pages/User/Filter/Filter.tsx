@@ -20,7 +20,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
 
   useEffect(() => {
-    departmentService.filter({ siteId: siteFilter }).then((response) => setDepartments(response.data))
+    departmentService.filter({ siteIds: [siteFilter] }).then((response) => setDepartments(response.data))
     roleService.getBySiteId([siteFilter]).then((response) => setRoles(response.data))
     form.resetFields(['departmentId', 'roleId'])
   }, [siteFilter])

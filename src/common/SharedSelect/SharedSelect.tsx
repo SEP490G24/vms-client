@@ -20,6 +20,7 @@ interface SharedSelectProps {
   allowClear?: boolean
   onSelect?: any
   suffixIcon?: any
+  disabled?:boolean
 }
 
 export const SharedSelect: React.FC<SharedSelectProps> = memo(
@@ -39,7 +40,8 @@ export const SharedSelect: React.FC<SharedSelectProps> = memo(
      allowClear,
      mode,
      onSelect,
-     suffixIcon
+     suffixIcon,
+    disabled
    }) => {
     return (
       <Select
@@ -59,6 +61,7 @@ export const SharedSelect: React.FC<SharedSelectProps> = memo(
         mode={mode}
         onSelect={onSelect}
         suffixIcon={suffixIcon}
+        disabled={disabled}
       />
     )
   }

@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '~/redux'
 import { sitesSelector } from '~/redux/slices/siteSlice.ts'
 import moment from 'moment/moment'
+import { isNullish } from '~/utils'
 
 interface CreateSiteFormArgs {
   onSave: (site: CreateSiteInfo) => void
@@ -29,9 +30,9 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
   const dispatch = useAppDispatch()
 
   const { siteSelected } = useSelector(sitesSelector)
-  const { communes, districts, provinces } = useSelector(locationsSelector)
-  const provinceId = Form.useWatch('provinceId', form)
-  const districtId = Form.useWatch('districtId', form)
+  let { communes, districts, provinces } = useSelector(locationsSelector)
+  let provinceId = Form.useWatch('provinceId', form)
+  let districtId = Form.useWatch('districtId', form)
 
   useEffect(() => {
     provinceId ? dispatch(fetchDistrict(provinceId) as any) : dispatch(resetDistrict())
@@ -49,6 +50,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
     if (siteSelected) {
       form.setFieldsValue({
         name: siteSelected.name,
+        code: siteSelected.code,
         phoneNumber: siteSelected.phoneNumber,
         provinceId: siteSelected.provinceId,
         districtId: siteSelected.districtId,
@@ -59,7 +61,6 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         enable: siteSelected.enable
       })
     }
-    console.log(siteSelected)
   }, [siteSelected])
 
   const onClose = () => {
@@ -70,9 +71,12 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
   const resetDistrictAndCommune = () =>{
     form.resetFields(["districtId","communeId"]);
   }
+  const resetDistrictCombobox = () =>{
+    form.resetFields(["communeId"]);
+  }
   return (
     <InfoWrapper
-      title={t(!!siteSelected ? 'organization.site.popup.title-edit' : 'organization.site.popup.title-add')}
+      title={t(!isNullish(siteSelected) ? 'organization.site.popup.title-edit' : 'organization.site.popup.title-add')}
       onOk={form.submit}
       onCancel={onClose}
     >
@@ -87,6 +91,12 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         onFinish={props.onSave}
         labelAlign='left'
       >
+        <Form.Item className={'mb-3'} label={t('common.field.code')} name='code'
+                   rules={[{ required: true }]} >
+          <SharedInput
+            disabled={!isNullish(siteSelected)}
+            inputMode={'text'} placeholder={t('common.placeholder.code')} />
+        </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.name')} name='name'
                    rules={[{ required: true }]}>
           <SharedInput inputMode={'text'} placeholder={t('common.placeholder.site_name')} />
@@ -109,6 +119,8 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
             options={districts?.map((district) => {
               return { label: district.name, value: district.id, key: district.id }
             }) ?? []}
+            disabled={!provinceId}
+            onChange = {resetDistrictCombobox}
             placeholder={t('common.placeholder.district')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.commune')} name='communeId'
@@ -116,6 +128,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
           <SharedSelect options={communes?.map((commune) => {
             return { label: commune.name, value: commune.id, key: commune.id }
           }) ?? []}
+                        disabled={!districtId}
                         placeholder={t('common.placeholder.commune')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.address')} name='address'

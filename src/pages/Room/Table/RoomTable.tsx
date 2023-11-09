@@ -31,7 +31,6 @@ const RoomTable: React.FC<MeetingItemProps> = (props) => {
       }}
       onChange={props.onChangeTable}
       className='vms-table no-bg'
-      scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
       size='middle'
     >
       <Column

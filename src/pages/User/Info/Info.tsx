@@ -33,7 +33,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
   }, [])
 
   useEffect(() => {
-    departmentService.filter({ siteId: siteId }).then((response) => setDepartments(response.data))
+    departmentService.filter({ siteIds: [siteId] }).then((response) => setDepartments(response.data))
     roleService.getBySiteId([siteId]).then((response) => setRoles(response.data))
   }, [siteId])
 

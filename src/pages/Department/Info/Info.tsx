@@ -21,7 +21,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
   const [sites, setSites] = useState<SiteDto[]>([])
 
   useEffect(() => {
-    siteService.findAll().then((response) => {
+    siteService.findAllByOrganization().then((response) => {
       setSites(response?.data)
     })
   }, [])
@@ -77,6 +77,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
           <SharedSelect options={sites.map((site) => {
             return { label: site.name, value: site.id, key: site.id }
           }) ?? []}
+                        disabled={!!props.department}
                         placeholder={t('common.placeholder.site')}></SharedSelect>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>

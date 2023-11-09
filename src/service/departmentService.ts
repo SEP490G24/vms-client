@@ -25,7 +25,7 @@ export interface DepartmentFilterPayload {
   lastUpdatedBy?: string;
   enable?: string;
   keyword?: string;
-  siteId?: string;
+  siteIds?: string[];
 }
 
 const findAll = async () => {
@@ -48,7 +48,7 @@ const insert = async (payload: CreateDepartmentInfo) => {
 
 const update = async (id: string, payload: UpdateDepartmentInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.put(DEPARTMENT.BASE_PATH + `/${id}`, payload)
+  const response = await httpService.patch(DEPARTMENT.BASE_PATH + `/${id}`, payload)
   return httpService.handleResponseStatus(response)
 }
 

@@ -38,6 +38,7 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
         sorter={true}
         render={(value: SiteDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
+      <Column title={t('common.field.code')} sorter={true} dataIndex='code' key='code' />
       <Column title={t('common.field.contact_number')} sorter={true} dataIndex='phoneNumber' key='phoneNumber' />
       <Column title={t('common.field.province')}
               render={(site: SiteDto) => site.provinceName ? <Space direction={'vertical'}>
@@ -46,6 +47,7 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
               </Space> : null}
       />
       <Column title={t('common.field.address')} dataIndex='address' key='address' />
+      <Column title={t('common.field.tax_code')} dataIndex='taxCode' key='taxCode' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'
@@ -59,8 +61,6 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
       />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
               render={(value: SiteDto) => moment(value.createdOn).format('L')} />
-      <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
-              render={(value: SiteDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : null} />
     </Table>
   )
 }

@@ -31,7 +31,6 @@ const DepartmentTable: React.FC<MeetingItemProps> = (props) => {
       }}
       className='vms-table no-bg'
       onChange={props.onChangeTable}
-      scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
       size='middle'
     >
       <Column

@@ -13,11 +13,12 @@ import {
   RoomMeetingCalendar,
   Setting,
   Template,
-  TicketResult
+  TicketResult,
 } from '~/pages'
 
 import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
+
 import {
   PATH_CONFIGURATION, PATH_CUSTOMER,
   PATH_DASHBOARD,
@@ -34,7 +35,7 @@ import {
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_TICKET_RESULT,
-  PATH_USER
+  PATH_USER,
 } from './paths'
 
 export const publicRoutes = []
@@ -124,5 +125,5 @@ export const privateRoutes = [
     path: PATH_TICKET_RESULT,
     component: TicketResult,
     layout: null
-  },
+  }
 ]

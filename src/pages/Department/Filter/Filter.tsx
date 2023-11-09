@@ -2,7 +2,7 @@ import { Card, Form, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput } from '~/common'
-import { DateRadioRange } from '~/interface'
+import { DateRadioRange} from '~/interface'
 import { DepartmentFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
 
@@ -10,17 +10,19 @@ interface FilterArgs {
   onFilter: (filterPayload: DepartmentFilterPayload) => void
 }
 
+
 const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
   const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
+  const [siteId, setSiteId] = useState<string | null>('')
 
   useEffect(() => {
-    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim()) setDisable(false)
+    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim() || siteId) setDisable(false)
     else setDisable(true)
-  }, [valueDate,keyword])
+  }, [valueDate,keyword,siteId])
 
   const onFinish = (values: any) => {
     const payload: DepartmentFilterPayload = {
@@ -28,11 +30,17 @@ const Filter: React.FC<FilterArgs> = (args) => {
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
     }
     if (values?.query?.trim()) payload.keyword = values?.query?.trim()
+    if (siteId) payload.siteIds = [siteId]
     args.onFilter(payload)
+  }
+
+  const onChangeSite = (siteId:string) => {
+    setSiteId(siteId);
   }
 
   const onReset = () => {
     setValueDate(undefined)
+    setSiteId(null)
     form.resetFields()
     args.onFilter({})
   }
@@ -66,7 +74,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className="vms-form"
         onFinish={onFinish}
       >
-        <SharedFilterScope />
+        <SharedFilterScope onChangeSite={onChangeSite} />
         <Form.Item label={t('organization.department.search.counselor')} name="query">
           <SharedInput
             placeholder={t('organization.department.search.counselor_placeholder')}

@@ -36,11 +36,18 @@ export interface SiteFilterPayload {
   enable?: string
   keyword?: string
   provinceId?: string
+  districtId?: string
+  communeId?: string
 }
 
 const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.get(SITE.BASE_PATH)
+  return httpService.handleResponseStatus(response)
+}
+const findAllByOrganization = async () => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.get(SITE.BASE_PATH + `/organization`)
   return httpService.handleResponseStatus(response)
 }
 
@@ -100,7 +107,8 @@ const siteService = {
   remove,
   filter,
   getSiteProfile,
-  updateSiteProfile
+  updateSiteProfile,
+  findAllByOrganization
 }
 
 export default siteService

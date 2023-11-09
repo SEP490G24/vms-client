@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { SiteDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
-import { checkPermission } from '~/utils'
+import { checkPermission, isNullish } from '~/utils'
 import { SiteInfo } from './Info'
 import { SiteFilter } from './Filter'
 import { SiteTable } from './Table'
@@ -49,7 +49,7 @@ const Site = () => {
 
   const onSave = (payload: any) => {
     setConfirmLoading(true)
-    let request = !!siteSelected ? siteService.update(siteSelected.id, payload) : siteService.insert(payload)
+    let request = !isNullish(siteSelected) ? siteService.update(siteSelected.id, payload) : siteService.insert(payload)
     request
       .then(async (res: any) => {
         if (res?.status === 200) {
@@ -110,11 +110,6 @@ const Site = () => {
                   >
                     {t('common.label.create')}
                   </SharedButton>
-                  {/*<Spin spinning={false}>*/}
-                  {/*  <SharedButton onClick={exportData} type={'primary'}>*/}
-                  {/*    {t('common.label.export_data')}*/}
-                  {/*  </SharedButton>*/}
-                  {/*</Spin>*/}
                 </Space>
               </Space>}>
                 <Divider style={{ margin: '16px 0 0' }} />

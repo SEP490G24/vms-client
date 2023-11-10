@@ -19,7 +19,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   const onFinish = (values: any) => {
     const payload: TemplateFilterPayload = {
-      siteId: values['siteId'],
+      siteId: values['siteId'] ? [values['siteId']] : undefined,
       type: values['type'],
       keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),

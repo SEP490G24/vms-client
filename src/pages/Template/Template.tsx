@@ -23,7 +23,6 @@ const Template = () => {
 
   useEffect(() => {
     templateService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-      console.log(response.data?.content)
       setTemplates([...templates, ...response.data?.content])
       message.success(t('common.message.success.save')).then()
     })
@@ -50,7 +49,9 @@ const Template = () => {
           setOpenModal(false)
           setConfirmLoading(false)
           setTemplate(undefined)
-          setFilterPayload({})
+          templateService.filter(filterPayload, true, { page: 0, size: 10 }).then((response) => {
+            setTemplates(response.data?.content)
+          })
           await message.success(t('common.message.success.save'))
         } else {
           await message.error(t('common.message.error.save'))
@@ -96,13 +97,20 @@ const Template = () => {
             </Col>
             <Col flex={'auto'}>
               <Space className={'w-full mb-4'} direction={'vertical'} size={24} align={'center'}>
-                <List grid={{ column: 3, gutter: 12 }}
-                      dataSource={templates}
-                      renderItem={(template) => (<List.Item>
-                        <TemplateItem templateDto={template} onEdit={openEdit}></TemplateItem>
-                      </List.Item>)}
-                >
-                </List>
+                {/*<List className={'w-full'} grid={{ gutter: 12, xs: 1, md: 2, lg: 3 }}*/}
+                {/*      dataSource={templates}*/}
+                {/*      renderItem={(template) => (<List.Item>*/}
+                {/*        <TemplateItem templateDto={template} onEdit={openEdit}></TemplateItem>*/}
+                {/*      </List.Item>)}*/}
+                {/*>*/}
+                {/*</List>*/}
+                <div className={'grid w-full sm:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-2'}>
+                  {
+                    templates.map((template) => (<List.Item>
+                      <TemplateItem templateDto={template} onEdit={openEdit}></TemplateItem>
+                    </List.Item>))
+                  }
+                </div>
                 {!!templates.length && <SharedButton onClick={onShowMore}>Show more</SharedButton>}
               </Space>
             </Col>

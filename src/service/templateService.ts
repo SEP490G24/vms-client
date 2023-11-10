@@ -26,7 +26,7 @@ export interface TemplateFilterPayload {
   createdOnEnd?: string | Date;
   enable?: boolean;
   keyword?: string
-  siteId?: string
+  siteId?: string[]
   type?: string
 }
 

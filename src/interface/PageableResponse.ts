@@ -24,6 +24,5 @@ export interface Pageable {
 export interface PageableRequest {
   page?: number;
   size?: number
-  sortKey?: string,
-  order?: 'ascend' | 'descend'
+  sort?: string
 }

@@ -3,7 +3,7 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { PageableResponse, TableAction, UserDto } from '~/interface'
+import { PageableResponse, SortDirection, SortDirectionType, TableAction, UserDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { PageWrapper } from '~/themes'
 import { checkPermission, resetTableAction } from '~/utils'
@@ -26,6 +26,7 @@ const User = () => {
 
 
   useEffect(() => {
+    console.log(tableAction)
     const payload = {
       ...filterPayload,
       enable: tableAction.filters?.enable?.[0]
@@ -33,8 +34,7 @@ const User = () => {
     userService.filter(payload, true, {
       page: (tableAction.pagination?.current ?? 1) - 1,
       size: 10,
-      sortKey: tableAction.sorter?.columnKey,
-      order: tableAction.sorter?.order
+      sort: tableAction.sorter?.order ? `${tableAction.sorter?.columnKey},${SortDirection[tableAction.sorter?.order as SortDirectionType]}` : undefined
     }).then((response) => {
       setPageableResponse(response?.data)
     })

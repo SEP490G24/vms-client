@@ -1,6 +1,6 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { SiteDto, TemplateDto, TemplateType } from '~/interface'
+import { SiteDto, TemplateDto, TemplateType, TemplateVariable } from '~/interface'
 import { SharedCkEditor, SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
@@ -44,8 +44,7 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
   }, [props.template])
 
   const onFinish = (values: any) => {
-    console.log(values)
-    // props.onSave(values)
+    props.onSave(values)
   }
 
   const onClose = () => {
@@ -103,7 +102,7 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
                 feeds: [
                   {
                     marker: '@',
-                    feed: ['@{connectAgent}']
+                    feed: enumToArray(TemplateVariable).map(item => `@{${item.key}}`)
                   }
                 ]
               },
@@ -112,7 +111,7 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
             onChange={(_, editor) => {
               form.setFieldValue('body', editor.getData())
             }}
-            data={'Test'}
+            data={props.template?.body}
             onMaxLengthSubceeded={() => {
               form.setFields([{ name: 'body', errors: [] }])
             }}
@@ -125,12 +124,12 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
         </Form.Item>
         {!!props.template &&
           <>
-            <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
+            <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
                        rules={[{ required: true }]}>
               <Radio.Group name='enable'>
                 <Space>
-                  <Radio value={true}>{t('common.label.use')}</Radio>
-                  <Radio value={false}>{t('common.label.not_use')}</Radio>
+                  <Radio value={true}>{t('common.label.enable')}</Radio>
+                  <Radio value={false}>{t('common.label.disable')}</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>

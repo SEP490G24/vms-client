@@ -12,6 +12,15 @@ export enum Purpose {
   OTHERS = 'OTHERS'
 }
 
+export enum TemplateVariable {
+  customerName,
+  meetingName,
+  startTime,
+  endTime,
+  address,
+  roomName
+}
+
 export enum Gender {
   MALE = 'MALE',
   FEMALE = 'FEMALE',
@@ -64,6 +73,13 @@ export const durationOption = {
   '1WEEK': 'common.durationOption.1week',
   '1MONTH': 'common.durationOption.1month',
   '3MONTHS': 'common.durationOption.3months'
+}
+
+export type SortDirectionType = 'ascend' | 'descend'
+
+export const SortDirection = {
+  'ascend': 'asc',
+  'descend': 'desc'
 }
 
 export type RangeValue = [Dayjs | null, Dayjs | null] | null;

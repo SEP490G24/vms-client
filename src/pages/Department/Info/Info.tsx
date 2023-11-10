@@ -88,17 +88,17 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
             placeholder={t('common.placeholder.description')}
           />
         </Form.Item>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.status')} name='enable'
+                   rules={[{ required: true }]}>
+          <Radio.Group name='enable'>
+            <Space>
+              <Radio value={true}>{t('common.label.enable')}</Radio>
+              <Radio value={false}>{t('common.label.disable')}</Radio>
+            </Space>
+          </Radio.Group>
+        </Form.Item>
         {!!props.department &&
           <>
-            <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.status')} name='enable'
-                       rules={[{ required: true }]}>
-              <Radio.Group name='enable'>
-                <Space>
-                  <Radio value={true}>{t('common.label.enable')}</Radio>
-                  <Radio value={false}>{t('common.label.disable')}</Radio>
-                </Space>
-              </Radio.Group>
-            </Form.Item>
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>

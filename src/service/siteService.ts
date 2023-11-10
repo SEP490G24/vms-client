@@ -23,7 +23,7 @@ export interface UpdateSiteInfo {
   address?: string;
   taxCode?: string;
   description?: string;
-  enable?: string;
+  enable?: boolean;
 }
 
 export interface SiteFilterPayload {

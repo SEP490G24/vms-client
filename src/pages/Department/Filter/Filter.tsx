@@ -74,6 +74,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className="vms-form"
         onFinish={onFinish}
       >
+
         <SharedFilterScope onChangeSite={onChangeSite} />
         <Form.Item label={t('organization.department.search.counselor')} name="query">
           <SharedInput

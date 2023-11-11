@@ -20,13 +20,14 @@ export const SharedFilterScope: React.FC<SharedFilterScopeProps> = memo((props) 
       dispatch(findAllSites({}) as any)
     }, [])
 
-    return (
+    // @ts-ignore
+  return (
       <>
         <Form.Item label={t('common.field.site.name')} name='siteId'>
           <SharedSelect allowClear options={sites.map((site) => {
             return { label: site.name, value: site.id, key: site.id }
           }) ?? []}
-                        onChange={props.onChangeSite}
+                        onChange={(e?:any) => props.onChangeSite?.(e)}
                         placeholder={t('common.placeholder.site')}></SharedSelect>
         </Form.Item>
       </>

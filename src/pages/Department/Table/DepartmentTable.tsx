@@ -36,10 +36,11 @@ const DepartmentTable: React.FC<MeetingItemProps> = (props) => {
       <Column
         title={t('common.field.department')}
         sorter={true}
+        key='name'
         render={(value: DepartmentDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
-      <Column title={t('common.field.site.name')} dataIndex='siteName' key='siteName' sorter={true} />
-      <Column title={t('common.field.code')} dataIndex='code' key='code' sorter={true} />
+      <Column title={t('common.field.site.name')} dataIndex='siteName' key='siteName' />
+      <Column title={t('common.field.code')} dataIndex='code' key='code' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'

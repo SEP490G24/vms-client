@@ -36,10 +36,11 @@ const RoomTable: React.FC<MeetingItemProps> = (props) => {
       <Column
         title={t('common.field.room')}
         sorter={true}
+        key='name'
         render={(value: RoomDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
-      <Column title={t('common.field.code')} dataIndex='code' key='code' sorter={true} />
-      <Column title={t('common.field.site.name')} dataIndex='siteName' key='siteName' sorter={true} />
+      <Column title={t('common.field.code')} dataIndex='code' key='code'/>
+      <Column title={t('common.field.site.name')} dataIndex='siteName' key='siteName' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'

@@ -35,6 +35,7 @@ export interface RoomFilterPayload {
   lastUpdatedBy?: string
   enable?: string
   keyword?: string
+  siteId?: string[]
 }
 
 const findAll = async () => {
@@ -72,8 +73,8 @@ const filter = async (payload: RoomFilterPayload, isPageable?: boolean, pageable
   const response = await httpService.post(ROOM.FILTER, payload, {
     params: {
       isPageable,
-      size: pageableRequest?.size,
-      page: pageableRequest?.page
+      ...pageableRequest
+
     }
   })
   return httpService.handleResponseStatus(response)

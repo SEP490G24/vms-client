@@ -5,9 +5,9 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { DepartmentDto, PageableResponse } from '~/interface'
+import { DepartmentDto, PageableResponse, SortDirection, SortDirectionType, TableAction } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
-import { checkPermission } from '~/utils'
+import { checkPermission, resetTableAction } from '~/utils'
 import { DepartmentInfo } from './Info'
 import { DepartmentFilter } from './Filter'
 import { DepartmentTable } from './Table'
@@ -23,17 +23,24 @@ const Department = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [filterPayload, setFilterPayload] = useState<DepartmentFilterPayload>({})
-  // const [exportEx, setExportEx] = useState<boolean>(false)
-
+  const [tableAction, setTableAction] = useState<TableAction>({})
 
   useEffect(() => {
-    departmentService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
+    const payload = {
+      ...filterPayload,
+      enable: tableAction.filters?.enable?.[0]
+    } as DepartmentFilterPayload
+    departmentService.filter(payload, true, {
+      page: (tableAction.pagination?.current ?? 1) - 1,
+      size: 10,
+      sort: tableAction.sorter?.order ? `${tableAction.sorter?.columnKey},${SortDirection[tableAction.sorter?.order as SortDirectionType]}` : undefined
+    }).then((response) => {
       setPageableResponse(response?.data)
     })
-  }, [filterPayload, currentPage])
+  }, [filterPayload,tableAction])
 
   const onFilter = (filterPayload: DepartmentFilterPayload) => {
-    setCurrentPage(1)
+    setTableAction(resetTableAction(tableAction))
     setFilterPayload(filterPayload)
   }
 
@@ -45,6 +52,7 @@ const Department = () => {
         console.log('res', res)
         if (res?.status === 200) {
           setOpenModal(false)
+          setTableAction(resetTableAction(tableAction))
           setConfirmLoading(false)
           setDepartment(undefined)
           departmentService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
@@ -72,7 +80,7 @@ const Department = () => {
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     setCurrentPage(pagination.current ?? 1)
-    console.log(pagination, filters, sorter)
+    setTableAction({ pagination, filters, sorter })
   }
 
   return (
@@ -98,11 +106,6 @@ const Department = () => {
                   >
                     {t('common.label.create')}
                   </SharedButton>
-                  {/*<Spin spinning={exportEx}>*/}
-                  {/*  <SharedButton onClick={exportData} type={'primary'}>*/}
-                  {/*    {t('common.label.export_data')}*/}
-                  {/*  </SharedButton>*/}
-                  {/*</Spin>*/}
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />

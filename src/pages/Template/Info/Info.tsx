@@ -118,8 +118,7 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
           />
           <span className={'text-[12px] text-[#ccc]'}>* Please enter @ to mention variable</span>
         </Form.Item>
-        <Form.Item className='mb-3' label={t('common.field.description')} name='description'
-                   rules={[{ required: true }]}>
+        <Form.Item className='mb-3' label={t('common.field.description')} name='description'>
           <SharedInput placeholder={t('common.placeholder.description')}></SharedInput>
         </Form.Item>
         {!!props.template &&

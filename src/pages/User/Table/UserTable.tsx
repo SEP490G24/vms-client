@@ -31,7 +31,6 @@ const UserTable: React.FC<MeetingItemProps> = (props) => {
       }}
       onChange={props.onChangeTable}
       className='vms-table no-bg'
-      
       size='middle'
     >
       <Column title={t('common.field.username')} key='username' sorter={true}

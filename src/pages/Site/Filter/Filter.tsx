@@ -57,7 +57,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
     }
     if (values?.query?.trim()) payload.keyword = values?.query?.trim()
     if (provinceId) payload.provinceId = provinceId
-    console.log("district: " + districtId)
     if (districtId) payload.districtId = districtId
     if (communeId) payload.communeId = communeId
     args.onFilter(payload)

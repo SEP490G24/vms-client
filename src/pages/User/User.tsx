@@ -26,7 +26,6 @@ const User = () => {
 
 
   useEffect(() => {
-    console.log(tableAction)
     const payload = {
       ...filterPayload,
       enable: tableAction.filters?.enable?.[0]

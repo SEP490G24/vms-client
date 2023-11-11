@@ -12,8 +12,7 @@ export interface CreateDepartmentInfo {
 
 export interface UpdateDepartmentInfo {
   name?: string
-  code?: string
-  siteId?: string
+  enabled?: boolean
   description?: string
 }
 
@@ -47,6 +46,7 @@ const insert = async (payload: CreateDepartmentInfo) => {
 }
 
 const update = async (id: string, payload: UpdateDepartmentInfo) => {
+  console.log(payload)
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.patch(DEPARTMENT.BASE_PATH + `/${id}`, payload)
   return httpService.handleResponseStatus(response)
@@ -63,8 +63,7 @@ const filter = async (payload: DepartmentFilterPayload, isPageable?: boolean, pa
   const response = await httpService.post(DEPARTMENT.FILTER, payload, {
     params: {
       isPageable,
-      size: pageableRequest?.size,
-      page: pageableRequest?.page
+      ...pageableRequest
     }
   })
   return httpService.handleResponseStatus(response)

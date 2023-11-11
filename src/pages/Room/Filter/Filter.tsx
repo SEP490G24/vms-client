@@ -16,11 +16,12 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [valueDate, setValueDate] = useState<DateRadioRange>()
   const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
+  const [siteId, setSiteId] = useState<string>('')
 
   useEffect(() => {
-    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim()) setDisable(false)
+    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim() || siteId) setDisable(false)
     else setDisable(true)
-  }, [valueDate,keyword])
+  }, [valueDate,keyword,siteId])
 
   const onFinish = (values: any) => {
     const payload: RoomFilterPayload = {
@@ -28,6 +29,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
     }
     if (values?.query?.trim()) payload.keyword = values?.query?.trim()
+    if (siteId) payload.siteId = [siteId]
     args.onFilter(payload)
   }
 
@@ -66,7 +68,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className="vms-form"
         onFinish={onFinish}
       >
-        <SharedFilterScope />
+        <SharedFilterScope onChangeSite={setSiteId} />
         <Form.Item label={t('organization.room.search.counselor')} name="query">
           <SharedInput
             placeholder={t('organization.room.search.counselor_placeholder')}

@@ -5,9 +5,9 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { PageableResponse, RoomDto } from '~/interface'
+import { PageableResponse, RoomDto, SortDirection, SortDirectionType, TableAction } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
-import { checkPermission } from '~/utils'
+import { checkPermission, resetTableAction } from '~/utils'
 import { RoomInfo } from './Info'
 import { RoomFilter } from './Filter'
 import { RoomFilterPayload, roomService } from '~/service'
@@ -22,17 +22,24 @@ const Room = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [filterPayload, setFilterPayload] = useState<RoomFilterPayload>({})
-  // const [exportEx, setExportEx] = useState<boolean>(false)
-
+  const [tableAction, setTableAction] = useState<TableAction>({})
 
   useEffect(() => {
-    roomService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
+    const payload = {
+      ...filterPayload,
+      enable: tableAction.filters?.enable?.[0]
+    } as RoomFilterPayload
+    roomService.filter(payload, true, {
+      page: currentPage - 1,
+      size: 10,
+      sort: tableAction.sorter?.order ? `${tableAction.sorter?.columnKey},${SortDirection[tableAction.sorter?.order as SortDirectionType]}` : undefined
+    }).then((response) => {
       setPageableResponse(response?.data)
     })
-  }, [filterPayload, currentPage])
+  }, [filterPayload, currentPage,tableAction])
 
   const onFilter = (filterPayload: RoomFilterPayload) => {
-    setCurrentPage(1)
+    setTableAction(resetTableAction(tableAction))
     setFilterPayload(filterPayload)
   }
 
@@ -45,6 +52,7 @@ const Room = () => {
         if (res?.status === 200) {
           setOpenModal(false)
           setConfirmLoading(false)
+          setTableAction(resetTableAction(tableAction))
           setRoom(undefined)
           roomService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
             setPageableResponse(response?.data)
@@ -71,7 +79,7 @@ const Room = () => {
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     setCurrentPage(pagination.current ?? 1)
-    console.log(pagination, filters, sorter)
+    setTableAction({ pagination, filters, sorter })
   }
 
   // const exportData = async () => {

@@ -28,16 +28,15 @@ export interface UpdateSiteInfo {
 
 export interface SiteFilterPayload {
   names?: string[];
-  usernames?: string[];
   createdOnStart?: string;
   createdOnEnd?: string;
   createBy?: string;
-  lastUpdatedBy?: string
-  enable?: string
-  keyword?: string
-  provinceId?: string
-  districtId?: string
-  communeId?: string
+  lastUpdatedBy?: string;
+  enable?: string;
+  keyword?: string;
+  provinceId?: string;
+  districtId?: string;
+  communeId?: string;
 }
 
 const findAll = async () => {
@@ -80,8 +79,7 @@ const filter = async (payload: SiteFilterPayload, isPageable?: boolean, pageable
   const response = await httpService.post(SITE.FILTER, payload, {
     params: {
       isPageable,
-      size: pageableRequest?.size,
-      page: pageableRequest?.page
+      ...pageableRequest
     }
   })
   return httpService.handleResponseStatus(response)

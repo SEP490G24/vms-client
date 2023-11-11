@@ -36,10 +36,11 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
       <Column
         title={t('common.field.site.name')}
         sorter={true}
+        key='name'
         render={(value: SiteDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
-      <Column title={t('common.field.code')} sorter={true} dataIndex='code' key='code' />
-      <Column title={t('common.field.contact_number')} sorter={true} dataIndex='phoneNumber' key='phoneNumber' />
+      <Column title={t('common.field.code')} dataIndex='code' key='code' />
+      <Column title={t('common.field.contact_number')} dataIndex='phoneNumber' key='phoneNumber' />
       <Column title={t('common.field.province')}
               render={(site: SiteDto) => site.provinceName ? <Space direction={'vertical'}>
                 <strong>{site.provinceName}</strong>

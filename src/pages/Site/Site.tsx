@@ -5,9 +5,9 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { SiteDto } from '~/interface'
+import { SiteDto, SortDirection, SortDirectionType, TableAction } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
-import { checkPermission, isNullish } from '~/utils'
+import { checkPermission, isNullish, resetTableAction } from '~/utils'
 import { SiteInfo } from './Info'
 import { SiteFilter } from './Filter'
 import { SiteTable } from './Table'
@@ -23,27 +23,33 @@ const Site = () => {
   const dispatch = useAppDispatch()
 
   const { pageableResponse, siteSelected } = useSelector(sitesSelector)
-
+  const [tableAction, setTableAction] = useState<TableAction>({})
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
-  const [filterPayload, setFilterPayload] = useState<SiteFilterPayload>({})
+  const [ filterPayload, setFilterPayload] = useState<SiteFilterPayload>({})
   // const [exportEx, setExportEx] = useState<boolean>(false)
 
 
   useEffect(() => {
+    const payload = {
+      ...filterPayload,
+      enable: tableAction.filters?.enable?.[0]
+    } as SiteFilterPayload
     dispatch(filterSites({
-      filterPayload,
+      payload ,
       isPageable: true,
-      pageableRequest: { page: currentPage - 1, size: 10 }
+      pageableRequest: {
+        page: currentPage - 1,
+        size: 10,
+        sort: tableAction.sorter?.order ? `${tableAction.sorter?.columnKey},${SortDirection[tableAction.sorter?.order as SortDirectionType]}` : undefined
+      },
     }) as any)
-    // siteService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-    //   setPageableResponse(response?.data)
-    // })
-  }, [filterPayload, currentPage])
+
+  }, [filterPayload, currentPage, tableAction])
 
   const onFilter = (filterPayload: SiteFilterPayload) => {
-    setCurrentPage(1)
+    setTableAction(resetTableAction(tableAction))
     setFilterPayload(filterPayload)
   }
 
@@ -54,12 +60,13 @@ const Site = () => {
       .then(async (res: any) => {
         if (res?.status === 200) {
           setOpenModal(false)
+          setTableAction(resetTableAction(tableAction))
           setConfirmLoading(false)
           dispatch(setSiteSelected({}))
           dispatch(filterSites({
             filterPayload,
             isPageable: true,
-            pageableRequest: { page: currentPage - 1, size: 10 }
+            pageableRequest: { page: currentPage - 1, size: 10 },
           }) as any)
           await message.success(t('common.message.success.save'))
         } else {
@@ -83,7 +90,7 @@ const Site = () => {
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     setCurrentPage(pagination.current ?? 1)
-    console.log(pagination, filters, sorter)
+    setTableAction({ pagination, filters, sorter })
   }
 
 

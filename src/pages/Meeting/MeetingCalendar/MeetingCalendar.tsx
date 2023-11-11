@@ -29,7 +29,7 @@ const MeetingCalendar = () => {
         <Space className={'w-full justify-between'}>
           <h2>{t('meeting.calendar.title')}</h2>
         </Space>
-        {/*{checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (*/}
+        {/*{checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (*/}
         <Card>
           <Scheduler
             // week={null}

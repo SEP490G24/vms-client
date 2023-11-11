@@ -6,7 +6,7 @@ import { ModulePermission } from './Module'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { useTranslation } from 'react-i18next'
 import { checkPermission } from '~/utils/common.ts'
-import { BUTTON_ROLE_MAP } from '~/role/index.ts'
+import { PERMISSION_ROLE_MAP } from '~/role/index.ts'
 import { SharedButton, SharedInput, SharedModal, SharedSelect } from '~/common'
 import { permissionService, roleService, siteService } from '~/service'
 import Modal from 'antd/es/modal/Modal'
@@ -68,7 +68,7 @@ const Permission = () => {
           {/*  Sync*/}
           {/*</SharedButton>*/}
         </Space>
-        {checkPermission(BUTTON_ROLE_MAP.R_PERMISSION_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP.R_PERMISSION_FIND) && (
           <div className='page-content'>
             {modules && <ModulePermission module={modules[0]} roles={roles} onChange={onChange} onSave={onSave} />}
           </div>

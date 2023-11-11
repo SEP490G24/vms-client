@@ -4,13 +4,12 @@ import {
   PATH_DASHBOARD,
   PATH_DEPARTMENT,
   PATH_HISTORY,
-  PATH_MEETING,
   PATH_MEETING_CALENDAR,
-  PATH_MEETING_LIST,
+  PATH_MEETING_STATISTIC,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_ROOM,
-  PATH_ROOM_MEETING_CALENDAR,
+  PATH_MEETING_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_USER
@@ -32,7 +31,7 @@ export const SIDE_BARS = [
     children: []
   },
   {
-    key: PATH_MEETING,
+    key: 'PATH_MEETING',
     icon: <ScheduleOutlined className={'text-[18px]'} />,
     title: 'sidebar.meeting.title',
     children: [
@@ -43,15 +42,15 @@ export const SIDE_BARS = [
         children: []
       },
       {
-        key: PATH_MEETING_LIST,
+        key: PATH_MEETING_STATISTIC,
         title: 'sidebar.meeting.sub.meetings',
-        path: PATH_MEETING_LIST,
+        path: PATH_MEETING_STATISTIC,
         children: []
       },
       {
-        key: PATH_ROOM_MEETING_CALENDAR,
+        key: PATH_MEETING_ROOM,
         title: 'sidebar.meeting.sub.rooms',
-        path: PATH_ROOM_MEETING_CALENDAR,
+        path: PATH_MEETING_ROOM,
         children: []
       }
     ]

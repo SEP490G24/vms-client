@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { SharedAvatar, SharedButton, SharedInput } from '~/common'
 import { OrganizationEntity } from '~/interface'
-import { BUTTON_ROLE_MAP } from '~/role'
+import { PERMISSION_ROLE_MAP } from '~/role'
 import { baseUploadTemplate, toBase64 } from '~/utils'
 import { checkPermission } from '~/utils/common'
 import { organizationService } from '~/service'
@@ -85,7 +85,7 @@ const Organization = () => {
   return (
     <OrganizationWrapper>
       <h2 className='page-header-text'>{t('organization.info.title')}</h2>
-      {checkPermission(BUTTON_ROLE_MAP.R_ORGANIZATION_FIND) && (
+      {checkPermission(PERMISSION_ROLE_MAP.R_ORGANIZATION_FIND) && (
         <PerfectScrollbar>
           <Row className={'m-0'} style={{ maxHeight: 'calc(100vh - 160px)' }}>
             <Col span={24}>
@@ -93,7 +93,7 @@ const Organization = () => {
                 title={t('organization.info.title')}
                 extra={
                   <SharedButton
-                    // permissions={BUTTON_ROLE_MAP.R_ORGANIZATION_UPDATE}
+                    // permissions={PERMISSION_ROLE_MAP.R_ORGANIZATION_UPDATE}
                     type='primary'
                     onClick={form.submit}
                   >

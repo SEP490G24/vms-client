@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { DeviceDto, PageableResponse, UserDto } from '~/interface'
-import { BUTTON_ROLE_MAP } from '~/role'
+import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission } from '~/utils'
 import { DeviceInfo } from './Info'
 import { DeviceFilter } from './Filter'
@@ -77,7 +77,7 @@ const Device = () => {
           <h2>{t('organization.device.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <DeviceFilter onFilter={onFilter} />
@@ -87,7 +87,7 @@ const Device = () => {
                 <strong> {t('organization.device.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
-                    // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
+                    // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type='default'
                     onClick={() => setOpenModal(true)}
                   >

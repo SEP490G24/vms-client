@@ -55,7 +55,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         <Space>
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
-            // permissions={BUTTON_ROLE_MAP.R_USER_FIND}
+            // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             type={'primary'}
             onClick={form.submit}
             // disabled={!(!isNullish(form.getFieldsValue()) || !!valueDate)}

@@ -13,29 +13,30 @@ import {
   RoomMeetingCalendar,
   Setting,
   Template,
-  TicketResult,
+  TicketResult
 } from '~/pages'
 
 import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
 
 import {
-  PATH_CONFIGURATION, PATH_CUSTOMER,
+  PATH_CONFIGURATION,
+  PATH_CUSTOMER,
   PATH_DASHBOARD,
   PATH_DEPARTMENT,
   PATH_DEVICE,
   PATH_HISTORY,
   PATH_MEETING_CALENDAR,
-  PATH_MEETING_LIST,
+  PATH_MEETING_STATISTIC,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_PROFILE,
   PATH_ROOM,
-  PATH_ROOM_MEETING_CALENDAR,
+  PATH_MEETING_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_TICKET_RESULT,
-  PATH_USER,
+  PATH_USER
 } from './paths'
 
 export const publicRoutes = []
@@ -52,12 +53,12 @@ export const privateRoutes = [
     layout: null
   },
   {
-    path: PATH_ROOM_MEETING_CALENDAR,
+    path: PATH_MEETING_ROOM,
     component: RoomMeetingCalendar,
     layout: null
   },
   {
-    path: PATH_MEETING_LIST,
+    path: PATH_MEETING_STATISTIC,
     component: MeetingList,
     layout: null
   },

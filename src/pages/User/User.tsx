@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { InfoModalData, TableAction, TableData, UserDto } from '~/interface'
-import { BUTTON_ROLE_MAP } from '~/role'
+import { PERMISSION_ROLE_MAP } from '~/role'
 import { PageWrapper } from '~/themes'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { UserInfo } from './Info'
@@ -117,7 +117,7 @@ const User = () => {
           <h2>{t('organization.user.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <UserFilter onFilter={onFilter} />
@@ -136,7 +136,7 @@ const User = () => {
                     <SharedButton icon={<UploadOutlined />}>{t('common.label.import_data')}</SharedButton>
                   </Upload>
                   <SharedButton
-                    // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
+                    // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type={'primary'}
                     onClick={() => setInfoModalData({
                       ...infoModalData,

@@ -1,7 +1,7 @@
 import { PageWrapper } from '~/themes'
 import { Col, message, Row, Space, Spin } from 'antd'
 import { checkPermission } from '~/utils'
-import { BUTTON_ROLE_MAP } from '~/role'
+import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { TemplateItem } from './TemplateItem'
 import { TemplateFilterPayload, templateService } from '~/service'
@@ -99,7 +99,7 @@ const Template = () => {
             {t('common.label.create')}
           </SharedButton>
         </Space>
-        {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <TemplateFilter onFilter={onFilter} />

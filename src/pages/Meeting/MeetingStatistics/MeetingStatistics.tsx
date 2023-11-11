@@ -1,6 +1,6 @@
 import { MeetingListWrapper } from './styles.ts'
 import { Card, Col, Divider, Row, Segmented, Space, TablePaginationConfig } from 'antd'
-import { BUTTON_ROLE_MAP } from '~/role'
+import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import Modal from 'antd/es/modal/Modal'
@@ -85,7 +85,7 @@ const MeetingStatistics = () => {
             options={viewTypeOptions}
           />
         </Space>
-        {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <MeetingFilter onFilter={onFilter} />
@@ -96,7 +96,7 @@ const MeetingStatistics = () => {
                   <strong> {t('meeting.manager.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                   <Space>
                     <SharedButton
-                      // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
+                      // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                       type='primary'
                       onClick={() => setInfoModalData({
                         ...infoModalData,

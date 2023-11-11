@@ -43,7 +43,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
             type={'primary'}
-            // permissions={BUTTON_ROLE_MAP.R_USER_FIND}
+            // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
           >
             {t('common.label.search')}

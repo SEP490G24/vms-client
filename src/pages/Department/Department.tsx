@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { DepartmentDto, InfoModalData, TableAction, TableData } from '~/interface'
-import { BUTTON_ROLE_MAP } from '~/role'
+import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { DepartmentInfo } from './Info'
 import { DepartmentFilter } from './Filter'
@@ -87,7 +87,7 @@ const Department = () => {
           <h2>{t('organization.department.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <DepartmentFilter onFilter={onFilter} />
@@ -97,7 +97,7 @@ const Department = () => {
                 <strong> {t('organization.department.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
-                    // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
+                    // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type='default'
                     onClick={() => setInfoModalData({
                       ...infoModalData,

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { InfoModalData, SiteDto, TableAction, TableData } from '~/interface'
-import { BUTTON_ROLE_MAP } from '~/role'
+import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { SiteInfo } from './Info'
 import { SiteFilter } from './Filter'
@@ -90,7 +90,7 @@ const Site = () => {
           <h2>{t('organization.site.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <SiteFilter onFilter={onFilter} />
@@ -100,7 +100,7 @@ const Site = () => {
                 <strong> {t('organization.site.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
-                    // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
+                    // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type='default'
                     onClick={() => setInfoModalData({
                       ...infoModalData,

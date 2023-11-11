@@ -4,6 +4,7 @@ import { List } from 'antd'
 import { MeetingItem } from '~/pages/Meeting/common'
 
 interface MeetingItemProps {
+  loading: boolean
   pageableResponse?: PageableResponse<MeetingDto>
   onEdit: (value: MeetingDto) => void
   onCancelMeeting: (meeting: MeetingDto) => void
@@ -15,6 +16,7 @@ const MeetingKanban: React.FC<MeetingItemProps> = (props) => {
 
   return (
     <List
+      loading={props.loading}
       grid={{ gutter: 16, column: 3 }}
       dataSource={props.pageableResponse?.content}
       renderItem={(item) => (

@@ -2,47 +2,27 @@ import { PersonInfoSection, ProfileInfoWrapper } from './styles.ts'
 import { Button, Card, Form, Input, message, Space } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { useTranslation } from 'react-i18next'
-import { authSelector, useAppDispatch, useAppSelector } from '~/redux'
+import { authSelector, useAppSelector } from '~/redux'
 import { useEffect } from 'react'
-import { SharedInput, SharedPhoneNumber, SharedSelect } from '~/common'
+import { SharedInput, SharedSelect } from '~/common'
 import { SharedDatePicker } from '~/common/SharedDatePicker'
 import { REGEX } from '~/constants'
 import { userService } from '~/service'
-import { useSelector } from 'react-redux'
-import {
-  fetchCommune,
-  fetchDistrict,
-  fetchProvince,
-  locationsSelector,
-  resetCommune,
-  resetDistrict
-} from '~/redux/slices/locationSlice.ts'
 import { enumToArray } from '~/utils'
 import { Gender } from '~/interface'
+import { useLocation } from '~/hook'
 
 const ProfileInfo = () => {
 
   const { profile } = useAppSelector(authSelector)
   const [form] = Form.useForm()
-  const dispatch = useAppDispatch()
 
   const { t } = useTranslation()
 
-  const { communes, districts, provinces } = useSelector(locationsSelector)
-  const provinceId = Form.useWatch('provinceId', form)
-  const districtId = Form.useWatch('districtId', form)
+  let provinceId = Form.useWatch('provinceId', form)
+  let districtId = Form.useWatch('districtId', form)
 
-  useEffect(() => {
-    provinceId ? dispatch(fetchDistrict(provinceId) as any) : dispatch(resetDistrict())
-  }, [provinceId])
-
-  useEffect(() => {
-    districtId ? dispatch(fetchCommune(districtId) as any) : dispatch(resetCommune())
-  }, [districtId])
-
-  useEffect(() => {
-    !provinces.length && dispatch(fetchProvince() as any)
-  }, [])
+  let { communes, districts, provinces } = useLocation(provinceId, districtId)
 
   const resetDistrictAndCommune = () => {
     form.resetFields(['districtId', 'communeId'])
@@ -123,8 +103,11 @@ const ProfileInfo = () => {
             <PersonInfoSection>
               <Title level={3}>{t('user.profile.contact_info')}</Title>
               <div className={'grid grid-cols-2 gap-x-8'}>
-                <Form.Item label={t('common.field.phoneNumber')} name={'phoneNumber'} rules={[{ required: true }]}>
-                  <SharedPhoneNumber placeholder={t('common.placeholder.phoneNumber')} />
+                <Form.Item label={t('common.field.phoneNumber')} name={'phoneNumber'} rules={[{ required: true }, {
+                  pattern: REGEX.PHONE,
+                  message: t('common.error.phoneNumber_valid')
+                }]}>
+                  <SharedInput placeholder={t('common.placeholder.phoneNumber')} />
                 </Form.Item>
                 <Form.Item label={t('common.field.email')} name={'email'}
                            rules={[{ required: true }, {

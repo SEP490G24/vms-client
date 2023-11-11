@@ -106,9 +106,9 @@ const Device = () => {
                 rowKey='id'
                 pagination={{
                   current: currentPage,
-                  total: pageableResponse?.totalElements as number,
+                  total: pageableResponse?.totalElements,
                   onChange: setCurrentPage,
-                  pageSize: pageableResponse?.pageable?.pageSize as number,
+                  pageSize: pageableResponse?.pageable?.pageSize,
                   showSizeChanger: false,
                   position: ['bottomCenter']
                 }}

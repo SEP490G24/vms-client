@@ -2,7 +2,7 @@ import { Card, Form, Space } from 'antd'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput, SharedSelect } from '~/common'
-import { DateRadioRange, TemplateType } from '~/interface'
+import { DateRadioRange, Status, TemplateType } from '~/interface'
 import { TemplateFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
 import { enumToArray } from '~/utils'
@@ -22,6 +22,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       siteId: values['siteId'] ? [values['siteId']] : undefined,
       type: values['type'],
       keyword: values['keyword'],
+      enable: values['enable'],
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY)
     }
@@ -68,6 +69,13 @@ const Filter: React.FC<FilterArgs> = (args) => {
           <SharedSelect
             options={enumToArray(TemplateType).map(item => {
               return { label: item.key, value: item.value }
+            })}
+            placeholder={t('common.placeholder.type')} />
+        </Form.Item>
+        <Form.Item label={t('common.field.status')} name='enable'>
+          <SharedSelect
+            options={Object.entries(Status).map(item => {
+              return { label: item[0], value: item[1] }
             })}
             placeholder={t('common.placeholder.type')} />
         </Form.Item>

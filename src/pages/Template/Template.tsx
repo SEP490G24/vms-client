@@ -1,135 +1,137 @@
 import { PageWrapper } from '~/themes'
-import { Col, Divider, List, message, Row, Space } from 'antd'
+import { Col, message, Row, Space, Spin } from 'antd'
 import { checkPermission } from '~/utils'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
-import { TemplateItem } from '~/pages/Template/TemplateItem'
+import { TemplateItem } from './TemplateItem'
 import { TemplateFilterPayload, templateService } from '~/service'
-import { TemplateDto } from '~/interface'
+import { InfoModalData, TemplateDto } from '~/interface'
 import { useEffect, useState } from 'react'
 import Modal from 'antd/es/modal/Modal'
-import { TemplateInfo } from '~/pages/Template/Info'
+import { TemplateInfo } from './Info'
 import { SharedButton } from '~/common'
-import { TemplateFilter } from '~/pages/Template/Filter'
+import { TemplateFilter } from './Filter'
 
 const Template = () => {
   const { t } = useTranslation()
-  const [templates, setTemplates] = useState<TemplateDto[]>([])
+  const [templatesState, setTemplatesState] = useState<{
+    templates?: TemplateDto[],
+    loading: boolean
+  }>({ loading: false })
+  const [infoModalData, setInfoModalData] = useState<InfoModalData<TemplateDto>>({
+    openModal: false,
+    confirmLoading: false
+  })
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [template, setTemplate] = useState<TemplateDto>()
-  const [openModal, setOpenModal] = useState<boolean>(false)
   const [filterPayload, setFilterPayload] = useState<TemplateFilterPayload>({})
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    templateService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-      setTemplates([...templates, ...response.data?.content])
-      message.success(t('common.message.success.save')).then()
-    })
-  }, [currentPage])
+    fetchTemplates({}, 1)
+  }, [])
 
-  useEffect(() => {
-    templateService.filter(filterPayload, true, { page: 0, size: 10 }).then((response) => {
-      setTemplates(response.data?.content)
+  const fetchTemplates = (_filterPayload: TemplateFilterPayload, _currentPage: number, append?: boolean) => {
+    setTemplatesState({
+      ...templatesState,
+      loading: true
     })
-  }, [filterPayload])
+    templateService.filter(_filterPayload, true, { page: _currentPage - 1, size: 10 })
+      .then((response) => {
+        setTemplatesState({
+          loading: false,
+          templates: append ? templatesState.templates?.concat(response.data?.content) : response.data?.content
+        })
+      }).catch(() => {
+      setTemplatesState({
+        ...templatesState,
+        loading: false
+      })
+    })
+  }
 
   const onFilter = (filterPayload: TemplateFilterPayload) => {
     setCurrentPage(1)
     setFilterPayload(filterPayload)
+    fetchTemplates(filterPayload, 1)
+  }
+
+  const onShowMore = () => {
+    setCurrentPage(currentPage + 1)
+    fetchTemplates(filterPayload, currentPage + 1, true)
   }
 
   const onSave = (payload: any) => {
-    setConfirmLoading(true)
-    let request = !!template ? templateService.update(template.id, payload) : templateService.insert(payload)
+    setInfoModalData({ ...infoModalData, confirmLoading: true })
+    let request = !!infoModalData.entitySelected ? templateService.update(infoModalData.entitySelected.id, payload) : templateService.insert(payload)
     request
       .then(async (res: any) => {
         console.log('res', res)
         if (res?.status === 200) {
-          setOpenModal(false)
-          setConfirmLoading(false)
-          setTemplate(undefined)
-          templateService.filter(filterPayload, true, { page: 0, size: 10 }).then((response) => {
-            setTemplates(response.data?.content)
-          })
+          setInfoModalData({ openModal: false, confirmLoading: false, entitySelected: undefined })
+          fetchTemplates(filterPayload, 1)
           await message.success(t('common.message.success.save'))
         } else {
           await message.error(t('common.message.error.save'))
         }
       })
       .catch(async () => {
+        setInfoModalData({ ...infoModalData, confirmLoading: false })
         await message.error(t('common.message.error'))
       })
   }
 
-  const onShowMore = () => {
-    setCurrentPage(currentPage + 1)
-  }
-
-  const openEdit = (templateDto?: TemplateDto) => {
-    setTemplate(templateDto)
-    setOpenModal(true)
+  const openEdit = (templateDto: TemplateDto) => {
+    setInfoModalData({ ...infoModalData, entitySelected: templateDto, openModal: true })
   }
 
   const onClose = () => {
-    setTemplate(undefined)
-    setOpenModal(false)
+    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
-
 
   return (
     <PageWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
-        <Space>
+        <Space className={'w-full justify-between'}>
           <h2>{t('organization.template.title')}</h2>
-          <Divider type='vertical' />
+          <SharedButton
+            type='default'
+            onClick={() => setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: true })}
+          >
+            {t('common.label.create')}
+          </SharedButton>
         </Space>
-        <SharedButton
-          type='default'
-          onClick={() => setOpenModal(true)}
-        >
-          {t('common.label.create')}
-        </SharedButton>
         {checkPermission(BUTTON_ROLE_MAP.R_USER_FIND) && (
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <TemplateFilter onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
-              <Space className={'w-full mb-4'} direction={'vertical'} size={24} align={'center'}>
-                {/*<List className={'w-full'} grid={{ gutter: 12, xs: 1, md: 2, lg: 3 }}*/}
-                {/*      dataSource={templates}*/}
-                {/*      renderItem={(template) => (<List.Item>*/}
-                {/*        <TemplateItem templateDto={template} onEdit={openEdit}></TemplateItem>*/}
-                {/*      </List.Item>)}*/}
-                {/*>*/}
-                {/*</List>*/}
-                <div className={'grid w-full sm:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-2'}>
-                  {
-                    templates.map((template) => (<List.Item>
-                      <TemplateItem templateDto={template} onEdit={openEdit}></TemplateItem>
-                    </List.Item>))
-                  }
-                </div>
-                {!!templates.length && <SharedButton onClick={onShowMore}>Show more</SharedButton>}
-              </Space>
+              <Spin spinning={templatesState.loading}>
+                <Space className={'w-full mb-4'} direction={'vertical'} size={24} align={'center'}>
+                  <div className={'grid w-full sm:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-2'}>
+                    {
+                      templatesState.templates?.map((template, index) => (
+                        <TemplateItem key={index} templateDto={template} onEdit={openEdit}></TemplateItem>
+                      ))
+                    }
+                  </div>
+                  {!!templatesState.templates?.length && <SharedButton onClick={onShowMore}>Show more</SharedButton>}
+                </Space>
+              </Spin>
             </Col>
           </Row>
         )}
       </Space>
-      {openModal && (
-        <Modal
-          open={openModal}
-          closable={false}
-          title={null}
-          footer={null}
-          confirmLoading={confirmLoading}
-          width={750}
-          onCancel={onClose}
-        >
-          <TemplateInfo onClose={onClose} template={template} onSave={onSave} />
-        </Modal>
-      )}
+      <Modal
+        open={infoModalData.openModal}
+        closable={false}
+        title={null}
+        footer={null}
+        confirmLoading={infoModalData.confirmLoading}
+        width={750}
+        onCancel={onClose}
+      >
+        <TemplateInfo onClose={onClose} template={infoModalData.entitySelected} onSave={onSave} />
+      </Modal>
     </PageWrapper>
   )
 }

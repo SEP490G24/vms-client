@@ -1,1 +1,1 @@
-export {default as MeetingTable} from './MeetingTable.tsx'
+export {default as MeetingTable} from './MeetingTable'

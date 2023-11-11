@@ -1,20 +1,12 @@
 // @ts-ignore
-import { Card, Form ,Space } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Card, Form, Space } from 'antd'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedFilterPeriod, SharedInput, SharedSelect } from '~/common'
-import { DateRadioRange} from '~/interface'
+import { DateRadioRange } from '~/interface'
 import { SiteFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
-import { useAppDispatch } from '~/redux'
-import {
-  fetchCommune,
-  fetchDistrict,
-  fetchProvince,
-  locationsSelector, resetCommune,
-  resetDistrict,
-} from '~/redux/slices/locationSlice.ts'
-import { useSelector } from 'react-redux'
+import { useLocation } from '~/hook'
 
 interface FilterArgs {
   onFilter: (filterPayload: SiteFilterPayload) => void
@@ -24,41 +16,21 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
-  const dispatch = useAppDispatch()
-  const { communes, districts, provinces } = useSelector(locationsSelector)
-  const provinceId = Form.useWatch('provinceId', form)
-  const districtId = Form.useWatch('districtId', form)
-  const communeId = Form.useWatch('communeId', form)
-  const [disable, setDisable] = useState<boolean>(true)
-  const [keyword, setKeyword] = useState<string>('')
-  //const [provinceId, setProvinceId] = useState<string>('')
 
-  useEffect(() => {
-    provinceId ? dispatch(fetchDistrict(provinceId) as any) : dispatch(resetDistrict())
-  }, [provinceId])
+  let provinceId = Form.useWatch('provinceId', form)
+  let districtId = Form.useWatch('districtId', form)
 
-  useEffect(() => {
-    districtId ? dispatch(fetchCommune(districtId) as any) : dispatch(resetCommune())
-  }, [districtId])
-  useEffect(() => {
-    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim() || provinceId ) setDisable(false)
-    else setDisable(true)
-  }, [valueDate,keyword,provinceId])
-
-  //Call API province
-  useEffect(() => {
-    !provinces.length && dispatch(fetchProvince() as any)
-  }, [])
+  let { communes, districts, provinces } = useLocation(provinceId, districtId)
 
   const onFinish = (values: any) => {
     const payload: SiteFilterPayload = {
+      provinceId: values['provinceId'],
+      districtId: values['districtId'],
+      communeId: values['communeId'],
+      keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY)
     }
-    if (values?.query?.trim()) payload.keyword = values?.query?.trim()
-    if (provinceId) payload.provinceId = provinceId
-    if (districtId) payload.districtId = districtId
-    if (communeId) payload.communeId = communeId
     args.onFilter(payload)
   }
 
@@ -71,10 +43,11 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const resetDistrictAndCommune = () =>{
     form.resetFields(["districtId","communeId"]);
   }
+
   const resetDistrictCombobox = () =>{
     form.resetFields(["communeId"]);
   }
-  // @ts-ignore
+
   return (
     <Card
       title={t('organization.site.search.title')}
@@ -83,8 +56,9 @@ const Filter: React.FC<FilterArgs> = (args) => {
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
             // permissions={BUTTON_ROLE_MAP.R_USER_FIND}
+            type={'primary'}
             onClick={form.submit}
-            disabled={disable}
+            // disabled={!(!isNullish(form.getFieldsValue()) || !!valueDate)}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -104,11 +78,9 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className='vms-form'
         onFinish={onFinish}
       >
-        <Form.Item label={t('organization.site.search.counselor')} name='query'>
+        <Form.Item className={'mb-3'} label={t('organization.site.search.counselor')} name='query'>
           <SharedInput
             placeholder={t('organization.site.search.counselor_placeholder')}
-            value={keyword}
-            onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'>

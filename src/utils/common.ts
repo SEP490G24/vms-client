@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
-import { TableAction } from '~/interface'
+import { SortDirection, SortDirectionType, TableAction } from '~/interface'
 
 export const TICKET_STATE_LABELS: any = {
   PRE_CONSULTANT: 'common.ticketStatus.preConsultation',
@@ -103,7 +103,7 @@ export function formatDate(date: Date) {
   )
 }
 
-export function resetTableAction(tableAction: TableAction) {
+export function resetCurrentPageAction(tableAction: TableAction) {
   return {
     ...tableAction,
     pagination: {
@@ -111,6 +111,10 @@ export function resetTableAction(tableAction: TableAction) {
       current: 1
     }
   }
+}
+
+export function formatSortParam(sortField: string, sortOrder?: string) {
+  return sortOrder ? `${sortField},${SortDirection[sortOrder as SortDirectionType]}` : undefined
 }
 
 // export const checkPermission=(permissions:any):any=>{

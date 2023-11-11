@@ -5,6 +5,8 @@ import { PermissionDto, RoleDto } from '~/interface/Permission.ts'
 import Column from 'antd/es/table/Column'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { useTranslation } from 'react-i18next'
+import { checkPermission } from '~/utils/common.ts'
+import { REALM_ROLE_MAP } from '~/role'
 
 const { Text } = Typography
 
@@ -15,6 +17,7 @@ interface FeatureArgs {
   onChange: (rId: string, permission: PermissionDto, event: CheckboxChangeEvent) => void,
   onSave: () => void,
   onEditLabelFeature: (value: string, permissions: PermissionDto[]) => void
+  onEditLabelName: (value: string, permission: PermissionDto) => void
 }
 
 const Feature: React.FC<FeatureArgs> = (args) => {
@@ -28,10 +31,14 @@ const Feature: React.FC<FeatureArgs> = (args) => {
     args.onEditLabelFeature(value, args.permissions)
   }
 
+  const onChangeName = (value: string, permission: PermissionDto) => {
+    if (permission.label[i18n.language]?.name === value.trim()) return
+    args.onEditLabelName(value, permission)
+  }
+
   useEffect(() => {
-    console.log(args.permissions)
     setTitle(args.title)
-  }, [])
+  }, [args.title])
 
   return (
     <FeatureWrapper>
@@ -45,9 +52,14 @@ const Feature: React.FC<FeatureArgs> = (args) => {
                className='permissions-table'
                pagination={false}
         >
-          <Column className={'w-1/5'} title='' render={(value) => <Space direction={'vertical'}
-                                                                         size={2}><Text
-            strong>{value.label[i18n.language]?.name}</Text><Text type='secondary'>{value.name}</Text></Space>}
+          <Column className={'w-1/5'} title=''
+                  render={(permission) =>
+                    <Space direction={'vertical'} size={2}>
+                      <Text editable={checkPermission(REALM_ROLE_MAP.REALM_ADMIN) ? { onChange: (value: string) => onChangeName(value, permission) } : false}
+                            style={{ margin: '0 0 0 6px' }} strong>{permission.label[i18n.language]?.name}
+                      </Text>
+                      <Text type='secondary' style={{ margin: '0 0 0 6px' }}>{permission.name}</Text>
+                    </Space>}
                   key='name' />
           {args.roles?.map((role) =>
             <Column align={'center'} title={role.code} render={(value) =>

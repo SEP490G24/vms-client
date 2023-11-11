@@ -5,91 +5,80 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { SiteDto, SortDirection, SortDirectionType, TableAction } from '~/interface'
+import { InfoModalData, SiteDto, TableAction, TableData } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
-import { checkPermission, isNullish, resetTableAction } from '~/utils'
+import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { SiteInfo } from './Info'
 import { SiteFilter } from './Filter'
 import { SiteTable } from './Table'
 import { SiteFilterPayload, siteService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
-import { useAppDispatch } from '~/redux'
-import { useSelector } from 'react-redux'
-import { filterSites, setSiteSelected, sitesSelector } from '~/redux/slices/siteSlice.ts'
 
 const Site = () => {
   const { t } = useTranslation()
 
-  const dispatch = useAppDispatch()
 
-  const { pageableResponse, siteSelected } = useSelector(sitesSelector)
+  const [tableData, setTableData] = useState<TableData<SiteDto>>({ loading: false })
+  const [infoModalData, setInfoModalData] = useState<InfoModalData<SiteDto>>({
+    openModal: false,
+    confirmLoading: false
+  })
   const [tableAction, setTableAction] = useState<TableAction>({})
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [openModal, setOpenModal] = useState<boolean>(false)
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
-  const [ filterPayload, setFilterPayload] = useState<SiteFilterPayload>({})
+  const [filterPayload, setFilterPayload] = useState<SiteFilterPayload>({})
   // const [exportEx, setExportEx] = useState<boolean>(false)
 
 
   useEffect(() => {
+    fetchSites()
+  }, [filterPayload, tableAction])
+
+  const fetchSites = () => {
+    setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,
       enable: tableAction.filters?.enable?.[0]
     } as SiteFilterPayload
-    dispatch(filterSites({
-      payload ,
-      isPageable: true,
-      pageableRequest: {
-        page: currentPage - 1,
-        size: 10,
-        sort: tableAction.sorter?.order ? `${tableAction.sorter?.columnKey},${SortDirection[tableAction.sorter?.order as SortDirectionType]}` : undefined
-      },
-    }) as any)
-
-  }, [filterPayload, currentPage, tableAction])
+    siteService.filter(payload, true, {
+      page: (tableAction.pagination?.current ?? 1) - 1,
+      size: 10,
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
+    }).then((response) => {
+      setTableData({ pageableResponse: response.data, loading: false })
+    }).catch(() => {
+      setTableData({ ...infoModalData, loading: false })
+    })
+  }
 
   const onFilter = (filterPayload: SiteFilterPayload) => {
-    setTableAction(resetTableAction(tableAction))
+    setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload(filterPayload)
   }
 
   const onSave = (payload: any) => {
-    setConfirmLoading(true)
-    let request = !isNullish(siteSelected) ? siteService.update(siteSelected.id, payload) : siteService.insert(payload)
+    let request = !!infoModalData.entitySelected ? siteService.update(infoModalData.entitySelected.id, payload) : siteService.insert(payload)
     request
       .then(async (res: any) => {
         if (res?.status === 200) {
-          setOpenModal(false)
-          setTableAction(resetTableAction(tableAction))
-          setConfirmLoading(false)
-          dispatch(setSiteSelected({}))
-          dispatch(filterSites({
-            filterPayload,
-            isPageable: true,
-            pageableRequest: { page: currentPage - 1, size: 10 },
-          }) as any)
+          setInfoModalData({ confirmLoading: false, openModal: false, entitySelected: undefined })
+          setTableAction(resetCurrentPageAction(tableAction))
           await message.success(t('common.message.success.save'))
-        } else {
-          await message.error(t('common.message.error.save'))
         }
       })
       .catch(async () => {
+        setInfoModalData({ ...infoModalData, confirmLoading: false })
         await message.error(t('common.message.error'))
       })
   }
 
   const openEdit = (siteDto: SiteDto) => {
-    dispatch(setSiteSelected(siteDto))
-    setOpenModal(true)
+    setInfoModalData({ ...infoModalData, entitySelected: siteDto, openModal: true })
   }
 
   const onClose = () => {
-    dispatch(setSiteSelected({}))
-    setOpenModal(false)
+    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
-    setCurrentPage(pagination.current ?? 1)
     setTableAction({ pagination, filters, sorter })
   }
 
@@ -108,36 +97,41 @@ const Site = () => {
             </Col>
             <Col flex={'auto'}>
               <Card title={<Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <strong> {t('organization.site.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
+                <strong> {t('organization.site.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
                     // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
                     type='default'
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => setInfoModalData({
+                      ...infoModalData,
+                      entitySelected: undefined,
+                      openModal: true
+                    })}
                   >
                     {t('common.label.create')}
                   </SharedButton>
                 </Space>
               </Space>}>
                 <Divider style={{ margin: '16px 0 0' }} />
-                <SiteTable onChangeTable={handleChangeTable} pageableResponse={pageableResponse}
-                           currentPage={currentPage}
-                           onEdit={openEdit} />
+                <SiteTable
+                  loading={tableData.loading}
+                  pageableResponse={tableData.pageableResponse}
+                  currentPage={tableAction.pagination?.current}
+                  onChangeTable={handleChangeTable}
+                  onEdit={openEdit} />
               </Card>
             </Col>
-            {openModal && (
-              <Modal
-                open={openModal}
-                closable={false}
-                title={null}
-                footer={null}
-                confirmLoading={confirmLoading}
-                width={650}
-                onCancel={onClose}
-              >
-                <SiteInfo onClose={onClose} onSave={onSave} />
-              </Modal>
-            )}
+            <Modal
+              open={infoModalData.openModal}
+              closable={false}
+              title={null}
+              footer={null}
+              confirmLoading={infoModalData.confirmLoading}
+              width={650}
+              onCancel={onClose}
+            >
+              <SiteInfo site={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
+            </Modal>
           </Row>
         )}
       </Space>

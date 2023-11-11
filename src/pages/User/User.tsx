@@ -1,12 +1,12 @@
-import { Col, Divider, message, Row, Space, Spin, TablePaginationConfig, Upload } from 'antd'
+import { Card, Col, Divider, message, Row, Space, Spin, TablePaginationConfig, Upload } from 'antd'
 import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { PageableResponse, SortDirection, SortDirectionType, TableAction, UserDto } from '~/interface'
+import { InfoModalData, TableAction, TableData, UserDto } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
 import { PageWrapper } from '~/themes'
-import { checkPermission, resetTableAction } from '~/utils'
+import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { UserInfo } from './Info'
 import { UserFilter } from './Filter'
 import { UserFilterPayload, userService } from '~/service'
@@ -17,15 +17,22 @@ import { UserTable } from '~/pages/User/Table'
 
 const User = () => {
   const { t } = useTranslation()
-  const [pageableResponse, setPageableResponse] = useState<PageableResponse<UserDto>>()
-  const [user, setUser] = useState<UserDto>()
-  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [tableData, setTableData] = useState<TableData<UserDto>>({ loading: false })
+  const [infoModalData, setInfoModalData] = useState<InfoModalData<UserDto>>({
+    openModal: false,
+    confirmLoading: false
+  })
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [filterPayload, setFilterPayload] = useState<UserFilterPayload>({})
   const [exportEx, setExportEx] = useState<boolean>(false)
 
 
   useEffect(() => {
+    fetchUser()
+  }, [filterPayload, tableAction])
+
+  const fetchUser = () => {
+    setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,
       enable: tableAction.filters?.enable?.[0]
@@ -33,43 +40,42 @@ const User = () => {
     userService.filter(payload, true, {
       page: (tableAction.pagination?.current ?? 1) - 1,
       size: 10,
-      sort: tableAction.sorter?.order ? `${tableAction.sorter?.columnKey},${SortDirection[tableAction.sorter?.order as SortDirectionType]}` : undefined
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
-      setPageableResponse(response?.data)
+      setTableData({ pageableResponse: response.data, loading: false })
+    }).catch(() => {
+      setTableData({ ...infoModalData, loading: false })
     })
-  }, [filterPayload, tableAction])
+  }
 
   const onFilter = (filterPayload: UserFilterPayload) => {
-    setTableAction(resetTableAction(tableAction))
+    setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload(filterPayload)
   }
 
   const onSave = (payload: any) => {
-    let request = !!user ? userService.update(user.username, payload) : userService.insert(payload)
+    setInfoModalData({ ...infoModalData, confirmLoading: true })
+    let request = !!infoModalData.entitySelected ? userService.update(infoModalData.entitySelected.username, payload) : userService.insert(payload)
     request
       .then(async (res: any) => {
         if (res?.status === 200) {
-          setOpenModal(false)
-          setUser(undefined)
-          setTableAction(resetTableAction(tableAction))
+          setInfoModalData({ confirmLoading: false, openModal: false, entitySelected: undefined })
+          setTableAction(resetCurrentPageAction(tableAction))
           await message.success(t('common.message.success.save'))
-        } else {
-          await message.error(t('common.message.error.save'))
         }
       })
       .catch(async () => {
+        setInfoModalData({ ...infoModalData, confirmLoading: false })
         await message.error(t('common.message.error'))
       })
   }
 
   const openEdit = (userDto: UserDto) => {
-    setUser(userDto)
-    setOpenModal(true)
+    setInfoModalData({ ...infoModalData, entitySelected: userDto, openModal: true })
   }
 
   const onClose = () => {
-    setUser(undefined)
-    setOpenModal(false)
+    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
 
   const exportData = async () => {
@@ -117,9 +123,10 @@ const User = () => {
               <UserFilter onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
-              <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <strong> {t('organization.user.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
-                <Space>
+              <Card
+                title={
+                  <strong>{t('organization.user.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>}
+                extra={<Space>
                   <Spin spinning={exportEx}>
                     <SharedButton onClick={exportData} icon={<DownloadOutlined />}>
                       {t('common.label.export_data')}
@@ -131,29 +138,34 @@ const User = () => {
                   <SharedButton
                     // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
                     type={'primary'}
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => setInfoModalData({
+                      ...infoModalData,
+                      entitySelected: undefined,
+                      openModal: true
+                    })}
                   >
                     {t('organization.user.table.btn-add')}
                   </SharedButton>
                 </Space>
-              </Space>
-              <Divider style={{ margin: '16px 0 0' }} />
-              <UserTable onChangeTable={handleChangeTable} pageableResponse={pageableResponse}
-                         currentPage={tableAction.pagination?.current}
-                         onEdit={openEdit} />
+                }>
+                <UserTable onChangeTable={handleChangeTable}
+                           loading={tableData.loading}
+                           pageableResponse={tableData.pageableResponse}
+                           currentPage={tableAction.pagination?.current}
+                           onEdit={openEdit} />
+              </Card>
             </Col>
-            {openModal && (
-              <Modal
-                open={openModal}
-                closable={false}
-                title={null}
-                footer={null}
-                width={650}
-                onCancel={onClose}
-              >
-                <UserInfo onClose={onClose} user={user} onSave={onSave} />
-              </Modal>
-            )}
+            <Modal
+              open={infoModalData.openModal}
+              confirmLoading={infoModalData.confirmLoading}
+              closable={false}
+              title={null}
+              footer={null}
+              width={650}
+              onCancel={onClose}
+            >
+              <UserInfo onClose={onClose} user={infoModalData.entitySelected} onSave={onSave} />
+            </Modal>
           </Row>
         )}
       </Space>

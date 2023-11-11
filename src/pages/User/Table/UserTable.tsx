@@ -3,11 +3,12 @@ import Column from 'antd/es/table/Column'
 import { PageableResponse, UserDto } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
-import { Space, Table, TablePaginationConfig } from 'antd'
+import { Space, Table, TablePaginationConfig, Tag } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedStatus } from '~/common'
 
 interface MeetingItemProps {
+  loading: boolean
   pageableResponse?: PageableResponse<UserDto>
   onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
   currentPage?: number
@@ -22,23 +23,30 @@ const UserTable: React.FC<MeetingItemProps> = (props) => {
     <Table
       dataSource={props.pageableResponse?.content}
       rowKey='username'
+      loading={props.loading}
       pagination={{
         current: props.currentPage,
-        total: props.pageableResponse?.totalElements as number,
-        pageSize: props.pageableResponse?.pageable?.pageSize as number,
+        total: props.pageableResponse?.totalElements,
+        pageSize: props.pageableResponse?.pageable?.pageSize,
         showSizeChanger: false,
         position: ['bottomCenter']
       }}
       onChange={props.onChangeTable}
       className='vms-table no-bg'
+
       size='middle'
     >
       <Column title={t('common.field.username')} key='username' sorter={true}
-              render={(value) => <a onClick={() => props.onEdit(value)}>{value.username}</a>}
+              render={(value: UserDto) => <a onClick={() => props.onEdit(value)}>{value.username}</a>}
       />
       <Column
         title={t('common.field.fullName')}
-        render={(value) => <>{value.firstName + ' ' + value.lastName}</>}
+        render={(value: UserDto) => <>{value.firstName + ' ' + value.lastName}</>}
+      />
+      <Column
+        title={t('common.field.roles')}
+        render={(value: UserDto) => <Space direction={'vertical'}>{value.roles?.map((item) =>
+          <Tag>{item}</Tag>)}</Space>}
       />
       <Column title={t('common.field.dob')} dataIndex='dateOfBirth' key='dateOfBirth' />
       <Column

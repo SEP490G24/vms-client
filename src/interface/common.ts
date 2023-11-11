@@ -1,15 +1,11 @@
-import React from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import moment from 'moment'
 import { TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
+import { PageableResponse } from '~/interface/PageableResponse.ts'
 
 export enum Purpose {
-  CONFERENCES = 'CONFERENCES',
-  INTERVIEW = 'INTERVIEW',
-  MEETING = 'MEETING',
-  WORKING = 'WORKING',
-  OTHERS = 'OTHERS'
+  CONFERENCES, INTERVIEW, MEETING, WORKING, OTHERS
 }
 
 export enum TemplateVariable {
@@ -32,13 +28,21 @@ export enum TemplateType {
   SMS = 'SMS'
 }
 
+export enum StatusTicket {
+  DRAFT, PENDING, CHECK_IN, CHECK_OUT, CANCEL
+}
+
+export const Status = {
+  ENABLE: true,
+  DISABLE: false
+}
+
 export interface OptionItem {
   label: string
   value: any
   disabled?: boolean
 }
 
-export type TargetKey = React.MouseEvent | React.KeyboardEvent | string
 
 export interface TableAction {
   pagination?: TablePaginationConfig,
@@ -46,26 +50,15 @@ export interface TableAction {
   sorter?: any
 }
 
-export interface ConsultationHistoryItem {
-  ticketId: string
-  customerName: string
-  status: string
-  issueDate: string
-  isBot?: boolean
-  livechatSessionId?: string
+export interface TableData<T> {
+  pageableResponse?: PageableResponse<T>,
+  loading: boolean
 }
 
-export interface ButtonItem {
-  label: string
-  action?: () => void
-  isSelect?: boolean
-  value?: string
-}
-
-export interface RateItem {
-  content: string
-  rateValue: number
-  onChangeRate?: () => void
+export interface InfoModalData<T> {
+  entitySelected?: T,
+  openModal: boolean,
+  confirmLoading: boolean
 }
 
 export const durationOption = {

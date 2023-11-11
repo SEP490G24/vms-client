@@ -46,7 +46,7 @@ const Setting = () => {
           <Divider type='vertical' />
         </Space>
         <Row gutter={24} wrap={false}>
-          <Col flex={'none'} span={12}>
+          <Col span={5}>
             <Card title={'Group Setting'}>
               <Menu className={'w-full'}
                     defaultSelectedKeys={['1']}

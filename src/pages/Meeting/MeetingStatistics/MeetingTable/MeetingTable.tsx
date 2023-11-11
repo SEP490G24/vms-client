@@ -1,16 +1,18 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { MeetingDto, PageableResponse } from '~/interface'
+import { MeetingDto, PageableResponse, Purpose, StatusTicket } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Space, Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import { MeetingActions } from '~/pages/Meeting/common'
+import { enumToArray } from '~/utils'
 
 interface MeetingItemProps {
+  loading: boolean
   pageableResponse?: PageableResponse<MeetingDto>
   onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
-  currentPage: number
+  currentPage?: number
   onCancelMeeting: (meeting: MeetingDto) => void
   onEdit: (value: MeetingDto) => void
 }
@@ -25,29 +27,26 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       rowKey='id'
       pagination={{
         current: props.currentPage,
-        total: props.pageableResponse?.totalElements as number,
-        pageSize: props.pageableResponse?.pageable?.pageSize as number,
+        total: props.pageableResponse?.totalElements,
+        pageSize: props.pageableResponse?.pageable?.pageSize,
         showSizeChanger: false,
         position: ['bottomCenter']
       }}
+      loading={props.loading}
       onChange={props.onChangeTable}
       className='vms-table no-bg'
       scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
       size='middle'
     >
       <Column
-        title={t('common.field.site.name')}
+        title={t('common.field.name')}
         sorter={true}
         render={(value: MeetingDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>}
       />
       <Column title={t('common.field.purpose')}
-              filters={[
-                { text: 'CONFERENCES', value: 'CONFERENCES' },
-                { text: 'INTERVIEW', value: 'INTERVIEW' },
-                { text: 'MEETING', value: 'MEETING' },
-                { text: 'WORKING', value: 'WORKING' },
-                { text: 'OTHERS', value: 'OTHERS' }
-              ]}
+              filters={enumToArray(Purpose).map(purpose => {
+                return { text: purpose.key, value: purpose.key }
+              })}
               filterMultiple={true}
               render={(value: MeetingDto) => <Space direction={'vertical'}>
                 <strong>{value.purpose}</strong>
@@ -64,13 +63,9 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
                 <strong>{moment(value.endTime).format('LTS')}</strong>
               </Space>} />
       <Column title={t('common.field.status')} dataIndex='status' key='status'
-              filters={[
-                { text: 'DRAFT', value: 'DRAFT' },
-                { text: 'PENDING', value: 'PENDING' },
-                { text: 'CHECK_IN', value: 'CHECK_IN' },
-                { text: 'CHECK_OUT', value: 'CHECK_OUT' },
-                { text: 'CANCEL', value: 'CANCEL' }
-              ]}
+              filters={enumToArray(StatusTicket).map(item => {
+                return { text: item.key, value: item.key }
+              })}
               filterMultiple={true}
       />
       {/*<Column title={t('common.field.registration_date')} key='createdOn' sorter={true}*/}

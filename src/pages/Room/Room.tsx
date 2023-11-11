@@ -5,9 +5,9 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { PageableResponse, RoomDto, SortDirection, SortDirectionType, TableAction } from '~/interface'
+import { InfoModalData, RoomDto, TableAction, TableData } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
-import { checkPermission, resetTableAction } from '~/utils'
+import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { RoomInfo } from './Info'
 import { RoomFilter } from './Filter'
 import { RoomFilterPayload, roomService } from '~/service'
@@ -16,74 +16,68 @@ import { FilterValue } from 'antd/es/table/interface'
 
 const Room = () => {
   const { t } = useTranslation()
-  const [pageableResponse, setPageableResponse] = useState<PageableResponse<RoomDto>>()
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [room, setRoom] = useState<RoomDto>()
-  const [openModal, setOpenModal] = useState<boolean>(false)
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
-  const [filterPayload, setFilterPayload] = useState<RoomFilterPayload>({})
+  const [tableData, setTableData] = useState<TableData<RoomDto>>({ loading: false })
+  const [infoModalData, setInfoModalData] = useState<InfoModalData<RoomDto>>({
+    openModal: false,
+    confirmLoading: false
+  })
   const [tableAction, setTableAction] = useState<TableAction>({})
+  const [filterPayload, setFilterPayload] = useState<RoomFilterPayload>({})
 
   useEffect(() => {
+    fetchRooms()
+  }, [filterPayload, tableAction])
+
+  const fetchRooms = () => {
+    setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,
       enable: tableAction.filters?.enable?.[0]
     } as RoomFilterPayload
     roomService.filter(payload, true, {
-      page: currentPage - 1,
+      page: (tableAction.pagination?.current ?? 1) - 1,
       size: 10,
-      sort: tableAction.sorter?.order ? `${tableAction.sorter?.columnKey},${SortDirection[tableAction.sorter?.order as SortDirectionType]}` : undefined
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
-      setPageableResponse(response?.data)
+      setTableData({ pageableResponse: response.data, loading: false })
+    }).catch(() => {
+      setTableData({ ...infoModalData, loading: false })
     })
-  }, [filterPayload, currentPage,tableAction])
+  }
 
   const onFilter = (filterPayload: RoomFilterPayload) => {
-    setTableAction(resetTableAction(tableAction))
+    setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload(filterPayload)
   }
 
   const onSave = (payload: any) => {
-    setConfirmLoading(true)
-    let request = !!room ? roomService.update(room.id, payload) : roomService.insert(payload)
+    setInfoModalData({ ...infoModalData, confirmLoading: true })
+    let request = !!infoModalData.entitySelected ? roomService.update(infoModalData.entitySelected.id, payload) : roomService.insert(payload)
     request
       .then(async (res: any) => {
-        console.log('res', res)
         if (res?.status === 200) {
-          setOpenModal(false)
-          setConfirmLoading(false)
-          setTableAction(resetTableAction(tableAction))
-          setRoom(undefined)
-          roomService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-            setPageableResponse(response?.data)
-          })
+          setInfoModalData({ confirmLoading: false, openModal: false, entitySelected: undefined })
+          setTableAction(resetCurrentPageAction(tableAction))
           await message.success(t('common.message.success.save'))
-        } else {
-          await message.error(t('common.message.failed.save'))
         }
       })
       .catch(async () => {
+        setInfoModalData({ ...infoModalData, confirmLoading: false })
         await message.error(t('common.message.error'))
       })
   }
 
   const openEdit = (roomDto: RoomDto) => {
-    setRoom(roomDto)
-    setOpenModal(true)
+    setInfoModalData({ ...infoModalData, entitySelected: roomDto, openModal: true })
   }
 
   const onClose = () => {
-    setRoom(undefined)
-    setOpenModal(false)
+    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: true })
   }
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
-    setCurrentPage(pagination.current ?? 1)
     setTableAction({ pagination, filters, sorter })
   }
-
-  // const exportData = async () => {
-  // }
 
 
   return (
@@ -100,12 +94,16 @@ const Room = () => {
             </Col>
             <Col flex={'auto'}>
               <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <strong> {t('organization.room.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
+                <strong> {t('organization.room.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
                     // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
                     type='default'
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => setInfoModalData({
+                      ...infoModalData,
+                      entitySelected: undefined,
+                      openModal: true
+                    })}
                   >
                     {t('organization.room.table.btn-add')}
                   </SharedButton>
@@ -117,22 +115,25 @@ const Room = () => {
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
-              <RoomTable pageableResponse={pageableResponse} currentPage={currentPage} onChangeTable={handleChangeTable}
-                         onEdit={openEdit} />
+              <RoomTable
+                loading={tableData.loading}
+                pageableResponse={tableData.pageableResponse}
+                currentPage={tableAction.pagination?.current}
+                onChangeTable={handleChangeTable}
+                onEdit={openEdit}
+              />
             </Col>
-            {openModal && (
-              <Modal
-                open={openModal}
-                closable={false}
-                title={null}
-                footer={null}
-                confirmLoading={confirmLoading}
-                width={650}
-                onCancel={onClose}
-              >
-                <RoomInfo onClose={onClose} room={room} onSave={onSave} />
-              </Modal>
-            )}
+            <Modal
+              open={infoModalData.openModal}
+              closable={false}
+              title={null}
+              footer={null}
+              confirmLoading={infoModalData.confirmLoading}
+              width={650}
+              onCancel={onClose}
+            >
+              <RoomInfo room={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
+            </Modal>
           </Row>
         )}
       </Space>

@@ -8,7 +8,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 
 interface TemplateItemProps {
   templateDto: TemplateDto
-  onEdit: (templateDto?: TemplateDto) => void
+  onEdit: (templateDto: TemplateDto) => void
 }
 
 export const TemplateItem: React.FC<TemplateItemProps> = React.memo((props) => {

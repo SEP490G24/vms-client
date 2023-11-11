@@ -20,6 +20,7 @@ export interface UserDto {
   provinceId: number;
   communeId: number;
   districtId: number;
+  siteId?: string;
   provinceName?: string;
   districtName?: string;
   communeName?: string;

@@ -33,7 +33,9 @@ export interface MeetingFilterPayload {
   createdOnEnd?: string | Date;
   createBy?: string;
   siteId?: string;
-  query?: string;
+  keyword?: string;
+  purpose?: string;
+  status?: string;
 }
 
 const findAll = async () => {

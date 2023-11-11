@@ -1,7 +1,7 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { DepartmentDto, Gender, RoleDto, UserDto } from '~/interface'
-import { SharedInput, SharedPhoneNumber, SharedSelect } from '~/common'
+import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateUserInfo, departmentService, roleService } from '~/service'
@@ -39,8 +39,8 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
 
 
   useEffect(() => {
-    console.log(props.user)
     if (props.user) {
+      setSiteId(props.user.siteId ?? '')
       form.setFieldsValue({
         firstName: props.user.firstName,
         lastName: props.user.lastName,
@@ -52,7 +52,8 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
         email: props.user.email,
         enable: props.user.enable,
         gender: props.user.gender,
-        departmentId: props.user.departmentId
+        departmentId: props.user.departmentId,
+        siteId: props.user.siteId
       })
     }
   }, [props.user])
@@ -151,8 +152,10 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
             </Form.Item>
           </>
         }
-        <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')}>
-          <SharedPhoneNumber placeholder={t('common.placeholder.phoneNumber')} />
+        <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')} name={'phoneNumber'}
+                   rules={[{ required: true },
+                     { pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid') }]}>
+          <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
                    rules={[{ required: true }]}>

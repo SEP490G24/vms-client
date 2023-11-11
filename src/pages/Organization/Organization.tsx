@@ -11,6 +11,7 @@ import { checkPermission } from '~/utils/common'
 import { organizationService } from '~/service'
 import { ImageOutlined } from '~/icon'
 import { OrganizationWrapper } from './styles'
+import { REGEX } from '~/constants'
 
 const Organization = () => {
   const { t } = useTranslation()
@@ -126,7 +127,10 @@ const Organization = () => {
                       >
                         <SharedInput size={'large'} placeholder={t('common.placeholder.organization')} />
                       </Form.Item>
-                      <Form.Item label={t('common.field.representative_email')} name='email'>
+                      <Form.Item
+                        label={t('common.field.representative_email')} name='email'
+                        rules={[{ pattern: REGEX.EMAIL, message: t('common.error.email_valid') }]}
+                      >
                         <SharedInput size={'large'}
                                      placeholder={t('common.placeholder.representative_email')}
                                      inputMode={'email'}
@@ -145,7 +149,10 @@ const Organization = () => {
                       <Form.Item
                         label={t('common.field.contact_phone_number')}
                         name='representativePhone'
-                        rules={[{ required: true }]}
+                        rules={[{ required: true }, {
+                          pattern: REGEX.PHONE,
+                          message: t('common.error.phoneNumber_valid')
+                        }]}
                       >
                         <SharedInput size={'large'}
                                      placeholder={t('common.field.contact_phone_number')}
@@ -163,27 +170,29 @@ const Organization = () => {
                         <SharedInput size={'large'} placeholder={t('common.placeholder.company_registration_number')} />
                       </Form.Item>
                       <Form.Item label={t('common.field.business_registration')} name='businessLicenseFile'>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                          <Upload
-                            accept='image/png, image/jpeg'
-                            maxCount={1}
-                            showUploadList={false}
-                            beforeUpload={() => false}
-                            onChange={onChangeLicenses}
-                          >
-                            <SharedButton type={'default'} className={'h-[48px]'}
-                                          icon={<ImageOutlined style={{ fontSize: '20px' }} />}>
-                              {'Upload image'}
-                            </SharedButton>
-                          </Upload>
-                          {license &&
-                            <Image preview={false} width={48} height={48}
-                                   style={{ borderRadius: '8px', border: '1px solid #cccccc' }}
-                                   src={license.url ?? ''} />}
-                        </div>
-                        <span className={'text-[12px] text-[#ccc]'}>
-                          {t('common.field.business_registration')}
-                        </span>
+                        <>
+                          <div style={{ display: 'flex', gap: '8px' }}>
+                            <Upload
+                              accept='image/png, image/jpeg'
+                              maxCount={1}
+                              showUploadList={false}
+                              beforeUpload={() => false}
+                              onChange={onChangeLicenses}
+                            >
+                              <SharedButton type={'default'} className={'h-[48px]'}
+                                            icon={<ImageOutlined style={{ fontSize: '20px' }} />}>
+                                {'Upload image'}
+                              </SharedButton>
+                            </Upload>
+                            {license &&
+                              <Image preview={false} width={48} height={48}
+                                     style={{ borderRadius: '8px', border: '1px solid #cccccc' }}
+                                     src={license.url ?? ''} />}
+                          </div>
+                          <span className={'text-[12px] text-[#ccc]'}>
+                            {t('common.field.business_registration')}
+                          </span>
+                        </>
                       </Form.Item>
                       <Form.Item
                         className={'mb-3'}

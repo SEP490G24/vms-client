@@ -5,20 +5,13 @@ import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateCustomerInfo } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
-import {
-  fetchCommune,
-  fetchDistrict,
-  fetchProvince,
-  locationsSelector,
-  resetCommune,
-  resetDistrict
-} from '~/redux/slices/locationSlice.ts'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from '~/redux'
-import { customersSelector } from '~/redux/slices/customerSlice.ts'
 import moment from 'moment/moment'
+import { CustomerDto } from '~/interface'
+import { useLocation } from '~/hook'
+import { REGEX } from '~/constants'
 
 interface CreateCustomerFormArgs {
+  customer?: CustomerDto
   onSave: (customer: CreateCustomerInfo) => void
   onClose: () => void
 }
@@ -26,38 +19,25 @@ interface CreateCustomerFormArgs {
 const Info: React.FC<CreateCustomerFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const dispatch = useAppDispatch()
 
-  const { customerSelected } = useSelector(customersSelector)
-  const { communes, districts, provinces } = useSelector(locationsSelector)
   const provinceId = Form.useWatch('provinceId', form)
   const districtId = Form.useWatch('districtId', form)
 
-  useEffect(() => {
-    provinceId ? dispatch(fetchDistrict(provinceId) as any) : dispatch(resetDistrict())
-  }, [provinceId])
+  const { communes, districts, provinces } = useLocation(provinceId, districtId)
 
   useEffect(() => {
-    districtId ? dispatch(fetchCommune(districtId) as any) : dispatch(resetCommune())
-  }, [districtId])
-
-  useEffect(() => {
-    !provinces.length && dispatch(fetchProvince() as any)
-  }, [])
-
-  useEffect(() => {
-    if (customerSelected) {
+    if (props.customer) {
       form.setFieldsValue({
-        name: customerSelected.visitorName,
-        phoneNumber: customerSelected.phoneNumber,
-        provinceId: customerSelected.provinceId,
-        districtId: customerSelected.districtId,
-        communeId: customerSelected.communeId,
-        description: customerSelected.description
+        name: props.customer.visitorName,
+        phoneNumber: props.customer.phoneNumber,
+        provinceId: props.customer.provinceId,
+        districtId: props.customer.districtId,
+        communeId: props.customer.communeId,
+        description: props.customer.description
       })
     }
-    console.log(customerSelected)
-  }, [customerSelected])
+    console.log(props.customer)
+  }, [props.customer])
 
   const onClose = () => {
     props.onClose()
@@ -66,7 +46,7 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
 
   return (
     <InfoWrapper
-      title={t(!!customerSelected ? 'customer.popup.title-edit' : 'customer.popup.title-add')}
+      title={t(!!props.customer ? 'customer.popup.title-edit' : 'customer.popup.title-add')}
       onOk={form.submit}
       onCancel={onClose}
     >
@@ -86,7 +66,8 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
           <SharedInput inputMode={'text'} placeholder={t('common.placeholder.customer_name')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')} name='phoneNumber'
-                   rules={[{ required: true }]}>
+                   rules={[{ required: true },
+                     { pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid') }]}>
           <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'
@@ -127,7 +108,7 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
             placeholder={t('common.placeholder.description')}
           />
         </Form.Item>
-        {!!customerSelected &&
+        {!!props.customer &&
           <>
             <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
                        rules={[{ required: true }]}>
@@ -141,10 +122,10 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>
-              <Col span={7}>{moment(customerSelected.createdOn).format('L')}</Col>
+              <Col span={7}>{moment(props.customer.createdOn).format('L')}</Col>
               <Col span={5}>{t('common.field.modification_date')}</Col>
               <Col
-                span={6}>{customerSelected.lastUpdatedOn ? moment(customerSelected.lastUpdatedOn).format('L') : null}</Col>
+                span={6}>{props.customer.lastUpdatedOn ? moment(props.customer.lastUpdatedOn).format('L') : null}</Col>
             </Row>
           </>
         }

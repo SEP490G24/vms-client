@@ -10,7 +10,8 @@ import { FilterValue } from 'antd/es/table/interface'
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<SiteDto>
   onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
-  currentPage: number
+  currentPage?: number
+  loading: boolean
   onEdit: (value: SiteDto) => void
 }
 
@@ -24,11 +25,12 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
       rowKey='id'
       pagination={{
         current: props.currentPage,
-        total: props.pageableResponse?.totalElements as number,
-        pageSize: props.pageableResponse?.pageable?.pageSize as number,
+        total: props.pageableResponse?.totalElements,
+        pageSize: props.pageableResponse?.pageable?.pageSize,
         showSizeChanger: false,
         position: ['bottomCenter']
       }}
+      loading={props.loading}
       onChange={props.onChangeTable}
       className='vms-table no-bg'
       size='middle'

@@ -71,7 +71,7 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
           <SharedSelect
             placeholder={t('common.placeholder.purpose')}
             options={enumToArray(Purpose).map(purpose => {
-              return { label: purpose.key, value: purpose.value as string }
+              return { label: purpose.key, value: purpose.key}
             })}
           ></SharedSelect>
         </Form.Item>

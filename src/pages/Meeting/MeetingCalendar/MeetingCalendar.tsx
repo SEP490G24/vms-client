@@ -54,7 +54,6 @@ const MeetingCalendar = () => {
                 id: meeting.id
               } as ProcessedEvent
             })}
-            // events={EVENTS}
           /></Card>
       </Space>
     </MeetingCalendarWrapper>

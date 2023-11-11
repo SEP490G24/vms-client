@@ -5,9 +5,9 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { DepartmentDto, PageableResponse, SortDirection, SortDirectionType, TableAction } from '~/interface'
+import { DepartmentDto, InfoModalData, TableAction, TableData } from '~/interface'
 import { BUTTON_ROLE_MAP } from '~/role'
-import { checkPermission, resetTableAction } from '~/utils'
+import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { DepartmentInfo } from './Info'
 import { DepartmentFilter } from './Filter'
 import { DepartmentTable } from './Table'
@@ -17,15 +17,20 @@ import { FilterValue } from 'antd/es/table/interface'
 const Department = () => {
 
   const { t } = useTranslation()
-  const [pageableResponse, setPageableResponse] = useState<PageableResponse<DepartmentDto>>()
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [department, setDepartment] = useState<DepartmentDto>()
-  const [openModal, setOpenModal] = useState<boolean>(false)
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
-  const [filterPayload, setFilterPayload] = useState<DepartmentFilterPayload>({})
+  const [tableData, setTableData] = useState<TableData<DepartmentDto>>({ loading: false })
+  const [infoModalData, setInfoModalData] = useState<InfoModalData<DepartmentDto>>({
+    openModal: false,
+    confirmLoading: false
+  })
   const [tableAction, setTableAction] = useState<TableAction>({})
+  const [filterPayload, setFilterPayload] = useState<DepartmentFilterPayload>({})
 
   useEffect(() => {
+    fetchDepartments()
+  }, [filterPayload, tableAction])
+
+  const fetchDepartments = () => {
+    setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,
       enable: tableAction.filters?.enable?.[0]
@@ -33,53 +38,45 @@ const Department = () => {
     departmentService.filter(payload, true, {
       page: (tableAction.pagination?.current ?? 1) - 1,
       size: 10,
-      sort: tableAction.sorter?.order ? `${tableAction.sorter?.columnKey},${SortDirection[tableAction.sorter?.order as SortDirectionType]}` : undefined
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
-      setPageableResponse(response?.data)
+      setTableData({ pageableResponse: response.data, loading: false })
+    }).catch(() => {
+      setTableData({ ...infoModalData, loading: false })
     })
-  }, [filterPayload,tableAction])
+  }
 
   const onFilter = (filterPayload: DepartmentFilterPayload) => {
-    setTableAction(resetTableAction(tableAction))
+    setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload(filterPayload)
   }
 
   const onSave = (payload: any) => {
-    setConfirmLoading(true)
-    const request = !!department ? departmentService.update(department.id, payload) : departmentService.insert(payload)
+    setInfoModalData({ ...infoModalData, confirmLoading: true })
+    const request = !!infoModalData.entitySelected ? departmentService.update(infoModalData.entitySelected.id, payload) : departmentService.insert(payload)
     request
       .then(async (res: any) => {
-        console.log('res', res)
         if (res?.status === 200) {
-          setOpenModal(false)
-          setTableAction(resetTableAction(tableAction))
-          setConfirmLoading(false)
-          setDepartment(undefined)
-          departmentService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-            setPageableResponse(response?.data)
-          })
+          setInfoModalData({ confirmLoading: false, openModal: false, entitySelected: undefined })
+          setTableAction(resetCurrentPageAction(tableAction))
           await message.success(t('common.message.success.save'))
-        } else {
-          await message.error(t('common.message.error.save'))
         }
       })
       .catch(async () => {
+        setInfoModalData({ ...infoModalData, confirmLoading: false })
         await message.error(t('common.message.error'))
       })
   }
 
   const openEdit = (departmentDto: DepartmentDto) => {
-    setDepartment(departmentDto)
-    setOpenModal(true)
+    setInfoModalData({ ...infoModalData, entitySelected: departmentDto, openModal: true })
   }
 
   const onClose = () => {
-    setDepartment(undefined)
-    setOpenModal(false)
+    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: true })
   }
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
-    setCurrentPage(pagination.current ?? 1)
     setTableAction({ pagination, filters, sorter })
   }
 
@@ -97,34 +94,40 @@ const Department = () => {
             </Col>
             <Col flex={'auto'}>
               <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <strong> {t('organization.department.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
+                <strong> {t('organization.department.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
                     // permissions={BUTTON_ROLE_MAP.R_USER_CREATE}
                     type='default'
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => setInfoModalData({
+                      ...infoModalData,
+                      entitySelected: undefined,
+                      openModal: true
+                    })}
                   >
                     {t('common.label.create')}
                   </SharedButton>
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
-              <DepartmentTable onChangeTable={handleChangeTable} pageableResponse={pageableResponse}
-                               currentPage={currentPage} onEdit={openEdit} />
+              <DepartmentTable
+                loading={tableData.loading}
+                pageableResponse={tableData.pageableResponse}
+                currentPage={tableAction.pagination?.current}
+                onChangeTable={handleChangeTable}
+                onEdit={openEdit} />
             </Col>
-            {openModal && (
-              <Modal
-                open={openModal}
-                closable={false}
-                title={null}
-                footer={null}
-                confirmLoading={confirmLoading}
-                width={750}
-                onCancel={onClose}
-              >
-                <DepartmentInfo onClose={onClose} department={department} onSave={onSave} />
-              </Modal>
-            )}
+            <Modal
+              open={infoModalData.openModal}
+              closable={false}
+              title={null}
+              footer={null}
+              confirmLoading={infoModalData.confirmLoading}
+              width={750}
+              onCancel={onClose}
+            >
+              <DepartmentInfo onClose={onClose} department={infoModalData.entitySelected} onSave={onSave} />
+            </Modal>
           </Row>
         )}
       </Space>

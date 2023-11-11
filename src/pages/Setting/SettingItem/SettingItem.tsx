@@ -38,9 +38,7 @@ export const SettingItem: React.FC<PageTitleProps> = React.memo((props) => {
       case SettingType.SELECT : {
         return <SharedSelect className={'w-full'}
                              defaultValue={props.value ?? props.defaultValue}
-                             options={JSON.parse(props.setting.valueList ?? '[]').map((option: string) => {
-                               return { label: option, value: option }
-                             }) ?? []} onChange={setValue}></SharedSelect>
+                             options={JSON.parse(props.setting.valueList ?? '[]')} onChange={setValue}></SharedSelect>
       }
     }
   }

@@ -1,7 +1,6 @@
 export * from './SharedInput'
 export * from './SharedButton'
 export * from './SharedCheckbox'
-export * from './SharedPhoneNumber'
 export * from './SharedRadio'
 export * from './ShareDataApi'
 export * from './SharedSelect'

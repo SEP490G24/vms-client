@@ -24,10 +24,11 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   const onFinish = (values: any) => {
     const payload: MeetingFilterPayload = {
+      siteId: values['siteId'],
+      keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
+      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY)
     }
-    if (values?.query?.trim()) payload.query = values?.query?.trim()
     args.onFilter(payload)
   }
 
@@ -45,6 +46,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
             // permissions={BUTTON_ROLE_MAP.R_USER_FIND}
+            type={'primary'}
             onClick={form.submit}
             disabled={disable}
           >
@@ -67,7 +69,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         onFinish={onFinish}
       >
         <SharedFilterScope />
-        <Form.Item label={t('meeting.manager.search.counselor')} name='query'>
+        <Form.Item label={t('meeting.manager.search.counselor')} name='keyword'>
           <SharedInput
             placeholder={t('meeting.manager.search.counselor_placeholder')}
             value={keyword}

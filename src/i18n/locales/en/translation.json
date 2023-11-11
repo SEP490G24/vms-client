@@ -124,6 +124,8 @@
     },
     "label": {
       "save": "Save",
+      "table": "Table",
+      "kanban": "Kanban",
       "create": "Create",
       "export_data": "Export Data",
       "import_data": "Import Data",

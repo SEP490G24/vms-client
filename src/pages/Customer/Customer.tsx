@@ -72,7 +72,7 @@ const Customer = () => {
   }
 
   const onClose = () => {
-    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: true })
+    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {

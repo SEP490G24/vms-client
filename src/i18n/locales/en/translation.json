@@ -163,7 +163,12 @@
       "failed": {
         "save": "Save failure!"
       },
-      "error": "An unknown error!"
+      "error": "An unknown error!",
+      "changePassword": {
+        "success": "Change Password successfully!",
+        "failed": "Old password is valid!",
+        "error": "Change password failed!"
+      }
     }
   },
   "meeting": {
@@ -224,7 +229,6 @@
         "counselor_placeholder": "Name, Phone number, E-mail"
       },
       "table": {
-        "title": "Total {{count}} people",
         "title": "Total {{count}} people",
         "btn-add": "Register as a user"
       },

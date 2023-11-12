@@ -28,7 +28,11 @@ const ProfileInfo = () => {
     form.resetFields(['districtId', 'communeId'])
   }
 
+  const resetCommune = () => {
+    form.resetFields(['communeId'])
+  }
   useEffect(() => {
+    console.log('profile:')
     console.log(profile)
   }, [])
 
@@ -37,11 +41,15 @@ const ProfileInfo = () => {
       form.setFieldsValue({
         firstName: profile.firstName,
         lastName: profile.lastName,
-        username: profile.username,
+        username: profile.userName,
         gender: profile.gender,
         dateOfBirth: profile.dateOfBirth,
         email: profile.email,
-        phoneNumber: profile.phoneNumber
+        phoneNumber: profile.phoneNumber,
+        provinceId: profile.provinceId,
+        districtId: profile.districtId,
+        communeId: profile.communeId,
+        address: profile.address
       })
     }
   }, [profile])
@@ -49,7 +57,7 @@ const ProfileInfo = () => {
   const onDateOfBirthChange = (value: string) => {
     value &&
     form.setFieldsValue({
-      dateOfBirth: value
+      dateOfBirth: value,
     })
   }
 
@@ -105,14 +113,14 @@ const ProfileInfo = () => {
               <div className={'grid grid-cols-2 gap-x-8'}>
                 <Form.Item label={t('common.field.phoneNumber')} name={'phoneNumber'} rules={[{ required: true }, {
                   pattern: REGEX.PHONE,
-                  message: t('common.error.phoneNumber_valid')
+                  message: t('common.error.phoneNumber_valid'),
                 }]}>
                   <SharedInput placeholder={t('common.placeholder.phoneNumber')} />
                 </Form.Item>
                 <Form.Item label={t('common.field.email')} name={'email'}
                            rules={[{ required: true }, {
                              pattern: REGEX.EMAIL,
-                             message: t('common.error.email_valid')
+                             message: t('common.error.email_valid'),
                            }]}>
                   <Input placeholder={t('common.placeholder.email')} />
                 </Form.Item>
@@ -135,6 +143,7 @@ const ProfileInfo = () => {
                     options={districts?.map((district) => {
                       return { label: district.name, value: district.id, key: district.id }
                     }) ?? []}
+                    onChange={resetCommune}
                     placeholder={t('common.placeholder.district')} />
                 </Form.Item>
                 <Form.Item label={t('common.field.commune')} name='communeId'

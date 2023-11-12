@@ -12,9 +12,10 @@ const ProfileSecurity = () => {
 
   const onFinish = (value: any) => {
     userService.changePassword(value).then(async (response) => {
-      if (response?.status === 200) await message.success(t('common.message.success.save'))
-      else await message.error(t('common.message.error.save'))
-    }).catch(() => message.error(t('common.message.error.save')))
+      if (response?.status === 200) await message.success(t('common.message.changePassword.success'))
+      else await message.error(t('common.message.changePassword.failed'))
+      form.resetFields()
+    }).catch(() => message.error(t('common.message.changePassword.failed')))
   }
 
   return (
@@ -38,7 +39,16 @@ const ProfileSecurity = () => {
                 <Form.Item label={t('common.field.current_password')} name={'oldPassword'} rules={[{ required: true }]}>
                   <Password placeholder={t('common.placeholder.current_password')} />
                 </Form.Item>
-                <Form.Item label={t('common.field.new_password')} name={'newPassword'} rules={[{ required: true }]}>
+                <Form.Item label={t('common.field.new_password')} name={'newPassword'}
+                           rules={[{ required: true },
+                             ({ getFieldValue }) => ({
+                               validator(_, value) {
+                                 if (!value || getFieldValue('oldPassword') === value) {
+                                   return Promise.reject(new Error('The new password that you entered matching current password'))
+                                 }
+                                 return Promise.resolve()
+                               },
+                             })]}>
                   <Password placeholder={t('common.placeholder.current_password')} />
                 </Form.Item>
                 <Form.Item label={t('common.field.confirm_password')}
@@ -50,14 +60,15 @@ const ProfileSecurity = () => {
                                    return Promise.resolve()
                                  }
                                  return Promise.reject(new Error('The new password that you entered do not match!'))
-                               }
+                               },
                              })]}
                 >
                   <Password placeholder={t('common.placeholder.current_password')} />
                 </Form.Item>
               </div>
             </PersonInfoSection>
-            <Button className={'float-right px-8'} type={'primary'}>{t('common.label.save')}</Button>
+            <Button className={'float-right px-8'} type={'primary'}
+                    htmlType={'submit'}>{t('common.label.save')}</Button>
           </Space>
         </Form>
       </Card>

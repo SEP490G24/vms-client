@@ -7,14 +7,19 @@ import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
 import { MeetingQRDto, StatusTicket } from '~/interface'
-import meetingTicketService from '~/service/meetingTicketService.ts'
+import meetingTicketService, { TicketQRCodePayload } from '~/service/meetingTicketService.ts'
 import { isNullish } from '~/utils'
 import { MeetingCancelModals } from '~/pages'
 import { useTranslation } from 'react-i18next'
 import { PATH_DASHBOARD } from '~/routes/paths.ts'
 
 
-const TicketResult = () => {
+interface Props {
+  ticketId?: string
+  customerId?: string
+}
+
+const TicketResult: React.FC<Props> = (props) => {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -23,12 +28,21 @@ const TicketResult = () => {
   const [messageApi, contextHolder] = message.useMessage()
 
   const { ticketId, customerId } = useParams()
+  const [ticketQRPayload, setTicketQRPayload] = useState<TicketQRCodePayload>()
 
   useEffect(() => {
-    ticketId && customerId && meetingTicketService.findByQRCode(ticketId, customerId).then((response) => {
+    if (ticketId && customerId) {
+      setTicketQRPayload({ ticketId, customerId })
+    } else if (props.ticketId && props.customerId) {
+      setTicketQRPayload({ ticketId: props.ticketId, customerId: props.customerId })
+    }
+  }, [ticketId, customerId, props.ticketId, props.customerId])
+
+  useEffect(() => {
+    ticketQRPayload && meetingTicketService.findByQRCode(ticketQRPayload).then((response) => {
       setMeetingQRDto(response.data)
     })
-  }, [ticketId, customerId])
+  }, [ticketQRPayload])
 
   const onAccept = () => {
     onCheckIn({ status: StatusTicket.CHECK_IN })

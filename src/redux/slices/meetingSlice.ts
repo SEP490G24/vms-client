@@ -25,8 +25,7 @@ export const fetchMeetingById = createAsyncThunk(
 
 export const fetchMeetingByQR = createAsyncThunk(
   'meeting/fetchByQR', (arg: { ticketId: string, customerId: string }) => {
-    const { ticketId, customerId } = arg
-    return meetingTicketService.findByQRCode(ticketId, customerId)
+    return meetingTicketService.findByQRCode(arg)
   }
 )
 

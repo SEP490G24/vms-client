@@ -36,8 +36,9 @@ import {
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_TICKET_RESULT,
-  PATH_USER
+  PATH_USER, PATH_CHECK_IN_MANAGER
 } from './paths'
+import CheckInManager from '../pages/CheckInManager/CheckInManager.tsx'
 
 export const publicRoutes = []
 
@@ -125,6 +126,11 @@ export const privateRoutes = [
   {
     path: PATH_TICKET_RESULT,
     component: TicketResult,
+    layout: null
+  },
+  {
+    path: PATH_CHECK_IN_MANAGER,
+    component: CheckInManager,
     layout: null
   }
 ]

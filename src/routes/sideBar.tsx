@@ -5,11 +5,12 @@ import {
   PATH_DEPARTMENT,
   PATH_HISTORY,
   PATH_MEETING_CALENDAR,
+  PATH_MEETING_ROOM,
   PATH_MEETING_STATISTIC,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
+  PATH_CHECK_IN_MANAGER,
   PATH_ROOM,
-  PATH_MEETING_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_USER
@@ -17,6 +18,7 @@ import {
 import {
   ApartmentOutlined,
   DashboardOutlined,
+  ScanOutlined,
   ScheduleOutlined,
   SettingOutlined,
   UserSwitchOutlined
@@ -54,6 +56,13 @@ export const SIDE_BARS = [
         children: []
       }
     ]
+  },
+  {
+    key: PATH_CHECK_IN_MANAGER,
+    icon: <ScanOutlined className={'text-[18px]'} />,
+    title: 'sidebar.check-in.title',
+    path: PATH_CHECK_IN_MANAGER,
+    children: []
   },
   {
     key: 'PATH_CUSTOMER',

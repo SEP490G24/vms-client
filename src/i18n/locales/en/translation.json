@@ -61,6 +61,8 @@
       "identificationNumber": "ID Card",
       "name": "Name",
       "tax_code": "Tax_code",
+      "customer": "Customer",
+      "ticket": "Ticket",
       "site": {
         "name": "Site"
       }
@@ -110,6 +112,8 @@
       "department_name": "Please enter department name",
       "template_name": "Please enter template name",
       "subject": "Please enter subject",
+      "customer": "Please enter Customer Id",
+      "ticket": "Please enter Ticket Id",
       "type": "Choose type",
       "body": "Enter body",
       "role_name": "Please enter role name"
@@ -234,6 +238,9 @@
       "btn-save": "Save",
       "btn-edit": "Save"
     }
+  },
+  "check-in": {
+    "title": "Check-in Management"
   },
   "organization": {
     "info": {
@@ -406,6 +413,9 @@
         "meetings": "Meetings",
         "rooms": "Rooms"
       }
+    },
+    "check-in": {
+      "title": "Check-in Manager"
     },
     "customer": {
       "title": "Customer",

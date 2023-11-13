@@ -51,6 +51,11 @@ export interface CheckInPayload {
   reasonNote?: string;
 }
 
+export interface TicketQRCodePayload {
+  ticketId: string
+  customerId: string
+}
+
 const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.get(TICKET.BASE_PATH)
@@ -63,10 +68,10 @@ const findById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const findByQRCode = async (id: string, customerId: string) => {
+const findByQRCode = async (payload: TicketQRCodePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.get(TICKET.FIND_BY_QR.replace('{ticketId}', id)
-    .replace('{customerId}', customerId))
+  const response = await httpService.get(TICKET.FIND_BY_QR.replace('{ticketId}', payload.ticketId)
+    .replace('{customerId}', payload.customerId))
   return httpService.handleResponseStatus(response)
 }
 

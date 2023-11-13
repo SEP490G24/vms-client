@@ -110,3 +110,7 @@ export const LOCATION = {
   GET_ALL_COMMUNE_BY_PROVINCE_ID: `${VITE_API_SERVER_URL}/location/district/province/{provinceId}`,
   GET_ALL_COMMUNE_BY_DISTRICT_ID: `${VITE_API_SERVER_URL}/location/commune/district/{districtId}`
 }
+
+export const HISTORY = {
+  FILTER: `${VITE_API_SERVER_URL}/access-history`,
+}

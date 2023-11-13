@@ -1,4 +1,5 @@
 export interface UserDto {
+  siteId: string;
   departmentId: string;
   createdBy?: string;
   createdOn?: string;

@@ -46,7 +46,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
         lastName: props.user.lastName,
         password: '',
         cPassword: '',
-        username: props.user.username,
+        username: props.user.userName,
         roles: props.user.roles,
         phoneNumber: props.user.phoneNumber,
         email: props.user.email,

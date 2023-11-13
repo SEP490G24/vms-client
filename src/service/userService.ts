@@ -50,9 +50,9 @@ const insert = async (payload: CreateUserInfo) => {
   return httpService.handleResponseStatus(response)
 }
 
-const update = async (username: string, payload: UpdateUserInfo) => {
+const update = async (userName: string | undefined, payload: UpdateUserInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.put(USER.BASE_PATH + `/${username}`, payload)
+  const response = await httpService.put(USER.BASE_PATH + `/${userName}`, payload)
   return httpService.handleResponseStatus(response)
 }
 

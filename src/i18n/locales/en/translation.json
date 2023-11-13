@@ -214,6 +214,27 @@
       "btn-edit": "Save"
     }
   },
+  "history": {
+    "title": "History Management",
+    "export": {
+      "file_name": "statistic_customer_{{time}}"
+    },
+    "search": {
+      "title": "Search",
+      "counselor": "Customer",
+      "counselor_placeholder": "Name"
+    },
+    "table": {
+      "title": "Total {{count}} customer",
+      "btn-add": "Create"
+    },
+    "popup": {
+      "title-add": "Create new customer",
+      "title-edit": "Customer Edit",
+      "btn-save": "Save",
+      "btn-edit": "Save"
+    }
+  },
   "organization": {
     "info": {
       "title": "Set basic information"

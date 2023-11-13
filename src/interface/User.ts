@@ -7,6 +7,7 @@ export interface UserDto {
   userName?: string;
   openid?: string;
   roles?: string[];
+  role?: string;
   firstName: string;
   lastName: string;
   avatar?: null;
@@ -20,13 +21,14 @@ export interface UserDto {
   provinceId: number;
   communeId: number;
   districtId: number;
-  siteId?: string;
   provinceName?: string;
   districtName?: string;
   communeName?: string;
   address?: string;
   id?: string;
-  countryCode?: string
+  countryCode?: string;
+  siteName?: string
+  departmentName?: string
 }
 
 

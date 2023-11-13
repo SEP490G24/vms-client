@@ -2,7 +2,6 @@ import { ProfileNavWrapper } from './styles.ts'
 import { Card, Descriptions, Space, UploadFile, UploadProps } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { authSelector, useAppSelector } from '~/redux'
-import { authService } from '~/service'
 import { useState } from 'react'
 import { toBase64 } from '~/utils'
 import { SharedAvatar } from '~/common'
@@ -14,7 +13,7 @@ const ProfileNav = () => {
   useAppSelector(authSelector)
   // const { t } = useTranslation()
   // const navigate = useNavigate()
-  const userInfo = authService.getUserInfo()
+  const { profile } = useAppSelector(authSelector)
   const [avatar, setAvatar] = useState<UploadFile>()
 
   // const profileNavs: MenuProps['items'] = [
@@ -51,19 +50,19 @@ const ProfileNav = () => {
         <Space className={'w-full'} classNames={{ item: 'w-full' }} direction={'vertical'} align={'center'}
                size={32}>
           <Space className={'w-full'} direction={'vertical'} align={'center'} size={24}>
-            <SharedAvatar url={avatar?.url} name={userInfo.username} onChange={onChange} />
-            <Title level={2}>{userInfo.fullName}</Title>
-            <Title level={4}>@{userInfo.username}</Title>
+            <SharedAvatar url={avatar?.url} name={profile?.userName} onChange={onChange} />
+            <Title level={2}>{profile?.firstName + ' ' + profile?.lastName}</Title>
+            <Title level={4}>@{profile?.userName}</Title>
           </Space>
           <Descriptions title='More Info'>
             <DescriptionsItem label={'Site'} span={3}>
-              VMS_HN
+              {profile?.siteName}
             </DescriptionsItem>
             <DescriptionsItem label={'Department'} span={3}>
-              IT Human
+              {profile?.departmentName}
             </DescriptionsItem>
             <DescriptionsItem label={'Role'} span={3}>
-              VMS_ADMIN
+              {profile?.role}
             </DescriptionsItem>
           </Descriptions>
           {/*<Menu className={'w-full'}*/}

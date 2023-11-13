@@ -41,9 +41,10 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       <Column
         title={t('common.field.name')}
         sorter={true}
-        render={(value: MeetingDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>}
+        render={(value: MeetingDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
       <Column title={t('common.field.purpose')}
+              key='purpose'
               filters={enumToArray(Purpose).map(purpose => {
                 return { text: purpose.key, value: purpose.key }
               })}

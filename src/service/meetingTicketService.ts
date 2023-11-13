@@ -1,7 +1,7 @@
 import httpService from './httpServices'
 import authService from './authService'
 import { TICKET } from '~/constants/api.ts'
-import { PageableRequest } from '~/interface'
+import { PageableRequest, StatusTicket } from '~/interface'
 import { CreateCustomerInfo } from '~/service/customerService.ts'
 
 export interface CreateMeetingInfo {
@@ -9,7 +9,6 @@ export interface CreateMeetingInfo {
   startTime: Date;
   endTime: Date;
   roomId?: string
-  templateId?: string
   newCustomers: CreateCustomerInfo[];
   oldCustomers: string[];
   draft?: boolean
@@ -36,6 +35,20 @@ export interface MeetingFilterPayload {
   keyword?: string;
   purpose?: string;
   status?: string;
+}
+
+export interface CancelTicketPayload {
+  reason: string;
+  reasonNote?: string;
+  ticketId: string;
+}
+
+export interface CheckInPayload {
+  ticketId: string;
+  customerId: string;
+  status: StatusTicket;
+  reasonId?: string;
+  reasonNote?: string;
 }
 
 const findAll = async () => {
@@ -75,6 +88,18 @@ const remove = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
+const cancel = async (payload: CancelTicketPayload) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.post(TICKET.CANCEL, payload)
+  return httpService.handleResponseStatus(response)
+}
+
+const checkInCustomer = async (payload: CheckInPayload) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.put(TICKET.CHECK_IN, payload)
+  return httpService.handleResponseStatus(response)
+}
+
 const filter = async (payload: MeetingFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(TICKET.FILTER, payload, {
@@ -106,6 +131,8 @@ const meetingTicketService = {
   insert,
   update,
   remove,
+  cancel,
+  checkInCustomer,
   filter
 }
 

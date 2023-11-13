@@ -32,10 +32,10 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
   const { t } = useTranslation()
 
   const rangePresets: TimeRangePickerProps['presets'] = [
-    { label: 'The next 7 Days', value: [dayjs(), dayjs().add(7, 'd')] },
-    { label: 'The next 14 Days', value: [dayjs(), dayjs().add(14, 'd')] },
-    { label: 'The next 30 Days', value: [dayjs(), dayjs().add(30, 'd')] },
-    { label: 'The next 90 Days', value: [dayjs(), dayjs().add(90, 'd')] }
+    { label: 'The next 30 minutes', value: [dayjs(), dayjs().add(30, 'minutes')] },
+    { label: 'The next 1 hour', value: [dayjs(), dayjs().add(1, 'hour')] },
+    { label: 'The next 2 hours', value: [dayjs(), dayjs().add(2, 'hours')] },
+    { label: 'The next 4 hours', value: [dayjs(), dayjs().add(4, 'hours')] }
   ]
 
   const onRangeChange = (dates: null | (Dayjs | null)[]) => {

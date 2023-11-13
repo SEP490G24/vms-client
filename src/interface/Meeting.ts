@@ -33,6 +33,7 @@ export interface MeetingQRDto {
   endTime?: string;
   createBy?: string;
   roomId?: string;
+  siteId: string;
   roomName?: string;
   customerInfo: CustomerDto;
 }

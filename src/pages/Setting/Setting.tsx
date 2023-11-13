@@ -13,12 +13,19 @@ const Setting = () => {
   const [settingGroups, setSettingGroups] = useState<SettingGroupDto[]>([])
   const [settings, setSettings] = useState<SettingDto[]>([])
   const [settingSiteValues, setSettingSiteValues] = useState<SettingSiteDto>()
+  const [settingGroupIdSelected, setSettingGroupIdSelected] = useState('')
 
   useEffect(() => {
     settingGroupService.findAll().then((response) => {
-      setSettingGroups(response?.data)
+      const [firstElement] = response.data
+      setSettingGroups(response.data)
+      setSettingGroupIdSelected(firstElement.id)
     })
   }, [])
+
+  useEffect(() => {
+    settingGroupIdSelected && handleGroup(settingGroupIdSelected)
+  }, [settingGroupIdSelected])
 
   const handleGroup = (key: any) => {
     settingService.findAll(key).then((response) => {
@@ -50,8 +57,7 @@ const Setting = () => {
             <Card title={'Group Setting'}>
               <Menu className={'w-full'}
                     defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
-                    onSelect={({ key }) => handleGroup(key)}
+                    onSelect={({ key }) => setSettingGroupIdSelected(key)}
                     mode={'inline'}
                     items={settingGroups.map((settingGroup) => {
                       return { key: settingGroup.id, label: settingGroup.name }
@@ -62,10 +68,10 @@ const Setting = () => {
           <Col flex={'auto'}>
             <Card title={'Setting'}>
               <ListView className={'gap-4'}>
-                {settings.map((setting, index) => <SettingItem key={index} setting={setting}
-                                                               defaultValue={setting.defaultValue}
-                                                               value={settingSiteValues?.settings?.[setting.code]}
-                                                               onSaveSetting={(value) => handleSave(setting.id, value)}
+                {settings.map((setting) => <SettingItem key={setting.id} setting={setting}
+                                                        defaultValue={setting.defaultValue}
+                                                        value={settingSiteValues?.settings?.[setting.code]}
+                                                        onSaveSetting={(value) => handleSave(setting.id, value)}
                 />)}
               </ListView>
             </Card>

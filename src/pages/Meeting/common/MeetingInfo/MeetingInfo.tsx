@@ -16,7 +16,7 @@ import {
   resetMeetingSelected
 } from '~/redux/slices/meetingSlice.ts'
 import { findAllRoom } from '~/redux/slices/roomSlice.ts'
-import { findByOrganizationId } from '~/redux/slices/customerSlice.ts'
+import { findCustomerByOrganizationId } from '~/redux/slices/customerSlice.ts'
 import meetingTicketService from '~/service/meetingTicketService.ts'
 import { formatDate } from '~/utils'
 
@@ -28,7 +28,6 @@ interface MeetingInfoArgs {
 }
 
 const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
-  const templateId = '05869a1a-fc60-4084-be89-422442a8ad69'
 
   const { t } = useTranslation()
   const [form] = Form.useForm()
@@ -50,6 +49,8 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
           startTime: new Date(props.scheduler?.state.start.value),
           endTime: new Date(props.scheduler?.state.end.value)
         }))
+      } else {
+        dispatch(resetMeetingForm())
       }
     }
   }, [props.id, props.scheduler?.state])
@@ -66,7 +67,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
 
   useEffect(() => {
     dispatch(findAllRoom({}) as any)
-    dispatch(findByOrganizationId() as any)
+    dispatch(findCustomerByOrganizationId() as any)
   }, [])
 
   const onFinish = (values: any) => {
@@ -74,10 +75,8 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       ...values,
       startTime: formatDate(meetingForm.startTime),
       endTime: formatDate(meetingForm.endTime),
-      draft: meetingForm.draft,
-      templateId
+      draft: meetingForm.draft
     }
-    console.log(payload)
     meetingTicketService.insert(payload).then((response) => {
       if (props.scheduler) {
         const event = {

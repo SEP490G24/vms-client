@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Modal, Space } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { MeetingDto, ReasonDto } from '~/interface'
+import { ReasonDto } from '~/interface'
 import { SharedInput, SharedModal, SharedSelect } from '~/common'
 import { useTranslation } from 'react-i18next'
 import { reasonService } from '~/service'
 
 interface MeetingCancelModalProps {
   openModal: boolean
-  meeting: MeetingDto,
+  siteId: string,
   onClose: () => void,
   onOk: (values: any) => void
 }
@@ -19,8 +19,9 @@ export const MeetingCancelModals: React.FC<MeetingCancelModalProps> = React.memo
   const [cancelForm] = Form.useForm()
   const [reasons, setReasons] = useState<ReasonDto[]>()
   useEffect(() => {
-    reasonService.findBySiteId(props.meeting.siteId).then((response) => setReasons(response.data))
-  }, [props.meeting.id])
+    cancelForm.resetFields()
+    !!props.siteId && reasonService.findBySiteId(props.siteId).then((response) => setReasons(response.data))
+  }, [props.siteId])
 
   return (
     <Modal title={null} open={props.openModal} closable={false}
@@ -40,7 +41,7 @@ export const MeetingCancelModals: React.FC<MeetingCancelModalProps> = React.memo
               colon={false}
               onFinish={props.onOk}
               labelAlign='left'>
-          <Form.Item label={t('common.field.reason')} name={'reason'} rules={[{ required: true }]}>
+          <Form.Item label={t('common.field.reasonId')} name={'reasonId'} rules={[{ required: true }]}>
             <SharedSelect className={'w-full'}
                           options={reasons?.map((reason) => {
                             return { label: reason.name, value: reason.id }
@@ -48,9 +49,8 @@ export const MeetingCancelModals: React.FC<MeetingCancelModalProps> = React.memo
                           placeholder={t('common.placeholder.reason')}
             />
           </Form.Item>
-          <Form.Item label={t('common.field.reasonOther')} name={'reasonOther'}
-                     rules={[{ required: true }]}>
-            <SharedInput placeholder={t('common.placeholder.reasonOther')} />
+          <Form.Item label={t('common.field.reasonNote')} name={'reasonNote'}>
+            <SharedInput placeholder={t('common.placeholder.reasonNote')} />
           </Form.Item>
         </Form>
       </SharedModal>

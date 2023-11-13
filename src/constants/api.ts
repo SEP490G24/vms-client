@@ -38,7 +38,7 @@ export const TEMPLATE = {
 export const REASON = {
   BASE_PATH: `${VITE_API_SERVER_URL}/reason`,
   FILTER: `${VITE_API_SERVER_URL}/reason/filter`,
-  GET_BY_SITE_ID: `${VITE_API_SERVER_URL}/role/site/{siteId}`,
+  GET_BY_SITE_ID: `${VITE_API_SERVER_URL}/reason/site/{siteId}`,
 }
 
 export const ROLE = {
@@ -91,6 +91,8 @@ export const TICKET = {
   BASE_PATH: `${VITE_API_SERVER_URL}/ticket`,
   FIND_BY_QR: `${VITE_API_SERVER_URL}/ticket/{ticketId}/customer/{customerId}`,
   FILTER: `${VITE_API_SERVER_URL}/ticket/filter`,
+  CANCEL: `${VITE_API_SERVER_URL}/ticket/cancel`,
+  CHECK_IN: `${VITE_API_SERVER_URL}/ticket/check-in`,
 }
 
 export const CUSTOMER = {

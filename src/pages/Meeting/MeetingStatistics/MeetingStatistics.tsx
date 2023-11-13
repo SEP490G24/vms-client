@@ -1,17 +1,18 @@
 import { MeetingListWrapper } from './styles.ts'
-import { Card, Col, Divider, Row, Segmented, Space, TablePaginationConfig } from 'antd'
+import { Card, Col, Divider, message, Row, Segmented, Space, TablePaginationConfig } from 'antd'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import Modal from 'antd/es/modal/Modal'
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons'
-import { MeetingFilterPayload, ticketService } from '~/service'
+import { CancelTicketPayload, MeetingFilterPayload, ticketService } from '~/service'
 import { SegmentedValue } from 'rc-segmented'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedButton } from '~/common'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { InfoModalData, MeetingDto, TableAction, TableData } from '~/interface'
 import { MeetingCancelModals, MeetingFilter, MeetingInfo, MeetingKanban, MeetingTable } from '~/pages'
+import meetingTicketService from '~/service/meetingTicketService.ts'
 
 
 const MeetingStatistics = () => {
@@ -24,7 +25,7 @@ const MeetingStatistics = () => {
     confirmLoading: false
   })
   const [tableAction, setTableAction] = useState<TableAction>({})
-  const [cancelModal, setCancelModal] = useState({ openModal: false, meeting: {} as MeetingDto })
+  const [cancelModalData, setCancelModalData] = useState({ openModal: false, meeting: {} as MeetingDto })
   const [filterPayload, setFilterPayload] = useState<MeetingFilterPayload>({})
 
   const viewTypeOptions = [
@@ -37,6 +38,7 @@ const MeetingStatistics = () => {
   }, [filterPayload, tableAction])
 
   const fetchMeetings = () => {
+    console.log(tableAction)
     setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,
@@ -68,7 +70,19 @@ const MeetingStatistics = () => {
   }
 
   const onCancelMeeting = (values: any) => {
-    console.log(values)
+    const payload = {
+      ticketId: cancelModalData.meeting.id,
+      reason: values['reason'],
+      reasonNote: values['reasonNote']
+    } as CancelTicketPayload
+    meetingTicketService.cancel(payload).then(async () => {
+      fetchMeetings()
+      setCancelModalData({ ...cancelModalData, openModal: false })
+      await message.success(t('common.message.success.save'))
+    }).catch(async () => {
+      await message.error(t('common.message.error'))
+      setCancelModalData({ ...cancelModalData, openModal: false })
+    })
   }
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
@@ -119,12 +133,12 @@ const MeetingStatistics = () => {
                     pageableResponse={tableData.pageableResponse}
                     currentPage={tableAction.pagination?.current}
                     loading={tableData.loading}
-                    onCancelMeeting={(meeting: MeetingDto) => setCancelModal({ openModal: true, meeting })}
+                    onCancelMeeting={(meeting: MeetingDto) => setCancelModalData({ openModal: true, meeting })}
                     onChangeTable={handleChangeTable} onEdit={openEdit} /> :
                   <MeetingKanban
                     pageableResponse={tableData.pageableResponse}
                     loading={tableData.loading}
-                    onCancelMeeting={(meeting: MeetingDto) => setCancelModal({ openModal: true, meeting })}
+                    onCancelMeeting={(meeting: MeetingDto) => setCancelModalData({ openModal: true, meeting })}
                     onEdit={openEdit} />}
               </Card>
             </Col>
@@ -140,10 +154,10 @@ const MeetingStatistics = () => {
               <MeetingInfo onClose={onEditClose} id={infoModalData.entitySelected?.id} />
             </Modal>
             <MeetingCancelModals
-              openModal={cancelModal.openModal}
-              meeting={cancelModal.meeting}
+              openModal={cancelModalData.openModal}
+              siteId={cancelModalData.meeting.siteId}
               onOk={onCancelMeeting}
-              onClose={() => setCancelModal({ openModal: false, meeting: {} as MeetingDto })} />
+              onClose={() => setCancelModalData({ openModal: false, meeting: {} as MeetingDto })} />
           </Row>
         )}
       </Space>

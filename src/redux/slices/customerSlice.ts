@@ -16,7 +16,7 @@ export const filterCustomers = createAsyncThunk(
   }
 )
 
-export const findByOrganizationId = createAsyncThunk(
+export const findCustomerByOrganizationId = createAsyncThunk(
   'customer/findByOrganizationId', () => {
     return customerService.findByOrganizationId()
   }
@@ -44,7 +44,7 @@ const customersSlice = createSlice({
           state.customers = action.payload.data.content
         }
       })
-      .addCase(findByOrganizationId.fulfilled, (state, action) => {
+      .addCase(findCustomerByOrganizationId.fulfilled, (state, action) => {
         if (action.payload?.data) {
           state.customers = action.payload.data
         }

@@ -27,5 +27,6 @@ export interface SettingSiteDto {
 export enum SettingType {
   INPUT = 'INPUT',
   SWITCH = 'SWITCH',
-  SELECT = 'SELECT'
+  SELECT = 'SELECT',
+  API = 'API'
 }

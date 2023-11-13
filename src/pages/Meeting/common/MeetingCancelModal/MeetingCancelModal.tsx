@@ -41,7 +41,7 @@ export const MeetingCancelModals: React.FC<MeetingCancelModalProps> = React.memo
               colon={false}
               onFinish={props.onOk}
               labelAlign='left'>
-          <Form.Item label={t('common.field.reasonId')} name={'reasonId'} rules={[{ required: true }]}>
+          <Form.Item label={t('common.field.reason')} name={'reasonId'} rules={[{ required: true }]}>
             <SharedSelect className={'w-full'}
                           options={reasons?.map((reason) => {
                             return { label: reason.name, value: reason.id }

@@ -38,7 +38,6 @@ const Setting = () => {
 
   const handleSave = (settingId: number, value: string) => {
     settingSiteService.update({
-      siteId: SITE_ID,
       settingId,
       value
     }).then(() => message.success(t('common.message.success.save')))

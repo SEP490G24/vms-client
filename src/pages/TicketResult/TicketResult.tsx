@@ -2,7 +2,7 @@ import { TicketResultWrapper } from './styles.ts'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { useEffect, useState } from 'react'
 import { SharedButton } from '~/common'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
@@ -11,13 +11,16 @@ import meetingTicketService from '~/service/meetingTicketService.ts'
 import { isNullish } from '~/utils'
 import { MeetingCancelModals } from '~/pages'
 import { useTranslation } from 'react-i18next'
+import { PATH_DASHBOARD } from '~/routes/paths.ts'
 
 
 const TicketResult = () => {
 
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>({} as MeetingQRDto)
   const [openCancelModal, setOpenCancelModal] = useState(false)
+  const [messageApi, contextHolder] = message.useMessage()
 
   const { ticketId, customerId } = useParams()
 
@@ -41,12 +44,26 @@ const TicketResult = () => {
     reasonNote?: string;
   }) => {
     ticketId && customerId && meetingTicketService.checkInCustomer({ ticketId, customerId, ...checkInStatus })
-      .then(() => message.success(t('common.message.success.save')))
-      .catch(() => message.error(t('common.message.error.save')))
+      .then(() => success())
+      .catch(() => message.error(t('common.message.error')))
+      .finally(() => {
+        setTimeout(() => {
+          navigate(PATH_DASHBOARD)
+        }, 3000)
+      })
+  }
+
+  const success = () => {
+    return messageApi.open({
+      type: 'success',
+      content: 'This browser tab will redirect to dashboard after 3 seconds',
+      duration: 3
+    })
   }
 
   return !isNullish(meetingQRDto) ?
     <>
+      {contextHolder}
       <TicketResultWrapper
         status='success'
         title='Successfully Verify QR Server!'
@@ -82,7 +99,7 @@ const TicketResult = () => {
           <Space className={'w-full justify-center'}
                  direction={'horizontal'}
                  size={16}>
-            <SharedButton key='console' onClick={() => onAccept()}>Reject</SharedButton>
+            <SharedButton key='console' onClick={() => setOpenCancelModal(true)}>Reject</SharedButton>
             <SharedButton type='primary' onClick={() => onAccept()}
                           key='buy'>Accept</SharedButton>
           </Space>

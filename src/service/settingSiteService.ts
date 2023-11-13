@@ -4,7 +4,7 @@ import { SETTING_SITE } from '~/constants/api.ts'
 
 
 interface SettingValuePayload {
-  siteId: string;
+  siteId?: string;
   settingId: number;
   value: string;
 }

@@ -16,9 +16,9 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       <SideBar collapsed={collapsed} />
       <Wrapper className={'w-full pt-0 px-8'}>
         <Header collapsed={collapsed} toggleCollapsed={setCollapsed} />
-        {/*<PerfectScrollbar>*/}
-        <Content>{children}</Content>
-        {/*</PerfectScrollbar>*/}
+        <div>
+          <Content>{children}</Content>
+        </div>
       </Wrapper>
     </LayoutWrapper>
   )

@@ -1,13 +1,16 @@
 import { Route, Router, Routes } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
-import { DefaultLayout } from '~/layouts'
+import { AuthLayout, DefaultLayout } from '~/layouts'
 import { themeSelector, useAppSelector } from './redux'
-import { AuthRoute, privateRoutes } from './routes'
+import { privateRoutes, publicRoutes } from './routes'
 import { GlobalStyles } from './themes'
 import { ConfigProvider } from 'antd'
 import React, { useLayoutEffect, useState } from 'react'
 import { BrowserHistory, createBrowserHistory } from 'history'
+import { AuthRoute } from '~/auth'
+import { authService } from '~/service'
+import { Forbidden } from '~/pages'
 
 const history = createBrowserHistory()
 
@@ -56,10 +59,6 @@ function App() {
         <CustomRouter history={history} basename={window.__RUNTIME_CONFIG__.VITE_BASE_PATH}>
           <Routes>
             <Route element={<AuthRoute />}>
-              {/*<Route path={'/profile'} element={<DefaultLayout><Profile /></DefaultLayout>}>*/}
-              {/*  <Route path={'/profile/info'} element={<ProfileInfo />} />*/}
-              {/*  <Route path={'/profile/security'} element={<ProfileSecurity />} />*/}
-              {/*</Route>*/}
               {privateRoutes.map((route, index) => {
                 const Page = route.component
                 const Layout = route.layout || DefaultLayout
@@ -67,31 +66,35 @@ function App() {
                   <Route
                     path={route.path}
                     element={
-                      <Layout>
-                        <Page />
-                      </Layout>
+                      authService.hasRole(route.role) ? (
+                        <Layout>
+                          <Page />
+                        </Layout>
+                      ) : (
+                        <Forbidden />
+                      )
                     }
                     key={index}
                   />
                 )
               })}
             </Route>
-            {/*<Route>*/}
-            {/*  {publicRoutes.map((route, index) => {*/}
-            {/*    const Page = route.components*/}
-            {/*    return (*/}
-            {/*      <Route*/}
-            {/*        path={route.path}*/}
-            {/*        element={*/}
-            {/*          <AuthLayout>*/}
-            {/*            <Page />*/}
-            {/*          </AuthLayout>*/}
-            {/*        }*/}
-            {/*        key={index}*/}
-            {/*      />*/}
-            {/*    )*/}
-            {/*  })}*/}
-            {/*</Route>*/}
+            <Route>
+              {publicRoutes.map((route, index) => {
+                const Page = route.component
+                return (
+                  <Route
+                    path={route.path}
+                    element={
+                      <AuthLayout>
+                        <Page />
+                      </AuthLayout>
+                    }
+                    key={index}
+                  />
+                )
+              })}
+            </Route>
           </Routes>
         </CustomRouter>
       </ConfigProvider>

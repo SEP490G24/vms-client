@@ -42,6 +42,22 @@ export const Status = {
   DISABLE: false
 }
 
+export interface RouteItem {
+  path: string,
+  component: any,
+  layout?: any,
+  role?: string[]
+}
+
+export interface MenuItem {
+  key: string
+  title: string
+  icon?: any
+  path?: string
+  role?: string[]
+  children: MenuItem[]
+}
+
 export interface OptionItem {
   label: string
   value: any

@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from 'axios'
 import { SortDirection, SortDirectionType, TableAction } from '~/interface'
+import { authService } from '~/service'
 
 export const TICKET_STATE_LABELS: any = {
   PRE_CONSULTANT: 'common.ticketStatus.preConsultation',
@@ -117,11 +118,7 @@ export function formatSortParam(sortField: string, sortOrder?: string) {
   return sortOrder ? `${sortField},${SortDirection[sortOrder as SortDirectionType]}` : undefined
 }
 
-// export const checkPermission=(permissions:any):any=>{
-//   return !permissions || authService.hasRole(permissions)
-// }
-
-
-export const checkPermission = (permissions: any): boolean => {
-  return !!permissions
+export const checkPermission = (permissions: any): any => {
+  return !permissions || authService.hasRole(permissions)
 }
+

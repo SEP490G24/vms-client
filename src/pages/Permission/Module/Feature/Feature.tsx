@@ -42,9 +42,10 @@ const Feature: React.FC<FeatureArgs> = (args) => {
 
   return (
     <FeatureWrapper>
-      <Card title={<Typography.Title editable={{ onChange: onChangeTitle }}
-                                     level={5}
-                                     style={{ margin: '0 0 0 16px' }}>{title}</Typography.Title>}
+      <Card title={<Typography.Title
+        editable={checkPermission(REALM_ROLE_MAP.REALM_ADMIN) ? { onChange: onChangeTitle } : false}
+        level={5}
+        style={{ margin: '0 0 0 16px' }}>{title}</Typography.Title>}
       >
         <Table dataSource={args.permissions}
                rowKey={'id'}
@@ -55,8 +56,9 @@ const Feature: React.FC<FeatureArgs> = (args) => {
           <Column className={'w-1/5'} title=''
                   render={(permission) =>
                     <Space direction={'vertical'} size={2}>
-                      <Text editable={checkPermission(REALM_ROLE_MAP.REALM_ADMIN) ? { onChange: (value: string) => onChangeName(value, permission) } : false}
-                            style={{ margin: '0 0 0 6px' }} strong>{permission.label[i18n.language]?.name}
+                      <Text
+                        editable={checkPermission(REALM_ROLE_MAP.REALM_ADMIN) ? { onChange: (value: string) => onChangeName(value, permission) } : false}
+                        style={{ margin: '0 0 0 6px' }} strong>{permission.label[i18n.language]?.name}
                       </Text>
                       <Text type='secondary' style={{ margin: '0 0 0 6px' }}>{permission.name}</Text>
                     </Space>}

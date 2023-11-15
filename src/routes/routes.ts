@@ -3,6 +3,7 @@ import {
   Dashboard,
   Department,
   Device,
+  Forbidden,
   History,
   MeetingCalendar,
   MeetingList,
@@ -20,6 +21,7 @@ import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
 
 import {
+  PATH_CHECK_IN_MANAGER,
   PATH_CONFIGURATION,
   PATH_CUSTOMER,
   PATH_DASHBOARD,
@@ -27,110 +29,118 @@ import {
   PATH_DEVICE,
   PATH_HISTORY,
   PATH_MEETING_CALENDAR,
+  PATH_MEETING_ROOM,
   PATH_MEETING_STATISTIC,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_PROFILE,
   PATH_ROOM,
-  PATH_MEETING_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_TICKET_RESULT,
-  PATH_USER, PATH_CHECK_IN_MANAGER
+  PATH_USER
 } from './paths'
 import CheckInManager from '../pages/CheckInManager/CheckInManager.tsx'
+import { PATH_ROLE_MAP } from '~/role'
+import { RouteItem } from '~/interface'
 
-export const publicRoutes = []
+export const publicRoutes = [
+  {
+    path: '/403',
+    component: Forbidden,
+    layout: null
+  }
+]
 
-export const privateRoutes = [
+export const privateRoutes: RouteItem[] = [
   {
     path: PATH_DASHBOARD,
     component: Dashboard,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_DASHBOARD']
   },
   {
     path: PATH_MEETING_CALENDAR,
     component: MeetingCalendar,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_MEETING_CALENDAR']
   },
   {
     path: PATH_MEETING_ROOM,
     component: RoomMeetingCalendar,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_MEETING_ROOM']
   },
   {
     path: PATH_MEETING_STATISTIC,
     component: MeetingList,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_MEETING_STATISTIC']
   },
   {
     path: PATH_ORGANIZATION,
     component: Organization,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_ORGANIZATION']
   },
   {
     path: PATH_SITE,
     component: Site,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_SITE']
   },
   {
     path: PATH_CUSTOMER,
     component: Customer,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_CUSTOMER']
   },
   {
     path: PATH_DEPARTMENT,
     component: Department,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_DEPARTMENT']
   },
   {
     path: PATH_USER,
     component: Agent,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_USER']
   },
   {
     path: PATH_ROOM,
     component: Room,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_ROOM']
   },
   {
     path: PATH_DEVICE,
     component: Device,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_DEVICE']
   },
   {
     path: PATH_TEMPLATE,
     component: Template,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_TEMPLATE']
   },
   {
     path: PATH_PERMISSION,
     component: Permission,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_PERMISSION']
   },
   {
     path: PATH_HISTORY,
     component: History,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_HISTORY']
   },
   {
     path: PATH_CONFIGURATION,
     component: Setting,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_CONFIGURATION']
   },
   {
     path: PATH_PROFILE,
     component: Profile,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_PROFILE']
   },
   {
     path: PATH_TICKET_RESULT,
     component: TicketResult,
-    layout: null
+    role: PATH_ROLE_MAP['PATH_TICKET_RESULT']
   },
   {
     path: PATH_CHECK_IN_MANAGER,
     component: CheckInManager,
-    layout: null
+    // role: PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']
   }
 ]

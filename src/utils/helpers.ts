@@ -6,14 +6,14 @@ export const getItem = (
   label: React.ReactNode,
   key: React.Key,
   icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: 'group',
+  children?: (MenuItem | undefined)[] | undefined,
+  type?: 'group'
 ): MenuItem => {
   return {
     key,
     icon,
     children,
     label,
-    type,
+    type
   } as MenuItem
 }

@@ -10,6 +10,8 @@ import { useEffect } from 'react'
 import { ProcessedEvent } from '@aldabil/react-scheduler/types'
 import { MeetingDto } from '~/interface'
 import moment from 'moment'
+import { AuthSection } from '~/auth'
+import { PERMISSION_ROLE_MAP } from '~/role'
 
 
 const MeetingCalendar = () => {
@@ -29,32 +31,34 @@ const MeetingCalendar = () => {
         <Space className={'w-full justify-between'}>
           <h2>{t('meeting.calendar.title')}</h2>
         </Space>
-        {/*{checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (*/}
-        <Card>
-          <Scheduler
-            // week={null}
-            day={{
-              startHour: 3,
-              endHour: 23,
-              step: 60,
-              navigation: true
-            }}
-            deletable={false}
-            hourFormat={'24'}
-            fields={[{ name: 'id', type: 'input' }]}
-            dialogMaxWidth={'xl'}
-            customEditor={(scheduler) => <MeetingInfo classname={'w-[750px]'} scheduler={scheduler} />}
-            events={meetings.map((meeting: MeetingDto, index) => {
-              return {
-                event_id: index,
-                title: 'Test',
-                start: moment(meeting.startTime).toDate(),
-                end: moment(meeting.endTime).toDate(),
-                color: '#50b500',
-                id: meeting.id
-              } as ProcessedEvent
-            })}
-          /></Card>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FIND}>
+          <Card>
+            <Scheduler
+              // week={null}
+              day={{
+                startHour: 3,
+                endHour: 23,
+                step: 60,
+                navigation: true
+              }}
+              deletable={false}
+              hourFormat={'24'}
+              fields={[{ name: 'id', type: 'input' }]}
+              dialogMaxWidth={'xl'}
+              customEditor={(scheduler) => <MeetingInfo classname={'w-[750px]'} scheduler={scheduler} />}
+              events={meetings.map((meeting: MeetingDto, index) => {
+                return {
+                  event_id: index,
+                  title: 'Test',
+                  start: moment(meeting.startTime).toDate(),
+                  end: moment(meeting.endTime).toDate(),
+                  color: '#50b500',
+                  id: meeting.id
+                } as ProcessedEvent
+              })}
+            />
+          </Card>
+        </AuthSection>
       </Space>
     </MeetingCalendarWrapper>
   )

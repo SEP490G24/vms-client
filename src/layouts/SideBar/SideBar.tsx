@@ -1,5 +1,5 @@
 import { Avatar, ConfigProvider } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { SIDE_BARS } from '~/routes'
@@ -9,6 +9,7 @@ import { SideBarWrapper, SideContent, SideHeader } from './styles'
 import { PATH_DASHBOARD } from '~/routes/paths'
 import { useTranslation } from 'react-i18next'
 import { UserOutlined } from '@ant-design/icons'
+import { authService } from '~/service'
 
 
 interface SideBarProps {
@@ -16,15 +17,25 @@ interface SideBarProps {
 }
 
 const SideBar: React.FC<SideBarProps> = ({ collapsed }) => {
-  const { t } = useTranslation()
-  const MENU_ITEMS = SIDE_BARS.map((item) => {
-    return getItem(
-      t(item.title),
-      item.key,
-      item.icon,
-      item.children.length ? item.children?.map((subItem) => getItem(t(subItem['title']), subItem['key'])) : undefined
-    )
-  })
+  const { t, i18n } = useTranslation()
+  const [menus, setMenus] = useState([])
+
+  const getMenus: any = () => {
+    return SIDE_BARS
+      .map((item) => {
+        const checkRoleChildren = () => {
+          if (item.children.length > 0) {
+            return item.children?.map((subItem: any) => authService.hasRole(subItem.role) ? getItem(t(subItem.title), subItem.key) : undefined)
+          }
+          return undefined
+        }
+        return authService.hasRole(item.role)
+          ? getItem(t(item.title), item.key, item.icon, checkRoleChildren())
+          : undefined
+      })
+      .filter((item: any) => item)
+  }
+
   const location = useLocation()
   const navigate = useNavigate()
   const [currentMenuKeys, setCurrentMenuKeys] = useState([PATH_DASHBOARD])
@@ -46,6 +57,10 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed }) => {
     }
     setCurrentMenuKeys([key])
   }
+
+  useEffect(() => {
+    setMenus(getMenus)
+  }, [i18n.language])
 
   return (
     <ConfigProvider
@@ -79,7 +94,7 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed }) => {
         <SideContent
           className='h-full bg-inherit text-gray-400 hover:text-gray-300'
           defaultSelectedKeys={[location.pathname]}
-          items={MENU_ITEMS}
+          items={menus}
           mode='inline'
           inlineCollapsed={collapsed}
           onSelect={({ key }) => handleSelectedItem(key)}

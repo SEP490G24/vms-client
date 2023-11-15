@@ -74,6 +74,12 @@ const getUserInfo = () => {
 const extractRoles = (tokenParsed: any) => {
   let roles: string[] = []
   const resource_access = tokenParsed?.resource_access
+
+  const realm_access = tokenParsed?.realm_access
+
+  /* extract realm role */
+  roles = roles.concat(realm_access?.roles)
+
   if (resource_access) {
     for (const resource in resource_access) {
       roles = roles.concat(resource_access[resource].roles)
@@ -82,8 +88,9 @@ const extractRoles = (tokenParsed: any) => {
   return roles
 }
 
-const hasRole = (roles: any) => {
-  const userRoles = getUserRoles()
+const hasRole = (roles?: string[]): boolean => {
+  if (!roles) return true
+  const userRoles = extractRoles(keycloak.tokenParsed)
   return roles.some((role: any) => _.includes(userRoles, role))
 }
 

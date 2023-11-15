@@ -9,10 +9,11 @@ import { CancelTicketPayload, MeetingFilterPayload, ticketService } from '~/serv
 import { SegmentedValue } from 'rc-segmented'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedButton } from '~/common'
-import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
+import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { InfoModalData, MeetingDto, TableAction, TableData } from '~/interface'
 import { MeetingCancelModals, MeetingFilter, MeetingInfo, MeetingKanban, MeetingTable } from '~/pages'
 import meetingTicketService from '~/service/meetingTicketService.ts'
+import { AuthSection } from '~/auth'
 
 
 const MeetingStatistics = () => {
@@ -99,7 +100,7 @@ const MeetingStatistics = () => {
             options={viewTypeOptions}
           />
         </Space>
-        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FIND}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <MeetingFilter onFilter={onFilter} />
@@ -110,7 +111,7 @@ const MeetingStatistics = () => {
                   <strong> {t('meeting.manager.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                   <Space>
                     <SharedButton
-                      // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
+                      permissions={PERMISSION_ROLE_MAP.R_TICKET_CREATE}
                       type='primary'
                       onClick={() => setInfoModalData({
                         ...infoModalData,
@@ -159,7 +160,7 @@ const MeetingStatistics = () => {
               onOk={onCancelMeeting}
               onClose={() => setCancelModalData({ openModal: false, meeting: {} as MeetingDto })} />
           </Row>
-        )}
+        </AuthSection>
       </Space>
     </MeetingListWrapper>
   )

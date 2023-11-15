@@ -7,12 +7,13 @@ import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { InfoModalData, SiteDto, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
-import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
+import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { SiteInfo } from './Info'
 import { SiteFilter } from './Filter'
 import { SiteTable } from './Table'
 import { SiteFilterPayload, siteService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
+import { AuthSection } from '~/auth'
 
 const Site = () => {
   const { t } = useTranslation()
@@ -90,7 +91,7 @@ const Site = () => {
           <h2>{t('organization.site.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_SITE_FIND}>
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <SiteFilter onFilter={onFilter} />
@@ -100,7 +101,7 @@ const Site = () => {
                 <strong> {t('organization.site.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
-                    // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
+                    permissions={PERMISSION_ROLE_MAP.R_SITE_CREATE}
                     type='default'
                     onClick={() => setInfoModalData({
                       ...infoModalData,
@@ -133,7 +134,7 @@ const Site = () => {
               <SiteInfo site={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
             </Modal>
           </Row>
-        )}
+        </AuthSection>
       </Space>
     </SiteWrapper>
   )

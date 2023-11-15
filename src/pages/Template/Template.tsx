@@ -1,6 +1,5 @@
 import { PageWrapper } from '~/themes'
 import { Col, message, Row, Space, Spin } from 'antd'
-import { checkPermission } from '~/utils'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { TemplateItem } from './TemplateItem'
@@ -11,6 +10,7 @@ import Modal from 'antd/es/modal/Modal'
 import { TemplateInfo } from './Info'
 import { SharedButton } from '~/common'
 import { TemplateFilter } from './Filter'
+import { AuthSection } from '~/auth'
 
 const Template = () => {
   const { t } = useTranslation()
@@ -93,13 +93,14 @@ const Template = () => {
         <Space className={'w-full justify-between'}>
           <h2>{t('organization.template.title')}</h2>
           <SharedButton
+            permissions={PERMISSION_ROLE_MAP.R_TEMPLATE_CREATE}
             type='default'
             onClick={() => setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: true })}
           >
             {t('common.label.create')}
           </SharedButton>
         </Space>
-        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_TEMPLATE_FIND}>
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <TemplateFilter onFilter={onFilter} />
@@ -119,7 +120,7 @@ const Template = () => {
               </Spin>
             </Col>
           </Row>
-        )}
+        </AuthSection>
       </Space>
       <Modal
         open={infoModalData.openModal}

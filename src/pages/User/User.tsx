@@ -6,7 +6,7 @@ import { SharedButton } from '~/common'
 import { InfoModalData, TableAction, TableData, UserDto } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { PageWrapper } from '~/themes'
-import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
+import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { UserInfo } from './Info'
 import { UserFilter } from './Filter'
 import { UserFilterPayload, userService } from '~/service'
@@ -14,6 +14,7 @@ import { FilterValue } from 'antd/es/table/interface'
 import { RcFile } from 'antd/es/upload'
 import { DownloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { UserTable } from '~/pages/User/Table'
+import { AuthSection } from '~/auth'
 
 const User = () => {
   const { t } = useTranslation()
@@ -117,7 +118,7 @@ const User = () => {
           <h2>{t('organization.user.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_USER_FIND}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <UserFilter onFilter={onFilter} />
@@ -136,7 +137,7 @@ const User = () => {
                     <SharedButton icon={<UploadOutlined />}>{t('common.label.import_data')}</SharedButton>
                   </Upload>
                   <SharedButton
-                    // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
+                    permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type={'primary'}
                     onClick={() => setInfoModalData({
                       ...infoModalData,
@@ -167,7 +168,7 @@ const User = () => {
               <UserInfo onClose={onClose} user={infoModalData.entitySelected} onSave={onSave} />
             </Modal>
           </Row>
-        )}
+        </AuthSection>
       </Space>
     </PageWrapper>
   )

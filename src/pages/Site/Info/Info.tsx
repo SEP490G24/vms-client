@@ -26,6 +26,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
   let { communes, districts, provinces } = useLocation(provinceId, districtId)
 
   useEffect(() => {
+    form.resetFields()
     if (props.site) {
       form.setFieldsValue({
         name: props.site.name,

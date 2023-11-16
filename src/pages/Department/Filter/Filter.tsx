@@ -26,12 +26,12 @@ const Filter: React.FC<FilterArgs> = (args) => {
     else setDisable(true)
   }, [valueDate,keyword,siteId])
 
-  const onFinish = (values: any) => {
+  const onFinish = () => {
     const payload: DepartmentFilterPayload = {
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
     }
-    if (values?.query?.trim()) payload.keyword = values?.query?.trim()
+    if (keyword) payload.keyword = keyword
     if (siteId) payload.siteIds = [siteId]
     args.onFilter(payload)
   }
@@ -78,7 +78,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       >
 
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope onChangeSite={onChangeSite} />}
-        <Form.Item label={t('organization.department.search.counselor')} name="query">
+        <Form.Item label={t('organization.department.search.counselor')} name="keyword">
           <SharedInput
             placeholder={t('organization.department.search.counselor_placeholder')}
             value={keyword}

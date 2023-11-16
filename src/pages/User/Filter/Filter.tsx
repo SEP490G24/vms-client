@@ -19,6 +19,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [roles, setRoles] = useState<RoleDto[]>([])
   const [valueDate, setValueDate] = useState<DateRadioRange>()
   const [siteFilter, setSiteFilter] = useState('')
+  const [disable, setDisable] = useState<boolean>(true)
 
 
   useEffect(() => {
@@ -47,9 +48,18 @@ const Filter: React.FC<FilterArgs> = (args) => {
     args.onFilter(payload)
   }
 
+  const onFieldsChange = (value: any) => {
+    if (value){
+      setDisable(false);
+    } else {
+      setDisable(true)
+    }
+  }
+
   const onReset = () => {
     setValueDate(undefined)
     setSiteFilter('')
+    setDisable(true)
     form.resetFields()
     args.onFilter({})
   }
@@ -64,6 +74,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             type={'primary'}
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
+            disabled={disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -82,6 +93,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
+        onFieldsChange={onFieldsChange}
       >
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope siteId={siteFilter} onChangeSite={setSiteFilter} />}
         {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteFilter) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&

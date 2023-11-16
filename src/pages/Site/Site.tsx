@@ -22,7 +22,8 @@ const Site = () => {
   const [tableData, setTableData] = useState<TableData<SiteDto>>({ loading: false })
   const [infoModalData, setInfoModalData] = useState<InfoModalData<SiteDto>>({
     openModal: false,
-    confirmLoading: false
+    confirmLoading: false,
+    entitySelected: undefined
   })
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [filterPayload, setFilterPayload] = useState<SiteFilterPayload>({})
@@ -103,11 +104,12 @@ const Site = () => {
                   <SharedButton
                     permissions={PERMISSION_ROLE_MAP.R_SITE_CREATE}
                     type='default'
-                    onClick={() => setInfoModalData({
+                    onClick={() => {setInfoModalData({
                       ...infoModalData,
                       entitySelected: undefined,
                       openModal: true
-                    })}
+                    });
+                    }}
                   >
                     {t('common.label.create')}
                   </SharedButton>

@@ -1,12 +1,11 @@
 // @ts-ignore
-import { Card, Form, Space } from 'antd'
-import React, { useState } from 'react'
+import { Card, Form, RadioChangeEvent, Space } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton, SharedFilterPeriod, SharedInput, SharedSelect } from '~/common'
-import { DateRadioRange } from '~/interface'
-import { SiteFilterPayload } from '~/service'
+import { RangePicker, SharedButton, SharedInput, SharedRadio, SharedSelect } from '~/common'
+import { DateRadioRange, getDataRangeOptions, getDateRangeValue, SiteDto } from '~/interface'
+import { HistoryFilterPayload, SiteFilterPayload, siteService } from '~/service'
 import { DATE_TIME } from '~/constants'
-import { useLocation } from '~/hook'
 
 interface FilterArgs {
   onFilter: (filterPayload: SiteFilterPayload) => void
@@ -15,39 +14,51 @@ interface FilterArgs {
 const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const [valueDate, setValueDate] = useState<DateRadioRange>()
+  const [valueDateCheckIn, setValueDateCheckIn] = useState<DateRadioRange>()
+  const [valueDateCheckOut, setValueDateCheckOut] = useState<DateRadioRange>()
+  const [sites, setSites] = useState<SiteDto[]>([])
+  const [disable, setDisable] = useState<boolean>(true)
 
-  let provinceId = Form.useWatch('provinceId', form)
-  let districtId = Form.useWatch('districtId', form)
-
-  let { communes, districts, provinces } = useLocation(provinceId, districtId)
-
+  useEffect(() => {
+    siteService.findAllByOrganization().then((response) => {
+      setSites(response?.data)
+    })
+  }, [])
   const onFinish = (values: any) => {
-    const payload: SiteFilterPayload = {
-      provinceId: values['provinceId'],
-      districtId: values['districtId'],
-      communeId: values['communeId'],
+    const payload: HistoryFilterPayload = {
+      site: values['siteId'],
       keyword: values['keyword'],
-      createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY)
+      formCheckInTime: valueDateCheckIn?.date?.['0']?.format(DATE_TIME.START_DAY),
+      toCheckInTime: valueDateCheckIn?.date?.['1']?.format(DATE_TIME.START_DAY),
+      formCheckOutTime: valueDateCheckOut?.date?.['0']?.format(DATE_TIME.START_DAY),
+      toCheckOutTime: valueDateCheckOut?.date?.['1']?.format(DATE_TIME.START_DAY),
+      status: values['status']
     }
     args.onFilter(payload)
   }
 
   const onReset = () => {
-    setValueDate(undefined)
+    setValueDateCheckIn(undefined)
+    setValueDateCheckOut(undefined)
+    setDisable(true)
     form.resetFields()
     args.onFilter({})
   }
-
-  const resetDistrictAndCommune = () =>{
-    form.resetFields(["districtId","communeId"]);
+  const onFieldsChange = (value: any) => {
+    console.log(value)
+    if (value){
+      setDisable(false);
+    } else {
+      setDisable(true)
+    }
   }
 
-  const resetDistrictCombobox = () =>{
-    form.resetFields(["communeId"]);
+  const onChangeDateCheckIn = ({ target: { value } }: RadioChangeEvent) => {
+    setValueDateCheckIn({ key: value, date: getDateRangeValue(value) })
   }
-
+  const onChangeDateCheckOut = ({ target: { value } }: RadioChangeEvent) => {
+    setValueDateCheckOut({ key: value, date: getDateRangeValue(value) })
+  }
   return (
     <Card
       title={t('organization.site.search.title')}
@@ -58,7 +69,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             type={'primary'}
             onClick={form.submit}
-            // disabled={!(!isNullish(form.getFieldsValue()) || !!valueDate)}
+            disabled={disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -77,36 +88,71 @@ const Filter: React.FC<FilterArgs> = (args) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
+        onFieldsChange={onFieldsChange}
       >
-        <Form.Item className={'mb-3'} label={t('organization.site.search.counselor')} name='query'>
+        <Form.Item className={'mb-3'} label={t('common.field.name')} name='keyword'>
           <SharedInput
             placeholder={t('organization.site.search.counselor_placeholder')}
           />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'>
-          <SharedSelect options={provinces.map((province) => {
-            return { label: province.name, value: province.id, key: province.id }
+        <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'>
+          <SharedSelect options={sites.map((site) => {
+            return { label: site.name, value: site.id, key: site.id }
           })}
-                        onChange = {resetDistrictAndCommune}
                         placeholder={t('common.placeholder.province')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.district')} name='districtId'>
+        <Form.Item className={'mb-3'} label={t('common.field.status')} name='status'>
           <SharedSelect
-            options={districts?.map((district) => {
-              return { label: district.name, value: district.id, key: district.id }
-            }) ?? []}
-            onChange = {resetDistrictCombobox}
-            disabled={!provinceId}
-            placeholder={t('common.placeholder.district')} />
+            options={[{ label: 'PENDING', value: 'PENDING' },
+              { label: 'DRAFT', value: 'DRAFT' },
+              { label: 'CHECK_IN', value: 'CHECK_IN' },
+              { label: 'CHECK_OUT', value: 'CHECK_OUT' },
+              { label: 'REJECT', value: 'REJECT' },
+              { label: 'CANCEL', value: 'CANCEL' }]}
+            placeholder={t('common.placeholder.province')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.commune')} name='communeId'>
-          <SharedSelect options={communes?.map((commune) => {
-            return { label: commune.name, value: commune.id, key: commune.id }
-          }) ?? []}
-                        disabled={!districtId}
-                        placeholder={t('common.placeholder.commune')} />
+        <Form.Item label={t('common.field.check_in')}>
+          <RangePicker
+            format={'DD-MM-YYYY'}
+            changeOnBlur
+            className='vms-picker'
+            style={{ width: '100%' }}
+            value={valueDateCheckIn?.date}
+            onChange={(val) => {
+              setValueDateCheckIn({ key: undefined, date: val })
+            }}
+            placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
+          />
         </Form.Item>
-        <SharedFilterPeriod valueDate={valueDate} setValueDate={setValueDate} />
+        <Form.Item label={<span></span>} name='duration1'>
+          <SharedRadio
+            options={getDataRangeOptions(t)}
+            onChange={onChangeDateCheckIn}
+            value={valueDateCheckIn?.key}
+            optionType='button'
+          />
+        </Form.Item>
+        <Form.Item label={t('common.field.check_out')}>
+          <RangePicker
+            format={'YYYY-MM-DD'}
+            changeOnBlur
+            className='vms-picker'
+            style={{ width: '100%' }}
+            value={valueDateCheckOut?.date}
+            onChange={(val) => {
+              setValueDateCheckOut({ key: undefined, date: val })
+            }}
+            placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
+          />
+        </Form.Item>
+        <Form.Item label={<span></span>} name='duration2'>
+          <SharedRadio
+            options={getDataRangeOptions(t)}
+            onChange={onChangeDateCheckOut}
+            value={valueDateCheckOut?.key}
+            optionType='button'
+          />
+        </Form.Item>
       </Form>
     </Card>
   )

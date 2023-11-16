@@ -31,10 +31,6 @@ const ProfileInfo = () => {
   const resetCommune = () => {
     form.resetFields(['communeId'])
   }
-  useEffect(() => {
-    console.log('profile:')
-    console.log(profile)
-  }, [])
 
   useEffect(() => {
     if (profile) {

@@ -25,6 +25,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
   const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
+    form.resetFields();
     if (props.department) {
       form.setFieldsValue({
         name: props.department.name,

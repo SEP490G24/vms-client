@@ -2,7 +2,7 @@ import { Route, Router, Routes } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 import { AuthLayout, DefaultLayout } from '~/layouts'
-import { findAllSitesInOrganization, themeSelector, useAppSelector } from './redux'
+import { fetchMyOrganization, fetchProfile, findAllSitesInOrganization, themeSelector, useAppSelector } from './redux'
 import { privateRoutes, publicRoutes } from './routes'
 import { GlobalStyles } from './themes'
 import { ConfigProvider } from 'antd'
@@ -31,6 +31,8 @@ function App() {
     if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
       dispatch(findAllSitesInOrganization() as any)
     }
+    dispatch(fetchMyOrganization() as any)
+    dispatch(fetchProfile() as any)
   }, [])
   const CustomRouter = ({ basename, children, history }: Props) => {
 

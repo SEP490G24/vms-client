@@ -4,55 +4,49 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { SharedAvatar, SharedButton, SharedInput } from '~/common'
-import { OrganizationEntity } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { baseUploadTemplate, toBase64 } from '~/utils'
-import { organizationService } from '~/service'
 import { ImageOutlined } from '~/icon'
 import { OrganizationWrapper } from './styles'
 import { REGEX } from '~/constants'
 import { AuthSection } from '~/auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { organizationsSelector, updateMyOrganization } from '~/redux'
+import { organizationService } from '~/service'
 
 const Organization = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const { myOrganization } = useSelector(organizationsSelector)
   const [form] = Form.useForm()
   const formRef = React.useRef<FormInstance>(null)
-  const [organization, setOrganization] = useState<OrganizationEntity | null>()
   const [license, setLicense] = useState<UploadFile>()
   const [logo, setLogo] = useState<UploadFile>()
 
-
-  useEffect(() => {
-    organizationService.getMyOrganization().then((response) => {
-      setOrganization(response?.data)
-    })
-  }, [])
-
   useEffect(() => {
     form.setFieldsValue({
-      name: organization?.name,
-      email: organization?.email,
-      code: organization?.code,
-      representativeName: organization?.representativeName,
-      representativePhone: organization?.representativePhone,
-      website: organization?.website,
-      businessRegistrationNumber: organization?.businessRegistrationNumber,
-      businessLicenseFile: organization?.businessLicenseFile,
-      about: organization?.about,
-      contactInfo: organization?.contactInfo
+      name: myOrganization?.name,
+      email: myOrganization?.email,
+      code: myOrganization?.code,
+      representativeName: myOrganization?.representativeName,
+      representativePhone: myOrganization?.representativePhone,
+      website: myOrganization?.website,
+      businessRegistrationNumber: myOrganization?.businessRegistrationNumber,
+      businessLicenseFile: myOrganization?.businessLicenseFile,
+      about: myOrganization?.about,
+      contactInfo: myOrganization?.contactInfo
     })
-    !!organization?.businessLicenseFile && setLicense(baseUploadTemplate(organization.businessLicenseFile))
-  }, [organization])
+    !!myOrganization?.businessLicenseFile && setLicense(baseUploadTemplate(myOrganization.businessLicenseFile))
+  }, [myOrganization])
 
   const onFinish = (values: any) => {
-    const payload = !!organization ? { ...values, id: organization.id } : values
+    const payload = !!myOrganization ? { ...values, id: myOrganization.id } : values
     organizationService
       .updateMyOrganization(payload)
       .then((resp) => {
-        if (resp?.status === 200 && resp?.data) {
+        if (resp?.data) {
+          dispatch(updateMyOrganization(resp.data))
           message.success(t('common.message.success'))
-        } else {
-          message.warning(t('common.message.warning'))
         }
       })
       .catch(() => {
@@ -84,13 +78,13 @@ const Organization = () => {
 
   return (
     <OrganizationWrapper>
-      <h2 className='page-header-text'>{t('organization.info.title')}</h2>
+      <h2 className='page-header-text'>{t('myOrganization.info.title')}</h2>
       <AuthSection permissions={PERMISSION_ROLE_MAP.R_ORGANIZATION_FIND}>
         <PerfectScrollbar>
           <Row className={'m-0'} style={{ maxHeight: 'calc(100vh - 160px)' }}>
             <Col span={24}>
               <Card
-                title={t('organization.info.title')}
+                title={t('myOrganization.info.title')}
                 extra={
                   <SharedButton
                     permissions={PERMISSION_ROLE_MAP.R_ORGANIZATION_UPDATE}
@@ -105,7 +99,7 @@ const Organization = () => {
               >
                 <Row align='top'>
                   <Col span={3}>
-                    <SharedAvatar url={logo?.url} name={organization?.name} onChange={onChaneLogo} />
+                    <SharedAvatar url={logo?.url} name={myOrganization?.name} onChange={onChaneLogo} />
                   </Col>
                   <Col span={15}>
                     <Form
@@ -121,11 +115,11 @@ const Organization = () => {
                       onFinish={onFinish}
                     >
                       <Form.Item
-                        label={t('common.field.organization')}
+                        label={t('common.field.myOrganization')}
                         name='name'
                         rules={[{ required: true }]}
                       >
-                        <SharedInput size={'large'} placeholder={t('common.placeholder.organization')} />
+                        <SharedInput size={'large'} placeholder={t('common.placeholder.myOrganization')} />
                       </Form.Item>
                       <Form.Item
                         label={t('common.field.representative_email')} name='email'

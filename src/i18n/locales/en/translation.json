@@ -23,6 +23,7 @@
       "status": "Status",
       "registration_date": "Registration date",
       "created_by": "Create by",
+      "created_on": "Create On",
       "modification_date": "Modification date",
       "action": "Action",
       "city": "City",
@@ -65,7 +66,9 @@
       "ticket": "Ticket",
       "site": {
         "name": "Site"
-      }
+      },
+      "check_in": "Check In",
+      "check_out": "Check Out"
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -116,7 +119,8 @@
       "ticket": "Please enter Ticket Id",
       "type": "Choose type",
       "body": "Enter body",
-      "role_name": "Please enter role name"
+      "role_name": "Please enter role name",
+      "customer_name": "Enter customer name"
     },
     "error": {
       "content_is_too_long": "Content is too long!",
@@ -320,6 +324,27 @@
       "table": {
         "title": "Total {{count}} room",
         "btn-add": "Create"
+      },
+      "popup": {
+        "title-add": "Create new room",
+        "title-edit": "Room Edit",
+        "btn-save": "Save",
+        "btn-edit": "Save"
+      }
+    },
+    "history": {
+      "title": "History Management",
+      "search": {
+        "title": "Search",
+        "counselor": "Room",
+        "counselor_placeholder": "Name"
+      },
+      "table": {
+        "title": "Total {{count}}",
+        "roomName": "Room Name",
+        "visitorName": "Visitor Name",
+        "check_in": "Check in",
+        "check_out": "Check out"
       },
       "popup": {
         "title-add": "Create new room",

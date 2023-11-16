@@ -32,11 +32,16 @@ export interface HistoryFilterPayload {
   createdOnEnd?: string;
   createBy?: string;
   lastUpdatedBy?: string;
-  enable?: string;
+  status?: string;
   keyword?: string;
   provinceId?: string;
   districtId?: string;
   communeId?: string;
+  formCheckInTime?: string;
+  toCheckInTime?: string;
+  formCheckOutTime?: string;
+  toCheckOutTime?: string;
+  site?: string;
 }
 
 const filter = async (payload: HistoryFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {

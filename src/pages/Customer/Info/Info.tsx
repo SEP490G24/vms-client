@@ -26,9 +26,10 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
   const { communes, districts, provinces } = useLocation(provinceId, districtId)
 
   useEffect(() => {
+    form.resetFields();
     if (props.customer) {
       form.setFieldsValue({
-        name: props.customer.visitorName,
+        visitorName: props.customer.visitorName,
         phoneNumber: props.customer.phoneNumber,
         provinceId: props.customer.provinceId,
         districtId: props.customer.districtId,
@@ -36,7 +37,6 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
         description: props.customer.description
       })
     }
-    console.log(props.customer)
   }, [props.customer])
 
   const onClose = () => {
@@ -61,7 +61,7 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
         onFinish={props.onSave}
         labelAlign='left'
       >
-        <Form.Item className={'mb-3'} label={t('common.field.name')} name='name'
+        <Form.Item className={'mb-3'} label={t('common.field.name')} name='visitorName'
                    rules={[{ required: true }]}>
           <SharedInput inputMode={'text'} placeholder={t('common.placeholder.customer_name')} />
         </Form.Item>

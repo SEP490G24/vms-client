@@ -17,6 +17,8 @@ export interface HistoryDto {
   description?: string;
   createdBy?: string;
   createdOn?: string;
+  checkInTime?: string;
+  checkOutTime?: string;
   lastUpdatedBy?: string;
   lastUpdatedOn?: string;
 }

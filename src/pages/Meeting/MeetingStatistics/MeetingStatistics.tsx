@@ -39,7 +39,6 @@ const MeetingStatistics = () => {
   }, [filterPayload, tableAction])
 
   const fetchMeetings = () => {
-    console.log(tableAction)
     setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,

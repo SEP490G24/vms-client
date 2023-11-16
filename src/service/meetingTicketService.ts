@@ -105,6 +105,12 @@ const checkInCustomer = async (payload: CheckInPayload) => {
   return httpService.handleResponseStatus(response)
 }
 
+const findWithRoom = async (payload: MeetingFilterPayload) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.post(TICKET.FIND_WITH_ROOM, payload)
+  return httpService.handleResponseStatus(response)
+}
+
 const filter = async (payload: MeetingFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(TICKET.FILTER, payload, {
@@ -138,6 +144,7 @@ const meetingTicketService = {
   remove,
   cancel,
   checkInCustomer,
+  findWithRoom,
   filter
 }
 

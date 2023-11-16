@@ -6,6 +6,8 @@ import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateDeviceInfo, siteService } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
+import { useSelector } from 'react-redux'
+import { sitesSelector } from '~/redux'
 
 interface CreateDeviceFormArgs {
   device?: DeviceDto
@@ -17,13 +19,7 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
 
-  const [sites, setSites] = useState<SiteDto[]>([])
-
-  useEffect(() => {
-    siteService.findAll().then((response) => {
-      setSites(response?.data)
-    })
-  }, [])
+  const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
     if (props.device) {

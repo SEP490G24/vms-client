@@ -26,6 +26,7 @@ const Template = () => {
   const [filterPayload, setFilterPayload] = useState<TemplateFilterPayload>({})
 
   useEffect(() => {
+    console.log('b')
     fetchTemplates({}, 1)
   }, [])
 

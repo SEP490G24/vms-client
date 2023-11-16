@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '~/redux'
 import { UserDto } from '~/interface'
+import { userService } from '~/service'
 
 const initialState: {profile: UserDto | null, auth: {token: string | null}} = {
   profile: null,
@@ -8,6 +9,12 @@ const initialState: {profile: UserDto | null, auth: {token: string | null}} = {
     token: null
   }
 }
+
+export const fetchUserProfile = createAsyncThunk(
+  'user/fetchProfile', () => {
+    return userService.getUserProfile()
+  }
+)
 
 const authSlice = createSlice({
   name: 'auth',

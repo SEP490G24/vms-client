@@ -1,12 +1,14 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { SiteDto, TemplateDto, TemplateType, TemplateVariable } from '~/interface'
+import React, { useEffect } from 'react'
+import { TemplateDto, TemplateType, TemplateVariable } from '~/interface'
 import { SharedCkEditor, SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
-import { CreateTemplateInfo, siteService } from '~/service'
+import { CreateTemplateInfo } from '~/service'
 import moment from 'moment/moment'
 import { enumToArray } from '~/utils'
+import { useSelector } from 'react-redux'
+import { sitesSelector } from '~/redux'
 
 interface CreateTemplateFormArgs {
   template?: TemplateDto
@@ -18,13 +20,7 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
   const { t, i18n } = useTranslation()
   const [form] = Form.useForm()
 
-  const [sites, setSites] = useState<SiteDto[]>([])
-
-  useEffect(() => {
-    siteService.findAll().then((response) => {
-      setSites(response?.data)
-    })
-  }, [])
+  const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
     if (props.template) {

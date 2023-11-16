@@ -5,6 +5,8 @@ import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput } from
 import { DateRadioRange} from '~/interface'
 import { DepartmentFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
+import { checkPermission } from '~/utils'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
   onFilter: (filterPayload: DepartmentFilterPayload) => void
@@ -75,7 +77,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         onFinish={onFinish}
       >
 
-        <SharedFilterScope onChangeSite={onChangeSite} />
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope onChangeSite={onChangeSite} />}
         <Form.Item label={t('organization.department.search.counselor')} name="query">
           <SharedInput
             placeholder={t('organization.department.search.counselor_placeholder')}

@@ -1,29 +1,45 @@
 import { MeetingCalendarWrapper } from './styles.ts'
-import { Card, Space } from 'antd'
+import { Card, Col, message, Row, Space, Spin } from 'antd'
 import { useTranslation } from 'react-i18next'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { Scheduler } from '@aldabil/react-scheduler'
 import { MeetingInfo } from '~/pages/Meeting/common/MeetingInfo'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchAllMeeting, meetingSelector } from '~/redux/slices/meetingSlice.ts'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ProcessedEvent } from '@aldabil/react-scheduler/types'
 import { MeetingDto } from '~/interface'
 import moment from 'moment'
 import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
+import { MeetingFilter } from '~/pages'
+import { MeetingFilterPayload, ticketService } from '~/service'
 
 
 const MeetingCalendar = () => {
 
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { meetings } = useSelector(meetingSelector)
-
+  const [filterPayload, setFilterPayload] = useState<MeetingFilterPayload>({})
+  const [meetingsState, setMeetingsState] = useState<{ meetings: MeetingDto[], loading: boolean }>({
+    meetings: [],
+    loading: false
+  })
 
   useEffect(() => {
-    dispatch(fetchAllMeeting() as any)
+    fetchMeetings()
   }, [])
+
+  const onFilter = (filterPayload: MeetingFilterPayload) => {
+    setFilterPayload(filterPayload)
+  }
+
+  const fetchMeetings = () => {
+    setMeetingsState({ ...meetingsState, loading: true })
+    ticketService.filter(filterPayload).then((response) => {
+      setMeetingsState({ ...meetingsState, meetings: response.data })
+    }).catch(() => message.error(t('common.message.error')))
+      .finally(() => {
+        setMeetingsState({ ...meetingsState, loading: false })
+      })
+  }
 
   return (
     <MeetingCalendarWrapper>
@@ -32,32 +48,41 @@ const MeetingCalendar = () => {
           <h2>{t('meeting.calendar.title')}</h2>
         </Space>
         <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FIND}>
-          <Card>
-            <Scheduler
-              // week={null}
-              day={{
-                startHour: 3,
-                endHour: 23,
-                step: 60,
-                navigation: true
-              }}
-              deletable={false}
-              hourFormat={'24'}
-              fields={[{ name: 'id', type: 'input' }]}
-              dialogMaxWidth={'xl'}
-              customEditor={(scheduler) => <MeetingInfo classname={'w-[750px]'} scheduler={scheduler} />}
-              events={meetings.map((meeting: MeetingDto, index) => {
-                return {
-                  event_id: index,
-                  title: 'Test',
-                  start: moment(meeting.startTime).toDate(),
-                  end: moment(meeting.endTime).toDate(),
-                  color: '#50b500',
-                  id: meeting.id
-                } as ProcessedEvent
-              })}
-            />
-          </Card>
+          <Row gutter={24} wrap={false}>
+            <Col flex={'none'} span={12}>
+              <MeetingFilter onFilter={onFilter} />
+            </Col>
+            <Col flex={'auto'}>
+              <Spin spinning={meetingsState.loading}>
+                <Card>
+                  <Scheduler
+                    // week={null}
+                    day={{
+                      startHour: 3,
+                      endHour: 23,
+                      step: 60,
+                      navigation: true
+                    }}
+                    deletable={false}
+                    hourFormat={'24'}
+                    fields={[{ name: 'id', type: 'input' }]}
+                    dialogMaxWidth={'xl'}
+                    customEditor={(scheduler) => <MeetingInfo classname={'w-[750px]'} scheduler={scheduler} />}
+                    events={meetingsState.meetings.map((meeting: MeetingDto, index) => {
+                      return {
+                        event_id: index,
+                        title: 'Test',
+                        start: moment(meeting.startTime).toDate(),
+                        end: moment(meeting.endTime).toDate(),
+                        color: '#50b500',
+                        id: meeting.id
+                      } as ProcessedEvent
+                    })}
+                  />
+                </Card>
+              </Spin>
+            </Col>
+          </Row>
         </AuthSection>
       </Space>
     </MeetingCalendarWrapper>

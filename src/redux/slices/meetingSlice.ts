@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '~/redux'
 import { MeetingDto, MeetingQRDto } from '~/interface'
 import { CreateMeetingInfo } from '~/service'
-import meetingTicketService from '~/service/meetingTicketService.ts'
+import { meetingTicketService } from '~/service'
 
 const initialState = {
   meetingSelected: {} as MeetingDto,

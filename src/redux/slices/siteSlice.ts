@@ -16,9 +16,9 @@ export const filterSites = createAsyncThunk(
   }
 )
 
-export const findAllSites = createAsyncThunk(
-  'room/findAll', (filterPayload: any) => {
-    return siteService.filter(filterPayload)
+export const findAllSitesInOrganization = createAsyncThunk(
+  'room/findAllInOrganization', () => {
+    return siteService.findAllByOrganization()
   }
 )
 
@@ -44,7 +44,7 @@ const sitesSlice = createSlice({
           state.sites = action.payload.data.content
         }
       })
-      .addCase(findAllSites.fulfilled, (state, action) => {
+      .addCase(findAllSitesInOrganization.fulfilled, (state, action) => {
         if (action.payload?.data) {
           state.sites = action.payload.data
         }

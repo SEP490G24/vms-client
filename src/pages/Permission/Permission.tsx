@@ -7,12 +7,13 @@ import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { useTranslation } from 'react-i18next'
 import { PERMISSION_ROLE_MAP, REALM_ROLE_MAP } from '~/role/index.ts'
 import { SharedButton, SharedInput, SharedModal, SharedSelect } from '~/common'
-import { keycloakService, permissionService, roleService, siteService } from '~/service'
+import { keycloakService, permissionService, roleService } from '~/service'
 import Modal from 'antd/es/modal/Modal'
-import { SiteDto } from '~/interface'
 import TextArea from 'antd/es/input/TextArea'
 import { AuthSection } from '~/auth'
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import { useSelector } from 'react-redux'
+import { sitesSelector } from '~/redux'
 
 const Permission = () => {
   const { t } = useTranslation()
@@ -26,13 +27,7 @@ const Permission = () => {
 
   const [form] = Form.useForm()
 
-  const [sites, setSites] = useState<SiteDto[]>([])
-
-  useEffect(() => {
-    siteService.findAll().then((response) => {
-      setSites(response?.data)
-    })
-  }, [])
+  const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
     permissionService.getAllModule(true).then((response) => {

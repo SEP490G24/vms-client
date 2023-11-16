@@ -48,7 +48,7 @@ const getById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const getBySiteId = async (siteIds: string[]) => {
+const getBySiteId = async (siteIds?: string[]) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   let response = await httpService.post(ROLE.GET_BY_SITE_ID_ROLE, siteIds)
   return httpService.handleResponseStatus(response)

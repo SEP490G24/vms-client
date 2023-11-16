@@ -1,12 +1,16 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { DepartmentDto, SiteDto } from '~/interface'
+import React, { useEffect } from 'react'
+import { DepartmentDto } from '~/interface'
 import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
-import { CreateDepartmentInfo, UpdateDepartmentInfo, siteService } from '~/service'
+import { CreateDepartmentInfo, UpdateDepartmentInfo } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
 import moment from 'moment/moment'
+import { AuthSection } from '~/auth'
+import { SCOPE_ROLE_MAP } from '~/role'
+import { useSelector } from 'react-redux'
+import { sitesSelector } from '~/redux'
 
 interface InfoDepartmentFormArgs {
   department?: DepartmentDto
@@ -18,13 +22,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
 
-  const [sites, setSites] = useState<SiteDto[]>([])
-
-  useEffect(() => {
-    siteService.findAllByOrganization().then((response) => {
-      setSites(response?.data)
-    })
-  }, [])
+  const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
     if (props.department) {
@@ -33,7 +31,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
         code: props.department.code,
         siteId: props.department.siteId,
         description: props.department.description,
-        enable: props.department.enable,
+        enable: props.department.enable
       })
     }
   }, [props.department])
@@ -72,14 +70,16 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
                    rules={[{ required: true }]}>
           <SharedInput placeholder={t('common.placeholder.department_name')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
-                   rules={[{ required: true }]}>
-          <SharedSelect options={sites.map((site) => {
-            return { label: site.name, value: site.id, key: site.id }
-          }) ?? []}
-                        disabled={!!props.department}
-                        placeholder={t('common.placeholder.site')}></SharedSelect>
-        </Form.Item>
+        <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
+          <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
+                     rules={[{ required: true }]}>
+            <SharedSelect options={sites.map((site) => {
+              return { label: site.name, value: site.id, key: site.id }
+            }) ?? []}
+                          disabled={!!props.department}
+                          placeholder={t('common.placeholder.site')}></SharedSelect>
+          </Form.Item>
+        </AuthSection>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
           <TextArea
             showCount

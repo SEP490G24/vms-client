@@ -5,7 +5,8 @@ import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput, Share
 import { DateRadioRange, Status, TemplateType } from '~/interface'
 import { TemplateFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
-import { enumToArray } from '~/utils'
+import { checkPermission, enumToArray } from '~/utils'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
   onFilter: (filterPayload: TemplateFilterPayload) => void
@@ -64,7 +65,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className='vms-form'
         onFinish={onFinish}
       >
-        <SharedFilterScope siteId={siteFilter} onChangeSite={setSiteFilter} />
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
+          <SharedFilterScope siteId={siteFilter} onChangeSite={setSiteFilter} />}
         <Form.Item label={t('common.field.type')} name='type'>
           <SharedSelect
             options={enumToArray(TemplateType).map(item => {

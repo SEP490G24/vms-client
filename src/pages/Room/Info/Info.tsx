@@ -1,12 +1,14 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { RoomDto, SiteDto } from '~/interface'
+import React, { useEffect } from 'react'
+import { RoomDto } from '~/interface'
 import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
-import { CreateRoomInfo, siteService } from '~/service'
+import { CreateRoomInfo } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
 import moment from 'moment'
+import { useSelector } from 'react-redux'
+import { sitesSelector } from '~/redux'
 
 interface CreateRoomFormArgs {
   room?: RoomDto
@@ -18,13 +20,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
 
-  const [sites, setSites] = useState<SiteDto[]>([])
-
-  useEffect(() => {
-    siteService.findAll().then((response) => {
-      setSites(response?.data)
-    })
-  }, [])
+  const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
     if (props.room) {

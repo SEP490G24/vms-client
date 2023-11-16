@@ -17,7 +17,7 @@ import {
 } from '~/redux/slices/meetingSlice.ts'
 import { findAllRoom } from '~/redux/slices/roomSlice.ts'
 import { findCustomerByOrganizationId } from '~/redux/slices/customerSlice.ts'
-import meetingTicketService from '~/service/meetingTicketService.ts'
+import { meetingTicketService } from '~/service'
 import { formatDate } from '~/utils'
 
 interface MeetingInfoArgs {

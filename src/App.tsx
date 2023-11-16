@@ -2,15 +2,18 @@ import { Route, Router, Routes } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 import { AuthLayout, DefaultLayout } from '~/layouts'
-import { themeSelector, useAppSelector } from './redux'
+import { findAllSitesInOrganization, themeSelector, useAppSelector } from './redux'
 import { privateRoutes, publicRoutes } from './routes'
 import { GlobalStyles } from './themes'
 import { ConfigProvider } from 'antd'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { BrowserHistory, createBrowserHistory } from 'history'
 import { AuthRoute } from '~/auth'
 import { authService } from '~/service'
 import { Forbidden } from '~/pages'
+import { useDispatch } from 'react-redux'
+import { checkPermission } from '~/utils'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 const history = createBrowserHistory()
 
@@ -22,8 +25,15 @@ type Props = {
 
 function App() {
   const selectedTheme = useAppSelector(themeSelector)
+  const dispatch = useDispatch()
 
+  useEffect(() => {
+    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
+      dispatch(findAllSitesInOrganization() as any)
+    }
+  }, [])
   const CustomRouter = ({ basename, children, history }: Props) => {
+
     const [state, setState] = useState({
       action: history.action,
       location: history.location

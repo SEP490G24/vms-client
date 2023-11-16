@@ -5,6 +5,8 @@ import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput, Share
 import { DateRadioRange, DepartmentDto, RoleDto } from '~/interface'
 import { departmentService, roleService, UserFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
+import { checkPermission } from '~/utils'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
   onFilter: (filterPayload: UserFilterPayload) => void
@@ -20,8 +22,15 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
 
   useEffect(() => {
-    departmentService.filter({ siteIds: [siteFilter] }).then((response) => setDepartments(response.data))
-    roleService.getBySiteId([siteFilter]).then((response) => setRoles(response.data))
+    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
+      siteFilter && departmentService.filter({ siteIds: [siteFilter] }).then((response) => setDepartments(response.data))
+      siteFilter && roleService.getBySiteId([siteFilter]).then((response) => setRoles(response.data))
+    } else {
+      departmentService.filter({}).then((response) => setDepartments(response.data))
+      roleService.getBySiteId([]).then((response) => setRoles(response.data))
+    }
+
+    // TODO: GET API ROLE BY SITE TOKEN
     form.resetFields(['departmentId', 'roleId'])
   }, [siteFilter])
 
@@ -74,8 +83,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className='vms-form'
         onFinish={onFinish}
       >
-        <SharedFilterScope siteId={siteFilter} onChangeSite={setSiteFilter} />
-        {siteFilter &&
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope siteId={siteFilter} onChangeSite={setSiteFilter} />}
+        {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteFilter) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
           <>
             <Form.Item label={t('common.field.department')} name='departmentId'>
               <SharedSelect options={departments.map((department) => {

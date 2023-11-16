@@ -5,12 +5,14 @@ import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput } from
 import { DateRadioRange } from '~/interface'
 import { MeetingFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
+import { checkPermission } from '~/utils'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
   onFilter: (filterPayload: MeetingFilterPayload) => void
 }
 
-const Filter: React.FC<FilterArgs> = (args) => {
+const MeetingFilter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
@@ -68,17 +70,17 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className='vms-form'
         onFinish={onFinish}
       >
-        <SharedFilterScope />
-        <Form.Item label={t('meeting.manager.search.counselor')} name='keyword'>
-          <SharedInput
-            placeholder={t('meeting.manager.search.counselor_placeholder')}
-            value={keyword}
-            onChange={(e: any) => setKeyword(e.target.value)}
-          />
-        </Form.Item>
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope />} <Form.Item
+        label={t('meeting.manager.search.counselor')} name='keyword'>
+        <SharedInput
+          placeholder={t('meeting.manager.search.counselor_placeholder')}
+          value={keyword}
+          onChange={(e: any) => setKeyword(e.target.value)}
+        />
+      </Form.Item>
         <SharedFilterPeriod valueDate={valueDate} setValueDate={setValueDate} />
       </Form>
     </Card>
   )
 }
-export default Filter
+export default MeetingFilter

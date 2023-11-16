@@ -93,6 +93,7 @@ export const TICKET = {
   FILTER: `${VITE_API_SERVER_URL}/ticket/filter`,
   CANCEL: `${VITE_API_SERVER_URL}/ticket/cancel`,
   CHECK_IN: `${VITE_API_SERVER_URL}/ticket/check-in`,
+  FIND_WITH_ROOM: `${VITE_API_SERVER_URL}/ticket/room`,
 }
 
 export const CUSTOMER = {

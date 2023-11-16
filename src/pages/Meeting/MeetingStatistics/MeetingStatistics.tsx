@@ -12,7 +12,7 @@ import { SharedButton } from '~/common'
 import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { InfoModalData, MeetingDto, TableAction, TableData } from '~/interface'
 import { MeetingCancelModals, MeetingFilter, MeetingInfo, MeetingKanban, MeetingTable } from '~/pages'
-import meetingTicketService from '~/service/meetingTicketService.ts'
+import { meetingTicketService } from '~/service'
 import { AuthSection } from '~/auth'
 
 
@@ -39,7 +39,6 @@ const MeetingStatistics = () => {
   }, [filterPayload, tableAction])
 
   const fetchMeetings = () => {
-    console.log(tableAction)
     setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,

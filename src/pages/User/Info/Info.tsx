@@ -8,9 +8,11 @@ import { CreateUserInfo, departmentService, roleService } from '~/service'
 import Password from 'antd/es/input/Password'
 import { REGEX } from '~/constants'
 import moment from 'moment'
-import { useDispatch, useSelector } from 'react-redux'
-import { findAllSites, sitesSelector } from '~/redux/slices/siteSlice.ts'
-import { enumToArray } from '~/utils'
+import { useSelector } from 'react-redux'
+import { sitesSelector } from '~/redux/slices/siteSlice.ts'
+import { checkPermission, enumToArray } from '~/utils'
+import { SCOPE_ROLE_MAP } from '~/role'
+import { AuthSection } from '~/auth'
 
 interface CreateUserFormArgs {
   user?: UserDto
@@ -22,19 +24,20 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
 
-  const dispatch = useDispatch()
   const [siteId, setSiteId] = useState('')
   const { sites } = useSelector(sitesSelector)
   const [departments, setDepartments] = useState<DepartmentDto[]>([])
   const [roles, setRoles] = useState<RoleDto[]>([])
 
   useEffect(() => {
-    dispatch(findAllSites({}) as any)
-  }, [])
+    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
+      siteId && departmentService.filter({ siteIds: [siteId] }).then((response) => setDepartments(response.data))
+      siteId && roleService.getBySiteId([siteId]).then((response) => setRoles(response.data))
+    } else {
+      departmentService.filter({}).then((response) => setDepartments(response.data))
+      roleService.getBySiteId([]).then((response) => setRoles(response.data))
+    }
 
-  useEffect(() => {
-    departmentService.filter({ siteIds: [siteId] }).then((response) => setDepartments(response.data))
-    roleService.getBySiteId([siteId]).then((response) => setRoles(response.data))
   }, [siteId])
 
 
@@ -125,30 +128,36 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
             })}
             placeholder={t('common.placeholder.gender')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'
-                   rules={[{ required: true }]}>
-          <SharedSelect options={sites.map((site) => {
-            return { label: site.name, value: site.id, key: site.id }
-          }) ?? []}
-                        onChange={setSiteId}
-                        placeholder={t('common.placeholder.site')}></SharedSelect>
-        </Form.Item>
-        {siteId &&
+        <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
+          <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'
+                     rules={[{ required: true }]}>
+            <SharedSelect options={sites.map((site) => {
+              return { label: site.name, value: site.id, key: site.id }
+            }) ?? []}
+                          onChange={setSiteId}
+                          placeholder={t('common.placeholder.site')}></SharedSelect>
+          </Form.Item>
+        </AuthSection>
+        {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
           <>
             <Form.Item className={'mb-3'} label={t('common.field.department')} name='departmentId'
                        rules={[{ required: true }]}>
-              <SharedSelect options={departments.map((department) => {
-                return { label: department.name, value: department.id, key: department.id }
-              }) ?? []}
-                            placeholder={t('common.placeholder.department')}></SharedSelect>
+              <SharedSelect
+                disabled={!departments.length}
+                options={departments.map((department) => {
+                  return { label: department.name, value: department.id, key: department.id }
+                }) ?? []}
+                placeholder={t('common.placeholder.department')}></SharedSelect>
             </Form.Item>
             <Form.Item className={'mb-3'} label={t('common.field.roles')} name='roles'
                        rules={[{ required: true }]}>
-              <SharedSelect mode={'multiple'} allowClear className={'w-full'}
-                            placeholder={t('common.placeholder.roles')}
-                            options={roles.map((role) => {
-                              return { label: role.code, value: role.code }
-                            })} />
+              <SharedSelect
+                disabled={!roles.length}
+                mode={'multiple'} allowClear className={'w-full'}
+                placeholder={t('common.placeholder.roles')}
+                options={roles.map((role) => {
+                  return { label: role.code, value: role.code }
+                })} />
             </Form.Item>
           </>
         }

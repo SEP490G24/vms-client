@@ -5,6 +5,8 @@ import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput } from
 import { DateRadioRange } from '~/interface'
 import { RoomFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
+import { checkPermission } from '~/utils'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
   onFilter: (filterPayload: RoomFilterPayload) => void
@@ -68,7 +70,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className="vms-form"
         onFinish={onFinish}
       >
-        <SharedFilterScope onChangeSite={setSiteId} />
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope onChangeSite={setSiteId} />}
         <Form.Item label={t('organization.room.search.counselor')} name="query">
           <SharedInput
             placeholder={t('organization.room.search.counselor_placeholder')}

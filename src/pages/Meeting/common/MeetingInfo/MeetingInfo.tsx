@@ -15,10 +15,8 @@ import {
   resetMeetingForm,
   resetMeetingSelected
 } from '~/redux/slices/meetingSlice.ts'
-import { findAllRoom } from '~/redux/slices/roomSlice.ts'
-import { findCustomerByOrganizationId } from '~/redux/slices/customerSlice.ts'
 import { meetingTicketService } from '~/service'
-import { formatDate } from '~/utils'
+import { formatDate, isNullish } from '~/utils'
 
 interface MeetingInfoArgs {
   classname?: string
@@ -44,31 +42,31 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       dispatch(fetchMeetingById(props.id) as any)
     } else {
       if (props.scheduler) {
-        dispatch(fetchMeetingById(props.scheduler?.state.id.value) as any)
+        if (props.scheduler.state.id.value) {
+          dispatch(fetchMeetingById(props.scheduler.state.id.value) as any)
+        }
+        props.scheduler.roomId && form.setFieldValue('roomId', props.scheduler.roomId)
         dispatch(patchMeetingForm({
-          startTime: new Date(props.scheduler?.state.start.value),
-          endTime: new Date(props.scheduler?.state.end.value)
+          startTime: new Date(props.scheduler.state.start.value),
+          endTime: new Date(props.scheduler.state.end.value)
         }))
       } else {
         dispatch(resetMeetingForm())
       }
     }
-  }, [props.id, props.scheduler?.state])
+  }, [props.id, props.scheduler])
 
   useEffect(() => {
-    form.setFieldsValue({
-      name: meetingSelected.name,
-      purpose: meetingSelected.purpose,
-      roomId: meetingSelected.roomId,
-      description: meetingSelected.description,
-      oldCustomers: meetingSelected.customers?.map(customer => customer.id) ?? []
-    })
+    if (!isNullish(meetingSelected)){
+      form.setFieldsValue({
+        name: meetingSelected.name,
+        purpose: meetingSelected.purpose,
+        roomId: meetingSelected.roomId,
+        description: meetingSelected.description,
+        oldCustomers: meetingSelected.customers?.map(customer => customer.id) ?? []
+      })
+    }
   }, [meetingSelected])
-
-  useEffect(() => {
-    dispatch(findAllRoom({}) as any)
-    dispatch(findCustomerByOrganizationId() as any)
-  }, [])
 
   const onFinish = (values: any) => {
     const payload = {

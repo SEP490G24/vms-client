@@ -2,14 +2,17 @@ import { RoomMeetingCalendarWrapper } from './styles.ts'
 import { Card, Col, message, Row, Space, Spin } from 'antd'
 import { useTranslation } from 'react-i18next'
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import { RESOURCES, ROOM_EVENTS } from '~/data/event.ts'
 import { Scheduler } from '@aldabil/react-scheduler'
 import { useEffect, useState } from 'react'
 import { MeetingDto, RoomDto } from '~/interface'
 import { MeetingFilterPayload, meetingTicketService } from '~/service'
-import { MeetingFilter } from '~/pages'
+import { MeetingFilter, MeetingInfo } from '~/pages'
 import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
+import moment from 'moment/moment'
+import { ProcessedEvent } from '@aldabil/react-scheduler/types'
+import { RESOURCES } from '~/data/event.ts'
+import { randomColor } from '~/utils'
 
 const RoomMeetingCalendar = () => {
 
@@ -19,13 +22,29 @@ const RoomMeetingCalendar = () => {
     loading: boolean,
     tickets?: MeetingDto[],
     rooms?: RoomDto[]
-  }>({ loading: false })
+  }>({ loading: false, tickets: [], rooms: [] })
   const [filterPayload, setFilterPayload] = useState<MeetingFilterPayload>({})
 
 
   useEffect(() => {
     fetchApi()
   }, [])
+
+  useEffect(() => {
+    console.log(transferRoomsResource())
+    console.log(RESOURCES)
+  }, [dataState])
+
+  const transferRoomsResource = () => {
+    return dataState.rooms?.map((room) => {
+      console.log(room)
+      return {
+        ...room,
+        roomId: room.id,
+        color: randomColor()
+      }
+    })
+  }
 
   const onFilter = (filterPayload: MeetingFilterPayload) => {
     setFilterPayload(filterPayload)
@@ -35,12 +54,10 @@ const RoomMeetingCalendar = () => {
     setDataState({ ...dataState, loading: true })
     meetingTicketService.findWithRoom(filterPayload).then((response) => {
       if (response.data) {
-        setDataState({ ...dataState, rooms: response.data.rooms, tickets: response.data.tickets })
+        console.log({ ...dataState, rooms: response.data.rooms, tickets: response.data.tickets })
+        setDataState({ loading: false, rooms: response.data.rooms, tickets: response.data.tickets })
       }
     }).catch(() => message.error(t('common.message.error')))
-      .finally(() => {
-        setDataState({ ...dataState, loading: false })
-      })
   }
 
   return (
@@ -57,33 +74,47 @@ const RoomMeetingCalendar = () => {
             <Col flex={'auto'}>
               <Spin spinning={dataState.loading}>
                 <Card>
-                  <Scheduler
-                    events={ROOM_EVENTS}
-                    resources={RESOURCES}
-                    resourceViewMode={'tabs'}
-                    resourceFields={{
-                      idField: 'admin_id',
-                      textField: 'title',
-                      subTextField: 'mobile',
-                      avatarField: 'title',
-                      colorField: 'color'
-                    }}
-                    fields={[
-                      {
-                        name: 'admin_id',
-                        type: 'select',
-                        default: RESOURCES[0].admin_id,
-                        options: RESOURCES.map((res) => {
-                          return {
-                            id: res.admin_id,
-                            text: `${res.title} (${res.mobile})`,
-                            value: res.admin_id //Should match "name" property
-                          }
-                        }),
-                        config: { label: 'Assignee', required: true }
-                      }
-                    ]}
-                  />
+                  {
+                    dataState.rooms?.length &&
+                    <Scheduler
+                      events={dataState.tickets?.map(ticket => {
+                        return {
+                          event_id: ticket.id,
+                          title: ticket.name,
+                          start: moment(ticket.startTime).toDate(),
+                          end: moment(ticket.endTime).toDate(),
+                          id: ticket.id,
+                          roomId: ticket.roomId
+                        } as ProcessedEvent
+                      })}
+                      day={{
+                        startHour: 3,
+                        endHour: 23,
+                        step: 60,
+                        navigation: true
+                      }}
+                      week={{
+                        weekDays: [0, 1, 2, 3, 4, 5],
+                        weekStartOn: 6,
+                        startHour: 3,
+                        endHour: 23,
+                        step: 60,
+                        navigation: true
+                      }}
+                      resources={transferRoomsResource()}
+                      resourceViewMode={'tabs'}
+                      resourceFields={{
+                        idField: 'roomId',
+                        textField: 'name',
+                        subTextField: 'code',
+                        avatarField: 'code',
+                        colorField: 'color'
+                      }}
+                      fields={[{ name: 'id', type: 'input' }, { name: 'roomId', type: 'input' }]}
+                      dialogMaxWidth={'xl'}
+                      customEditor={(scheduler) => <MeetingInfo classname={'w-[750px]'} scheduler={scheduler} />}
+                    />
+                  }
                 </Card>
               </Spin>
             </Col>

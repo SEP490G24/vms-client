@@ -114,6 +114,10 @@ export function resetCurrentPageAction(tableAction: TableAction) {
   }
 }
 
+export const randomColor = () => {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16)
+}
+
 export function formatSortParam(sortField: string, sortOrder?: string) {
   return sortOrder ? `${sortField},${SortDirection[sortOrder as SortDirectionType]}` : undefined
 }

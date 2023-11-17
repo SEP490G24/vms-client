@@ -60,10 +60,6 @@ const Permission = () => {
         setModalState({ showModal: false, confirmLoading: false })
       })
       .catch(() => message.error(t('common.message.error.save')))
-      .finally(() => {
-          setModalState({ ...modalState, confirmLoading: false })
-        }
-      )
   }
 
   const syncRole = () => {

@@ -2,7 +2,14 @@ import { Route, Router, Routes } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 import { AuthLayout, DefaultLayout } from '~/layouts'
-import { fetchMyOrganization, fetchProfile, findAllSitesInOrganization, themeSelector, useAppSelector } from './redux'
+import {
+  fetchMyOrganization,
+  fetchProfile, fetchProvince,
+  findAllRoom,
+  findAllSitesInOrganization, findCustomerByOrganizationId,
+  themeSelector,
+  useAppSelector
+} from './redux'
 import { privateRoutes, publicRoutes } from './routes'
 import { GlobalStyles } from './themes'
 import { ConfigProvider } from 'antd'
@@ -33,6 +40,9 @@ function App() {
     }
     dispatch(fetchMyOrganization() as any)
     dispatch(fetchProfile() as any)
+    dispatch(findAllRoom({}) as any)
+    dispatch(findCustomerByOrganizationId() as any)
+    dispatch(fetchProvince() as any)
   }, [])
   const CustomRouter = ({ basename, children, history }: Props) => {
 

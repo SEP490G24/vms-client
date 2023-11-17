@@ -12,6 +12,7 @@ import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { MeetingFilter } from '~/pages'
 import { MeetingFilterPayload, ticketService } from '~/service'
+import { randomColor } from '~/utils'
 
 
 const MeetingCalendar = () => {
@@ -27,18 +28,32 @@ const MeetingCalendar = () => {
     fetchMeetings()
   }, [])
 
+  useEffect(() => {
+    // console.log(transferTickets())
+  }, [meetingsState.meetings])
+
   const onFilter = (filterPayload: MeetingFilterPayload) => {
     setFilterPayload(filterPayload)
+  }
+
+  const transferTickets = () => {
+    return meetingsState.meetings.map((meeting: MeetingDto, index) => {
+      return {
+        event_id: index,
+        title: meeting.name,
+        start: moment(meeting.startTime).toDate(),
+        end: moment(meeting.endTime).toDate(),
+        color: randomColor() || randomColor(),
+        id: meeting.id
+      } as ProcessedEvent
+    })
   }
 
   const fetchMeetings = () => {
     setMeetingsState({ ...meetingsState, loading: true })
     ticketService.filter(filterPayload).then((response) => {
-      setMeetingsState({ ...meetingsState, meetings: response.data })
+      setMeetingsState({ loading: false, meetings: response.data })
     }).catch(() => message.error(t('common.message.error')))
-      .finally(() => {
-        setMeetingsState({ ...meetingsState, loading: false })
-      })
   }
 
   return (
@@ -56,8 +71,15 @@ const MeetingCalendar = () => {
               <Spin spinning={meetingsState.loading}>
                 <Card>
                   <Scheduler
-                    // week={null}
                     day={{
+                      startHour: 3,
+                      endHour: 23,
+                      step: 60,
+                      navigation: true
+                    }}
+                    week={{
+                      weekDays: [0, 1, 2, 3, 4, 5],
+                      weekStartOn: 6,
                       startHour: 3,
                       endHour: 23,
                       step: 60,
@@ -68,16 +90,7 @@ const MeetingCalendar = () => {
                     fields={[{ name: 'id', type: 'input' }]}
                     dialogMaxWidth={'xl'}
                     customEditor={(scheduler) => <MeetingInfo classname={'w-[750px]'} scheduler={scheduler} />}
-                    events={meetingsState.meetings.map((meeting: MeetingDto, index) => {
-                      return {
-                        event_id: index,
-                        title: 'Test',
-                        start: moment(meeting.startTime).toDate(),
-                        end: moment(meeting.endTime).toDate(),
-                        color: '#50b500',
-                        id: meeting.id
-                      } as ProcessedEvent
-                    })}
+                    events={transferTickets()}
                   />
                 </Card>
               </Spin>

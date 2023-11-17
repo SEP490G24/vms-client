@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react'
-import { fetchProvince, locationsSelector } from '~/redux/slices/locationSlice.ts'
+import { locationsSelector } from '~/redux/slices/locationSlice.ts'
 import { useSelector } from 'react-redux'
-import { useAppDispatch } from '~/redux'
 import { Commune, District } from '~/interface'
 import { locationService } from '~/service'
 
 const useLocation = (provinceId: number, districtId: number) => {
-  const dispatch = useAppDispatch()
   let { provinces } = useSelector(locationsSelector)
   const [districts, setDistricts] = useState<District[]>([])
   const [communes, setCommunes] = useState<Commune[]>([])
-
-  useEffect(() => {
-    !provinces.length && dispatch(fetchProvince() as any)
-  }, [])
 
   useEffect(() => {
     provinceId &&

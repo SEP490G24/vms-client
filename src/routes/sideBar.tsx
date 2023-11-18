@@ -13,13 +13,14 @@ import {
   PATH_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
-  PATH_USER
+  PATH_USER, PATH_QR_CODE_MANAGER
 } from './paths.ts'
 import {
   ApartmentOutlined,
   DashboardOutlined,
   ScanOutlined,
   ScheduleOutlined,
+  QrcodeOutlined,
   SettingOutlined,
   UserSwitchOutlined
 } from '@ant-design/icons'
@@ -73,6 +74,14 @@ export const SIDE_BARS: MenuItem[] = [
     children: []
   },
   {
+    key: PATH_QR_CODE_MANAGER,
+    icon: <QrcodeOutlined  className={'text-[18px]'} />,
+    title: 'sidebar.qr-manager.title',
+    path: PATH_QR_CODE_MANAGER,
+    // role: [...PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']],
+    children: []
+  },
+  {
     key: 'PATH_CUSTOMER',
     icon: <UserSwitchOutlined className={'text-[18px]'} />,
     title: 'sidebar.customer.title',
@@ -103,7 +112,7 @@ export const SIDE_BARS: MenuItem[] = [
       ...PATH_ROLE_MAP['PATH_DEPARTMENT'],
       ...PATH_ROLE_MAP['PATH_USER'],
       ...PATH_ROLE_MAP['PATH_ROOM'],
-      ...PATH_ROLE_MAP['PATH_TEMPLATE'],
+      ...PATH_ROLE_MAP['PATH_TEMPLATE']
     ],
     children: [
       {
@@ -162,7 +171,7 @@ export const SIDE_BARS: MenuItem[] = [
     title: 'sidebar.configuration.title',
     role: [
       ...PATH_ROLE_MAP['PATH_PERMISSION'],
-      ...PATH_ROLE_MAP['PATH_CONFIGURATION'],
+      ...PATH_ROLE_MAP['PATH_CONFIGURATION']
     ],
     children: [
       {

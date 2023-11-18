@@ -52,6 +52,7 @@
       "taxCode": "Tax Code",
       "description": "Description",
       "room": "Room",
+      "checkInCode": "QR Code",
       "participate": "Participate",
       "device": "Device",
       "contact_number": "Contact number",
@@ -93,6 +94,7 @@
       "organization": "Please enter within 20 characters",
       "representative_email": "Please enter your representative email",
       "code": "Enter code here",
+      "checkInCode": "Please enter your QR code",
       "contact_person_in_charge": "Please enter without “-”",
       "contact_phone_number": "Enter your contact phone number here",
       "homepage_address": "Please enter the homepage URL.",
@@ -245,6 +247,9 @@
   },
   "check-in": {
     "title": "Check-in Management"
+  },
+  "qr-manager": {
+    "title": "QR Code Management"
   },
   "organization": {
     "info": {
@@ -440,6 +445,9 @@
       }
     },
     "check-in": {
+      "title": "Check-in Manager"
+    },
+    "qr-manager": {
       "title": "Check-in Manager"
     },
     "customer": {

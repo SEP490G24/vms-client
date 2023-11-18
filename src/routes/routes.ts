@@ -1,4 +1,5 @@
 import {
+  CheckInManager,
   Customer,
   Dashboard,
   Department,
@@ -34,13 +35,14 @@ import {
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_PROFILE,
+  PATH_QR_CODE_MANAGER,
   PATH_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_TICKET_RESULT,
   PATH_USER
 } from './paths'
-import CheckInManager from '../pages/CheckInManager/CheckInManager.tsx'
+import QRCodeManager from '../pages/QRCode/QRCodeManager.tsx'
 import { PATH_ROLE_MAP } from '~/role'
 import { RouteItem } from '~/interface'
 
@@ -141,6 +143,11 @@ export const privateRoutes: RouteItem[] = [
   {
     path: PATH_CHECK_IN_MANAGER,
     component: CheckInManager,
+    // role: PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']
+  },
+  {
+    path: PATH_QR_CODE_MANAGER,
+    component: QRCodeManager,
     // role: PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']
   }
 ]

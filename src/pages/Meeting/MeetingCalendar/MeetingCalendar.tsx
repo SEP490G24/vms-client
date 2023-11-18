@@ -29,7 +29,6 @@ const MeetingCalendar = () => {
   }, [])
 
   useEffect(() => {
-    // console.log(transferTickets())
   }, [meetingsState.meetings])
 
   const onFilter = (filterPayload: MeetingFilterPayload) => {
@@ -53,7 +52,10 @@ const MeetingCalendar = () => {
     setMeetingsState({ ...meetingsState, loading: true })
     ticketService.filter(filterPayload).then((response) => {
       setMeetingsState({ loading: false, meetings: response.data })
-    }).catch(() => message.error(t('common.message.error')))
+    }).catch(() => {
+      setMeetingsState({ ...meetingsState, loading: false })
+      message.error(t('common.message.error'))
+    })
   }
 
   return (

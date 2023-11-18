@@ -54,10 +54,12 @@ const RoomMeetingCalendar = () => {
     setDataState({ ...dataState, loading: true })
     meetingTicketService.findWithRoom(filterPayload).then((response) => {
       if (response.data) {
-        console.log({ ...dataState, rooms: response.data.rooms, tickets: response.data.tickets })
         setDataState({ loading: false, rooms: response.data.rooms, tickets: response.data.tickets })
       }
-    }).catch(() => message.error(t('common.message.error')))
+    }).catch(() => {
+      setDataState({ ...dataState, loading: false })
+      message.error(t('common.message.error'))
+    })
   }
 
   return (

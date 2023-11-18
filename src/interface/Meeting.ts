@@ -25,8 +25,9 @@ export interface MeetingDto {
 }
 
 export interface MeetingQRDto {
-  ticketId?: string;
-  ticketCode?: string;
+  ticketId: string;
+  checkInCode: string
+  ticketCode: string;
   ticketName?: string;
   purpose?: string;
   startTime?: string;

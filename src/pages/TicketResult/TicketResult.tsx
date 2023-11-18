@@ -7,42 +7,45 @@ import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
 import { MeetingQRDto, StatusTicket } from '~/interface'
-import { meetingTicketService, TicketQRCodePayload } from '~/service'
-import { isNullish } from '~/utils'
+import { meetingTicketService } from '~/service'
 import { MeetingCancelModals } from '~/pages'
 import { useTranslation } from 'react-i18next'
 import { PATH_DASHBOARD } from '~/routes/paths.ts'
 
 
 interface Props {
-  ticketId?: string
-  customerId?: string
+  ticketResult?: {
+    checkInCode: string
+    meetingQRDto: MeetingQRDto
+  }
 }
 
 const TicketResult: React.FC<Props> = (props) => {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>({} as MeetingQRDto)
+  const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()
   const [openCancelModal, setOpenCancelModal] = useState(false)
   const [messageApi, contextHolder] = message.useMessage()
 
-  const { ticketId, customerId } = useParams()
-  const [ticketQRPayload, setTicketQRPayload] = useState<TicketQRCodePayload>()
+  const { checkInCode } = useParams()
+  const [checkInCodeState, setCheckInCodeState] = useState('')
 
   useEffect(() => {
-    if (ticketId && customerId) {
-      setTicketQRPayload({ ticketId, customerId })
-    } else if (props.ticketId && props.customerId) {
-      setTicketQRPayload({ ticketId: props.ticketId, customerId: props.customerId })
+    if (checkInCode) {
+      setCheckInCodeState(checkInCode)
+      meetingTicketService.findByQRCode(checkInCode).then((response) => {
+        setMeetingQRDto(response.data)
+      })
     }
-  }, [ticketId, customerId, props.ticketId, props.customerId])
+  }, [checkInCode])
 
   useEffect(() => {
-    ticketQRPayload && meetingTicketService.findByQRCode(ticketQRPayload).then((response) => {
-      setMeetingQRDto(response.data)
-    })
-  }, [ticketQRPayload])
+    if (props.ticketResult) {
+      setMeetingQRDto(props.ticketResult.meetingQRDto)
+      setCheckInCodeState(props.ticketResult.checkInCode)
+    }
+  }, [props.ticketResult])
 
   const onAccept = () => {
     onCheckIn({ status: StatusTicket.CHECK_IN })
@@ -57,7 +60,12 @@ const TicketResult: React.FC<Props> = (props) => {
     reasonId?: string;
     reasonNote?: string;
   }) => {
-    ticketId && customerId && meetingTicketService.checkInCustomer({ ticketId, customerId, ...checkInStatus })
+    checkInCodeState && meetingQRDto && meetingTicketService.checkInCustomer({
+      ticketId: meetingQRDto.ticketId,
+      customerId: meetingQRDto.customerInfo.id,
+      checkInCode: checkInCodeState,
+      ...checkInStatus
+    })
       .then(() => success())
       .catch(() => message.error(t('common.message.error')))
       .finally(() => {
@@ -75,7 +83,7 @@ const TicketResult: React.FC<Props> = (props) => {
     })
   }
 
-  return !isNullish(meetingQRDto) ?
+  return !!meetingQRDto ?
     <>
       {contextHolder}
       <TicketResultWrapper

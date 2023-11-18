@@ -46,14 +46,10 @@ export interface CancelTicketPayload {
 export interface CheckInPayload {
   ticketId: string;
   customerId: string;
+  checkInCode: string;
   status: StatusTicket;
   reasonId?: string;
   reasonNote?: string;
-}
-
-export interface TicketQRCodePayload {
-  ticketId: string
-  customerId: string
 }
 
 const findAll = async () => {
@@ -68,10 +64,9 @@ const findById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const findByQRCode = async (payload: TicketQRCodePayload) => {
+const findByQRCode = async (checkInCode: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.get(TICKET.FIND_BY_QR.replace('{ticketId}', payload.ticketId)
-    .replace('{customerId}', payload.customerId))
+  const response = await httpService.get(TICKET.FIND_BY_QR.replace('{checkInCode}', checkInCode))
   return httpService.handleResponseStatus(response)
 }
 

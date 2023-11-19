@@ -2,12 +2,11 @@ import { Card, Form, Space } from 'antd'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedFilterPeriod, SharedInput } from '~/common'
-import { TicketQRCodePayload } from '~/service'
 import { DateRadioRange } from '~/interface'
 
 
 interface FilterArgs {
-  onFilter: (ticketQRCodePayload?: TicketQRCodePayload) => void
+  onFilter: (ticketQRCodePayload?: any) => void
 }
 
 const Filter: React.FC<FilterArgs> = (props) => {

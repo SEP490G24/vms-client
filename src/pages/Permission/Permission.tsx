@@ -1,11 +1,11 @@
-import { Form, message, Space, Tabs } from 'antd'
+import { Col, Form, message, Row, Space, Tabs } from 'antd'
 import { PermissionWrapper } from './styles.ts'
 import { useEffect, useState } from 'react'
 import { ModuleDto, PermissionDto, RoleDto } from '~/interface/Permission.ts'
 import { ModulePermission } from './Module'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { useTranslation } from 'react-i18next'
-import { PERMISSION_ROLE_MAP, REALM_ROLE_MAP } from '~/role/index.ts'
+import { PERMISSION_ROLE_MAP, REALM_ROLE_MAP, SCOPE_ROLE_MAP } from '~/role/index.ts'
 import { SharedButton, SharedInput, SharedModal, SharedSelect } from '~/common'
 import { keycloakService, permissionService, roleService } from '~/service'
 import Modal from 'antd/es/modal/Modal'
@@ -14,6 +14,7 @@ import { AuthSection } from '~/auth'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
+import { checkPermission } from '~/utils'
 
 const Permission = () => {
   const { t } = useTranslation()
@@ -28,6 +29,7 @@ const Permission = () => {
   const [form] = Form.useForm()
 
   const { sites } = useSelector(sitesSelector)
+  const [siteId, setSiteId] = useState()
 
   useEffect(() => {
     permissionService.getAllModule(true).then((response) => {
@@ -37,10 +39,12 @@ const Permission = () => {
         setActiveTab(firstClient.clientId)
       }
     })
-    roleService.getAll().then((response) => {
-      setRoles(response?.data)
-    })
   }, [])
+
+  useEffect(() => {
+    if (!checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) || siteId)
+      roleService.getAll(siteId).then((response) => setRoles(response.data))
+  }, [siteId])
 
   const onChange = (rId: string, permission: PermissionDto, event: CheckboxChangeEvent) => {
     roleService.updatePermission(rId, { permissionDto: permission, state: event.target.checked })
@@ -75,7 +79,21 @@ const Permission = () => {
     <PermissionWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
         <Space className={'w-full justify-between'} direction={'horizontal'}>
-          <h2>{t('organization.permission.title')}</h2>
+          <Space direction={'vertical'} size={8}>
+            <h2>{t('organization.permission.title')}</h2>
+            {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
+              <Row className={'w-full gap-2'} align={'middle'}>
+                <Col flex={'none'}><span className={'text-muted'}>Site: </span></Col>
+                <Col flex={'auto'}>
+                  <SharedSelect className={'w-full'} allowClear options={sites.map((site) => {
+                    return { label: site.name, value: site.id, key: site.id }
+                  }) ?? []}
+                                onChange={setSiteId}
+                                placeholder={t('common.placeholder.site')}></SharedSelect>
+                </Col>
+              </Row>
+            }
+          </Space>
           <Space direction={'horizontal'} size={8}>
             <SharedButton permissions={PERMISSION_ROLE_MAP.R_ROLE_CREATE}
                           onClick={() => setModalState({ ...modalState, showModal: true })}>
@@ -89,22 +107,25 @@ const Permission = () => {
           </Space>
         </Space>
         <AuthSection permissions={PERMISSION_ROLE_MAP.R_ROLE_FIND}>
-          <div className='page-content'>
-            {Array.isArray(modules) && (
-              <Tabs
-                rootClassName={'module-tabs'}
-                onChange={setActiveTab}
-                type={'card'}
-                items={modules?.map((module) => {
-                  return {
-                    label: module.name,
-                    key: module.clientId,
-                    children: <PerfectScrollbar><ModulePermission module={module} roles={roles} onChange={onChange} onSave={onSave} /></PerfectScrollbar>
-                  }
-                })}
-              />
-            )}
-          </div>
+          {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
+            <div className='page-content'>
+              {Array.isArray(modules) && (
+                <Tabs
+                  rootClassName={'module-tabs'}
+                  onChange={setActiveTab}
+                  type={'card'}
+                  items={modules?.map((module) => {
+                    return {
+                      label: module.name,
+                      key: module.clientId,
+                      children: <PerfectScrollbar><ModulePermission module={module} roles={roles} onChange={onChange}
+                                                                    onSave={onSave} /></PerfectScrollbar>
+                    }
+                  })}
+                />
+              )}
+            </div>
+          }
         </AuthSection>
       </Space>
       <Modal
@@ -132,13 +153,15 @@ const Permission = () => {
             onFinish={onCreateRole}
             labelAlign='left'
           >
-            <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
-                       rules={[{ required: true }]}>
-              <SharedSelect options={sites.map((site) => {
-                return { label: site.name, value: site.id, key: site.id }
-              }) ?? []}
-                            placeholder={t('common.placeholder.site')}></SharedSelect>
-            </Form.Item>
+            {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
+              <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
+                         rules={[{ required: true }]}>
+                <SharedSelect options={sites.map((site) => {
+                  return { label: site.name, value: site.id, key: site.id }
+                }) ?? []}
+                              placeholder={t('common.placeholder.site')}></SharedSelect>
+              </Form.Item>
+            }
             <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
                        rules={[{ required: true }]}>
               <SharedInput placeholder={t('common.placeholder.role_name')} />

@@ -18,22 +18,22 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [departments, setDepartments] = useState<DepartmentDto[]>([])
   const [roles, setRoles] = useState<RoleDto[]>([])
   const [valueDate, setValueDate] = useState<DateRadioRange>()
-  const [siteFilter, setSiteFilter] = useState('')
+  const [siteId, setSiteId] = useState('')
   const [disable, setDisable] = useState<boolean>(true)
 
 
   useEffect(() => {
     if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
-      siteFilter && departmentService.filter({ siteIds: [siteFilter] }).then((response) => setDepartments(response.data))
-      siteFilter && roleService.getBySiteId([siteFilter]).then((response) => setRoles(response.data))
+      siteId && departmentService.filter({ siteIds: [siteId] }).then((response) => setDepartments(response.data))
+      siteId && roleService.getAll(siteId).then((response) => setRoles(response.data))
     } else {
+      // TODO: GET API ROLE BY SITE TOKEN
       departmentService.filter({}).then((response) => setDepartments(response.data))
-      roleService.getBySiteId([]).then((response) => setRoles(response.data))
+      roleService.getAll().then((response) => setRoles(response.data))
     }
 
-    // TODO: GET API ROLE BY SITE TOKEN
     form.resetFields(['departmentId', 'roleId'])
-  }, [siteFilter])
+  }, [siteId])
 
 
   const onFinish = (values: any) => {
@@ -58,7 +58,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   const onReset = () => {
     setValueDate(undefined)
-    setSiteFilter('')
+    setSiteId('')
     setDisable(true)
     form.resetFields()
     args.onFilter({})
@@ -95,8 +95,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
         onFinish={onFinish}
         onFieldsChange={onFieldsChange}
       >
-        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope siteId={siteFilter} onChangeSite={setSiteFilter} />}
-        {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteFilter) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope siteId={siteId} onChangeSite={setSiteId} />}
+        {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
           <>
             <Form.Item label={t('common.field.department')} name='departmentId'>
               <SharedSelect options={departments.map((department) => {

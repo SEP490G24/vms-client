@@ -12,6 +12,7 @@ interface RoleBasePayload {
 
 interface CreateRolePayload extends RoleBasePayload {
 }
+
 // interface CreateRoleInfo extends RoleBasePayload {
 // }
 
@@ -36,21 +37,15 @@ export interface RoleFilterPayload {
   provinceId?: string
 }
 
-const getAll = async () => {
+const getAll = async (siteId?: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  let response = await httpService.get(ROLE.GET_ALL_ROLE)
+  let response = await httpService.get(ROLE.GET_ALL_ROLE, { params: { siteId } })
   return httpService.handleResponseStatus(response)
 }
 
 const getById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   let response = await httpService.get(ROLE.GET_BY_ID_ROLE.replace('{id}', id))
-  return httpService.handleResponseStatus(response)
-}
-
-const getBySiteId = async (siteIds?: string[]) => {
-  httpService.attachTokenToHeader(authService.getToken() as string)
-  let response = await httpService.post(ROLE.GET_BY_SITE_ID_ROLE, siteIds)
   return httpService.handleResponseStatus(response)
 }
 
@@ -87,7 +82,6 @@ const deleteById = async (id: string) => {
 const roleService = {
   getAll,
   getById,
-  getBySiteId,
   filter,
   create,
   update,

@@ -32,10 +32,10 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
   useEffect(() => {
     if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
       siteId && departmentService.filter({ siteIds: [siteId] }).then((response) => setDepartments(response.data))
-      siteId && roleService.getBySiteId([siteId]).then((response) => setRoles(response.data))
+      siteId && roleService.getAll(siteId).then((response) => setRoles(response.data))
     } else {
       departmentService.filter({}).then((response) => setDepartments(response.data))
-      roleService.getBySiteId([]).then((response) => setRoles(response.data))
+      roleService.getAll().then((response) => setRoles(response.data))
     }
 
   }, [siteId])

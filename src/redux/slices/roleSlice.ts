@@ -9,9 +9,8 @@ const initialState = {
 }
 
 export const fetchRoleBySiteId = createAsyncThunk(
-  'role/fetchBySiteId', (arg: { siteIds: string[] }) => {
-    const { siteIds } = arg
-    return roleService.getBySiteId(siteIds)
+  'role/fetchBySiteId', (siteId: string) => {
+    return roleService.getAll(siteId)
   }
 )
 

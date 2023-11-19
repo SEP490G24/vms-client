@@ -21,10 +21,10 @@ export const fetchSettingsByGroupId = createAsyncThunk(
   }
 )
 
-export const fetchSettingSiteBySiteIdAndGroupId = createAsyncThunk(
-  'setting/fetchSettingSiteByGroupIdAndSiteId', (arg: any) => {
-    const { siteId, groupId } = arg
-    return settingSiteService.findAllBySiteIdAndGroupId(siteId, groupId)
+export const findAllSettingSiteValueByGroupId = createAsyncThunk(
+  'setting/findAllSettingSiteValueByGroupId', (arg: { groupId: number, siteId?: string }) => {
+    const { groupId, siteId } = arg
+    return settingSiteService.findAllByGroupId(groupId, siteId)
   }
 )
 
@@ -44,7 +44,7 @@ const settingsSlice = createSlice({
           state.settings = action.payload.data
         }
       })
-      .addCase(fetchSettingSiteBySiteIdAndGroupId.fulfilled, (state, action) => {
+      .addCase(findAllSettingSiteValueByGroupId.fulfilled, (state, action) => {
         if (action.payload?.data) {
           state.settingSiteValue = action.payload.data
         }

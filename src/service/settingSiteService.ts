@@ -21,10 +21,10 @@ const findById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const findAllBySiteIdAndGroupId = async (siteId: string, settingGroupId: number) => {
+const findAllByGroupId = async (settingGroupId: number, siteId?: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.get(SETTING_SITE.FIND_ALL_BY_SITE_ID_AND_GROUP_ID.replace('{siteId}', siteId)
-    .replace('{settingGroupId}', settingGroupId.toString()))
+  const response = await httpService.get(SETTING_SITE.FIND_ALL_BY_GROUP_ID
+    .replace('{settingGroupId}', settingGroupId.toString()), { params: { siteId } })
   return httpService.handleResponseStatus(response)
 }
 
@@ -37,7 +37,7 @@ const update = async (payload: SettingValuePayload) => {
 const settingSiteService = {
   findAll,
   findById,
-  findAllBySiteIdAndGroupId,
+  findAllByGroupId,
   update
 }
 

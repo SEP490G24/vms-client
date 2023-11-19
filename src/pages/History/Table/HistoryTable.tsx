@@ -36,10 +36,10 @@ const HistoryTable: React.FC<MeetingItemProps> = (props) => {
       size='middle'
     >
       <Column
-        title={t('common.field.name')}
+        title={t('common.field.ticket_name')}
         sorter={true}
         key='ticketName'
-        render={(value: any) => <a onClick={() => props.onEdit(value)}>{value.ticketName}</a>}
+        render={(value: any) => value.ticketName}
       />
       <Column title={t('organization.history.table.roomName')} dataIndex='roomName' key='roomName' />
       <Column

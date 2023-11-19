@@ -2,8 +2,8 @@
 import { Card, Form, RadioChangeEvent, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RangePicker, SharedButton, SharedInput, SharedRadio, SharedSelect } from '~/common'
-import { DateRadioRange, getDataRangeOptions, getDateRangeValue, SiteDto } from '~/interface'
+import { RangePicker, SharedButton, SharedInput, SharedSelect } from '~/common'
+import { DateRadioRange, SiteDto } from '~/interface'
 import { HistoryFilterPayload, SiteFilterPayload, siteService } from '~/service'
 import { DATE_TIME } from '~/constants'
 
@@ -53,12 +53,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
     }
   }
 
-  const onChangeDateCheckIn = ({ target: { value } }: RadioChangeEvent) => {
-    setValueDateCheckIn({ key: value, date: getDateRangeValue(value) })
-  }
-  const onChangeDateCheckOut = ({ target: { value } }: RadioChangeEvent) => {
-    setValueDateCheckOut({ key: value, date: getDateRangeValue(value) })
-  }
+
   return (
     <Card
       title={t('organization.site.search.title')}
@@ -124,14 +119,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
             placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
           />
         </Form.Item>
-        <Form.Item label={<span></span>} name='duration1'>
-          <SharedRadio
-            options={getDataRangeOptions(t)}
-            onChange={onChangeDateCheckIn}
-            value={valueDateCheckIn?.key}
-            optionType='button'
-          />
-        </Form.Item>
         <Form.Item label={t('common.field.check_out')}>
           <RangePicker
             format={'YYYY-MM-DD'}
@@ -145,14 +132,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
           />
         </Form.Item>
-        <Form.Item label={<span></span>} name='duration2'>
-          <SharedRadio
-            options={getDataRangeOptions(t)}
-            onChange={onChangeDateCheckOut}
-            value={valueDateCheckOut?.key}
-            optionType='button'
-          />
-        </Form.Item>
+
       </Form>
     </Card>
   )

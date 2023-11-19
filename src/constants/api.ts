@@ -117,3 +117,7 @@ export const LOCATION = {
 export const HISTORY = {
   FILTER: `${VITE_API_SERVER_URL}/access-history`,
 }
+
+export const CHECKIN = {
+  FILTER: `${VITE_API_SERVER_URL}/ticket/customer/filter`,
+}

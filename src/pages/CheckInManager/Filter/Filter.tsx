@@ -1,26 +1,47 @@
 import { Card, Form, Space } from 'antd'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton, SharedFilterPeriod, SharedInput } from '~/common'
-import { TicketQRCodePayload } from '~/service'
+import { RangePicker, SharedButton, SharedInput } from '~/common'
+import { CheckInFilterPayload} from '~/service'
 import { DateRadioRange } from '~/interface'
+import { DATE_TIME_HOUR } from '~/constants'
 
 
 interface FilterArgs {
-  onFilter: (ticketQRCodePayload?: TicketQRCodePayload) => void
+  onFilter: (CheckInFilterPayLoad: CheckInFilterPayload) => void
 }
 
 const Filter: React.FC<FilterArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const [valueDate, setValueDate] = useState<DateRadioRange>()
+  const [valueDateStart, setValueDateStart] = useState<DateRadioRange>()
+  const [valueDateEnd, setValueDateEnd] = useState<DateRadioRange>()
+  const [disable, setDisable] = useState<boolean>(true)
+
   const onFinish = (values: any) => {
-    props.onFilter(values)
+    const payload: CheckInFilterPayload = {
+      keyword: values['keyword'],
+      startTimeStart: valueDateStart?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
+      startTimeEnd: valueDateStart?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
+      endTimeStart: valueDateEnd?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
+      endTimeEnd: valueDateEnd?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY)
+    }
+    props.onFilter(payload)
+  }
+  const onFieldsChange = (value: any) => {
+    if (value){
+      setDisable(false);
+    } else {
+      setDisable(true)
+    }
   }
 
   const onReset = () => {
+    setValueDateStart(undefined)
+    setValueDateEnd(undefined)
+    setDisable(true)
     form.resetFields()
-    props.onFilter(undefined)
+    props.onFilter({})
   }
 
   return (
@@ -33,6 +54,7 @@ const Filter: React.FC<FilterArgs> = (props) => {
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             type={'primary'}
             onClick={form.submit}
+            disabled = {disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -51,18 +73,41 @@ const Filter: React.FC<FilterArgs> = (props) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
+        onFieldsChange={onFieldsChange}
       >
-        <Form.Item className={'mb-3'} label={t('common.field.customer')} name='customerId'>
+        <Form.Item className={'mb-3'} label={t('common.field.customer')} name='keyword'>
           <SharedInput
-            placeholder={t('common.placeholder.customer')}
+            placeholder={t('common.placeholder.customer_filer')}
           />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.ticket')} name='ticketId'>
-          <SharedInput
-            placeholder={t('common.placeholder.ticket')}
+        <Form.Item label={t('common.field.start_time')} >
+          <RangePicker
+            format={'DD-MM-YYYY HH:mm'}
+            value={valueDateStart?.date}
+            onChange={(val) => {
+              setValueDateStart({ key: undefined, date: val })
+            }}
+            showTime
+            changeOnBlur
+            className='vms-picker'
+            style={{ width: '100%' }}
+            placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
           />
         </Form.Item>
-        <SharedFilterPeriod valueDate={valueDate} setValueDate={setValueDate} />
+        <Form.Item label={t('common.field.end_time')} >
+          <RangePicker
+            format={'DD-MM-YYYY HH:mm'}
+            value={valueDateEnd?.date}
+            onChange={(val) => {
+              setValueDateEnd({ key: undefined, date: val })
+            }}
+            showTime
+            changeOnBlur
+            className='vms-picker'
+            style={{ width: '100%' }}
+            placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
+          />
+        </Form.Item>
       </Form>
     </Card>
   )

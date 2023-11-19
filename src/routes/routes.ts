@@ -10,12 +10,12 @@ import {
   MeetingList,
   Organization,
   Permission,
-  Profile,
+  Profile, QRCodeManager,
   Room,
   RoomMeetingCalendar,
   Setting,
   Template,
-  TicketResult
+  TicketResult,
 } from '~/pages'
 
 import { Agent } from '~/pages/User'
@@ -42,7 +42,6 @@ import {
   PATH_TICKET_RESULT,
   PATH_USER
 } from './paths'
-import QRCodeManager from '../pages/QRCode/QRCodeManager.tsx'
 import { PATH_ROLE_MAP } from '~/role'
 import { RouteItem } from '~/interface'
 

@@ -37,7 +37,7 @@ const UserTable: React.FC<MeetingItemProps> = (props) => {
       size='middle'
     >
       <Column title={t('common.field.username')} key='username' sorter={true}
-              render={(value: UserDto) => <a onClick={() => props.onEdit(value)}>{value.userName}</a>}
+              render={(value: UserDto) => <a onClick={() => props.onEdit(value)}>{value.username}</a>}
       />
       <Column
         title={t('common.field.fullName')}

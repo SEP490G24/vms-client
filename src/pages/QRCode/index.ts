@@ -1,1 +1,1 @@
-export { default as CheckInManager } from './QRCodeManager.tsx'
+export { default as QRCodeManager } from './QRCodeManager.tsx'

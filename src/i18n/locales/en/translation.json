@@ -52,6 +52,7 @@
       "taxCode": "Tax Code",
       "description": "Description",
       "room": "Room",
+      "room_name": "Room Name",
       "checkInCode": "QR Code",
       "participate": "Participate",
       "device": "Device",
@@ -69,7 +70,11 @@
         "name": "Site"
       },
       "check_in": "Check In",
-      "check_out": "Check Out"
+      "check_out": "Check Out",
+      "ticket_name": "Ticket Name",
+      "visitor_name": "Visitor Name",
+      "start_time": "Start Time",
+      "end_time": "End Time"
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -122,7 +127,8 @@
       "type": "Choose type",
       "body": "Enter body",
       "role_name": "Please enter role name",
-      "customer_name": "Enter customer name"
+      "customer_name": "Enter customer name",
+      "customer_filer": "Enter customer info"
     },
     "error": {
       "content_is_too_long": "Content is too long!",

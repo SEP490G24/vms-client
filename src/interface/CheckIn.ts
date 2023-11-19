@@ -1,17 +1,18 @@
-export interface UserDto {
-  siteId: string;
-  departmentId: string;
-  createdBy?: string;
-  createdOn?: string;
-  lastUpdatedBy?: string;
-  lastUpdatedOn?: string;
-  userName?: string;
-  username?: string;
+export interface CheckInDto {
+  purpose: string;
+  ticketStatus: string;
+  startTime?: string;
+  customerInfo:{
+    visitorName: string;
+  }
+  endTime?: string;
+  createBy?: string;
+  roomName?: string;
+  visitorName?: string;
   openid?: string;
   roles?: string[];
   role?: string;
-  firstName: string;
-  lastName: string;
+  ticketName: string;
   avatar?: null;
   email?: string;
   phoneNumber?: string;

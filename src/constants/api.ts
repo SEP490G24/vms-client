@@ -14,7 +14,7 @@ export const USER = {
 export const ORGANIZATION = {
   BASE_PATH: `${VITE_API_SERVER_URL}/organization`,
   FILTER: `${VITE_API_SERVER_URL}/organization/filter`,
-  MY_ORGANIZATION: `${VITE_API_SERVER_URL}/organization/9b679ece-69ed-4098-a32c-5a7cd024b27a`
+  MY_ORGANIZATION: `${VITE_API_SERVER_URL}/organization`
 }
 
 export const DEPARTMENT = {

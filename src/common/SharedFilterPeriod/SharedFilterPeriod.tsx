@@ -7,6 +7,10 @@ import { DateRadioRange, getDataRangeOptions, getDateRangeValue } from '~/interf
 interface SharedFilterScopeProps {
   valueDate?: DateRadioRange
   setValueDate: (value?: DateRadioRange) => void
+  hiddenRadio?: boolean,
+  showTime?: boolean
+  format: string
+  label: string
 }
 
 export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props) => {
@@ -20,9 +24,9 @@ export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props)
 
   return (
     <>
-      <Form.Item label={t('common.label.period')}>
+      <Form.Item label={t( props.label)}>
         <RangePicker
-          format={'DD-MM-YYYY'}
+          format={props.format}
           value={props.valueDate?.date}
           onChange={(val) => {
             props.setValueDate({ key: undefined, date: val })
@@ -30,10 +34,11 @@ export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props)
           changeOnBlur
           className='vms-picker'
           style={{ width: '100%' }}
+          showTime = {props.showTime}
           placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
         />
       </Form.Item>
-      <Form.Item label={<span></span>} name='duration'>
+      <Form.Item label={<span></span>} name='duration' hidden={props.hiddenRadio}>
         <SharedRadio
           options={getDataRangeOptions(t)}
           onChange={onChange}

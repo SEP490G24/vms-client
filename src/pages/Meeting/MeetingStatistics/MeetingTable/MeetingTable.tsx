@@ -58,10 +58,13 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: MeetingDto) => value.customers && <>{value.customers.length} people</>} />
       <Column title={t('common.field.room')} sorter={true} dataIndex='roomName' key='roomName' />
       <Column title={t('common.field.duration')} key='duration'
-              render={(value: MeetingDto) => <Space direction={'horizontal'} size={4}>
-                <strong>{moment(value.startTime).format('LTS')}</strong>
+              render={(value: MeetingDto) => <Space direction={'vertical'} size={4}>
+                <strong>{moment(value.startTime).format('DD-MM-YYYY')}</strong>
+                <Space direction={'horizontal'} size={4}>
+                <p>{moment(value.startTime).format('LTS')}</p>
                 <span>~</span>
-                <strong>{moment(value.endTime).format('LTS')}</strong>
+                <p>{moment(value.endTime).format('LTS')}</p>
+                </Space>
               </Space>} />
       <Column title={t('common.field.status')} dataIndex='status' key='status'
               filters={enumToArray(StatusTicket).map(item => {
@@ -69,10 +72,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
               })}
               filterMultiple={true}
       />
-      {/*<Column title={t('common.field.registration_date')} key='createdOn' sorter={true}*/}
-      {/*        render={(value: MeetingDto) => moment(value.createdOn).format('L')} />*/}
-      {/*<Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}*/}
-      {/*        render={(value: MeetingDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />*/}
+
       <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
               render={(value: MeetingDto) => <MeetingActions onCancel={props.onCancelMeeting} meeting={value}
                                                              directionIcon={'vertical'} />} />

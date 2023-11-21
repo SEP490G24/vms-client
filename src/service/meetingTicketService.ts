@@ -35,6 +35,10 @@ export interface MeetingFilterPayload {
   keyword?: string;
   purpose?: string;
   status?: string;
+  startTimeStart?: string;
+  endTimeStart?: string;
+  startTimeEnd?: string;
+  endTimeEnd?: string;
 }
 
 export interface CancelTicketPayload {

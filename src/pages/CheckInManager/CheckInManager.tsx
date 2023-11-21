@@ -6,11 +6,12 @@ import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { CheckInFilter } from '~/pages/CheckInManager/Filter'
 import { useEffect, useState } from 'react'
-import { CheckInDto, TableAction, TableData } from '~/interface'
+import { CheckInDto, InfoModalData, TableAction, TableData } from '~/interface'
 import { CheckInFilterPayload } from '~/service/checkInService.ts'
 import { checkInService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { CheckInTable } from '~/pages/CheckInManager/Table'
+import Modal from 'antd/es/modal/Modal'
 
 
 
@@ -19,6 +20,12 @@ const CheckInManager = () => {
   const { t } = useTranslation()
   const [tableData, setTableData] = useState<TableData<CheckInDto>>({ loading: false })
   const [filterPayload, setFilterPayload] = useState<CheckInFilterPayload>({})
+  const [infoModalData, setInfoModalData] = useState<InfoModalData<CheckInDto>>({
+    openModal: false,
+    confirmLoading: false,
+    entitySelected: undefined
+  })
+
   const [tableAction, setTableAction] = useState<TableAction>({})
   useEffect(() => {
     fetchCheckIn()
@@ -47,6 +54,12 @@ const CheckInManager = () => {
     setFilterPayload(filterPayload)
     console.log(filterPayload)
   }
+  const openEdit = (checkInDto: CheckInDto) => {
+    setInfoModalData({ ...infoModalData, entitySelected: checkInDto, openModal: true })
+  }
+  const onClose = () => {
+    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
+  }
   return (
     <CheckInManagerWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
@@ -64,9 +77,29 @@ const CheckInManager = () => {
                 <CheckInTable loading={tableData.loading}
                               pageableResponse={tableData.pageableResponse}
                               currentPage={tableAction.pagination?.current}
-                              onChangeTable={handleChangeTable}/>
+                              onChangeTable={handleChangeTable}
+                              onEdit={openEdit}
+                />
               </Card>
             </Col>
+            <Modal
+              open={infoModalData.openModal}
+              closable={false}
+              title={null}
+              footer={null}
+              confirmLoading={infoModalData.confirmLoading}
+              width={650}
+              onCancel={onClose}
+            >
+              {/*<TicketResult ticketResult={{checkInCode: "",*/}
+              {/*  meetingQRDto: {*/}
+              {/*    ticketId: '',*/}
+              {/*    checkInCode: '',*/}
+              {/*    ticketCode: '',*/}
+              {/*    siteId: '',*/}
+              {/*    customerInfo:null,*/}
+              {/*  } }}/>*/}
+            </Modal>
           </Row>
         )}
       </Space>

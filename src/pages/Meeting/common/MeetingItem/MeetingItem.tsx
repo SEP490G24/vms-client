@@ -21,17 +21,20 @@ export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
       className={'bg-body w-full'}
       actions={[
         <EditOutlined key='edit' onClick={() => props.onEdit(props.meeting)} />,
-        <MeetingActions onCancel={props.onCancelMeeting} meeting={props.meeting} />
+        <MeetingActions onCancel={props.onCancelMeeting} meeting={props.meeting} />,
       ]}
     >
       <Descriptions bordered>
         <DescriptionsItem label={'Title'} span={3}>{props.meeting.name}</DescriptionsItem>
         <DescriptionsItem label={t('common.field.purpose')} span={3}>{props.meeting.purpose}</DescriptionsItem>
         <DescriptionsItem label={t('common.field.duration')} span={3}>
-          <Space direction={'horizontal'} size={4}>
-            <strong>{moment(props.meeting.startTime).format('LTS')}</strong>
-            <span>~</span>
-            <strong>{moment(props.meeting.endTime).format('LTS')}</strong>
+          <Space direction={'vertical'} size={4}>
+            <strong>{moment(props.meeting.startTime).format('DD-MM-YYYY')}</strong>
+            <Space direction={'horizontal'} size={4}>
+              <p>{moment(props.meeting.startTime).format('LTS')}</p>
+              <span>~</span>
+              <p>{moment(props.meeting.endTime).format('LTS')}</p>
+            </Space>
           </Space>
         </DescriptionsItem>
         <DescriptionsItem label={t('common.field.room')} span={3}>{props.meeting.roomName}</DescriptionsItem>

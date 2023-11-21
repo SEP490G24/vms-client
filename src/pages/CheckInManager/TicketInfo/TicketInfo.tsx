@@ -1,4 +1,3 @@
-import { TicketResultWrapper } from './styles.ts'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { useEffect, useState } from 'react'
 import { SharedButton } from '~/common'
@@ -21,7 +20,8 @@ interface Props {
   }
 }
 
-const TicketResult: React.FC<Props> = (props) => {
+const TicketInfo: React.FC<Props> = (props) => {
+  console.log(props.ticketResult?.checkInCode)
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()
@@ -86,11 +86,7 @@ const TicketResult: React.FC<Props> = (props) => {
   return !!meetingQRDto ?
     <>
       {contextHolder}
-      <TicketResultWrapper
-        status='success'
-        title='Successfully Verify QR Server!'
-        subTitle={'Ticket number: ' + meetingQRDto.ticketId + '. Cloud server configuration takes 1-5 minutes, please wait.'}
-        extra={<Space className={'w-full'} direction={'vertical'}
+      <Space className={'w-full'} direction={'vertical'}
                       size={32}>
           <Divider orientation={'left'}>Ticket Info</Divider>
           {meetingQRDto && <Descriptions bordered>
@@ -125,7 +121,7 @@ const TicketResult: React.FC<Props> = (props) => {
             <SharedButton type='primary' onClick={() => onAccept()}
                           key='buy'>Accept</SharedButton>
           </Space>
-        </Space>} />
+        </Space>
       <MeetingCancelModals
         openModal={openCancelModal}
         siteId={meetingQRDto.siteId}
@@ -135,4 +131,4 @@ const TicketResult: React.FC<Props> = (props) => {
     : <></>
 }
 
-export default TicketResult
+export default TicketInfo

@@ -6,12 +6,13 @@ import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { CheckInFilter } from '~/pages/CheckInManager/Filter'
 import { useEffect, useState } from 'react'
-import { CheckInDto, InfoModalData, TableAction, TableData } from '~/interface'
+import { CheckInDto, InfoModalData, MeetingQRDto, TableAction, TableData } from '~/interface'
 import { CheckInFilterPayload } from '~/service/checkInService.ts'
-import { checkInService } from '~/service'
+import { checkInService, meetingTicketService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { CheckInTable } from '~/pages/CheckInManager/Table'
 import Modal from 'antd/es/modal/Modal'
+import { TicketInfo } from '~/pages/CheckInManager/TicketInfo'
 
 
 
@@ -25,11 +26,18 @@ const CheckInManager = () => {
     confirmLoading: false,
     entitySelected: undefined
   })
-
+  const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()
   const [tableAction, setTableAction] = useState<TableAction>({})
   useEffect(() => {
     fetchCheckIn()
   }, [filterPayload, tableAction])
+  useEffect(() => {
+    if (infoModalData.entitySelected?.checkInCode) {
+      meetingTicketService.findByQRCode(infoModalData.entitySelected?.checkInCode).then((response) => {
+        setMeetingQRDto(response.data)
+      })
+    }
+  }, [infoModalData.entitySelected?.checkInCode])
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     setTableAction({ pagination, filters, sorter })
   }
@@ -88,17 +96,10 @@ const CheckInManager = () => {
               title={null}
               footer={null}
               confirmLoading={infoModalData.confirmLoading}
-              width={650}
+              width={1000}
               onCancel={onClose}
             >
-              {/*<TicketResult ticketResult={{checkInCode: "",*/}
-              {/*  meetingQRDto: {*/}
-              {/*    ticketId: '',*/}
-              {/*    checkInCode: '',*/}
-              {/*    ticketCode: '',*/}
-              {/*    siteId: '',*/}
-              {/*    customerInfo:null,*/}
-              {/*  } }}/>*/}
+              <TicketInfo ticketResult={{checkInCode:(infoModalData.entitySelected?.checkInCode) ? infoModalData.entitySelected?.checkInCode : "", meetingQRDto:meetingQRDto }}/>
             </Modal>
           </Row>
         )}

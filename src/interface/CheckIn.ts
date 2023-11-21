@@ -5,6 +5,7 @@ export interface CheckInDto {
   customerInfo:{
     visitorName: string;
   }
+  checkInCode?: string
   endTime?: string;
   createBy?: string;
   roomName?: string;
@@ -16,22 +17,12 @@ export interface CheckInDto {
   avatar?: null;
   email?: string;
   phoneNumber?: string;
-  enable?: boolean;
-  gender?: null;
-  dateOfBirth?: null;
-  lastLoginTime?: null;
-  departmentUserMaps?: any;
-  provinceId: number;
-  communeId: number;
-  districtId: number;
-  provinceName?: string;
-  districtName?: string;
   communeName?: string;
   address?: string;
   id?: string;
   countryCode?: string;
   siteName?: string
-  departmentName?: string
+
 }
 
 

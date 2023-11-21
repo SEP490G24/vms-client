@@ -1,0 +1,7 @@
+version: 3.8
+services:
+  vms-client:
+    container_name: web-vms
+    volumes:
+      - nginx-config:/usr/share/nginx/html/config
+    restart: always

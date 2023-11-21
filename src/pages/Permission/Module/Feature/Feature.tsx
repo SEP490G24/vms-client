@@ -20,7 +20,7 @@ interface FeatureArgs {
   onEditLabelName: (value: string, permission: PermissionDto) => void
 }
 
-const Feature: React.FC<FeatureArgs> = (args) => {
+const Feature: React.FC<FeatureArgs> = (props) => {
 
   const { i18n } = useTranslation()
   const [title, setTitle] = useState('')
@@ -28,17 +28,17 @@ const Feature: React.FC<FeatureArgs> = (args) => {
   const onChangeTitle = (value: string) => {
     if (title.trim() === value.trim()) return
     setTitle(value)
-    args.onEditLabelFeature(value, args.permissions)
+    props.onEditLabelFeature(value, props.permissions)
   }
 
   const onChangeName = (value: string, permission: PermissionDto) => {
     if (permission.label[i18n.language]?.name === value.trim()) return
-    args.onEditLabelName(value, permission)
+    props.onEditLabelName(value, permission)
   }
 
   useEffect(() => {
-    setTitle(args.title)
-  }, [args.title])
+    setTitle(props.title)
+  }, [props.title])
 
   return (
     <FeatureWrapper>
@@ -47,7 +47,7 @@ const Feature: React.FC<FeatureArgs> = (args) => {
         level={5}
         style={{ margin: '0 0 0 16px' }}>{title}</Typography.Title>}
       >
-        <Table dataSource={args.permissions}
+        <Table dataSource={props.permissions}
                rowKey={'id'}
                size='small'
                className='permissions-table'
@@ -63,11 +63,11 @@ const Feature: React.FC<FeatureArgs> = (args) => {
                       <Text type='secondary' style={{ margin: '0 0 0 6px' }}>{permission.name}</Text>
                     </Space>}
                   key='name' />
-          {args.roles?.map((role) =>
-            <Column align={'center'} title={role.code} render={(value) =>
+          {props.roles?.map((role) =>
+            <Column align={'center'} title={role.attributes.name ?? role.code} render={(value) =>
               <Checkbox
                 defaultChecked={role.permissionDtos.some(r => r.moduleId === value.moduleId && r.name === value.name)}
-                onChange={(event) => args.onChange(role.code, value, event)} />
+                onChange={(event) => props.onChange(role.code, value, event)} />
             } />)
           }
         </Table>

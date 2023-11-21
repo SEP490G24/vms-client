@@ -47,7 +47,7 @@ export const ROLE = {
   GET_BY_SITE_ID_ROLE: `${VITE_API_SERVER_URL}/role/site`,
   FILTER_ROLE: `${VITE_API_SERVER_URL}/role/filter`,
   CREATE_ROLE: `${VITE_API_SERVER_URL}/role`,
-  UPDATE_ROLE: `${VITE_API_SERVER_URL}/role/{id}`,
+  UPDATE_ROLE: `${VITE_API_SERVER_URL}/role/{code}`,
   UPDATE_PERMISSION_ROLE: `${VITE_API_SERVER_URL}/role/{id}/permission`,
   DELETE_ROLE: `${VITE_API_SERVER_URL}/role/{id}`
 }

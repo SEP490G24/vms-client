@@ -16,7 +16,8 @@ export const PATH_ROLE_MAP = {
   'PATH_TEMPLATE': ['path:template'],
   'PATH_TICKET_RESULT': ['path:ticket_result'],
   'PATH_CHECK_IN_MANAGER': ['path:check_in_manager'],
-  'PATH_USER': ['path:user']
+  'PATH_USER': ['path:user'],
+  'PATH_ROLE': ['path:role']
 }
 
 export const SCOPE_ROLE_MAP = {

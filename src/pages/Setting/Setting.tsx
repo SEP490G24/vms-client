@@ -1,5 +1,6 @@
 import { SettingWrapper } from './styles.ts'
 import { Card, Col, Menu, message, Row, Space } from 'antd'
+import { v4 as uuid } from 'uuid'
 import { useTranslation } from 'react-i18next'
 import { ListView } from '~/components/ListView'
 import { useEffect, useState } from 'react'
@@ -58,7 +59,7 @@ const Setting = () => {
   return (
     <SettingWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
-        <Space>
+        <Space direction={'vertical'} size={8}>
           <h2>{t('configuration.title')}</h2>
           {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
             <Row className={'w-full gap-2'} align={'middle'}>
@@ -91,7 +92,7 @@ const Setting = () => {
               <Col flex={'auto'}>
                 <Card title={'Setting'}>
                   <ListView className={'gap-4'}>
-                    {settings.map((setting) => <SettingItem key={setting.id} setting={setting}
+                    {settings.map((setting) => <SettingItem key={uuid()} setting={setting}
                                                             defaultValue={setting.defaultValue}
                                                             value={settingSiteValues?.settings?.[setting.code]}
                                                             onSaveSetting={(value) => handleSave(setting.id, value)}

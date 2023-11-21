@@ -2,6 +2,7 @@ export interface RoleDto {
   code: string;
   attributes: { [key: string]: string[] };
   permissionDtos: PermissionDto[];
+  description?: string;
 }
 
 export interface ModuleDto {

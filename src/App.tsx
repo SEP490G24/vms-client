@@ -6,7 +6,7 @@ import {
   fetchMyOrganization,
   fetchProfile, fetchProvince,
   findAllRoom,
-  findAllSitesInOrganization, findCustomerByOrganizationId,
+  findAllSitesInOrganization, findCustomerByOrganization,
   themeSelector,
   useAppSelector
 } from './redux'
@@ -37,11 +37,12 @@ function App() {
   useEffect(() => {
     if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
       dispatch(findAllSitesInOrganization() as any)
+    } else {
+      dispatch(findAllRoom({}) as any)
     }
     dispatch(fetchMyOrganization() as any)
     dispatch(fetchProfile() as any)
-    dispatch(findAllRoom({}) as any)
-    dispatch(findCustomerByOrganizationId() as any)
+    dispatch(findCustomerByOrganization() as any)
     dispatch(fetchProvince() as any)
   }, [])
   const CustomRouter = ({ basename, children, history }: Props) => {

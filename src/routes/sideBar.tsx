@@ -13,7 +13,7 @@ import {
   PATH_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
-  PATH_USER, PATH_QR_CODE_MANAGER
+  PATH_USER, PATH_QR_CODE_MANAGER, PATH_ROLE
 } from './paths.ts'
 import {
   ApartmentOutlined,
@@ -112,6 +112,7 @@ export const SIDE_BARS: MenuItem[] = [
       ...PATH_ROLE_MAP['PATH_DEPARTMENT'],
       ...PATH_ROLE_MAP['PATH_USER'],
       ...PATH_ROLE_MAP['PATH_ROOM'],
+      ...PATH_ROLE_MAP['PATH_ROLE'],
       ...PATH_ROLE_MAP['PATH_TEMPLATE']
     ],
     children: [
@@ -141,6 +142,13 @@ export const SIDE_BARS: MenuItem[] = [
         title: 'sidebar.organization.sub.user',
         path: PATH_USER,
         role: PATH_ROLE_MAP['PATH_USER'],
+        children: []
+      },
+      {
+        key: PATH_ROLE,
+        title: 'sidebar.organization.sub.role',
+        path: PATH_ROLE,
+        role: PATH_ROLE_MAP['PATH_ROLE'],
         children: []
       },
       {

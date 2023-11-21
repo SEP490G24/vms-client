@@ -1,7 +1,6 @@
 import {
   CheckInManager,
-  Customer,
-  Dashboard,
+  Customer, DashboardSite,
   Department,
   Device,
   Forbidden,
@@ -10,12 +9,12 @@ import {
   MeetingList,
   Organization,
   Permission,
-  Profile, QRCodeManager,
+  Profile, QRCodeManager, Role,
   Room,
   RoomMeetingCalendar,
   Setting,
   Template,
-  TicketResult,
+  TicketResult
 } from '~/pages'
 
 import { Agent } from '~/pages/User'
@@ -35,7 +34,7 @@ import {
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_PROFILE,
-  PATH_QR_CODE_MANAGER,
+  PATH_QR_CODE_MANAGER, PATH_ROLE,
   PATH_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
@@ -56,7 +55,7 @@ export const publicRoutes = [
 export const privateRoutes: RouteItem[] = [
   {
     path: PATH_DASHBOARD,
-    component: Dashboard,
+    component: DashboardSite,
     role: PATH_ROLE_MAP['PATH_DASHBOARD']
   },
   {
@@ -100,6 +99,11 @@ export const privateRoutes: RouteItem[] = [
     role: PATH_ROLE_MAP['PATH_USER']
   },
   {
+    path: PATH_ROLE,
+    component: Role,
+    role: PATH_ROLE_MAP['PATH_ROLE']
+  },
+  {
     path: PATH_ROOM,
     component: Room,
     role: PATH_ROLE_MAP['PATH_ROOM']
@@ -141,12 +145,12 @@ export const privateRoutes: RouteItem[] = [
   },
   {
     path: PATH_CHECK_IN_MANAGER,
-    component: CheckInManager,
+    component: CheckInManager
     // role: PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']
   },
   {
     path: PATH_QR_CODE_MANAGER,
-    component: QRCodeManager,
+    component: QRCodeManager
     // role: PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']
   }
 ]

@@ -1,1 +1,2 @@
-export { default as Dashboard } from './Dashboard.tsx'
+export * from './common'
+export * from './DashboardSite'

@@ -60,7 +60,7 @@ const remove = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const findByOrganizationId = async () => {
+const findByOrganization = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.get(CUSTOMER.BASE_PATH + `/organization`)
   return httpService.handleResponseStatus(response)
@@ -85,7 +85,7 @@ const customerService = {
   update,
   remove,
   filter,
-  findByOrganizationId
+  findByOrganization
 }
 
 export default customerService

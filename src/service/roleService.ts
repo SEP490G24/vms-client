@@ -2,6 +2,7 @@ import httpService from '~/service/httpServices.ts'
 import { ROLE } from '~/constants/api.ts'
 import { PermissionDto } from '~/interface/Permission.ts'
 import authService from './authService'
+import { PageableRequest } from '~/interface'
 
 interface RoleBasePayload {
   name: string;
@@ -10,7 +11,13 @@ interface RoleBasePayload {
   attributes?: { [key: string]: string[] };
 }
 
-interface CreateRolePayload extends RoleBasePayload {
+export interface RoleFilterPayload {
+  code?: string;
+  description?: string;
+  attributes?: { [key: string]: string[] };
+}
+
+export interface CreateRolePayload extends RoleBasePayload {
 }
 
 // interface CreateRoleInfo extends RoleBasePayload {
@@ -25,17 +32,6 @@ interface UpdateRolePermissionPayload {
   state: boolean,
 }
 
-export interface RoleFilterPayload {
-  names?: string[];
-  usernames?: string[];
-  createdOnStart?: Date;
-  createdOnEnd?: Date;
-  createBy?: string;
-  lastUpdatedBy?: string
-  enable?: string
-  keyword?: string
-  provinceId?: string
-}
 
 const getAll = async (siteId?: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
@@ -49,9 +45,15 @@ const getById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const filter = async (payload: any) => {
+const filter = async (payload: RoleFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  let response = await httpService.post(ROLE.FILTER_ROLE, payload)
+  const response = await httpService.post(ROLE.FILTER_ROLE, payload, {
+    params: {
+      isPageable,
+      size: pageableRequest?.size,
+      page: pageableRequest?.page
+    }
+  })
   return httpService.handleResponseStatus(response)
 }
 
@@ -61,9 +63,9 @@ const create = async (payload: CreateRolePayload) => {
   return httpService.handleResponseStatus(response)
 }
 
-const update = async (id: string, payload: UpdateRolePayload) => {
+const update = async (code: string, payload: UpdateRolePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  let response = await httpService.put(ROLE.UPDATE_ROLE.replace('{id}', id), payload)
+  let response = await httpService.put(ROLE.UPDATE_ROLE.replace('{code}', code), payload)
   return httpService.handleResponseStatus(response)
 }
 

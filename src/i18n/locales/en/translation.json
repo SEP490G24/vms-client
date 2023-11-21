@@ -417,8 +417,10 @@
       "title": "Role Management",
       "search": {
         "title": "Search",
-        "counselor": "Device",
-        "counselor_placeholder": "Name"
+        "code": "Code",
+        "code_placeholder": "Please enter the code role",
+        "name": "Name",
+        "name_placeholder": "Please enter the name role"
       },
       "table": {
         "title": "Total {{count}} role",
@@ -470,6 +472,7 @@
         "site": "Sites",
         "department": "Departments",
         "user": "User",
+        "role": "Role",
         "rule": "Guard Rules",
         "room": "Room",
         "template": "Template",

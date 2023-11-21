@@ -2,7 +2,7 @@ version: 3.8
 services:
   vms-client:
     container_name: web-vms
-    image: vmsacr.azurecr.io/web-vms:lastest
+    image: vmsacr.azurecr.io/web-vms:latest
     volumes:
       - nginx-config:/usr/share/nginx/html/config
     restart: always

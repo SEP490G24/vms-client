@@ -1,1 +1,1 @@
-export { default as Site } from './OrganiztionManagement.tsx'
+export { default as OrganizationManagement } from './OrganiztionManagement.tsx'

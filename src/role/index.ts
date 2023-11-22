@@ -9,6 +9,7 @@ export const PATH_ROLE_MAP = {
   'PATH_MEETING_STATISTIC': ['path:meeting_statistic'],
   'PATH_MEETING_ROOM': ['path:meeting_room'],
   'PATH_ORGANIZATION': ['path:organization'],
+  'PATH_MYORGANIZATION': ['path:myorganization'],
   'PATH_PERMISSION': ['path:permission'],
   'PATH_PROFILE': ['path:profile'],
   'PATH_ROOM': ['path:room'],

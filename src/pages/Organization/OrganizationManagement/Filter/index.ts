@@ -1,1 +1,1 @@
-export { default as SiteFilter } from './Filter';
+export { default as OrganizationFilter } from './Filter';

@@ -26,7 +26,7 @@ const MeetingCalendar = () => {
 
   useEffect(() => {
     fetchMeetings()
-  }, [])
+  }, [filterPayload])
 
   useEffect(() => {
   }, [meetingsState.meetings])

@@ -1,1 +1,1 @@
-export {default as SiteTable} from './SiteTable.tsx'
+export {default as OrganizationTable} from './OrganizationTable.tsx'

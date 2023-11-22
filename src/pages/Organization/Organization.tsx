@@ -12,7 +12,7 @@ import { REGEX } from '~/constants'
 import { AuthSection } from '~/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { organizationsSelector, updateMyOrganization } from '~/redux'
-import { organizationService } from '~/service'
+import { organizationService, siteService } from '~/service'
 
 const Organization = () => {
   const { t } = useTranslation()
@@ -40,17 +40,17 @@ const Organization = () => {
   }, [myOrganization])
 
   const onFinish = (values: any) => {
-    const payload = !!myOrganization ? { ...values, id: myOrganization.id } : values
-    organizationService
-      .updateMyOrganization(payload)
+    const request = !!myOrganization ? organizationService.update(myOrganization.id, values) : siteService.insert(values)
+    request
       .then((resp) => {
         if (resp?.data) {
           dispatch(updateMyOrganization(resp.data))
-          message.success(t('common.message.success'))
+          message.success(resp.data.message)
         }
       })
-      .catch(() => {
-        message.error(t('common.message.error'))
+      .catch((resp) => {
+        console.log(resp)
+        message.error(resp.data.message)
       })
   }
 

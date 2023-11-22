@@ -74,7 +74,9 @@
       "ticket_name": "Ticket Name",
       "visitor_name": "Visitor Name",
       "start_time": "Start Time",
-      "end_time": "End Time"
+      "end_time": "End Time",
+      "representative": "Representative",
+      "website": "Website"
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -128,7 +130,9 @@
       "body": "Enter body",
       "role_name": "Please enter role name",
       "customer_name": "Enter customer name",
-      "customer_filer": "Enter customer info"
+      "customer_filer": "Enter customer info",
+      "website": "Enter website",
+      "representative": "Enter representative"
     },
     "error": {
       "content_is_too_long": "Content is too long!",
@@ -364,6 +368,27 @@
         "btn-edit": "Save"
       }
     },
+    "organization": {
+      "title": "Organization Management",
+      "search": {
+        "title": "Search",
+        "counselor": "Organization",
+        "counselor_placeholder": "Enter organization info"
+      },
+      "table": {
+        "title": "Total {{count}}",
+        "roomName": "Room Name",
+        "visitorName": "Visitor Name",
+        "check_in": "Check in",
+        "check_out": "Check out"
+      },
+      "popup": {
+        "title-add": "Create new organization",
+        "title-edit": "Organization Edit",
+        "btn-save": "Save",
+        "btn-edit": "Save"
+      }
+    },
     "template": {
       "title": "Template Management",
       "export": {
@@ -469,6 +494,7 @@
       "title": "Site & Org",
       "sub": {
         "info": "Basic Info",
+        "organization": "Organizations",
         "site": "Sites",
         "department": "Departments",
         "user": "User",

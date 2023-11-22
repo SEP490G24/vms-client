@@ -19,6 +19,7 @@ import {
 
 import { Agent } from '~/pages/User'
 import { Site } from '~/pages/Site'
+import { OrganizationManagement } from '~/pages/Organization/OrganizationManagement'
 
 import {
   PATH_CHECK_IN_MANAGER,
@@ -30,7 +31,7 @@ import {
   PATH_HISTORY,
   PATH_MEETING_CALENDAR,
   PATH_MEETING_ROOM,
-  PATH_MEETING_STATISTIC,
+  PATH_MEETING_STATISTIC, PATH_MYORGANIZATION,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_PROFILE,
@@ -39,7 +40,7 @@ import {
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_TICKET_RESULT,
-  PATH_USER
+  PATH_USER,
 } from './paths'
 import { PATH_ROLE_MAP } from '~/role'
 import { RouteItem } from '~/interface'
@@ -75,8 +76,13 @@ export const privateRoutes: RouteItem[] = [
   },
   {
     path: PATH_ORGANIZATION,
-    component: Organization,
+    component: OrganizationManagement,
     role: PATH_ROLE_MAP['PATH_ORGANIZATION']
+  },
+  {
+    path: PATH_MYORGANIZATION,
+    component: Organization,
+    role: PATH_ROLE_MAP['PATH_MYORGANIZATION']
   },
   {
     path: PATH_SITE,

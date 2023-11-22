@@ -1,6 +1,7 @@
 import httpService from './httpServices'
 import authService from './authService'
 import { ORGANIZATION } from '~/constants/api.ts'
+import { PageableRequest } from '~/interface'
 
 export interface CreateOrganizationInfo {
   username: string;
@@ -17,6 +18,16 @@ export interface UpdateOrganizationInfo {
   phoneNumber?: string;
   email?: string;
   enable?: boolean;
+}
+
+export interface OrganizationFilterPayload {
+  keyword?:string;
+  password?: string;
+  phoneNumber?: string;
+  email?: string;
+  enable?: boolean;
+  createdOnStart?: string;
+  createdOnEnd?: string;
 }
 
 const findAll = async () => {
@@ -39,7 +50,7 @@ const insert = async (payload: CreateOrganizationInfo) => {
 
 const update = async (id: string, payload: UpdateOrganizationInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.put(ORGANIZATION.BASE_PATH + `/${id}`, payload)
+  const response = await httpService.patch(ORGANIZATION.BASE_PATH + `/${id}`, payload)
   return httpService.handleResponseStatus(response)
 }
 
@@ -49,9 +60,14 @@ const remove = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const filter = async (payload: any) => {
+const filter = async (payload: any, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  let response = await httpService.post(ORGANIZATION.FILTER, payload)
+  let response = await httpService.post(ORGANIZATION.FILTER, payload,{
+    params: {
+      isPageable,
+      ... pageableRequest
+    }
+  })
   return httpService.handleResponseStatus(response)
 }
 

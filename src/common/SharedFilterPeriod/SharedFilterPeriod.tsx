@@ -24,7 +24,7 @@ export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props)
 
   return (
     <>
-      <Form.Item label={t( props.label)}>
+      <Form.Item label={t( props.label)} key='date'>
         <RangePicker
           format={props.format}
           value={props.valueDate?.date}

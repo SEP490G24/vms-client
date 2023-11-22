@@ -21,18 +21,18 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
   const [keyword, setKeyword] = useState<string>('')
 
   useEffect(() => {
-    if ((valueDateStart?.date?.['0'] && valueDateStart?.date?.['1']) || (valueDateEnd?.date?.['0'] && valueDateEnd?.date?.['1']) ||  keyword.trim()) setDisable(false)
+    if ((valueDateStart?.date?.['0'] && valueDateStart?.date?.['1']) || (valueDateEnd?.date?.['0'] && valueDateEnd?.date?.['1']) || keyword.trim()) setDisable(false)
     else setDisable(true)
-  }, [valueDateStart,valueDateEnd, keyword])
+  }, [valueDateStart, valueDateEnd, keyword])
 
   const onFinish = (values: any) => {
     const payload: MeetingFilterPayload = {
       siteId: values['siteId'],
       keyword: values['keyword'],
       startTimeStart: valueDateStart?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
-      endTimeStart: valueDateStart?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
-      startTimeEnd: valueDateEnd?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
-      endTimeEnd: valueDateEnd?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY)
+      endTimeStart: valueDateEnd?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
+      startTimeEnd: valueDateStart?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
+      endTimeEnd: valueDateEnd?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
     }
     args.onFilter(payload)
   }
@@ -74,16 +74,19 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
         className='vms-form'
         onFinish={onFinish}
       >
-        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope />} <Form.Item
-        label={t('meeting.manager.search.counselor')} name='keyword'>
-        <SharedInput
-          placeholder={t('meeting.manager.search.counselor_placeholder')}
-          value={keyword}
-          onChange={(e: any) => setKeyword(e.target.value)}
-        />
-      </Form.Item>
-        <SharedFilterPeriod label={'common.field.start_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateStart} setValueDate={setValueDateStart} hiddenRadio={true} showTime={true}/>
-        <SharedFilterPeriod label={'common.field.end_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateEnd} setValueDate={setValueDateEnd} hiddenRadio={true} showTime={true}/>
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope />}
+        <Form.Item
+          label={t('meeting.manager.search.counselor')} name='keyword'>
+          <SharedInput
+            placeholder={t('meeting.manager.search.counselor_placeholder')}
+            value={keyword}
+            onChange={(e: any) => setKeyword(e.target.value)}
+          />
+        </Form.Item>
+        <SharedFilterPeriod label={'common.field.start_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateStart}
+                            setValueDate={setValueDateStart} hiddenRadio={true} showTime={true} />
+        <SharedFilterPeriod label={'common.field.end_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateEnd}
+                            setValueDate={setValueDateEnd} hiddenRadio={true} showTime={true} />
       </Form>
 
     </Card>

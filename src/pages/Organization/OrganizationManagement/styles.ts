@@ -1,5 +1,5 @@
 import styled from 'styled-components'
 
-export const SiteWrapper = styled.div`
+export const OrganizationWrapper = styled.div`
 
 `

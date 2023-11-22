@@ -21,7 +21,6 @@ interface Props {
 }
 
 const TicketInfo: React.FC<Props> = (props) => {
-  console.log(props.ticketResult?.checkInCode)
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()

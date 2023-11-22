@@ -30,7 +30,6 @@ const QRCodeManager = () => {
   }, [checkInCode])
 
   const onFilter = (checkInCode?: string) => {
-    console.log()
     setCheckInCode(checkInCode)
   }
 

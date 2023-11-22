@@ -63,6 +63,7 @@ const CheckInManager = () => {
     console.log(filterPayload)
   }
   const openEdit = (checkInDto: CheckInDto) => {
+    console.log(checkInDto.checkInCode)
     setInfoModalData({ ...infoModalData, entitySelected: checkInDto, openModal: true })
   }
   const onClose = () => {

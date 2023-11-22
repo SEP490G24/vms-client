@@ -1,7 +1,7 @@
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { useEffect, useState } from 'react'
 import { SharedButton } from '~/common'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
@@ -27,17 +27,17 @@ const TicketInfo: React.FC<Props> = (props) => {
   const [openCancelModal, setOpenCancelModal] = useState(false)
   const [messageApi, contextHolder] = message.useMessage()
 
-  const { checkInCode } = useParams()
   const [checkInCodeState, setCheckInCodeState] = useState('')
-
+  console.log(props.ticketResult?.checkInCode)
   useEffect(() => {
-    if (checkInCode) {
-      setCheckInCodeState(checkInCode)
-      meetingTicketService.findByQRCode(checkInCode).then((response) => {
+    console.log(props.ticketResult?.checkInCode)
+    if (props.ticketResult?.checkInCode) {
+      setCheckInCodeState(props.ticketResult?.checkInCode)
+      meetingTicketService.findByQRCode(props.ticketResult?.checkInCode).then((response) => {
         setMeetingQRDto(response.data)
       })
     }
-  }, [checkInCode])
+  }, [props.ticketResult?.checkInCode])
 
   useEffect(() => {
     if (props.ticketResult) {

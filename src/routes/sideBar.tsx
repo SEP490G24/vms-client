@@ -1,4 +1,5 @@
 import {
+  PATH_CHECK_IN_MANAGER,
   PATH_CONFIGURATION,
   PATH_CUSTOMER,
   PATH_DASHBOARD,
@@ -7,20 +8,22 @@ import {
   PATH_MEETING_CALENDAR,
   PATH_MEETING_ROOM,
   PATH_MEETING_STATISTIC,
+  PATH_MY_ORGANIZATION,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
-  PATH_CHECK_IN_MANAGER,
+  PATH_QR_CODE_MANAGER,
+  PATH_ROLE,
   PATH_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
-  PATH_USER, PATH_QR_CODE_MANAGER, PATH_ROLE, PATH_MYORGANIZATION,
+  PATH_USER
 } from './paths.ts'
 import {
   ApartmentOutlined,
   DashboardOutlined,
+  QrcodeOutlined,
   ScanOutlined,
   ScheduleOutlined,
-  QrcodeOutlined,
   SettingOutlined,
   UserSwitchOutlined
 } from '@ant-design/icons'
@@ -70,7 +73,7 @@ export const SIDE_BARS: MenuItem[] = [
     icon: <ScanOutlined className={'text-[18px]'} />,
     title: 'sidebar.check-in.title',
     path: PATH_CHECK_IN_MANAGER,
-    // role: [...PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']],
+    role: [...PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']],
     children: []
   },
   {
@@ -78,7 +81,7 @@ export const SIDE_BARS: MenuItem[] = [
     icon: <QrcodeOutlined  className={'text-[18px]'} />,
     title: 'sidebar.qr-manager.title',
     path: PATH_QR_CODE_MANAGER,
-    // role: [...PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']],
+    role: [...PATH_ROLE_MAP['PATH_QR_CODE_MANAGER']],
     children: []
   },
   {
@@ -117,10 +120,10 @@ export const SIDE_BARS: MenuItem[] = [
     ],
     children: [
       {
-        key: PATH_MYORGANIZATION,
+        key: PATH_MY_ORGANIZATION,
         title: 'sidebar.organization.sub.info',
-        path: PATH_MYORGANIZATION,
-        role: PATH_ROLE_MAP['PATH_MYORGANIZATION'],
+        path: PATH_MY_ORGANIZATION,
+        role: PATH_ROLE_MAP['PATH_MY_ORGANIZATION'],
         children: []
       },
       {

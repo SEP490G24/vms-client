@@ -9,7 +9,9 @@ export const PATH_ROLE_MAP = {
   'PATH_MEETING_STATISTIC': ['path:meeting_statistic'],
   'PATH_MEETING_ROOM': ['path:meeting_room'],
   'PATH_ORGANIZATION': ['path:organization'],
-  'PATH_MYORGANIZATION': ['path:myorganization'],
+  'PATH_MY_ORGANIZATION': ['path:my_organization'],
+  'PATH_MY_SITE': ['path:my_site'],
+  'PATH_AUDIT_LOG': ['path:audit_log'],
   'PATH_PERMISSION': ['path:permission'],
   'PATH_PROFILE': ['path:profile'],
   'PATH_ROOM': ['path:room'],
@@ -17,6 +19,7 @@ export const PATH_ROLE_MAP = {
   'PATH_TEMPLATE': ['path:template'],
   'PATH_TICKET_RESULT': ['path:ticket_result'],
   'PATH_CHECK_IN_MANAGER': ['path:check_in_manager'],
+  'PATH_QR_CODE_MANAGER': ['path:qr_code_manager'],
   'PATH_USER': ['path:user'],
   'PATH_ROLE': ['path:role']
 }

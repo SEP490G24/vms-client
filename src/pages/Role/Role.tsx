@@ -11,7 +11,7 @@ import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { RoleInfo } from './Info'
 import { RoleFilter } from './Filter'
 import { RoleTable } from './Table'
-import { RoleFilterPayload, roleService } from '~/service'
+import { CreateRolePayload, RoleFilterPayload, roleService, UpdateRolePayload } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { AuthSection } from '~/auth'
 import { RoleFilterData } from '~/pages/Role/Filter/Filter.tsx'
@@ -61,7 +61,14 @@ const Role = () => {
   }
 
   const onSave = (payload: any) => {
-    const _payload = { ...payload, attributes: {} }
+    const _payload = {
+      code: payload['suffixCode'],
+      description: payload['description'],
+      attributes: {
+        name: [payload['name']],
+        site_id: payload['siteId'] ? [payload['siteId']] : []
+      }
+    } as CreateRolePayload | UpdateRolePayload
     let request = !!infoModalData.entitySelected ? roleService.update(infoModalData.entitySelected.code, _payload) : roleService.create(_payload)
     request
       .then(async (res: any) => {
@@ -88,7 +95,6 @@ const Role = () => {
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     setTableAction({ pagination, filters, sorter })
   }
-
 
   return (
     <RoleWrapper>

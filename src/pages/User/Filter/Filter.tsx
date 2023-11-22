@@ -24,12 +24,11 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   useEffect(() => {
     if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
-      siteId && departmentService.filter({ siteIds: [siteId] }).then((response) => setDepartments(response.data))
-      siteId && roleService.getAll(siteId).then((response) => setRoles(response.data))
+      siteId && departmentService.filter({ siteIds: siteId ? [siteId] : [] }).then((response) => setDepartments(response.data))
+      siteId && roleService.filter({ attributes: { 'siteId': siteId ? [siteId] : [] } }).then((response) => setRoles(response.data))
     } else {
-      // TODO: GET API ROLE BY SITE TOKEN
       departmentService.filter({}).then((response) => setDepartments(response.data))
-      roleService.getAll().then((response) => setRoles(response.data))
+      roleService.filter({ attributes: { 'siteId': [] } }).then((response) => setRoles(response.data))
     }
 
     form.resetFields(['departmentId', 'roleId'])
@@ -49,8 +48,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
   }
 
   const onFieldsChange = (value: any) => {
-    if (value){
-      setDisable(false);
+    if (value) {
+      setDisable(false)
     } else {
       setDisable(true)
     }
@@ -95,7 +94,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
         onFinish={onFinish}
         onFieldsChange={onFieldsChange}
       >
-        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope siteId={siteId} onChangeSite={setSiteId} />}
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
+          <SharedFilterScope siteId={siteId} onChangeSite={setSiteId} />}
         {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
           <>
             <Form.Item label={t('common.field.department')} name='departmentId'>
@@ -117,7 +117,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
             placeholder={t('organization.user.search.counselor_placeholder')}
           />
         </Form.Item>
-        <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} setValueDate={setValueDate} />
+        <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate}
+                            setValueDate={setValueDate} />
       </Form>
     </Card>
   )

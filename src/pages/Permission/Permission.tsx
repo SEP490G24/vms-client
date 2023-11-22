@@ -35,7 +35,7 @@ const Permission = () => {
 
   useEffect(() => {
     if (!checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) || siteId)
-      roleService.getAll(siteId).then((response) => setRoles(response.data))
+      roleService.filter({ attributes: { 'siteId': siteId ? [siteId] : [] } }).then((response) => setRoles(response.data))
   }, [siteId])
 
   const onChange = (rId: string, permission: PermissionDto, event: CheckboxChangeEvent) => {

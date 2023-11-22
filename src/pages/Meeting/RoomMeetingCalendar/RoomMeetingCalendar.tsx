@@ -25,10 +25,9 @@ const RoomMeetingCalendar = () => {
   }>({ loading: false, tickets: [], rooms: [] })
   const [filterPayload, setFilterPayload] = useState<MeetingFilterPayload>({})
 
-
   useEffect(() => {
     fetchApi()
-  }, [])
+  }, [filterPayload])
 
   useEffect(() => {
     console.log(transferRoomsResource())

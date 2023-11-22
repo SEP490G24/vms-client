@@ -5,8 +5,7 @@ import authService from './authService'
 import { PageableRequest } from '~/interface'
 
 interface RoleBasePayload {
-  name: string;
-  siteId: string;
+  code: string
   description: string;
   attributes?: { [key: string]: string[] };
 }
@@ -20,11 +19,7 @@ export interface RoleFilterPayload {
 export interface CreateRolePayload extends RoleBasePayload {
 }
 
-// interface CreateRoleInfo extends RoleBasePayload {
-// }
-
-interface UpdateRolePayload extends RoleBasePayload {
-  permissionDtos: PermissionDto[];
+export interface UpdateRolePayload extends RoleBasePayload {
 }
 
 interface UpdateRolePermissionPayload {

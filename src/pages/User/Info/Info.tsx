@@ -31,11 +31,11 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
 
   useEffect(() => {
     if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
-      siteId && departmentService.filter({ siteIds: [siteId] }).then((response) => setDepartments(response.data))
-      siteId && roleService.getAll(siteId).then((response) => setRoles(response.data))
+      siteId && departmentService.filter({ siteIds: siteId ? [siteId] : [] }).then((response) => setDepartments(response.data))
+      siteId && roleService.filter({ attributes: { 'siteId': siteId ? [siteId] : [] } }).then((response) => setRoles(response.data))
     } else {
       departmentService.filter({}).then((response) => setDepartments(response.data))
-      roleService.getAll().then((response) => setRoles(response.data))
+      roleService.filter({ attributes: { 'siteId':  [] } }).then((response) => setRoles(response.data))
     }
 
   }, [siteId])

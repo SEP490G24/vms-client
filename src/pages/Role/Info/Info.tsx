@@ -2,7 +2,6 @@ import { Form } from 'antd'
 import React, { useEffect } from 'react'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
-import { CreateRolePayload } from '~/service'
 import { RoleDto } from '~/interface'
 import { SharedInput, SharedSelect } from '~/common'
 import TextArea from 'antd/es/input/TextArea'
@@ -10,14 +9,15 @@ import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
 import { checkPermission } from '~/utils'
 import { SCOPE_ROLE_MAP } from '~/role'
+import { CreateRolePayload, UpdateRolePayload } from '~/service'
 
-interface CreateRoleFormArgs {
+interface RoleInfoFormArgs {
   role?: RoleDto
-  onSave: (role: CreateRolePayload) => void
+  onSave: (role: CreateRolePayload | UpdateRolePayload) => void
   onClose: () => void
 }
 
-const Info: React.FC<CreateRoleFormArgs> = (props) => {
+const Info: React.FC<RoleInfoFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const { sites } = useSelector(sitesSelector)
@@ -26,6 +26,7 @@ const Info: React.FC<CreateRoleFormArgs> = (props) => {
     form.resetFields()
     if (props.role) {
       form.setFieldsValue({
+        code: props.role.code,
         name: props.role.attributes['name'],
         siteId: props.role.attributes['siteId'],
         description: props.role.description
@@ -55,12 +56,25 @@ const Info: React.FC<CreateRoleFormArgs> = (props) => {
         onFinish={props.onSave}
         labelAlign='left'
       >
+        {!!props.role ?
+          <>
+            <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'>
+              <SharedInput disabled={true} placeholder={t('common.placeholder.code')} />
+            </Form.Item>
+          </> :
+          <>
+            <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.suffixCode')} name='suffixCode'>
+              <SharedInput placeholder={t('common.placeholder.suffixCode')} />
+            </Form.Item>
+          </>
+        }
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
                      rules={[{ required: true }]}>
             <SharedSelect options={sites.map((site) => {
               return { label: site.name, value: site.id, key: site.id }
             }) ?? []}
+                          disabled={!!props.role}
                           placeholder={t('common.placeholder.site')}></SharedSelect>
           </Form.Item>
         }

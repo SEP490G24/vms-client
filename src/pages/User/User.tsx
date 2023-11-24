@@ -1,12 +1,12 @@
-import { Card, Col, Divider, message, Row, Space, Spin, TablePaginationConfig, Upload } from 'antd'
+import { Card, Col, Divider, message, Row, Space, Spin, TablePaginationConfig } from 'antd'
 import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton } from '~/common'
+import { SharedButton, SharedUploadModal } from '~/common'
 import { InfoModalData, TableAction, TableData, UserDto } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { PageWrapper } from '~/themes'
-import { formatSortParam, resetCurrentPageAction } from '~/utils'
+import { exportFile, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { UserInfo } from './Info'
 import { UserFilter } from './Filter'
 import { UserFilterPayload, userService } from '~/service'
@@ -23,10 +23,13 @@ const User = () => {
     openModal: false,
     confirmLoading: false
   })
+  const [uploadModalData, setUploadModalData] = useState<InfoModalData<any>>({
+    openModal: false,
+    confirmLoading: false
+  })
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [filterPayload, setFilterPayload] = useState<UserFilterPayload>({})
   const [exportEx, setExportEx] = useState<boolean>(false)
-
 
   useEffect(() => {
     fetchUser()
@@ -82,31 +85,42 @@ const User = () => {
   const exportData = async () => {
     setExportEx(true)
     userService.exportUser(filterPayload).then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response?.data]))
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', `${t('organization.user.export.file_name', { time: Date.now() })}.xlsx`)
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+      if (response.data) {
+        exportFile(response.data, `${t('organization.user.export.file_name', { time: Date.now() })}.xlsx`)
+      }
     })
     setExportEx(false)
+  }
+
+  const downloadSample = async () => {
+    userService.exportSample().then((response) => {
+      if (response.data) {
+        exportFile(response.data, `${t('organization.user.export.file_sample', { time: Date.now() })}.xlsx`)
+      }
+    })
   }
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     setTableAction({ pagination, filters, sorter })
   }
 
-  const beforeUpload = (file: RcFile) => {
-    const formData = new FormData()
-    formData.append('file', file as RcFile)
-    userService.importUser(formData).then((res) => {
-      console.log(res?.data)
+  const openUploadModal = () => {
+    setUploadModalData({ ...uploadModalData, openModal: true })
+  }
+
+  const closeUploadModal = () => {
+    setUploadModalData({ ...uploadModalData, openModal: false })
+  }
+
+  const onImport = (file: RcFile) => {
+    setUploadModalData({ ...uploadModalData, confirmLoading: false })
+    userService.importUser(file).then(() => {
+      setUploadModalData({ confirmLoading: false, openModal: false })
+      fetchUser()
+      message.success('upload successfully.').then()
     })
-      .then(() => {
-        message.success('upload successfully.').then()
-      })
       .catch(() => {
+        setUploadModalData({ ...uploadModalData, confirmLoading: false })
         message.error('upload failed.').then()
       })
   }
@@ -133,9 +147,9 @@ const User = () => {
                       {t('common.label.export_data')}
                     </SharedButton>
                   </Spin>
-                  <Upload beforeUpload={beforeUpload} showUploadList={false}>
-                    <SharedButton icon={<UploadOutlined />}>{t('common.label.import_data')}</SharedButton>
-                  </Upload>
+                  <SharedButton icon={<UploadOutlined />} onClick={openUploadModal}>
+                    {t('common.label.import_data')}
+                  </SharedButton>
                   <SharedButton
                     permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type={'primary'}
@@ -166,6 +180,11 @@ const User = () => {
               onCancel={onClose}
             >
               <UserInfo onClose={onClose} user={infoModalData.entitySelected} onSave={onSave} />
+            </Modal>
+            <Modal open={uploadModalData.openModal} confirmLoading={uploadModalData.confirmLoading} closable={false}
+                   title={null} footer={null} width={500} onCancel={closeUploadModal}>
+              <SharedUploadModal title={t('common.label.uploadFile')} onOk={onImport} onCancel={closeUploadModal}
+                                 onDownloadSample={downloadSample} />
             </Modal>
           </Row>
         </AuthSection>

@@ -1,18 +1,21 @@
 import { PersonInfoSection, ProfileInfoWrapper } from './styles.ts'
-import { Button, Card, Form, Input, message, Space } from 'antd'
+import { Button, Card, Form, Input, Space } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { useTranslation } from 'react-i18next'
 import { authSelector, useAppSelector } from '~/redux'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { SharedInput, SharedSelect } from '~/common'
 import { SharedDatePicker } from '~/common/SharedDatePicker'
 import { REGEX } from '~/constants'
-import { userService } from '~/service'
 import { enumToArray } from '~/utils'
 import { Gender } from '~/interface'
 import { useLocation } from '~/hook'
 
-const ProfileInfo = () => {
+interface Props {
+  onFinish: (values: any) => void
+}
+
+const ProfileInfo: React.FC<Props> = (props) => {
 
   const { profile } = useAppSelector(authSelector)
   const [form] = Form.useForm()
@@ -53,17 +56,13 @@ const ProfileInfo = () => {
   const onDateOfBirthChange = (value: string) => {
     value &&
     form.setFieldsValue({
-      dateOfBirth: value,
+      dateOfBirth: value
     })
   }
 
-  const onFinish = (value: any) => {
-    userService.updateUserProfile(value).then(async (response) => {
-      if (response?.status === 200) await message.success(t('common.message.success.save'))
-      else await message.error(t('common.message.error.save'))
-    }).catch(() => message.error(t('common.message.error.save')))
+  const onFinish = (values: any) => {
+    props.onFinish(values)
   }
-
 
   return (
     <ProfileInfoWrapper>
@@ -109,14 +108,14 @@ const ProfileInfo = () => {
               <div className={'grid grid-cols-2 gap-x-8'}>
                 <Form.Item label={t('common.field.phoneNumber')} name={'phoneNumber'} rules={[{ required: true }, {
                   pattern: REGEX.PHONE,
-                  message: t('common.error.phoneNumber_valid'),
+                  message: t('common.error.phoneNumber_valid')
                 }]}>
                   <SharedInput placeholder={t('common.placeholder.phoneNumber')} />
                 </Form.Item>
                 <Form.Item label={t('common.field.email')} name={'email'}
                            rules={[{ required: true }, {
                              pattern: REGEX.EMAIL,
-                             message: t('common.error.email_valid'),
+                             message: t('common.error.email_valid')
                            }]}>
                   <Input placeholder={t('common.placeholder.email')} />
                 </Form.Item>

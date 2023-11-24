@@ -1,41 +1,27 @@
 export interface OrganizationEntity {
-  createdBy?: Date;
-  createdOn?: string;
-  lastUpdatedBy?: string;
-  lastUpdatedOn?: Date;
+  createdBy?: string;
+  createdOn?: Date;
   id: string;
-  code?: string;
-  name?: string;
-  about?: string;
-  email?: string;
+  name: string;
+  code: string;
   website?: string;
+  representative?: string;
   logo?: string;
-  industries?: string;
-  representativeName?: string;
-  representativePhone?: string;
-  businessRegistrationNumber?: string;
-  businessLicenseFile?: string;
-  contactInfo: string;
+  contactInfo?: string;
+  contactPhoneNumber?: string;
+  enable: boolean;
 }
 
 export interface OrganizationDto {
-  createdBy?: Date;
-  createdOn?: string;
-  lastUpdatedBy?: string;
-  lastUpdatedOn?: Date;
+  createdBy?: string;
+  createdOn?: Date;
   id: string;
-  code?: string;
-  name?: string;
-  about?: string;
-  email?: string;
+  name: string;
+  code: string;
   website?: string;
-  logo?: string;
-  industries?: string;
-  representativeName?: string;
   representative?: string;
-  representativePhone?: string;
-  businessRegistrationNumber?: string;
-  businessLicenseFile?: string;
-  contactInfo: string;
-  enable?: boolean;
+  logo?: string;
+  contactInfo?: string;
+  contactPhoneNumber?: string;
+  enable: boolean;
 }

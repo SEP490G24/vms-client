@@ -1,12 +1,15 @@
 import dayjs, { Dayjs } from 'dayjs'
 import moment from 'moment'
-import { TablePaginationConfig } from 'antd'
+import { TablePaginationConfig, UploadFile } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import { PageableResponse } from '~/interface/PageableResponse.ts'
+import { RcFile } from 'antd/es/upload'
 
 export enum Purpose {
   CONFERENCES, INTERVIEW, MEETING, WORKING, OTHERS
 }
+
+export const BASE_STORAGE = 'https://vmspersonalstorage.blob.core.windows.net/vms-storage/'
 
 export enum TemplateVariable {
   customerName,
@@ -80,6 +83,11 @@ export interface InfoModalData<T> {
   entitySelected?: T,
   openModal: boolean,
   confirmLoading: boolean
+}
+
+export interface UploadFileData {
+  file?: RcFile,
+  content: UploadFile
 }
 
 export const durationOption = {

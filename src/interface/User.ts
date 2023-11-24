@@ -12,11 +12,11 @@ export interface UserDto {
   role?: string;
   firstName: string;
   lastName: string;
-  avatar?: null;
+  avatar?: string;
   email?: string;
   phoneNumber?: string;
   enable?: boolean;
-  gender?: null;
+  gender?: boolean;
   dateOfBirth?: null;
   lastLoginTime?: null;
   departmentUserMaps?: any;

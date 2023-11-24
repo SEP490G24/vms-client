@@ -4,20 +4,23 @@ import { ORGANIZATION } from '~/constants/api.ts'
 import { PageableRequest } from '~/interface'
 
 export interface CreateOrganizationInfo {
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
-  enable: boolean;
+  name: string;
+  code: string;
+  website: string;
+  representative: string;
+  logo: string;
+  contactInfo: string;
+  contactPhoneNumber: string;
 }
 
 export interface UpdateOrganizationInfo {
-  password?: string;
-  phoneNumber?: string;
-  email?: string;
-  enable?: boolean;
+  name?: string;
+  code?: string;
+  website?: string;
+  representative?: string;
+  logo?: string;
+  contactInfo?: string;
+  contactPhoneNumber?: string;
 }
 
 export interface OrganizationFilterPayload {

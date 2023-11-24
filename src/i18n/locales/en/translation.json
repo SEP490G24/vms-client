@@ -39,6 +39,7 @@
       "contact_person_in_charge": "Contact information",
       "contact_phone_number": "Contact phone number",
       "homepage_address": "Homepage",
+      "representativeName": "Representative Name",
       "company_registration_number": "Business registration No.",
       "business_registration": "Business registration card",
       "brand_introduction": "Brand introduction",
@@ -100,13 +101,16 @@
       "new_password": "Please enter a new password",
       "confirm_password": "Please enter a confirm password",
       "organization": "Please enter within 20 characters",
+      "organizationName": "Please enter the organization name",
       "representative_email": "Please enter your representative email",
       "code": "Enter code here",
       "suffixCode": "Enter suffix code here",
       "checkInCode": "Please enter your QR code",
       "contact_person_in_charge": "Please enter without “-”",
+      "contactInfo": "Please enter the email contact info",
       "contact_phone_number": "Enter your contact phone number here",
       "homepage_address": "Please enter the homepage URL.",
+      "representativeName": "Please enter the representative name",
       "company_registration_number": "Example) 123-45-6789",
       "brand_introduction": "Please enter brand introduction information",
       "identificationNumber": "Please enter id card",
@@ -162,7 +166,8 @@
       "search": "Search",
       "period": "Period",
       "scope": "Scope",
-      "action": "Action"
+      "action": "Action",
+      "uploadFile": "Upload File"
     },
     "date_range": {
       "start_placeholder": "Start",
@@ -270,7 +275,8 @@
     "user": {
       "title": "User Management",
       "export": {
-        "file_name": "statistic_users_{{time}}"
+        "file_name": "statistic_users_{{time}}",
+        "file_sample": "statistic_users_sample_{{time}}"
       },
       "search": {
         "title": "Search",

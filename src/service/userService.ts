@@ -2,6 +2,7 @@ import httpService from './httpServices'
 import authService from './authService'
 import { USER } from '~/constants/api.ts'
 import { PageableRequest } from '~/interface'
+import { RcFile } from 'antd/es/upload'
 
 export interface CreateUserInfo {
   username: string;
@@ -91,15 +92,24 @@ const changePassword = async (payload: { oldPassword: string, newPassword: strin
   return httpService.handleResponseStatus(response)
 }
 
-const importUser = async (formData: FormData) => {
+const importUser = async (rcFile: RcFile, siteId?: string) => {
+  const formData = new FormData()
+  formData.append('file', rcFile as RcFile)
+  console.log(formData)
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.post(USER.IMPORT, formData)
+  const response = await httpService.post(USER.IMPORT, formData, { params: siteId })
   return httpService.handleResponseStatus(response)
 }
 
 const exportUser = async (payload: UserFilterPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(USER.EXPORT, payload, { responseType: 'blob' })
+  return httpService.handleResponseStatus(response)
+}
+
+const exportSample = async () => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.get(USER.IMPORT, { responseType: 'blob' })
   return httpService.handleResponseStatus(response)
 }
 
@@ -114,7 +124,8 @@ const userService = {
   updateUserProfile,
   changePassword,
   importUser,
-  exportUser
+  exportUser,
+  exportSample
 }
 
 export default userService

@@ -1,6 +1,8 @@
 import { UploadFile } from 'antd'
 
-export function baseUploadTemplate(url: string, name?: string): UploadFile {
+export function baseUploadTemplate(url?: string, name?: string): UploadFile {
+  console.log(name)
+  console.log(url)
   return {
     uid: '-1',
     name: name ?? 'Image Preview',
@@ -16,5 +18,15 @@ export function toBase64(file: any) {
     reader.onload = () => resolve(reader.result)
     reader.onerror = reject
   })
+}
+
+export function exportFile(blobParts: any, fileName: string) {
+  const url = window.URL.createObjectURL(new Blob([blobParts]))
+  const link = document.createElement('a')
+  link.href = url
+  link.setAttribute('download', fileName)
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 

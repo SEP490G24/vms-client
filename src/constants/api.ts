@@ -29,6 +29,12 @@ export const SITE = {
   MY_SITE: `${VITE_API_SERVER_URL}/site/profile`
 }
 
+export const AUDIT_LOG = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/audit-log`,
+  FILTER: `${VITE_API_SERVER_URL}/audit-log/filter`,
+  EXPORT: `${VITE_API_SERVER_URL}/audit-log/export`
+}
+
 export const TEMPLATE = {
   BASE_PATH: `${VITE_API_SERVER_URL}/template`,
   FILTER: `${VITE_API_SERVER_URL}/template/filter`,
@@ -56,6 +62,9 @@ export const ROOM = {
   BASE_PATH: `${VITE_API_SERVER_URL}/room`,
   FILTER: `${VITE_API_SERVER_URL}/room/filter`,
   MY_ROOM: `${VITE_API_SERVER_URL}/room/profile`
+}
+export const CARD = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/ticket/customer/card`,
 }
 
 export const MODULE_PERMISSION = {
@@ -116,6 +125,7 @@ export const LOCATION = {
 
 export const HISTORY = {
   FILTER: `${VITE_API_SERVER_URL}/access-history`,
+  EXPORT: `${VITE_API_SERVER_URL}/access-history/export`
 }
 
 export const CHECKIN = {

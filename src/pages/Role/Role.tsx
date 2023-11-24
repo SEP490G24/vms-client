@@ -27,7 +27,10 @@ const Role = () => {
     entitySelected: undefined
   })
   const [tableAction, setTableAction] = useState<TableAction>({})
-  const [filterPayload, setFilterPayload] = useState<RoleFilterPayload>({})
+  const [filterPayload, setFilterPayload] = useState<RoleFilterPayload>({attributes: {
+      name: [],
+      siteId: []
+    }})
 
   useEffect(() => {
     fetchRoles()

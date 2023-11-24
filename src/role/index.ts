@@ -84,7 +84,8 @@ export const PERMISSION_ROLE_MAP = {
   'R_USER_EXPORT': ['r:user:export'],
   'R_USER_FIND': ['r:user:find'],
   'R_USER_IMPORT': ['r:user:import'],
-  'R_USER_UPDATE': ['r:user:update']
+  'R_USER_UPDATE': ['r:user:update'],
+  'R_AUDITLOG_FIND': ['r:audit-log:find']
 }
 
 export const REALM_ROLE_MAP = {

@@ -41,7 +41,7 @@ const CheckInTable: React.FC<MeetingItemProps> = (props) => {
         render={(value: CheckInDto) => <a onClick={() => props.onEdit(value)}>{value.ticketName}</a>}
       />
       <Column title={t('common.field.purpose')} dataIndex='purpose' key='purpose' />
-      <Column title={t('common.field.status')} dataIndex='ticketStatus' key='ticketStatus' />
+      <Column title={t('common.field.status')} dataIndex='ticketCustomerStatus' key='ticketStatus' />
       <Column
         title={t('common.field.visitor_name')}
         sorter={true}

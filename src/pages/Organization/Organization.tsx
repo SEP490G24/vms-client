@@ -33,7 +33,7 @@ const Organization = () => {
       contactPhoneNumber: myOrganization?.contactPhoneNumber,
       enable: myOrganization?.enable
     })
-    console.log(myOrganization)
+    console.log("tec " + myOrganization)
   }, [myOrganization])
 
   const onFinish = async (values: any) => {

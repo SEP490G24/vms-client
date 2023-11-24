@@ -3,7 +3,7 @@ import Column from 'antd/es/table/Column'
 import { HistoryDto, PageableResponse, SiteDto } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
-import { Table, TablePaginationConfig } from 'antd'
+import { Space, Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 
 interface MeetingItemProps {
@@ -56,9 +56,17 @@ const HistoryTable: React.FC<MeetingItemProps> = (props) => {
       <Column title={t('common.field.created_on')} key='createdOn' sorter={true}
               render={(value: HistoryDto) => moment(value.createdOn).format('L')} />
       <Column title={t('organization.history.table.check_in')} key='checkInTime' sorter={true}
-              render={(value: HistoryDto) => value.checkInTime ? moment(value.checkInTime).format('L') : null} />
+              render={(value: HistoryDto) => value.checkInTime ?
+                <Space direction={'vertical'}>
+                  <p>{moment(value.checkInTime).format('DD/MM/YYYY')}</p>
+                  <p>{moment(value.checkInTime).format('hh:mm')}</p>
+                </Space>: null} />
       <Column title={t('organization.history.table.check_out')} key='checkOutTime' sorter={true}
-              render={(value: HistoryDto) => value.checkOutTime ? moment(value.checkOutTime).format('L') : null} />
+              render={(value: HistoryDto) => value.checkOutTime ?
+                <Space direction={'vertical'}>
+                <p>{moment(value.checkOutTime).format('DD/MM/YYYY')}</p>
+                <p>{moment(value.checkOutTime).format('hh:mm')}</p>
+              </Space> : null} />
     </Table>
   )
 }

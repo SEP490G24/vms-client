@@ -30,7 +30,8 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         siteName: props.room.siteName,
         siteId: props.room.siteId,
         description: props.room.description,
-        enable: props.room.enable
+        enable: props.room.enable,
+        macIp: props.room.macIp
       })
     }
   }, [props.room])
@@ -73,6 +74,9 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
             disabled={!!props.room}
             placeholder={t('common.placeholder.site')}
           ></SharedSelect>
+        </Form.Item>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.ip_device')} name='macIp'>
+          <SharedInput placeholder={t('common.placeholder.ip_device')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
           <TextArea

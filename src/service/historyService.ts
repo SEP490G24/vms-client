@@ -55,8 +55,14 @@ const filter = async (payload: HistoryFilterPayload, isPageable?: boolean, pagea
   return httpService.handleResponseStatus(response)
 }
 
+const exportHistory = async (payload: HistoryFilterPayload) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.post(HISTORY.EXPORT, payload, { responseType: 'blob' })
+  return httpService.handleResponseStatus(response)
+}
 const historyService = {
   filter,
+  exportHistory,
 }
 
 export default historyService

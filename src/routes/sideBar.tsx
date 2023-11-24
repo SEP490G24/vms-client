@@ -1,4 +1,5 @@
 import {
+  PATH_AUDIT_LOG,
   PATH_CHECK_IN_MANAGER,
   PATH_CONFIGURATION,
   PATH_CUSTOMER,
@@ -16,7 +17,7 @@ import {
   PATH_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
-  PATH_USER
+  PATH_USER,
 } from './paths.ts'
 import {
   ApartmentOutlined,
@@ -204,6 +205,13 @@ export const SIDE_BARS: MenuItem[] = [
         title: 'sidebar.configuration.title',
         path: PATH_CONFIGURATION,
         role: PATH_ROLE_MAP['PATH_CONFIGURATION'],
+        children: []
+      },
+      {
+        key: PATH_AUDIT_LOG,
+        title: 'sidebar.configuration.sub.audit-log',
+        path: PATH_AUDIT_LOG,
+        role: PATH_ROLE_MAP['PATH_AUDIT_LOG'],
         children: []
       }
     ]

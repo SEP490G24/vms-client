@@ -78,7 +78,19 @@
       "start_time": "Start Time",
       "end_time": "End Time",
       "representative": "Representative",
-      "website": "Website"
+      "website": "Website",
+      "organization_name": "Organization name",
+      "site_name": "Site name",
+      "table_name": "Table name",
+      "audit_type": "Audit type",
+      "date_time": "Date Time",
+      "view_detail": "View Detail",
+      "audit_log_Info": "Audit Log Info",
+      "old_value": "Old Value",
+      "new_value": "New Value",
+      "ip_device": "Ip device",
+      "create_card": "Create card",
+      "cardId": "Card Id"
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -138,7 +150,10 @@
       "customer_name": "Enter customer name",
       "customer_filer": "Enter customer info",
       "website": "Enter website",
-      "representative": "Enter representative"
+      "representative": "Enter representative",
+      "keyword": "Enter keyword for search",
+      "ip_device": "Enter mac Ip of device",
+      "cardId": "Enter card id"
     },
     "error": {
       "content_is_too_long": "Content is too long!",
@@ -167,6 +182,7 @@
       "period": "Period",
       "scope": "Scope",
       "action": "Action",
+      "audit-log": "Audit Log",
       "uploadFile": "Upload File"
     },
     "date_range": {
@@ -374,6 +390,9 @@
         "title-edit": "Room Edit",
         "btn-save": "Save",
         "btn-edit": "Save"
+      },
+      "export": {
+        "file_name": "statistic_history_{{time}}"
       }
     },
     "organization": {
@@ -446,6 +465,18 @@
         "btn-save": "Save"
       }
     },
+    "audit-log": {
+      "title": "Audit Log Management",
+      "search": {
+        "title": "Search"
+      },
+      "table": {
+        "title": "Total {{count}} audit log"
+      },
+      "export": {
+        "file_name": "statistic_audit-log_{{time}}"
+      }
+    },
     "role": {
       "title": "Role Management",
       "search": {
@@ -514,7 +545,10 @@
       }
     },
     "configuration": {
-      "title": "Configuration "
+      "title": "Configuration ",
+      "sub":{
+        "audit-log": "Audit Log"
+      }
     }
   },
   "user": {

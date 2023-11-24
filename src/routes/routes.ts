@@ -14,7 +14,8 @@ import {
   RoomMeetingCalendar,
   Setting,
   Template,
-  TicketResult
+  TicketResult,
+  AuditLog
 } from '~/pages'
 
 import { Agent } from '~/pages/User'
@@ -22,6 +23,7 @@ import { Site } from '~/pages/Site'
 import { OrganizationManagement } from '~/pages/Organization/OrganizationManagement'
 
 import {
+  PATH_AUDIT_LOG,
   PATH_CHECK_IN_MANAGER,
   PATH_CONFIGURATION,
   PATH_CUSTOMER,
@@ -148,6 +150,11 @@ export const privateRoutes: RouteItem[] = [
     path: PATH_TICKET_RESULT,
     component: TicketResult,
     role: PATH_ROLE_MAP['PATH_TICKET_RESULT']
+  },
+  {
+    path: PATH_AUDIT_LOG,
+    component: AuditLog,
+    role: PATH_ROLE_MAP['PATH_AUDIT_LOG']
   },
   {
     path: PATH_CHECK_IN_MANAGER,

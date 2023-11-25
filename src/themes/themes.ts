@@ -34,6 +34,6 @@ export const themes = {
   'tertiary': '#5be3ff',
   'muted': '#92a3b1',
   'disabled': '#8b949b',
-  'body': '#f2f5f8',
+  'body': '#f6f6f6',
   'secondBody':'#fafafa'
 }

@@ -4,6 +4,9 @@ import { Layout, Menu } from 'antd'
 export const SideBarWrapper = styled(Layout)`
   background-color: ${(props) => props.theme.black};
   color: ${(props) => props.theme.white};
+  position: fixed;
+  height: 100%;
+  z-index: 998;
 `
 
 export const SideHeader = styled.div`

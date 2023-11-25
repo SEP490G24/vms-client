@@ -13,7 +13,6 @@ export const GlobalStyles = createGlobalStyle`
     background-color: #fff;
     color: #222;
     font-family: sans-serif, Arial, Helvetica, sans-serif;
-    overflow-x: auto;
     font-size: 14px;
     font-weight: normal;
   }

@@ -39,26 +39,28 @@ const Header: React.FC<HeaderProps> = ({ collapsed, toggleCollapsed }) => {
   ]
 
   return (
-    <HeaderWrapper className={'w-full justify-between py-4'}>
-      <Button onClick={() => toggleCollapsed(!collapsed)}>
-        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-      </Button>
-      <Space size={64}>
-        <Space size={16} className={'cursor-pointer'}>
-          <GlobeTwoTone className={'text-[28px]'} />
-          <Select bordered={false} className='bg-body w-[100px]' defaultValue={i18n.language || 'en'}
-                  onChange={(value) => i18n.changeLanguage(value)} options={[
-            { label: 'English', value: 'en' },
-            { label: 'Tiếng Việt', value: 'vi' }
-          ]} />
-        </Space>
-        <Dropdown menu={{ items: userSettings }} placement='bottomRight' trigger={['click']}>
+    <HeaderWrapper collapsed={collapsed}>
+      <Space className={'w-full justify-between py-4'} >
+        <Button onClick={() => toggleCollapsed(!collapsed)}>
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </Button>
+        <Space size={64}>
           <Space size={16} className={'cursor-pointer'}>
-            <UserTwoTone className={'text-[28px]'} />
-            <span>{authService.getUserInfo().fullName}</span>
-            <DownOutlined />
+            <GlobeTwoTone className={'text-[28px]'} />
+            <Select bordered={false} className='bg-body w-[100px]' defaultValue={i18n.language || 'en'}
+                    onChange={(value) => i18n.changeLanguage(value)} options={[
+              { label: 'English', value: 'en' },
+              { label: 'Tiếng Việt', value: 'vi' }
+            ]} />
           </Space>
-        </Dropdown>
+          <Dropdown menu={{ items: userSettings }} placement='bottomRight' trigger={['click']}>
+            <Space size={16} className={'cursor-pointer'}>
+              <UserTwoTone className={'text-[28px]'} />
+              <span>{authService.getUserInfo().fullName}</span>
+              <DownOutlined />
+            </Space>
+          </Dropdown>
+        </Space>
       </Space>
     </HeaderWrapper>
   )

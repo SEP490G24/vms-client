@@ -20,7 +20,8 @@ interface SharedSelectProps {
   allowClear?: boolean
   onSelect?: any
   suffixIcon?: any
-  disabled?:boolean
+  disabled?: boolean
+  bordered?: boolean
 }
 
 export const SharedSelect: React.FC<SharedSelectProps> = memo(
@@ -41,7 +42,8 @@ export const SharedSelect: React.FC<SharedSelectProps> = memo(
      mode,
      onSelect,
      suffixIcon,
-    disabled
+     bordered,
+     disabled
    }) => {
     return (
       <Select
@@ -53,6 +55,7 @@ export const SharedSelect: React.FC<SharedSelectProps> = memo(
         placeholder={placeholder}
         filterOption={filterOption}
         onSearch={onSearch}
+        bordered={bordered}
         notFoundContent={notFoundContent}
         showSearch={showSearch}
         labelInValue={labelInValue}

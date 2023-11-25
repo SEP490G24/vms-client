@@ -27,7 +27,7 @@ export default {
         },
         'tertiary': '#5be3ff',
         'muted': '#92a3b1',
-        'body': '#fafafa'
+        'body': '#f6f6f6'
       }
     },
   },

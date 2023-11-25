@@ -26,6 +26,21 @@ export enum Gender {
   OTHER = 'OTHER'
 }
 
+export enum MONTHS {
+  January,
+  February,
+  March,
+  April,
+  May,
+  June,
+  July,
+  August,
+  September,
+  October,
+  November,
+  December
+}
+
 export enum TemplateType {
   EMAIL = 'EMAIL',
   SMS = 'SMS'

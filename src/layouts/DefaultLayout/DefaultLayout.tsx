@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Content, LayoutWrapper, Wrapper } from './styles'
+import { Content, ContentWrapper, LayoutWrapper, Wrapper } from './styles'
 import SideBar from '../SideBar/SideBar'
 import { Header } from '../Header'
 
@@ -16,9 +16,9 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       <SideBar collapsed={collapsed} />
       <Wrapper className={'w-full pt-0 px-8'}>
         <Header collapsed={collapsed} toggleCollapsed={setCollapsed} />
-        <div>
+        <ContentWrapper collapsed={collapsed}>
           <Content>{children}</Content>
-        </div>
+        </ContentWrapper>
       </Wrapper>
     </LayoutWrapper>
   )

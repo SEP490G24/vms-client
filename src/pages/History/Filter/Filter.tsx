@@ -106,7 +106,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
               { label: 'CANCEL', value: 'CANCEL' }]}
             placeholder={t('common.placeholder.province')} />
         </Form.Item>
-        <Form.Item label={t('common.field.check_in')}>
+        <Form.Item label={t('common.field.check_in')} name="checkIn">
           <RangePicker
             format={'DD-MM-YYYY'}
             changeOnBlur
@@ -119,7 +119,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
           />
         </Form.Item>
-        <Form.Item label={t('common.field.check_out')}>
+        <Form.Item label={t('common.field.check_out')} name='checkOut'>
           <RangePicker
             format={'YYYY-MM-DD'}
             changeOnBlur

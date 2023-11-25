@@ -17,7 +17,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
   const [siteFilter, setSiteFilter] = useState('')
-
+const [disable,setDisable] = useState(true)
   const onFinish = (values: any) => {
     const payload: TemplateFilterPayload = {
       siteId: values['siteId'] ? [values['siteId']] : undefined,
@@ -34,6 +34,11 @@ const Filter: React.FC<FilterArgs> = (args) => {
     setValueDate(undefined)
     form.resetFields()
     args.onFilter({})
+    setDisable(true)
+  }
+
+  const onFieldsChange= () => {
+    setDisable(false)
   }
 
   return (
@@ -46,6 +51,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             type={'primary'}
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
+            disabled = {disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -64,6 +70,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
+        onFieldsChange={onFieldsChange}
+
       >
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
           <SharedFilterScope siteId={siteFilter} onChangeSite={setSiteFilter} />}

@@ -3,29 +3,6 @@ import authService from './authService'
 import { AUDIT_LOG } from '~/constants/api.ts'
 import { PageableRequest } from '~/interface'
 
-export interface CreateAuditLogInfo {
-  name: string;
-  phoneNumber: string;
-  province: string;
-  district: string;
-  ward: string;
-  address: string;
-  taxCode: string;
-  description: string;
-}
-
-export interface UpdateAuditLogInfo {
-  name?: string;
-  phoneNumber?: string;
-  province?: string;
-  district?: string;
-  ward?: string;
-  address?: string;
-  taxCode?: string;
-  description?: string;
-  enable?: boolean;
-}
-
 export interface AuditLogFilterPayload {
   siteId?: string;
   createdOnStart?: string;

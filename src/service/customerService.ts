@@ -62,7 +62,7 @@ const remove = async (id: string) => {
 
 const findByOrganization = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.get(CUSTOMER.BASE_PATH + `/organization`)
+  const response = await httpService.get(CUSTOMER.BASE_PATH + `/available`)
   return httpService.handleResponseStatus(response)
 }
 

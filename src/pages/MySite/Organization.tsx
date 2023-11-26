@@ -12,7 +12,8 @@ import { AuthSection } from '~/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { organizationsSelector, updateMyOrganization } from '~/redux'
 import { fileService, organizationService } from '~/service'
-import { BASE_STORAGE, UploadFileData } from '~/interface'
+import { UploadFileData } from '~/interface'
+import { BASE_STORAGE } from '~/constants'
 
 const Organization = () => {
   const { t } = useTranslation()
@@ -33,7 +34,7 @@ const Organization = () => {
       contactPhoneNumber: myOrganization?.contactPhoneNumber,
       enable: myOrganization?.enable
     })
-    console.log("tec " + myOrganization)
+    console.log('tec ' + myOrganization)
   }, [myOrganization])
 
   const onFinish = async (values: any) => {

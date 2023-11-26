@@ -37,10 +37,10 @@ function App() {
   useEffect(() => {
     if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
       dispatch(findAllSitesInOrganization() as any)
+      dispatch(fetchMyOrganization() as any)
     } else {
       dispatch(findAllRoom({}) as any)
     }
-    dispatch(fetchMyOrganization() as any)
     dispatch(fetchProfile() as any)
     dispatch(findCustomerByOrganization() as any)
     dispatch(fetchProvince() as any)

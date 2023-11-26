@@ -4,12 +4,12 @@ import { TablePaginationConfig, UploadFile } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import { PageableResponse } from '~/interface/PageableResponse.ts'
 import { RcFile } from 'antd/es/upload'
+import { Observable } from 'rxjs'
+import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
 export enum Purpose {
   CONFERENCES, INTERVIEW, MEETING, WORKING, OTHERS
 }
-
-export const BASE_STORAGE = 'https://vmspersonalstorage.blob.core.windows.net/vms-storage/'
 
 export enum TemplateVariable {
   customerName,
@@ -82,6 +82,10 @@ export interface OptionItem {
   disabled?: boolean
 }
 
+export interface EventSourceObserver {
+  observer: Observable<EventSourceMessage>,
+  close: () => void
+}
 
 export interface TableAction {
   pagination?: TablePaginationConfig,

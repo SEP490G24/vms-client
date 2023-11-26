@@ -1,8 +1,11 @@
 import httpService from './httpServices'
 import authService from './authService'
 import { TICKET } from '~/constants/api.ts'
-import { PageableRequest, StatusTicket } from '~/interface'
+import { fetchEventSource } from '@microsoft/fetch-event-source'
+import { EventSourceObserver, PageableRequest, StatusTicket } from '~/interface'
 import { CreateCustomerInfo } from '~/service/customerService.ts'
+import { Observable } from 'rxjs'
+import { CHECK_IN_EVENT } from '~/constants'
 
 export interface CreateMeetingInfo {
   name: string;
@@ -98,6 +101,39 @@ const cancel = async (payload: CancelTicketPayload) => {
   return httpService.handleResponseStatus(response)
 }
 
+const subscribeCheckIn = async (siteId?: string): Promise<EventSourceObserver> => {
+  let url = TICKET.SUBSCRIBE_CHECK_IN
+  if (!!siteId) {
+    url += `?siteId=${siteId}`
+  }
+  const controller = new AbortController()
+  return {
+    observer: new Observable((observer) => {
+      fetchEventSource(url, {
+        method: 'GET',
+        keepalive: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authService.getToken()}`
+        },
+        signal: controller.signal,
+        onmessage: (message) => {
+          if (message.event === CHECK_IN_EVENT) {
+            observer.next(message)
+          }
+        },
+        onerror: (error) => {
+          observer.error(error)
+        },
+        onclose: () => {
+          observer.complete()
+        }
+      })
+    }),
+    close: controller.abort
+  }
+}
+
 const checkInCustomer = async (payload: CheckInPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.put(TICKET.CHECK_IN, payload)
@@ -143,6 +179,7 @@ const meetingTicketService = {
   remove,
   cancel,
   checkInCustomer,
+  subscribeCheckIn,
   findWithRoom,
   filter
 }

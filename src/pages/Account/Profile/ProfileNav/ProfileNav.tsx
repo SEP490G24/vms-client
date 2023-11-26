@@ -6,7 +6,8 @@ import React from 'react'
 import { toBase64 } from '~/utils'
 import { SharedAvatar } from '~/common'
 import DescriptionsItem from 'antd/es/descriptions/Item'
-import { BASE_STORAGE, UploadFileData } from '~/interface'
+import { UploadFileData } from '~/interface'
+import { BASE_STORAGE } from '~/constants'
 
 interface Props {
   avatar?: UploadFileData

@@ -102,6 +102,7 @@ export const TICKET = {
   FILTER: `${VITE_API_SERVER_URL}/ticket/filter`,
   CANCEL: `${VITE_API_SERVER_URL}/ticket/cancel`,
   CHECK_IN: `${VITE_API_SERVER_URL}/ticket/check-in`,
+  SUBSCRIBE_CHECK_IN: `${VITE_API_SERVER_URL}/ticket/subscribe/check-in`,
   FIND_WITH_ROOM: `${VITE_API_SERVER_URL}/ticket/room`,
 }
 
@@ -129,5 +130,5 @@ export const HISTORY = {
 }
 
 export const CHECKIN = {
-  FILTER: `${VITE_API_SERVER_URL}/ticket/customer/filter`,
+  FILTER: `${VITE_API_SERVER_URL}/ticket/check-in/filter`,
 }

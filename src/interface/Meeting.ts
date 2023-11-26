@@ -1,4 +1,5 @@
 import { CustomerDto } from '~/interface/Customer.ts'
+import { StatusTicket } from '~/interface/common.ts'
 
 export interface MeetingDto {
   createdBy?: string;
@@ -30,12 +31,18 @@ export interface MeetingQRDto {
   ticketCode: string;
   ticketName?: string;
   purpose?: string;
+  ticketStatus: StatusTicket;
+  ticketCustomerStatus: StatusTicket;
   startTime?: string;
   endTime?: string;
-  createBy?: string;
-  roomId?: string;
   siteId: string;
+  roomId?: string;
   roomName?: string;
+  createdBy?: string;
+  createdOn?: string;
+  lastUpdatedBy?: string;
+  lastUpdatedOn?: string;
+  isSecurity?: boolean;
   customerInfo: CustomerDto;
 }
 

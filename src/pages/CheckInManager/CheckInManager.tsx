@@ -6,14 +6,13 @@ import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { CheckInFilter } from '~/pages/CheckInManager/Filter'
 import { useEffect, useState } from 'react'
-import { CheckInDto, InfoModalData, MeetingQRDto, TableAction, TableData } from '~/interface'
+import { CheckInDto, EventSourceObserver, InfoModalData, MeetingQRDto, TableAction, TableData } from '~/interface'
 import { CheckInFilterPayload } from '~/service/checkInService.ts'
 import { checkInService, meetingTicketService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { CheckInTable } from '~/pages/CheckInManager/Table'
 import Modal from 'antd/es/modal/Modal'
 import { TicketInfo } from '~/pages/CheckInManager/TicketInfo'
-
 
 
 const CheckInManager = () => {
@@ -28,9 +27,12 @@ const CheckInManager = () => {
   })
   const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()
   const [tableAction, setTableAction] = useState<TableAction>({})
+  const [eventSource, setEventSource] = useState<EventSourceObserver>()
+
   useEffect(() => {
     fetchCheckIn()
   }, [filterPayload, tableAction])
+
   useEffect(() => {
     if (infoModalData.entitySelected?.checkInCode) {
       meetingTicketService.findByQRCode(infoModalData.entitySelected?.checkInCode).then((response) => {
@@ -38,9 +40,32 @@ const CheckInManager = () => {
       })
     }
   }, [infoModalData.entitySelected?.checkInCode])
+
+  useEffect(() => {
+    !eventSource && meetingTicketService.subscribeCheckIn().then((response) => {
+      setEventSource(response)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (eventSource) {
+      eventSource.observer.subscribe({
+        next: (message) => {
+          console.log(message)
+        }, error: (error) => {
+          console.error(error)
+        }, complete: () => {
+          console.log('Complete')
+        }
+      })
+      return () => eventSource.close()
+    }
+  }, [eventSource])
+
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     setTableAction({ pagination, filters, sorter })
   }
+
   const fetchCheckIn = () => {
     setTableData({ ...tableData, loading: true })
     const payload = {
@@ -57,6 +82,7 @@ const CheckInManager = () => {
       setTableData({ loading: false })
     })
   }
+
   const onFilter = (filterPayload: CheckInFilterPayload) => {
     setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload(filterPayload)
@@ -100,7 +126,10 @@ const CheckInManager = () => {
               width={1000}
               onCancel={onClose}
             >
-              <TicketInfo ticketResult={{checkInCode:(infoModalData.entitySelected?.checkInCode) ? infoModalData.entitySelected?.checkInCode : "", meetingQRDto:meetingQRDto }}/>
+              <TicketInfo ticketResult={{
+                checkInCode: (infoModalData.entitySelected?.checkInCode) ? infoModalData.entitySelected?.checkInCode : '',
+                meetingQRDto: meetingQRDto
+              }} />
             </Modal>
           </Row>
         )}

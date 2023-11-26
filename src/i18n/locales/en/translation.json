@@ -63,6 +63,7 @@
       "body": "Body",
       "purposeNote": "Purpose Note",
       "purpose": "Purpose",
+      "checkIn_status": "Check In Status",
       "identificationNumber": "ID Card",
       "name": "Name",
       "tax_code": "Tax_code",
@@ -74,6 +75,7 @@
       "check_in": "Check In",
       "check_out": "Check Out",
       "ticket_name": "Ticket Name",
+      "title_meeting": "Title Meeting",
       "visitor_name": "Visitor Name",
       "start_time": "Start Time",
       "end_time": "End Time",
@@ -201,16 +203,21 @@
     },
     "message": {
       "success": {
-        "save": "Save Successfully!"
+        "save": "Save Successfully!",
+        "check-in": "Check-in Success"
       },
-      "failed": {
-        "save": "Save failure!"
+      "error": {
+        "save": "Save failure!",
+        "check-in": "Check In Reject"
       },
-      "error": "An unknown error!",
       "changePassword": {
         "success": "Change Password successfully!",
         "failed": "Old password is valid!",
         "error": "Change password failed!"
+      },
+      "check-in": {
+        "success": "Customer {{customerName}} has successfully checked in",
+        "reject": "Customer {{customerName}} check-in was rejected"
       }
     }
   },

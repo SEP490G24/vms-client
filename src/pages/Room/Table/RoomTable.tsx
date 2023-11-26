@@ -1,6 +1,6 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { PageableResponse, RoomDto, UserDto } from '~/interface'
+import { PageableResponse, RoomDto } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Table, TablePaginationConfig } from 'antd'
@@ -57,9 +57,9 @@ const RoomTable: React.FC<MeetingItemProps> = (props) => {
         }
       />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
-              render={(value: UserDto) => moment(value.createdOn).format('L')} />
+              render={(value: RoomDto) => moment(value.createdOn).format('L')} />
       <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
-              render={(value: UserDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : null} />
+              render={(value: RoomDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : undefined} />
     </Table>
   )
 }

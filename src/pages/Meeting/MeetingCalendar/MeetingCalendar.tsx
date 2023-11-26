@@ -54,7 +54,7 @@ const MeetingCalendar = () => {
       setMeetingsState({ loading: false, meetings: response.data })
     }).catch(() => {
       setMeetingsState({ ...meetingsState, loading: false })
-      message.error(t('common.message.error'))
+      message.error(t('common.message.error.save'))
     })
   }
 

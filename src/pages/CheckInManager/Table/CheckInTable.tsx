@@ -1,17 +1,18 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { PageableResponse, CheckInDto } from '~/interface'
+import { v4 as uuid } from 'uuid'
+import { MeetingQRDto, PageableResponse } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Space, Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 
 interface MeetingItemProps {
-  pageableResponse?: PageableResponse<CheckInDto>
+  pageableResponse?: PageableResponse<MeetingQRDto>
   onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
   currentPage?: number
   loading: boolean
-  onEdit: (value: CheckInDto) => void
+  onEdit: (value: MeetingQRDto) => void
 }
 
 const CheckInTable: React.FC<MeetingItemProps> = (props) => {
@@ -21,7 +22,7 @@ const CheckInTable: React.FC<MeetingItemProps> = (props) => {
   return (
     <Table
       dataSource={props.pageableResponse?.content}
-      rowKey='id'
+      rowKey={() => uuid()}
       pagination={{
         current: props.currentPage,
         total: props.pageableResponse?.totalElements,
@@ -35,22 +36,20 @@ const CheckInTable: React.FC<MeetingItemProps> = (props) => {
       size='middle'
     >
       <Column
-        title={t('common.field.ticket_name')}
-        sorter={true}
-        key='name'
-        render={(value: CheckInDto) => <a onClick={() => props.onEdit(value)}>{value.ticketName}</a>}
+        title={t('common.field.title_meeting')}
+        key='ticketName'
+        render={(value: MeetingQRDto) => <a onClick={() => props.onEdit(value)}>{value.ticketName}</a>}
       />
       <Column title={t('common.field.purpose')} dataIndex='purpose' key='purpose' />
-      <Column title={t('common.field.status')} dataIndex='ticketCustomerStatus' key='ticketStatus' />
       <Column
         title={t('common.field.visitor_name')}
-        sorter={true}
         key='name'
-        render={(value: CheckInDto) => value.customerInfo.visitorName}
+        render={(value: MeetingQRDto) => value.customerInfo.visitorName}
       />
+      <Column title={t('common.field.checkIn_status')} dataIndex='ticketCustomerStatus' key='ticketCustomerStatus' />
       <Column title={t('common.field.room_name')} dataIndex='roomName' key='roomName' />
-      <Column title={t('common.field.duration')} key='startTime' sorter={true}
-              render={(value: CheckInDto) => <Space direction={'vertical'} size={4}>
+      <Column title={t('common.field.duration')} key='startTime'
+              render={(value: MeetingQRDto) => <Space direction={'vertical'} size={4}>
                 <strong>{moment(value.startTime).format('DD-MM-YYYY')}</strong>
                 <Space direction={'horizontal'} size={4}>
                   <p>{moment(value.startTime).format('LTS')}</p>
@@ -58,6 +57,10 @@ const CheckInTable: React.FC<MeetingItemProps> = (props) => {
                   <p>{moment(value.endTime).format('LTS')}</p>
                 </Space>
               </Space>} />
+      <Column title={t('common.field.registration_date')} key='createdOn'
+              render={(value: MeetingQRDto) => moment(value.createdOn).format('L')} />
+      <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
+              render={(value: MeetingQRDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).fromNow() : undefined} />
     </Table>
   )
 }

@@ -130,7 +130,9 @@ const subscribeCheckIn = async (siteId?: string): Promise<EventSourceObserver> =
         }
       })
     }),
-    close: controller.abort
+    close: () => {
+      controller.abort()
+    }
   }
 }
 

@@ -46,7 +46,7 @@ const Module: React.FC<ModuleArgs> = (args) => {
       permissionDtos: permissions
     })
       .then(() => message.success(t('common.message.success.save')))
-      .catch(() => message.error(t('common.message.error')))
+      .catch(() => message.error(t('common.message.error.save')))
   }
 
   const onEditLabelName = (value: string, permission: PermissionDto) => {
@@ -58,7 +58,7 @@ const Module: React.FC<ModuleArgs> = (args) => {
       .then(() => permission.label[i18n.language].name = value)
       .then(() => forceUpdate())
       .then(() => message.success(t('common.message.success.save')))
-      .catch(() => message.error(t('common.message.error')))
+      .catch(() => message.error(t('common.message.error.save')))
   }
 
   return (

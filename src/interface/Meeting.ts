@@ -38,7 +38,7 @@ export interface MeetingQRDto {
   siteId: string;
   roomId?: string;
   roomName?: string;
-  createdBy?: string;
+  createBy?: string;
   createdOn?: string;
   lastUpdatedBy?: string;
   lastUpdatedOn?: string;

@@ -30,6 +30,7 @@ import {
 } from '@ant-design/icons'
 import { MenuItem } from '~/interface'
 import { PATH_ROLE_MAP } from '~/role'
+import { SIDE_BAR_COLLAPSE } from '~/constants'
 
 export const SIDE_BARS: MenuItem[] = [
   {
@@ -41,7 +42,7 @@ export const SIDE_BARS: MenuItem[] = [
     children: []
   },
   {
-    key: 'PATH_MEETING',
+    key: SIDE_BAR_COLLAPSE.MEETING,
     icon: <ScheduleOutlined className={'text-[18px]'} />,
     title: 'sidebar.meeting.title',
     role: [...PATH_ROLE_MAP['PATH_MEETING_CALENDAR'], ...PATH_ROLE_MAP['PATH_MEETING_STATISTIC'], ...PATH_ROLE_MAP['PATH_MEETING_ROOM']],
@@ -86,7 +87,7 @@ export const SIDE_BARS: MenuItem[] = [
     children: []
   },
   {
-    key: 'PATH_CUSTOMER',
+    key: SIDE_BAR_COLLAPSE.CUSTOMER,
     icon: <UserSwitchOutlined className={'text-[18px]'} />,
     title: 'sidebar.customer.title',
     children: [
@@ -107,7 +108,7 @@ export const SIDE_BARS: MenuItem[] = [
     ]
   },
   {
-    key: 'PATH_ORGANIZATION',
+    key: SIDE_BAR_COLLAPSE.ORGANIZATION,
     icon: <ApartmentOutlined className={'text-[18px]'} />,
     title: 'sidebar.organization.title',
     role: [
@@ -185,7 +186,7 @@ export const SIDE_BARS: MenuItem[] = [
     ]
   },
   {
-    key: PATH_CONFIGURATION,
+    key: SIDE_BAR_COLLAPSE.CONFIGURATION,
     icon: <SettingOutlined className={'text-[18px]'} />,
     title: 'sidebar.configuration.title',
     role: [

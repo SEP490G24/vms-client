@@ -45,8 +45,8 @@ const UserTable: React.FC<MeetingItemProps> = (props) => {
       />
       <Column
         title={t('common.field.roles')}
-        render={(value: UserDto) => <Space direction={'vertical'}>{value.roles?.map((item) =>
-          <Tag>{item}</Tag>)}</Space>}
+        render={(value: UserDto) => <Space direction={'vertical'}>{value.roles?.map((item, index) =>
+          <Tag key={index}>{item}</Tag>)}</Space>}
       />
       <Column title={t('common.field.dob')} dataIndex='dateOfBirth' key='dateOfBirth' />
       <Column

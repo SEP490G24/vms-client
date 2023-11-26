@@ -53,7 +53,7 @@ const Setting = () => {
       settingId,
       value
     }).then(() => message.success(t('common.message.success.save')))
-      .catch(() => message.error(t('common.message.error')))
+      .catch(() => message.error(t('common.message.error.save')))
   }
 
   return (

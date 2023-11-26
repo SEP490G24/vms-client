@@ -65,7 +65,7 @@ const Department = () => {
       })
       .catch(async () => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
-        await message.error(t('common.message.error'))
+        await message.error(t('common.message.error.save'))
       })
   }
 

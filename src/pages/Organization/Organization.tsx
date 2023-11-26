@@ -14,6 +14,7 @@ import { organizationsSelector, updateMyOrganization } from '~/redux'
 import { fileService, organizationService } from '~/service'
 import { UploadFileData } from '~/interface'
 import { BASE_STORAGE } from '~/constants'
+import { RcFile } from 'antd/es/upload'
 
 const Organization = () => {
   const { t } = useTranslation()
@@ -34,7 +35,7 @@ const Organization = () => {
       contactPhoneNumber: myOrganization?.contactPhoneNumber,
       enable: myOrganization?.enable
     })
-    console.log("tec " + myOrganization)
+    console.log('tec ' + myOrganization)
   }, [myOrganization])
 
   const onFinish = async (values: any) => {
@@ -66,7 +67,7 @@ const Organization = () => {
     console.log(data.file)
     form.setFieldsValue({ logo: url })
     setLogo({
-      file: data.file.originFileObj,
+      file: data.file as RcFile,
       content: {
         ...data.fileList,
         // @ts-ignore

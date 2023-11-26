@@ -80,7 +80,7 @@ const MeetingStatistics = () => {
       setCancelModalData({ ...cancelModalData, openModal: false })
       await message.success(t('common.message.success.save'))
     }).catch(async () => {
-      await message.error(t('common.message.error'))
+      await message.error(t('common.message.error.save'))
       setCancelModalData({ ...cancelModalData, openModal: false })
     })
   }

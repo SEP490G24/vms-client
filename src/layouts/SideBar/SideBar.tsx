@@ -1,15 +1,34 @@
 import { Avatar, ConfigProvider } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { SIDE_BARS } from '~/routes'
 import { themes } from '~/themes'
 import { getItem } from '~/utils'
 import { SideBarWrapper, SideContent, SideHeader } from './styles'
-import { PATH_DASHBOARD } from '~/routes/paths'
+import {
+  PATH_AUDIT_LOG,
+  PATH_CONFIGURATION,
+  PATH_CUSTOMER,
+  PATH_DASHBOARD,
+  PATH_DEPARTMENT,
+  PATH_HISTORY,
+  PATH_MEETING_CALENDAR,
+  PATH_MEETING_ROOM,
+  PATH_MEETING_STATISTIC,
+  PATH_MY_ORGANIZATION,
+  PATH_ORGANIZATION,
+  PATH_PERMISSION,
+  PATH_ROLE,
+  PATH_ROOM,
+  PATH_SITE,
+  PATH_TEMPLATE,
+  PATH_USER
+} from '~/routes/paths'
 import { useTranslation } from 'react-i18next'
 import { UserOutlined } from '@ant-design/icons'
 import { authService } from '~/service'
+import { SIDE_BAR_COLLAPSE } from '~/constants'
 
 
 interface SideBarProps {
@@ -19,6 +38,8 @@ interface SideBarProps {
 const SideBar: React.FC<SideBarProps> = ({ collapsed }) => {
   const { t, i18n } = useTranslation()
   const [menus, setMenus] = useState([])
+  const [keyCollapse, setKeyCollapsed] = useState<string>('')
+
 
   const getMenus: any = () => {
     return SIDE_BARS
@@ -38,8 +59,6 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed }) => {
 
   const location = useLocation()
   const navigate = useNavigate()
-  const [currentMenuKeys, setCurrentMenuKeys] = useState([PATH_DASHBOARD])
-  const { id } = useParams()
 
   const handleSelectedItem = (key: string) => {
     const selectItem = SIDE_BARS.find((item) => {
@@ -50,13 +69,44 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed }) => {
       }
     })
     if (selectItem?.path) {
-      navigate(selectItem.path.replace(':id', id || ''))
+      navigate(selectItem.path)
     } else if (selectItem?.children?.length) {
-      const subSelectedItem: any = selectItem?.children.find((subItem) => subItem['key'] === key)
-      navigate(subSelectedItem ? subSelectedItem.path.replace(':id', id || '') : '')
+      const pathSubSelectedItem = selectItem?.children.find((subItem: any) => subItem.key === key)?.path
+      navigate(pathSubSelectedItem || '')
     }
-    setCurrentMenuKeys([key])
   }
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case PATH_MEETING_CALENDAR:
+      case PATH_MEETING_STATISTIC:
+      case PATH_MEETING_ROOM:
+        setKeyCollapsed(SIDE_BAR_COLLAPSE.MEETING)
+        break
+      case PATH_CUSTOMER:
+      case PATH_HISTORY:
+        setKeyCollapsed(SIDE_BAR_COLLAPSE.CUSTOMER)
+        break
+      case PATH_MY_ORGANIZATION:
+      case PATH_ORGANIZATION:
+      case PATH_SITE:
+      case PATH_DEPARTMENT:
+      case PATH_USER:
+      case PATH_ROLE:
+      case PATH_ROOM:
+      case PATH_TEMPLATE:
+        setKeyCollapsed(SIDE_BAR_COLLAPSE.ORGANIZATION)
+        break
+      case PATH_CONFIGURATION:
+      case PATH_PERMISSION:
+      case PATH_AUDIT_LOG:
+        setKeyCollapsed(SIDE_BAR_COLLAPSE.CUSTOMER)
+        break
+      default:
+        setKeyCollapsed(location.pathname)
+        break
+    }
+  }, [])
 
   useEffect(() => {
     setMenus(getMenus)
@@ -94,11 +144,11 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed }) => {
         <SideContent
           className='h-full bg-inherit text-gray-400 hover:text-gray-300'
           defaultSelectedKeys={[location.pathname]}
+          defaultOpenKeys={[keyCollapse]}
           items={menus}
           mode='inline'
           inlineCollapsed={collapsed}
-          onSelect={({ key }) => handleSelectedItem(key)}
-          selectedKeys={currentMenuKeys} />
+          onSelect={({ key }) => handleSelectedItem(key)} />
       </SideBarWrapper>
     </ConfigProvider>
   )

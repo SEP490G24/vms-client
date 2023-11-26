@@ -1,12 +1,12 @@
 import { CheckInManagerWrapper } from './styles.ts'
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import { Card, Col, Divider, Row, Space, TablePaginationConfig } from 'antd'
+import { Card, Col, Divider, notification, Row, Space, TablePaginationConfig } from 'antd'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { CheckInFilter } from '~/pages/CheckInManager/Filter'
 import { useEffect, useState } from 'react'
-import { CheckInDto, EventSourceObserver, InfoModalData, MeetingQRDto, TableAction, TableData } from '~/interface'
+import { EventSourceObserver, InfoModalData, MeetingQRDto, StatusTicket, TableAction, TableData } from '~/interface'
 import { CheckInFilterPayload } from '~/service/checkInService.ts'
 import { checkInService, meetingTicketService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
@@ -18,9 +18,10 @@ import { TicketInfo } from '~/pages/CheckInManager/TicketInfo'
 const CheckInManager = () => {
 
   const { t } = useTranslation()
-  const [tableData, setTableData] = useState<TableData<CheckInDto>>({ loading: false })
+  const [notificationApi, contextHolder] = notification.useNotification()
+  const [tableData, setTableData] = useState<TableData<MeetingQRDto>>({ loading: false })
   const [filterPayload, setFilterPayload] = useState<CheckInFilterPayload>({})
-  const [infoModalData, setInfoModalData] = useState<InfoModalData<CheckInDto>>({
+  const [infoModalData, setInfoModalData] = useState<InfoModalData<MeetingQRDto>>({
     openModal: false,
     confirmLoading: false,
     entitySelected: undefined
@@ -51,14 +52,27 @@ const CheckInManager = () => {
     if (eventSource) {
       eventSource.observer.subscribe({
         next: (message) => {
-          console.log(message)
-        }, error: (error) => {
-          console.error(error)
-        }, complete: () => {
-          console.log('Complete')
+          const meetingQRCode: MeetingQRDto = JSON.parse(message.data)
+          switch (meetingQRCode.ticketCustomerStatus) {
+            case StatusTicket.CHECK_IN:
+              notificationApi.success({
+                message: t('common.message.success.check-in'),
+                description: t('common.message.check-in.success', { customerName: meetingQRCode.customerInfo.visitorName })
+              })
+              break
+            case StatusTicket.REJECT:
+              notificationApi.error({
+                message: t('common.message.error.check-in'),
+                description: t('common.message.check-in.reject', { customerName: meetingQRCode.customerInfo.visitorName })
+              })
+              break
+          }
+          setTableAction(resetCurrentPageAction(tableAction))
         }
       })
-      return () => eventSource.close()
+      return () => {
+        eventSource.close()
+      }
     }
   }, [eventSource])
 
@@ -88,7 +102,7 @@ const CheckInManager = () => {
     setFilterPayload(filterPayload)
     console.log(filterPayload)
   }
-  const openEdit = (checkInDto: CheckInDto) => {
+  const openEdit = (checkInDto: MeetingQRDto) => {
     console.log(checkInDto.checkInCode)
     setInfoModalData({ ...infoModalData, entitySelected: checkInDto, openModal: true })
   }
@@ -96,45 +110,48 @@ const CheckInManager = () => {
     setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
   return (
-    <CheckInManagerWrapper>
-      <Space direction='vertical' size={24} style={{ width: '100%' }}>
-        <Space>
-          <h2>{t('check-in.title')}</h2>
-          <Divider type='vertical' />
+    <>
+      {contextHolder}
+      <CheckInManagerWrapper>
+        <Space direction='vertical' size={24} style={{ width: '100%' }}>
+          <Space>
+            <h2>{t('check-in.title')}</h2>
+            <Divider type='vertical' />
+          </Space>
+          {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
+            <Row className={'w-full m-0'} gutter={24} wrap={false}>
+              <Col flex={'none'} span={12}>
+                <CheckInFilter onFilter={onFilter} />
+              </Col>
+              <Col flex={'auto'}>
+                <Card>
+                  <CheckInTable loading={tableData.loading}
+                                pageableResponse={tableData.pageableResponse}
+                                currentPage={tableAction.pagination?.current}
+                                onChangeTable={handleChangeTable}
+                                onEdit={openEdit}
+                  />
+                </Card>
+              </Col>
+              <Modal
+                open={infoModalData.openModal}
+                closable={false}
+                title={null}
+                footer={null}
+                confirmLoading={infoModalData.confirmLoading}
+                width={1000}
+                onCancel={onClose}
+              >
+                <TicketInfo ticketResult={{
+                  checkInCode: (infoModalData.entitySelected?.checkInCode) ? infoModalData.entitySelected?.checkInCode : '',
+                  meetingQRDto: meetingQRDto
+                }} />
+              </Modal>
+            </Row>
+          )}
         </Space>
-        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
-          <Row className={'w-full m-0'} gutter={24} wrap={false}>
-            <Col flex={'none'} span={12}>
-              <CheckInFilter onFilter={onFilter} />
-            </Col>
-            <Col flex={'auto'}>
-              <Card>
-                <CheckInTable loading={tableData.loading}
-                              pageableResponse={tableData.pageableResponse}
-                              currentPage={tableAction.pagination?.current}
-                              onChangeTable={handleChangeTable}
-                              onEdit={openEdit}
-                />
-              </Card>
-            </Col>
-            <Modal
-              open={infoModalData.openModal}
-              closable={false}
-              title={null}
-              footer={null}
-              confirmLoading={infoModalData.confirmLoading}
-              width={1000}
-              onCancel={onClose}
-            >
-              <TicketInfo ticketResult={{
-                checkInCode: (infoModalData.entitySelected?.checkInCode) ? infoModalData.entitySelected?.checkInCode : '',
-                meetingQRDto: meetingQRDto
-              }} />
-            </Modal>
-          </Row>
-        )}
-      </Space>
-    </CheckInManagerWrapper>
+      </CheckInManagerWrapper>
+    </>
   )
 }
 

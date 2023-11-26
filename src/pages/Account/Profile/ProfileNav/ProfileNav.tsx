@@ -23,7 +23,7 @@ const ProfileNav: React.FC<Props> = (props) => {
     const url = await toBase64(data.file)
     props.onAvatarChange(
       {
-        file: data.file.originFileObj,
+        file: data.file,
         content: {
           ...data.fileList,
           // @ts-ignore

@@ -57,7 +57,7 @@ const RoomMeetingCalendar = () => {
       }
     }).catch(() => {
       setDataState({ ...dataState, loading: false })
-      message.error(t('common.message.error'))
+      message.error(t('common.message.error.save'))
     })
   }
 

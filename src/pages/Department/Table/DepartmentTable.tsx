@@ -1,6 +1,6 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { DepartmentDto, PageableResponse, UserDto } from '~/interface'
+import { DepartmentDto, PageableResponse } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Table, TablePaginationConfig } from 'antd'
@@ -55,9 +55,9 @@ const DepartmentTable: React.FC<MeetingItemProps> = (props) => {
         render={(enable) => <SharedStatus status={enable} />}
       />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
-              render={(value: UserDto) => moment(value.createdOn).format('L')} />
+              render={(value: DepartmentDto) => moment(value.createdOn).format('L')} />
       <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
-              render={(value: UserDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />
+              render={(value: DepartmentDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : undefined} />
     </Table>
   )
 }

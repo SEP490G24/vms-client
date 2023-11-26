@@ -80,7 +80,7 @@ const TicketInfo: React.FC<Props> = (props) => {
       ...checkInStatus,
     })
       .then(() => success())
-      .catch(() => message.error(t('common.message.error')))
+      .catch(() => message.error(t('common.message.error.save')))
       .finally(() => {
         setTimeout(() => {
           navigate(PATH_DASHBOARD)

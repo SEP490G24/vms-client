@@ -6,7 +6,7 @@ import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { DeviceDto, PageableResponse, UserDto } from '~/interface'
+import { DeviceDto, PageableResponse } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission } from '~/utils'
 import { DeviceInfo } from './Info'
@@ -56,7 +56,7 @@ const Device = () => {
         }
       })
       .catch(async () => {
-        await message.error(t('common.message.error'))
+        await message.error(t('common.message.error.save'))
       })
   }
 
@@ -130,9 +130,9 @@ const Device = () => {
                   }
                 />
                 <Column title={t('common.field.registration_date')} key='createdOn'
-                        render={(value: UserDto) => moment(value.createdOn).format('L')} />
+                        render={(value: DeviceDto) => moment(value.createdOn).format('L')} />
                 <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
-                        render={(value: UserDto) => moment(value.lastUpdatedOn ?? value.createdOn).format('L')} />
+                        render={(value: DeviceDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : undefined} />
               </Table>
             </Col>
             {openModal && (

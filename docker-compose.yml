@@ -1,17 +1,14 @@
 version: "3.8"
 services:
   vms-client:
+    image: vmsacr.azurecr.io/web-vms:latest
     restart: always
     volumes:
-      - ./.nginx/html/config:/usr/share/nginx/html/config
+      - nginx-config:/usr/share/nginx/html/config
     build: .
-    container_name: vms-client
+    container_name: web-vms
     ports:
       - "3000:80" # map 80 in container => 3000 in local
-    networks:
-      - vms
-
-networks:
-  vms:
-    name: vms-network
-    driver: bridge
+    environment:
+       TZ=Asia/Ho_Chi_Minh
+       WEBSITE_TIME_ZONE=Asia/Ho_Chi_Minh

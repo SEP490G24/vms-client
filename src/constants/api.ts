@@ -63,6 +63,16 @@ export const ROOM = {
   FILTER: `${VITE_API_SERVER_URL}/room/filter`,
   MY_ROOM: `${VITE_API_SERVER_URL}/room/profile`
 }
+
+export const DASHBOARD = {
+  COUNT_TICKETS_BY_PURPOSE_WITH_PIE: `${VITE_API_SERVER_URL}/dashboard/ticket/purpose/pie`,
+  COUNT_TICKETS_BY_PURPOSE_BY_WITH_MULTI_LINE: `${VITE_API_SERVER_URL}/dashboard/ticket/purpose/multi-line`,
+  COUNT_TICKETS_BY_STATUS: `${VITE_API_SERVER_URL}/dashboard/ticket/status`,
+  COUNT_TICKETS_BY_STATUS_WITH_STACKED_COLUMN: `${VITE_API_SERVER_URL}/dashboard/ticket/status/stacked-column`,
+  COUNT_VISITS_BY_STATUS: `${VITE_API_SERVER_URL}/dashboard/visits/status`,
+  COUNT_VISITS_BY_STATUS_WITH_STACKED_COLUMN: `${VITE_API_SERVER_URL}/dashboard/visits/status/stacked-column`,
+}
+
 export const CARD = {
   BASE_PATH: `${VITE_API_SERVER_URL}/ticket/customer/card`,
 }

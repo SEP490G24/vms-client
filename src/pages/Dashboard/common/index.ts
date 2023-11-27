@@ -1,5 +1,5 @@
 export * from './MeetingCountDown'
-export * from './PurposeOverviewDashboard'
+export * from './TicketStatusDashboard'
 export * from './StatisticTicketDashboard'
-export * from './TicketOverviewDashboard'
+export * from './TicketPurposeDashboard'
 export * from './OverviewFilter'

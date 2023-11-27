@@ -1,6 +1,9 @@
 import { AxiosRequestConfig } from 'axios'
-import { SortDirection, SortDirectionType, TableAction } from '~/interface'
+import {OptionItem, RangeValue, SortDirectionType, TableAction} from '~/interface'
 import { authService } from '~/service'
+import {durationOption, SortDirection} from "~/constants";
+import moment from "moment/moment";
+import dayjs from "dayjs";
 
 export const TICKET_STATE_LABELS: any = {
   PRE_CONSULTANT: 'common.ticketStatus.preConsultation',
@@ -124,5 +127,33 @@ export function formatSortParam(sortField: string, sortOrder?: string) {
 
 export const checkPermission = (permissions: any): any => {
   return !permissions || authService.hasRole(permissions)
+}
+
+export const getDataRangeOptions = (t: any) => {
+  const options: OptionItem[] = []
+  const entries = Object.entries(durationOption)
+  entries.forEach(([key, value]) => {
+    options.push({ label: t(value), value: key })
+  })
+  return options
+}
+
+/**
+ * Get RangeValue
+ * @param key as TODAY, 1WEEK, 1MONTH, 3MONTHS
+ */
+export const getDateRangeValue = (key: string): RangeValue => {
+  const today = new Date(moment().format('yyyy/MM/DD'))
+  switch (key) {
+    case 'TODAY':
+      return [dayjs(today), dayjs(today).add(+1, 'day')]
+    case '1WEEK':
+      return [dayjs(today).add(-1, 'week'), dayjs(today)]
+    case '1MONTH':
+      return [dayjs(today).add(-1, 'month'), dayjs(today)]
+    case '3MONTHS':
+      return [dayjs(today).add(-3, 'months'), dayjs(today)]
+  }
+  return null
 }
 

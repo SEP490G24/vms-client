@@ -1,11 +1,10 @@
-import dayjs, { Dayjs } from 'dayjs'
-import moment from 'moment'
-import { TablePaginationConfig, UploadFile } from 'antd'
-import { FilterValue } from 'antd/es/table/interface'
-import { PageableResponse } from '~/interface/PageableResponse.ts'
-import { RcFile } from 'antd/es/upload'
-import { Observable } from 'rxjs'
-import { EventSourceMessage } from '@microsoft/fetch-event-source'
+import {Dayjs} from 'dayjs'
+import {TablePaginationConfig, UploadFile} from 'antd'
+import {FilterValue} from 'antd/es/table/interface'
+import {PageableResponse} from '~/interface/PageableResponse.ts'
+import {RcFile} from 'antd/es/upload'
+import {Observable} from 'rxjs'
+import {EventSourceMessage} from '@microsoft/fetch-event-source'
 
 export enum Purpose {
   CONFERENCES, INTERVIEW, MEETING, WORKING, OTHERS
@@ -53,11 +52,6 @@ export enum StatusTicket {
   CHECK_OUT = 'CHECK_OUT',
   CANCEL = 'CANCEL',
   REJECT = 'REJECT'
-}
-
-export const Status = {
-  ENABLE: true,
-  DISABLE: false
 }
 
 export interface RouteItem {
@@ -109,19 +103,7 @@ export interface UploadFileData {
   content: UploadFile
 }
 
-export const durationOption = {
-  'TODAY': 'common.durationOption.today',
-  '1WEEK': 'common.durationOption.1week',
-  '1MONTH': 'common.durationOption.1month',
-  '3MONTHS': 'common.durationOption.3months'
-}
-
 export type SortDirectionType = 'ascend' | 'descend'
-
-export const SortDirection = {
-  'ascend': 'asc',
-  'descend': 'desc'
-}
 
 export type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
@@ -130,30 +112,3 @@ export interface DateRadioRange {
   date?: RangeValue
 }
 
-export const getDataRangeOptions = (t: any) => {
-  const options: OptionItem[] = []
-  const entries = Object.entries(durationOption)
-  entries.forEach(([key, value]) => {
-    options.push({ label: t(value), value: key })
-  })
-  return options
-}
-
-/**
- * Get RangeValue
- * @param key as TODAY, 1WEEK, 1MONTH, 3MONTHS
- */
-export const getDateRangeValue = (key: string): RangeValue => {
-  const today = new Date(moment().format('yyyy/MM/DD'))
-  switch (key) {
-    case 'TODAY':
-      return [dayjs(today), dayjs(today).add(+1, 'day')]
-    case '1WEEK':
-      return [dayjs(today).add(-1, 'week'), dayjs(today)]
-    case '1MONTH':
-      return [dayjs(today).add(-1, 'month'), dayjs(today)]
-    case '3MONTHS':
-      return [dayjs(today).add(-3, 'months'), dayjs(today)]
-  }
-  return null
-}

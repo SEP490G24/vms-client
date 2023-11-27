@@ -1,8 +1,12 @@
-import { Space } from 'antd'
-import { DashboardSiteWrapper } from './styles.ts'
-import { OverviewFilterDashboard, PurposeOverviewDashboard, StatisticTicketDashboard } from '~/pages'
-import TicketOverviewDashboard from '../common/TicketOverviewDashboard/TicketOverviewDashboard.tsx'
-import MeetingCountDown from '../common/MeetingCountDown/MeetingCountDown.tsx'
+import {Space} from 'antd'
+import {DashboardSiteWrapper} from './styles.ts'
+import {
+  MeetingCountDown,
+  OverviewFilterDashboard,
+  StatisticTicketDashboard,
+  TicketPurposeDashboard,
+  TicketStatusDashboard
+} from '~/pages'
 
 const DashboardSite = () => {
 
@@ -10,9 +14,9 @@ const DashboardSite = () => {
     <DashboardSiteWrapper>
       <Space className={'w-full mb-10'} size={32} direction={'vertical'}>
         <OverviewFilterDashboard />
+        <TicketStatusDashboard />
         <StatisticTicketDashboard />
-        <TicketOverviewDashboard />
-        <PurposeOverviewDashboard />
+        <TicketPurposeDashboard />
         <MeetingCountDown />
       </Space>
     </DashboardSiteWrapper>

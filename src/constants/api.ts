@@ -69,6 +69,7 @@ export const DASHBOARD = {
   COUNT_TICKETS_BY_PURPOSE_BY_WITH_MULTI_LINE: `${VITE_API_SERVER_URL}/dashboard/ticket/purpose/multi-line`,
   COUNT_TICKETS_BY_STATUS: `${VITE_API_SERVER_URL}/dashboard/ticket/status`,
   COUNT_TICKETS_BY_STATUS_WITH_STACKED_COLUMN: `${VITE_API_SERVER_URL}/dashboard/ticket/status/stacked-column`,
+  COUNT_TICKETS_PERIOD: `${VITE_API_SERVER_URL}/dashboard/tickets/period`,
   COUNT_VISITS_BY_STATUS: `${VITE_API_SERVER_URL}/dashboard/visits/status`,
   COUNT_VISITS_BY_STATUS_WITH_STACKED_COLUMN: `${VITE_API_SERVER_URL}/dashboard/visits/status/stacked-column`,
 }
@@ -118,7 +119,8 @@ export const TICKET = {
 
 export const CUSTOMER = {
   BASE_PATH: `${VITE_API_SERVER_URL}/customer`,
-  FILTER: `${VITE_API_SERVER_URL}/customer/filter`
+  FILTER: `${VITE_API_SERVER_URL}/customer/filter`,
+  AVAILABLE: `${VITE_API_SERVER_URL}/customer/available`
 }
 
 export const KEYCLOAK = {

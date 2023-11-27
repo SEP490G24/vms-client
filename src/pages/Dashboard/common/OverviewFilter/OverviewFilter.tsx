@@ -4,31 +4,42 @@ import { sitesSelector } from '~/redux'
 import { checkPermission, enumToArray } from '~/utils'
 import { SCOPE_ROLE_MAP } from '~/role'
 import { MONTHS } from '~/interface'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SharedButton } from '~/common'
 import { useTranslation } from 'react-i18next'
 
-interface OverviewFilterPayload {
+export interface OverviewFilterPayload {
   siteId?: string
   year?: number
   month?: number
 }
 
-function OverviewFilter() {
+interface Props {
+  onFilter: (filterPayload: OverviewFilterPayload) => void
+}
+
+const OverviewFilter: React.FC<Props> = (props) => {
 
   const { t } = useTranslation()
-
-  const { sites } = useSelector(sitesSelector)
-  const [filterPayload, setFilterPayload] = useState<OverviewFilterPayload>({
+  const defaultValue = {
     year: new Date().getFullYear(),
     month: new Date().getMonth()
-  })
+  }
+
+  const { sites } = useSelector(sitesSelector)
+  const [filterPayload, setFilterPayload] = useState<OverviewFilterPayload>(defaultValue)
+
+  useEffect(() => {
+    onFilter()
+  }, [])
 
   const onReset = () => {
-    setFilterPayload({
-      year: new Date().getFullYear(),
-      month: new Date().getMonth()
-    })
+    setFilterPayload(defaultValue)
+    props.onFilter(defaultValue)
+  }
+
+  const onFilter = () => {
+    props.onFilter(filterPayload)
   }
 
   return (
@@ -38,6 +49,7 @@ function OverviewFilter() {
               <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
               <SharedButton
                 type={'primary'}
+                onClick={onFilter}
               >
                 {t('common.label.search')}
               </SharedButton>

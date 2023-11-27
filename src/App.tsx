@@ -4,9 +4,10 @@ import { ThemeProvider } from 'styled-components'
 import { AuthLayout, DefaultLayout } from '~/layouts'
 import {
   fetchMyOrganization,
-  fetchProfile, fetchProvince,
+  fetchProfile,
+  fetchProvince,
   findAllRoom,
-  findAllSitesInOrganization, findCustomerByOrganization,
+  findAllSitesInOrganization,
   themeSelector,
   useAppSelector
 } from './redux'
@@ -42,7 +43,6 @@ function App() {
       dispatch(findAllRoom({}) as any)
     }
     dispatch(fetchProfile() as any)
-    dispatch(findCustomerByOrganization() as any)
     dispatch(fetchProvince() as any)
   }, [])
   const CustomRouter = ({ basename, children, history }: Props) => {

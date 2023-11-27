@@ -34,6 +34,12 @@ const countTicketsByStatusWithStackedColumn = async (payload: DashboardFilterPay
   return httpService.handleResponseStatus(response)
 }
 
+const countTicketsPeriod = async (payload: DashboardFilterPayload) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.post(DASHBOARD.COUNT_TICKETS_PERIOD, payload)
+  return httpService.handleResponseStatus(response)
+}
+
 const countVisitsByStatus = async (payload: DashboardFilterPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(DASHBOARD.COUNT_VISITS_BY_STATUS, payload)
@@ -52,6 +58,7 @@ const cardService = {
   countTicketsByPurposeByWithMultiLine,
   countTicketsByStatus,
   countTicketsByStatusWithStackedColumn,
+  countTicketsPeriod,
   countVisitsByStatus,
   countVisitsByStatusWithStackedColumn,
 }

@@ -7,14 +7,13 @@ interface SharedLineChartProps {
   xField: string,
   yField: string,
   seriesField: string,
-  onReady?: (chartInstance: any) => void
 }
 
 export const SharedLineChart: React.FC<SharedLineChartProps> = memo((props) => {
 
     const config: LineConfig = {
       animation: false,
-      data: props.data ?? [],
+      data: props.data,
       point: {
         shape: 'circle',
         size: 3
@@ -32,7 +31,7 @@ export const SharedLineChart: React.FC<SharedLineChartProps> = memo((props) => {
     }
 
     return (
-      <Line {...config} onReady={ props.onReady } />
+      <Line {...config} />
     )
   }
 )

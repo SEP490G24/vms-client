@@ -64,11 +64,18 @@ const Feature: React.FC<FeatureArgs> = (props) => {
                     </Space>}
                   key='name' />
           {props.roles?.map((role) =>
-            <Column align={'center'} title={role.attributes.name ?? role.code} render={(value) =>
-              <Checkbox
-                defaultChecked={role.permissionDtos.some(r => r.moduleId === value.moduleId && r.name === value.name)}
-                onChange={(event) => props.onChange(role.code, value, event)} />
-            } />)
+            <Column align={'center'}
+                    title={
+                      <Space direction={'vertical'} size={2}>
+                        <strong>{role.attributes.name?.join(' ') ?? ''}</strong>
+                        <span className={'text-xs text-muted'}>{role.code}</span>
+                      </Space>
+                    }
+                    render={(value) =>
+                      <Checkbox
+                        defaultChecked={role.permissionDtos.some(r => r.moduleId === value.moduleId && r.name === value.name)}
+                        onChange={(event) => props.onChange(role.code, value, event)} />
+                    } />)
           }
         </Table>
       </Card>

@@ -30,6 +30,11 @@ export interface CustomerFilterPayload {
   keyword?: string;
 }
 
+export interface CustomerAvailablePayload {
+  startTime?: string | Date;
+  endTime?: string | Date;
+}
+
 const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.get(CUSTOMER.BASE_PATH)
@@ -60,9 +65,9 @@ const remove = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const findByOrganization = async () => {
+const findCustomerAvailable = async (payload: CustomerAvailablePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.get(CUSTOMER.BASE_PATH + `/available`)
+  const response = await httpService.post(CUSTOMER.AVAILABLE, payload)
   return httpService.handleResponseStatus(response)
 }
 
@@ -85,7 +90,7 @@ const customerService = {
   update,
   remove,
   filter,
-  findByOrganization
+  findCustomerAvailable
 }
 
 export default customerService

@@ -1,36 +1,21 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo } from 'react'
 import { Column, ColumnConfig } from '@ant-design/charts'
 
-interface SharedPieChartProps {
-  data?: Record<string, any>[],
-  angleField?: string,
-  colorField?: string,
-  titleContent?: string
+interface SharedStackedColumnChartProps {
+  data: any,
+  xField: string,
+  yField: string,
+  seriesField: string,
 }
 
-export const SharedStackedColumnChart: React.FC<SharedPieChartProps> = memo(() => {
-
-    const [data, setData] = useState([])
-
-    useEffect(() => {
-      asyncFetch()
-    }, [])
-
-    const asyncFetch = () => {
-      fetch('https://gw.alipayobjects.com/os/antfincdn/8elHX%26irfq/stack-column-data.json')
-        .then((response) => response.json())
-        .then((json) => setData(json))
-        .catch((error) => {
-          console.log('fetch data failed', error)
-        })
-    }
+export const SharedStackedColumnChart: React.FC<SharedStackedColumnChartProps> = memo((props) => {
 
     const config: ColumnConfig = {
-      data,
+      data: props.data,
       isStack: true,
-      xField: 'year',
-      yField: 'value',
-      seriesField: 'type',
+      xField: props.xField,
+      yField: props.yField,
+      seriesField: props.seriesField,
       label: {
         // 可手动配置 label 数据标签位置
         position: 'middle' // 'top', 'bottom', 'middle'

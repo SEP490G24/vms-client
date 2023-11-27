@@ -4,8 +4,8 @@ import { PieConfig } from '@ant-design/plots/es/components/pie'
 
 interface SharedPieChartProps {
   data: Record<string, any>[],
-  angleField?: string,
-  colorField?: string,
+  angleField: string,
+  colorField: string,
   titleContent?: string
 }
 
@@ -14,8 +14,8 @@ export const SharedPieChart: React.FC<SharedPieChartProps> = memo((props) => {
     const config: PieConfig = {
       appendPadding: 10,
       data: props.data,
-      angleField: props.angleField ?? 'value',
-      colorField: props.colorField ?? 'type',
+      angleField: props.angleField,
+      colorField: props.colorField,
       // color: [themes.tertiary, themes.primary.normal],
       radius: 1,
       innerRadius: 0.5,

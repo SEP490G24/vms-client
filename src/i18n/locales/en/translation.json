@@ -1,7 +1,7 @@
 {
   "common": {
     "field": {
-      "customers" : "Customers",
+      "customers": "Customers",
       "username": "Username",
       "gender": "Gender",
       "reason": "Reason",
@@ -204,7 +204,11 @@
     "message": {
       "success": {
         "save": "Save Successfully!",
-        "check-in": "Check-in Success"
+        "check-in": "Check-in Success",
+        "refresh": "Refresh Data Successfully"
+      },
+      "warning": {
+        "try-again": "Please try again in a minutes."
       },
       "error": {
         "save": "Save failure!",
@@ -290,6 +294,18 @@
   },
   "qr-manager": {
     "title": "QR Code Management"
+  },
+  "dashboard": {
+    "title": "Dashboard Management",
+    "lastUpdate": "Latest update",
+    "statistic": {
+      "totalTicket": "Total Ticket",
+      "totalTicketCompleted": "Total Ticket <br/> Completed",
+      "totalTicketCancel": "Total Ticket <br/> Cancel",
+      "totalVisitor": "Total Visitor",
+      "totalVisitorAccept": "Total Visitor <br/> Acceptance",
+      "totalVisitorReject": "Total Visitor <br/> Rejected"
+    }
   },
   "organization": {
     "info": {
@@ -504,7 +520,7 @@
         "btn-edit": "Save"
       },
       "detail": {
-        "title" : "Role Information"
+        "title": "Role Information"
       }
     }
   },
@@ -553,7 +569,7 @@
     },
     "configuration": {
       "title": "Configuration ",
-      "sub":{
+      "sub": {
         "audit-log": "Audit Log"
       }
     }

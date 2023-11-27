@@ -17,6 +17,7 @@ interface ParticipantsArgs {
 
 const Participants: React.FC<ParticipantsArgs> = (props) => {
   const { t } = useTranslation()
+  // TODO: change to fetch with available
   const { customers } = useSelector(customersSelector)
 
   return (

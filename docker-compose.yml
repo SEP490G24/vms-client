@@ -10,6 +10,5 @@ services:
     ports:
       - "3000:80" # map 80 in container => 3000 in local
     environment:
-       WEBSITES_ENABLE_APP_SERVICE_STORAGE: TRUE
-       TZ: Asia/Ho_Chi_Minh
-       WEBSITE_TIME_ZONE: Asia/Ho_Chi_Minh
+       TZ=Asia/Ho_Chi_Minh
+       WEBSITE_TIME_ZONE=Asia/Ho_Chi_Minh

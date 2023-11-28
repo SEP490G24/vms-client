@@ -67,7 +67,7 @@ const RoomMeetingCalendar = () => {
         <Space className={'w-full justify-between'}>
           <h2>{t('meeting.calendar.title')}</h2>
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FILTER}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <MeetingFilter onFilter={onFilter} />

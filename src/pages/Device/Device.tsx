@@ -77,7 +77,7 @@ const Device = () => {
           <h2>{t('organization.device.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP.R_DEVICE_FIND) && (
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <DeviceFilter onFilter={onFilter} />

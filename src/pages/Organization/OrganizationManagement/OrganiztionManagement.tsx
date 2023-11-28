@@ -13,7 +13,6 @@ import { OrganizationFilter } from './Filter'
 import { OrganizationTable } from './Table'
 import { OrganizationFilterPayload, organizationService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
-import { AuthSection } from '~/auth'
 
 const OrganiztionManagement = () => {
   const { t } = useTranslation()
@@ -92,51 +91,50 @@ const OrganiztionManagement = () => {
           <h2>{t('organization.organization.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_SITE_FIND}>
-          <Row className={'w-full m-0'} gutter={24} wrap={false}>
-            <Col flex={'none'} span={12}>
-              <OrganizationFilter onFilter={onFilter} />
-            </Col>
-            <Col flex={'auto'}>
-              <Card title={<Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <strong> {t('organization.organization.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
-                <Space>
-                  <SharedButton
-                    permissions={PERMISSION_ROLE_MAP.R_SITE_CREATE}
-                    type='default'
-                    onClick={() => {setInfoModalData({
+        <Row className={'w-full m-0'} gutter={24} wrap={false}>
+          <Col flex={'none'} span={12}>
+            <OrganizationFilter onFilter={onFilter} />
+          </Col>
+          <Col flex={'auto'}>
+            <Card title={<Space style={{ width: '100%', justifyContent: 'space-between' }}>
+              <strong> {t('organization.organization.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
+              <Space>
+                <SharedButton
+                  permissions={PERMISSION_ROLE_MAP.R_SITE_CREATE}
+                  type='default'
+                  onClick={() => {
+                    setInfoModalData({
                       ...infoModalData,
                       entitySelected: undefined,
                       openModal: true
-                    });
-                    }}
-                  >
-                    {t('common.label.create')}
-                  </SharedButton>
-                </Space>
-              </Space>}>
-                <Divider style={{ margin: '16px 0 0' }} />
-                <OrganizationTable
-                  loading={tableData.loading}
-                  pageableResponse={tableData.pageableResponse}
-                  currentPage={tableAction.pagination?.current}
-                  onChangeTable={handleChangeTable}
-                  onEdit={openEdit} />
-              </Card>
-            </Col>
-            <Modal
-              open={infoModalData.openModal}
-              closable={false}
-              title={null}
-              footer={null}
-              confirmLoading={infoModalData.confirmLoading}
-              width={650}
-              onCancel={onClose}
-            >
-              <OrganizationInfo organization={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
-            </Modal>
-          </Row>
-        </AuthSection>
+                    })
+                  }}
+                >
+                  {t('common.label.create')}
+                </SharedButton>
+              </Space>
+            </Space>}>
+              <Divider style={{ margin: '16px 0 0' }} />
+              <OrganizationTable
+                loading={tableData.loading}
+                pageableResponse={tableData.pageableResponse}
+                currentPage={tableAction.pagination?.current}
+                onChangeTable={handleChangeTable}
+                onEdit={openEdit} />
+            </Card>
+          </Col>
+          <Modal
+            open={infoModalData.openModal}
+            closable={false}
+            title={null}
+            footer={null}
+            confirmLoading={infoModalData.confirmLoading}
+            width={650}
+            onCancel={onClose}
+          >
+            <OrganizationInfo organization={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
+          </Modal>
+        </Row>
       </Space>
     </OrganizationWrapper>
   )

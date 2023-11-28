@@ -92,7 +92,7 @@ const OrganiztionManagement = () => {
           <h2>{t('organization.organization.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_SITE_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_ORGANIZATION_FILTER}>
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <OrganizationFilter onFilter={onFilter} />

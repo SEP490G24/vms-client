@@ -78,7 +78,7 @@ const Organization = () => {
   return (
     <OrganizationWrapper>
       <h2 className='page-header-text'>{t('organization.info.title')}</h2>
-      <AuthSection permissions={PERMISSION_ROLE_MAP.R_ORGANIZATION_FIND}>
+      <AuthSection permissions={PERMISSION_ROLE_MAP.R_ORGANIZATION_FILTER}>
         <PerfectScrollbar>
           <Row className={'m-0'} style={{ maxHeight: 'calc(100vh - 160px)' }}>
             <Col span={24}>
@@ -86,7 +86,6 @@ const Organization = () => {
                 title={t('organization.info.title')}
                 extra={
                   <SharedButton
-                    permissions={PERMISSION_ROLE_MAP.R_ORGANIZATION_UPDATE}
                     type='primary'
                     onClick={form.submit}
                   >

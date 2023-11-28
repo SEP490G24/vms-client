@@ -92,7 +92,7 @@ const Site = () => {
           <h2>{t('organization.site.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_SITE_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_SITE_FILTER}>
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <SiteFilter onFilter={onFilter} />

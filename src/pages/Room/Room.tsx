@@ -87,7 +87,7 @@ const Room = () => {
           <h2>{t('organization.room.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP.R_ROOM_FILTER) && (
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <RoomFilter onFilter={onFilter} />

@@ -74,7 +74,7 @@ const Setting = () => {
             </Row>
           }
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_SETTING_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_SETTING_FILTER}>
           {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
             <Row gutter={24} wrap={false}>
               <Col span={5}>

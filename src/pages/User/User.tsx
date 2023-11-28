@@ -132,7 +132,7 @@ const User = () => {
           <h2>{t('organization.user.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_USER_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_USER_FILTER}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <UserFilter onFilter={onFilter} />

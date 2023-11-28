@@ -101,7 +101,7 @@ const Template = () => {
             {t('common.label.create')}
           </SharedButton>
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_TEMPLATE_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_TEMPLATE_FILTER}>
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <TemplateFilter onFilter={onFilter} />

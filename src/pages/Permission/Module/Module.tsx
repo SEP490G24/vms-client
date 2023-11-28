@@ -40,6 +40,10 @@ const Module: React.FC<ModuleArgs> = (args) => {
     setModuleFeatures(_moduleFeatures)
   }, [args.module, i18n.language])
 
+  useEffect(() => {
+    console.log(args.module)
+  }, [])
+
   const onEditLabelFeature = (value: string, permissions: PermissionDto[]) => {
     permissionService.updateAttribute(args.module.id, {
       attributes: { [`feature:${i18n.language}`]: [value] },

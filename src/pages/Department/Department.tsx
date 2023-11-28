@@ -88,7 +88,7 @@ const Department = () => {
           <h2>{t('organization.department.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_DEPARTMENT_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_DEPARTMENT_FILTER}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <DepartmentFilter onFilter={onFilter} />

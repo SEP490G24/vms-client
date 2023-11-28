@@ -106,7 +106,7 @@ const Role = () => {
           <h2>{t('organization.role.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_ROLE_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_ROLE_FILTER}>
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <RoleFilter className={'w-[395px]'} onFilter={onFilter} />

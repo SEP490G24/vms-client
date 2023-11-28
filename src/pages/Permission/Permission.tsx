@@ -79,7 +79,7 @@ const Permission = () => {
             </SharedButton>
           </Space>
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_ROLE_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP.R_ROLE_FILTER}>
           {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
             <div className='page-content'>
               {Array.isArray(modules) && (

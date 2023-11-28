@@ -86,7 +86,7 @@ const History = () => {
           <h2>{t('organization.history.title')}</h2>
           <Divider type='vertical' />
         </Space>
-        {checkPermission(PERMISSION_ROLE_MAP.R_USER_FIND) && (
+        {checkPermission(PERMISSION_ROLE_MAP['R_ACCESS-HISTORY_FILTER']) && (
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <HistoryFilter onFilter={onFilter} />

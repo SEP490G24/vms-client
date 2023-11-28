@@ -88,7 +88,7 @@ const AuditLog = () => {
 
           <Divider type='vertical' />
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_AUDITLOG_FIND}>
+        <AuthSection permissions={PERMISSION_ROLE_MAP['R_AUDIT-LOG_FILTER']}>
           <Row className={'w-full m-0'} gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
               <AuditLogFilter onFilter={onFilter} />

@@ -6,9 +6,8 @@ import { authSelector, useAppSelector } from '~/redux'
 import React, { useEffect } from 'react'
 import { SharedInput, SharedSelect } from '~/common'
 import { SharedDatePicker } from '~/common/SharedDatePicker'
-import { REGEX } from '~/constants'
+import { REGEX, Gender } from '~/constants'
 import { enumToArray } from '~/utils'
-import { Gender } from '~/interface'
 import { useLocation } from '~/hook'
 
 interface Props {

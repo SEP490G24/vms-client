@@ -1,16 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScheduleWrapper } from './styles.ts'
 import { Form, FormInstance, TimeRangePickerProps } from 'antd'
 import { SharedInput, SharedSelect } from '~/common'
 import TextArea from 'antd/es/input/TextArea'
 import { useTranslation } from 'react-i18next'
-import { Purpose } from '~/interface'
-import { useDispatch, useSelector } from 'react-redux'
+import { Purpose } from '~/constants'
+import { useSelector } from 'react-redux'
 import { roomsSelector } from '~/redux/slices/roomSlice.ts'
 import { RangePicker } from '~/common/SharedDatePicker'
 import dayjs, { Dayjs } from 'dayjs'
 import { enumToArray } from '~/utils'
-import { patchMeetingForm } from '~/redux/slices/meetingSlice.ts'
 import { CreateMeetingInfo } from '~/service'
 
 interface ScheduleWrapperArgs {
@@ -25,11 +24,27 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
 
   const { rooms } = useSelector(roomsSelector)
 
-  const dispatch = useDispatch()
+  const [valueDate, setValueDate] = useState<RangeValue>(null)
 
   const purpose = Form.useWatch('purpose', props.form)
 
   const { t } = useTranslation()
+
+  useEffect(() => {
+    setValueDate([dayjs(props.form.getFieldValue('startTime')), dayjs(props.form.getFieldValue('endTime'))])
+  }, [])
+
+  const onFinish = (values: any) => {
+    props.onFinish({
+      name: values['name'],
+      purpose: values['purpose'],
+      purposeNote: values['purposeNote'],
+      startTime: valueDate?.[0]?.toDate(),
+      endTime: valueDate?.[1]?.toDate(),
+      roomId: values['roomId'],
+      description: values['description']
+    })
+  }
 
   const rangePresets: TimeRangePickerProps['presets'] = [
     { label: 'The next 30 minutes', value: [dayjs(), dayjs().add(30, 'minutes')] },
@@ -37,17 +52,6 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
     { label: 'The next 2 hours', value: [dayjs(), dayjs().add(2, 'hours')] },
     { label: 'The next 4 hours', value: [dayjs(), dayjs().add(4, 'hours')] }
   ]
-
-  const onRangeChange = (dates: null | (Dayjs | null)[]) => {
-    if (dates) {
-      dispatch(patchMeetingForm({
-        startTime: dates[0]?.toDate(),
-        endTime: dates[1]?.toDate()
-      }))
-    } else {
-      console.log('Clear')
-    }
-  }
 
   return (
     <ScheduleWrapper>
@@ -59,7 +63,7 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
         initialValues={{ layout: 'horizontal' }}
         style={{ width: '100%' }}
         colon={false}
-        onFinish={props.onFinish}
+        onFinish={onFinish}
         labelAlign='left'
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
@@ -71,7 +75,7 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
           <SharedSelect
             placeholder={t('common.placeholder.purpose')}
             options={enumToArray(Purpose).map(purpose => {
-              return { label: purpose.key, value: purpose.key}
+              return { label: purpose.key, value: purpose.key }
             })}
           ></SharedSelect>
         </Form.Item>
@@ -80,6 +84,8 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
             <SharedInput placeholder={t('common.placeholder.purposeNote')} />
           </Form.Item>
         }
+        <Form.Item style={{ display: 'none' }} name='startTime'><SharedInput /></Form.Item>
+        <Form.Item style={{ display: 'none' }} name='endTime'><SharedInput /></Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.duration')}>
           <RangePicker
             className={'w-full'}
@@ -91,9 +97,9 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
               ...rangePresets
             ]}
             showTime
-            value={[dayjs(props.meeting.startTime), dayjs(props.meeting.endTime)]}
+            value={valueDate}
             format='YYYY/MM/DD HH:mm'
-            onChange={onRangeChange}
+            onChange={setValueDate}
           />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.room')} name='roomId'

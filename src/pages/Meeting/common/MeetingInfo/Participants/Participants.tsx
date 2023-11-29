@@ -8,6 +8,7 @@ import { SharedButton, SharedInput, SharedSelect } from '~/common'
 import { useSelector } from 'react-redux'
 import { customersSelector } from '~/redux/slices/customerSlice.ts'
 import { CreateMeetingInfo } from '~/service'
+import { REGEX } from '~/constants'
 
 interface ParticipantsArgs {
   meeting: CreateMeetingInfo
@@ -17,8 +18,14 @@ interface ParticipantsArgs {
 
 const Participants: React.FC<ParticipantsArgs> = (props) => {
   const { t } = useTranslation()
-  // TODO: change to fetch with available
   const { customers } = useSelector(customersSelector)
+
+  const onFinish = (values: any) => {
+    props.onFinish({
+      oldCustomers: values['oldCustomers'],
+      newCustomers: values['newCustomers']
+    })
+  }
 
   return (
     <ParticipantsWrapper>
@@ -30,7 +37,7 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
         initialValues={{ layout: 'horizontal' }}
         style={{ width: '100%' }}
         colon={false}
-        onFinish={props.onFinish}
+        onFinish={onFinish}
         labelAlign='left'
       >
         <Row className={'w-full'} gutter={8} align={'middle'}>
@@ -55,7 +62,7 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
                     <Divider orientation={'left'}>Customer</Divider>
                     <Col flex={1} key={index}>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')}
-                                 name={[index, 'visitor_name']}
+                                 name={[index, 'visitorName']}
                                  rules={[{ required: true }]}>
                         <SharedInput placeholder={t('common.placeholder.site_name')} />
                       </Form.Item>
@@ -66,12 +73,18 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
                       </Form.Item>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.phoneNumber')}
                                  name={[index, 'phoneNumber']}
-                                 rules={[{ required: true }]}>
+                                 rules={[{ required: true }, {
+                                   pattern: REGEX.PHONE,
+                                   message: t('common.error.phoneNumber_valid')
+                                 }]}>
                         <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} />
                       </Form.Item>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.email')}
                                  name={[index, 'email']}
-                                 rules={[{ required: true }]}>
+                                 rules={[{ required: true }, {
+                                   pattern: REGEX.EMAIL,
+                                   message: t('common.error.email_valid')
+                                 }]}>
                         <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')} />
                       </Form.Item>
                     </Col>

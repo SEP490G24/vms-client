@@ -1,6 +1,7 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { DepartmentDto, Gender, RoleDto, UserDto } from '~/interface'
+import { DepartmentDto, RoleDto, UserDto } from '~/interface'
+import { Gender } from '~/constants'
 import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'

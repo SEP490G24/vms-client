@@ -1,6 +1,7 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { MeetingDto, PageableResponse, Purpose, StatusTicket } from '~/interface'
+import { MeetingDto, PageableResponse } from '~/interface'
+import { StatusTicket, Purpose } from '~/constants'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Space, Table, TablePaginationConfig } from 'antd'

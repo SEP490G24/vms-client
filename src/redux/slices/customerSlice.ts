@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '~/redux'
 import { PageableResponse, CustomerDto } from '~/interface'
-import { customerService } from '~/service'
+import { CustomerAvailablePayload, customerService } from '~/service'
 
 const initialState = {
   pageableResponse: {} as PageableResponse<CustomerDto>,
@@ -19,6 +19,12 @@ export const filterCustomers = createAsyncThunk(
 export const fetchCustomerById = createAsyncThunk(
   'customer/fetchById', (id: string) => {
     return customerService.findById(id)
+  }
+)
+
+export const fetchAllCustomerAvailable = createAsyncThunk(
+  'customer/fetchAllAvailable', (args: CustomerAvailablePayload) => {
+    return customerService.findCustomerAvailable(args)
   }
 )
 
@@ -41,6 +47,11 @@ const customersSlice = createSlice({
       .addCase(fetchCustomerById.fulfilled, (state, action) => {
         if (action.payload?.data) {
           state.customerSelected = action.payload.data
+        }
+      })
+      .addCase(fetchAllCustomerAvailable.fulfilled, (state, action) => {
+        if (action.payload?.data) {
+          state.customers = action.payload.data
         }
       })
   }

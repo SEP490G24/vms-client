@@ -10,6 +10,8 @@
       "role": "Role",
       "dob": "Birthday",
       "duration": "Duration",
+      "title": "Title",
+      "guest": "Guest",
       "user": "User",
       "fullName": "Full name",
       "contact": "Contact",
@@ -243,13 +245,14 @@
         "title": "Search",
         "counselor": "Meeting",
         "counselor_placeholder": "User require, participants, ..."
-      },
-      "popup": {
-        "title-add": "Create new meeting",
-        "title-edit": "Meeting Edit",
-        "btn-save-draft": "Save Draft",
-        "btn-save": "Save"
       }
+    },
+    "popup": {
+      "title-add": "Create new meeting",
+      "title-edit": "Meeting Edit",
+      "btn-save-draft": "Save Draft",
+      "btn-save": "Save",
+      "confirm": "Confirm"
     }
   },
   "customer": {

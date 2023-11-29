@@ -1,9 +1,9 @@
 import { AxiosRequestConfig } from 'axios'
-import {OptionItem, RangeValue, SortDirectionType, TableAction} from '~/interface'
+import { OptionItem, RangeValue, SortDirectionType, TableAction } from '~/interface'
 import { authService } from '~/service'
-import {durationOption, SortDirection} from "~/constants";
-import moment from "moment/moment";
-import dayjs from "dayjs";
+import { durationOption, SortDirection } from '~/constants'
+import moment from 'moment/moment'
+import dayjs from 'dayjs'
 
 export const TICKET_STATE_LABELS: any = {
   PRE_CONSULTANT: 'common.ticketStatus.preConsultation',
@@ -91,7 +91,8 @@ function padTo2Digits(num: number) {
   return num.toString().padStart(2, '0')
 }
 
-export function formatDate(date: Date) {
+export function formatDate(date: Date | undefined) {
+  if (!date) date = new Date()
   return (
     [
       date.getFullYear(),
@@ -118,7 +119,12 @@ export function resetCurrentPageAction(tableAction: TableAction) {
 }
 
 export const randomColor = () => {
-  return '#' + Math.floor(Math.random() * 16777215).toString(16)
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
 }
 
 export function formatSortParam(sortField: string, sortOrder?: string) {

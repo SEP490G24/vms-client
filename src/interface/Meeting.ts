@@ -1,5 +1,5 @@
 import { CustomerDto } from '~/interface/Customer.ts'
-import { StatusTicket } from '~/interface/common.ts'
+import { StatusTicket } from '~/constants'
 
 export interface MeetingDto {
   createdBy?: string;

@@ -1,58 +1,10 @@
-import {Dayjs} from 'dayjs'
-import {TablePaginationConfig, UploadFile} from 'antd'
-import {FilterValue} from 'antd/es/table/interface'
-import {PageableResponse} from '~/interface/PageableResponse.ts'
-import {RcFile} from 'antd/es/upload'
-import {Observable} from 'rxjs'
-import {EventSourceMessage} from '@microsoft/fetch-event-source'
-
-export enum Purpose {
-  CONFERENCES, INTERVIEW, MEETING, WORKING, OTHERS
-}
-
-export enum TemplateVariable {
-  customerName,
-  meetingName,
-  startTime,
-  endTime,
-  address,
-  roomName
-}
-
-export enum Gender {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE',
-  OTHER = 'OTHER'
-}
-
-export enum MONTHS {
-  January,
-  February,
-  March,
-  April,
-  May,
-  June,
-  July,
-  August,
-  September,
-  October,
-  November,
-  December
-}
-
-export enum TemplateType {
-  CANCEL_MEETING_EMAIL = 'CANCEL_MEETING_EMAIL',
-  CONFIRM_MEETING_EMAIL = 'CONFIRM_MEETING_EMAIL'
-}
-
-export enum StatusTicket {
-  DRAFT = 'DRAFT',
-  PENDING = 'PENDING',
-  CHECK_IN = 'CHECK_IN',
-  CHECK_OUT = 'CHECK_OUT',
-  CANCEL = 'CANCEL',
-  REJECT = 'REJECT'
-}
+import { Dayjs } from 'dayjs'
+import { TablePaginationConfig, UploadFile } from 'antd'
+import { FilterValue } from 'antd/es/table/interface'
+import { PageableResponse } from '~/interface/PageableResponse.ts'
+import { RcFile } from 'antd/es/upload'
+import { Observable } from 'rxjs'
+import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
 export interface RouteItem {
   path: string,

@@ -1,5 +1,5 @@
 import httpService from './httpServices'
-import { CUSTOMER } from '~/constants'
+import { CUSTOMER, Gender } from '~/constants'
 import { PageableRequest } from '~/interface'
 import authService from './authService'
 
@@ -8,6 +8,11 @@ export interface CreateCustomerInfo {
   identificationNumber: string
   email: string
   phoneNumber?: string
+  gender?: Gender
+  description?: string
+  provinceId?: number
+  districtId?: number
+  communeId?: number
 }
 
 export interface UpdateCustomerInfo {

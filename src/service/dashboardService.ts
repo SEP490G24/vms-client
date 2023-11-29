@@ -1,7 +1,7 @@
 import httpService from './httpServices'
 import authService from './authService'
 import {DASHBOARD} from '~/constants/api.ts'
-import {StatusTicket} from "~/interface";
+import { StatusTicket } from '~/constants'
 
 export interface DashboardFilterPayload {
   year?: number

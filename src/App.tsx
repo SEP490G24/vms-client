@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components'
 
 import { AuthLayout, DefaultLayout } from '~/layouts'
 import {
+  fetchAllCustomerAvailable,
   fetchMyOrganization,
   fetchProfile,
   fetchProvince,
@@ -42,6 +43,7 @@ function App() {
     } else {
       dispatch(findAllRoom({}) as any)
     }
+    dispatch(fetchAllCustomerAvailable({}) as any)
     dispatch(fetchProfile() as any)
     dispatch(fetchProvince() as any)
   }, [])

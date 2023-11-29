@@ -16,8 +16,7 @@ import { FilterValue } from 'antd/es/table/interface'
 
 const OrganiztionManagement = () => {
   const { t } = useTranslation()
-
-
+  
   const [tableData, setTableData] = useState<TableData<OrganizationDto>>({ loading: false })
   const [infoModalData, setInfoModalData] = useState<InfoModalData<OrganizationDto>>({
     openModal: false,

@@ -5,7 +5,7 @@ export const SIDE_BAR_COLLAPSE = {
   MEETING: 'MEETING',
   CUSTOMER: 'CUSTOMER',
   ORGANIZATION: 'ORGANIZATION',
-  CONFIGURATION: 'CONFIGURATION',
+  CONFIGURATION: 'CONFIGURATION'
 }
 
 export const Status = {
@@ -23,4 +23,57 @@ export const durationOption = {
 export const SortDirection = {
   'ascend': 'asc',
   'descend': 'desc'
+}
+
+export enum Purpose {
+  CONFERENCES, INTERVIEW, MEETING, WORKING, OTHERS
+}
+
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHER = 'OTHER'
+}
+
+export enum MONTHS {
+  January,
+  February,
+  March,
+  April,
+  May,
+  June,
+  July,
+  August,
+  September,
+  October,
+  November,
+  December
+}
+
+export enum TemplateVariable {
+  customerName,
+  meetingName,
+  dateTime,
+  startTime,
+  endTime,
+  address,
+  roomName,
+  staffName,
+  staffPhone,
+  staffEmail,
+  checkInCode
+}
+
+export enum TemplateType {
+  EMAIL = 'EMAIL',
+  SMS = 'SMS'
+}
+
+export enum StatusTicket {
+  DRAFT = 'DRAFT',
+  PENDING = 'PENDING',
+  CHECK_IN = 'CHECK_IN',
+  CHECK_OUT = 'CHECK_OUT',
+  CANCEL = 'CANCEL',
+  REJECT = 'REJECT'
 }

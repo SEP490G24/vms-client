@@ -1,5 +1,5 @@
 import { MeetingDto } from '~/interface/Meeting.ts'
-import { Purpose } from '~/interface/common.ts'
+import { Purpose } from '~/constants'
 
 export interface TotalTicketResponse {
   totalTicket?: number;

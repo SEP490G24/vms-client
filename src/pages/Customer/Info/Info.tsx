@@ -1,4 +1,4 @@
-import { Col, Divider, Form, Radio, Row, Space } from 'antd'
+import { Col, Divider, Form, Row } from 'antd'
 import React, { useEffect } from 'react'
 import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
@@ -26,11 +26,13 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
   const { communes, districts, provinces } = useLocation(provinceId, districtId)
 
   useEffect(() => {
-    form.resetFields();
+    form.resetFields()
     if (props.customer) {
       form.setFieldsValue({
         visitorName: props.customer.visitorName,
+        identificationNumber: props.customer.identificationNumber,
         phoneNumber: props.customer.phoneNumber,
+        email: props.customer.email,
         provinceId: props.customer.provinceId,
         districtId: props.customer.districtId,
         communeId: props.customer.communeId,
@@ -65,40 +67,45 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
                    rules={[{ required: true }]}>
           <SharedInput inputMode={'text'} placeholder={t('common.placeholder.customer_name')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')} name='phoneNumber'
-                   rules={[{ required: true },
-                     { pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid') }]}>
+        <Form.Item className={'mb-3'} label={t('common.field.identificationNumber')}
+                   name={'identificationNumber'}
+                   rules={[{ required: true }]}>
+          <SharedInput placeholder={t('common.placeholder.identificationNumber')} />
+        </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')}
+                   name={'phoneNumber'}
+                   rules={[{ required: true }, {
+                     pattern: REGEX.PHONE,
+                     message: t('common.error.phoneNumber_valid')
+                   }]}>
           <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'
-                   rules={[{ required: true }]}>
+        <Form.Item className={'mb-3'} label={t('common.field.email')}
+                   name={'email'}
+                   rules={[{ required: true }, {
+                     pattern: REGEX.EMAIL,
+                     message: t('common.error.email_valid')
+                   }]}>
+          <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')} />
+        </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'>
           <SharedSelect options={provinces.map((province) => {
             return { label: province.name, value: province.id, key: province.id }
           })}
                         placeholder={t('common.placeholder.province')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.district')} name='districtId'
-                   rules={[{ required: true }]}>
+        <Form.Item className={'mb-3'} label={t('common.field.district')} name='districtId'>
           <SharedSelect
             options={districts?.map((district) => {
               return { label: district.name, value: district.id, key: district.id }
             }) ?? []}
             placeholder={t('common.placeholder.district')} />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.commune')} name='communeId'
-                   rules={[{ required: true }]}>
+        <Form.Item className={'mb-3'} label={t('common.field.commune')} name='communeId'>
           <SharedSelect options={communes?.map((commune) => {
             return { label: commune.name, value: commune.id, key: commune.id }
           }) ?? []}
                         placeholder={t('common.placeholder.commune')} />
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.address')} name='address'
-                   rules={[{ required: true }]}>
-          <SharedInput placeholder={t('common.placeholder.address')} />
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.taxCode')} name='taxCode'
-                   rules={[{ required: true }]}>
-          <SharedInput placeholder={t('common.placeholder.taxCode')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
           <TextArea
@@ -110,15 +117,6 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
         </Form.Item>
         {!!props.customer &&
           <>
-            <Form.Item className={'mb-3'} label={t('common.field.used')} name='enable'
-                       rules={[{ required: true }]}>
-              <Radio.Group name='enable'>
-                <Space>
-                  <Radio value={true}>{t('common.label.use')}</Radio>
-                  <Radio value={false}>{t('common.label.not_use')}</Radio>
-                </Space>
-              </Radio.Group>
-            </Form.Item>
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>

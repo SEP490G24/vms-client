@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '~/redux'
 import { MeetingDto, MeetingQRDto } from '~/interface'
-import { CreateMeetingInfo } from '~/service'
-import { meetingTicketService } from '~/service'
+import { CreateMeetingInfo, meetingTicketService } from '~/service'
 
 const initialState = {
   meetingSelected: {} as MeetingDto,
   meetingTicketQR: {} as MeetingQRDto,
   meetingForm: {} as CreateMeetingInfo,
-  meetings: [] as MeetingDto[]
+  meetings: [] as MeetingDto[],
+  loading: false
 }
 
 export const fetchAllMeeting = createAsyncThunk(
@@ -57,8 +57,15 @@ const meetingSlice = createSlice({
         state.meetingTicketQR = action.payload.data
       }
     })
+    builder.addCase(fetchMeetingById.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(fetchMeetingById.rejected, (state) => {
+      state.loading = false
+    })
     builder.addCase(fetchMeetingById.fulfilled, (state, action) => {
       if (action.payload?.data) {
+        state.loading = false
         state.meetingSelected = action.payload.data
         state.meetingForm = {
           startTime: new Date(action.payload.data.startTime),

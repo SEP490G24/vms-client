@@ -7,6 +7,7 @@ import { Space, Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import { MeetingActions } from '~/pages/Meeting/common'
 import { enumToArray } from '~/utils'
+import { MeetingBookMark } from '~/service'
 
 interface MeetingItemProps {
   loading: boolean
@@ -15,6 +16,7 @@ interface MeetingItemProps {
   currentPage?: number
   onCancelMeeting: (meeting: MeetingDto) => void
   onEdit: (value: MeetingDto) => void
+  onBookmark: (payload: MeetingBookMark) => void
 }
 
 const MeetingTable: React.FC<MeetingItemProps> = (props) => {
@@ -30,7 +32,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
         total: props.pageableResponse?.totalElements,
         pageSize: props.pageableResponse?.pageable?.pageSize,
         showSizeChanger: false,
-        position: ['bottomCenter']
+        position: ['bottomCenter'],
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
@@ -61,9 +63,9 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: MeetingDto) => <Space direction={'vertical'} size={4}>
                 <strong>{moment(value.startTime).format('DD-MM-YYYY')}</strong>
                 <Space direction={'horizontal'} size={4}>
-                <p>{moment(value.startTime).format('LTS')}</p>
-                <span>~</span>
-                <p>{moment(value.endTime).format('LTS')}</p>
+                  <p>{moment(value.startTime).format('LTS')}</p>
+                  <span>~</span>
+                  <p>{moment(value.endTime).format('LTS')}</p>
                 </Space>
               </Space>} />
       <Column title={t('common.field.status')} dataIndex='status' key='status'
@@ -74,10 +76,16 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       />
 
       <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
-              render={(value: MeetingDto) => <MeetingActions onCancel={props.onCancelMeeting} meeting={value}
-                                                             directionIcon={'vertical'} />} />
-    </Table>
-  )
+              render={(value: MeetingDto) =>
+                <>
+                  <MeetingActions onCancel={props.onCancelMeeting} meeting={value}
+                                  directionIcon={'vertical'} onBookMark={props.onBookmark}/>
+
+                </>
+
+      } />
+</Table>
+)
 }
 
 export default MeetingTable

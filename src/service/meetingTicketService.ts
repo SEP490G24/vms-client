@@ -29,6 +29,11 @@ export interface UpdateMeetingInfo {
   customers: CreateCustomerInfo[];
 }
 
+export interface MeetingBookMark{
+  ticketId?: string;
+  bookmark?: boolean
+}
+
 export interface MeetingFilterPayload {
   usernames?: string[];
   createdOnStart?: string | Date;
@@ -149,6 +154,12 @@ const findWithRoom = async (payload: MeetingFilterPayload) => {
   return httpService.handleResponseStatus(response)
 }
 
+const bookmark = async (payload: MeetingBookMark) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.post(TICKET.BOOKMARK, payload)
+  return httpService.handleResponseStatus(response)
+}
+
 const filter = async (payload: MeetingFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(TICKET.FILTER, payload, {
@@ -184,7 +195,8 @@ const meetingTicketService = {
   checkInCustomer,
   subscribeCheckIn,
   findWithRoom,
-  filter
+  filter,
+  bookmark
 }
 
 export default meetingTicketService

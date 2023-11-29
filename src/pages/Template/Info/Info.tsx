@@ -9,6 +9,8 @@ import moment from 'moment/moment'
 import { enumToArray } from '~/utils'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
+import { AuthSection } from '~/auth'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface CreateTemplateFormArgs {
   template?: TemplateDto
@@ -79,13 +81,16 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
             })}
             placeholder={t('common.placeholder.type')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
-                   rules={[{ required: true }]}>
-          <SharedSelect options={sites.map((site) => {
-            return { label: site.name, value: site.id, key: site.id }
-          }) ?? []}
-                        placeholder={t('common.placeholder.site')}></SharedSelect>
-        </Form.Item>
+        <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
+          <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
+                     rules={[{ required: true }]}>
+            <SharedSelect options={sites.map((site) => {
+              return { label: site.name, value: site.id, key: site.id }
+            }) ?? []}
+                          placeholder={t('common.placeholder.site')}></SharedSelect>
+          </Form.Item>
+        </AuthSection>
+
         <Form.Item className={'mb-3'} label={t('common.field.subject')} name='subject'
                    rules={[{ required: true }]}>
           <SharedInput placeholder={t('common.placeholder.subject')} />

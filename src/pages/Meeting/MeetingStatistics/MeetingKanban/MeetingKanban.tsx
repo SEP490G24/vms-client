@@ -2,12 +2,14 @@ import React from 'react'
 import { MeetingDto, PageableResponse } from '~/interface'
 import { List } from 'antd'
 import { MeetingItem } from '~/pages/Meeting/common'
+import { MeetingBookMark } from '~/service'
 
 interface MeetingItemProps {
   loading: boolean
   pageableResponse?: PageableResponse<MeetingDto>
   onEdit: (value: MeetingDto) => void
   onCancelMeeting: (meeting: MeetingDto) => void
+  onBookmark: (payload: MeetingBookMark) => void
 }
 
 const MeetingKanban: React.FC<MeetingItemProps> = (props) => {

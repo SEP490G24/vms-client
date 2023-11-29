@@ -124,6 +124,7 @@ export const TICKET = {
   CHECK_IN: `${VITE_API_SERVER_URL}/ticket/check-in`,
   SUBSCRIBE_CHECK_IN: `${VITE_API_SERVER_URL}/ticket/subscribe/check-in`,
   FIND_WITH_ROOM: `${VITE_API_SERVER_URL}/ticket/room`,
+  BOOKMARK: `${VITE_API_SERVER_URL}/ticket/bookmark`,
 }
 
 export const CUSTOMER = {

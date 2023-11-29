@@ -41,8 +41,8 @@ export enum MONTHS {
 }
 
 export enum TemplateType {
-  EMAIL = 'EMAIL',
-  SMS = 'SMS'
+  CANCEL_MEETING_EMAIL = 'CANCEL_MEETING_EMAIL',
+  CONFIRM_MEETING_EMAIL = 'CONFIRM_MEETING_EMAIL'
 }
 
 export enum StatusTicket {

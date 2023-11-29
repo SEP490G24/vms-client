@@ -7,15 +7,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { roomsSelector } from '~/redux/slices/roomSlice.ts'
 import { meetingSelector, patchMeetingForm } from '~/redux/slices/meetingSlice.ts'
 import moment from 'moment/moment'
-import { CreateMeetingInfo } from '~/service'
 import { isNullish } from '~/utils'
 import { useTranslation } from 'react-i18next'
 
 interface ConfirmResultsWrapperArgs {
-  meeting: CreateMeetingInfo
 }
 
-const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = (props) => {
+const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = () => {
   const { t } = useTranslation()
 
   const { rooms } = useSelector(roomsSelector)
@@ -29,9 +27,9 @@ const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = (props) => {
         <DescriptionsItem label={t('common.field.title')} span={3}>{meetingForm['name']}</DescriptionsItem>
         <DescriptionsItem label={t('common.field.duration')} span={3}>
           <Space size={4}>
-            <span>{moment(props.meeting.startTime).format('LTS')}</span>
+            <span>{moment(meetingForm.startTime).format('MM Do YYYY, h:mm:ss a')}</span>
             <span>~</span>
-            <span>{moment(props.meeting.endTime).format('LTS')}</span>
+            <span>{moment(meetingForm.endTime).format('MM Do YYYY, h:mm:ss a')}</span>
           </Space>
         </DescriptionsItem>
         <DescriptionsItem label={t('common.field.room')}
@@ -42,7 +40,7 @@ const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = (props) => {
         </DescriptionsItem>
       </Descriptions>
       {isNullish(meetingSelected) &&
-        <SharedCheckbox title={t('meeting.popup.confirm')} defaultChecked={props.meeting.draft && !props.meeting.draft}
+        <SharedCheckbox title={t('meeting.popup.confirm')} defaultChecked={meetingForm.draft && !meetingForm.draft}
                         onChange={(e) => {
                           dispatch(patchMeetingForm({ draft: !e.target.checked }))
                         }} />

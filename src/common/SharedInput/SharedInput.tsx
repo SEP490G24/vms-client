@@ -15,6 +15,7 @@ interface SharedInputProps {
   disabled?: boolean
   hidden?: boolean
   readonly?: boolean
+  showCount?: boolean
   size?: 'large' | 'middle' | 'small'
   placeholder?: string
   title?: string
@@ -39,6 +40,7 @@ export const SharedInput: React.FC<SharedInputProps> = React.memo(
     prefix,
     suffix,
     disabled,
+    showCount,
     hidden,
     readonly,
     size,
@@ -70,6 +72,7 @@ export const SharedInput: React.FC<SharedInputProps> = React.memo(
           disabled={disabled}
           hidden={hidden}
           size={size}
+          showCount={showCount}
           inputMode={inputMode}
           maxLength={maxLength}
           placeholder={placeholder}

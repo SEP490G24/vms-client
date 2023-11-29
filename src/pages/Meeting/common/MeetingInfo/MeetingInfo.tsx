@@ -156,7 +156,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
     },
     {
       title: 'Confirm',
-      content: <ConfirmResults meeting={meetingForm} />,
+      content: <ConfirmResults />,
       description
     }
   ]

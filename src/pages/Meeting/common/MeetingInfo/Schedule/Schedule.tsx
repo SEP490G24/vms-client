@@ -25,6 +25,7 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
   const { rooms } = useSelector(roomsSelector)
 
   const [valueDate, setValueDate] = useState<RangeValue>(null)
+  const [dates, setDates] = useState<RangeValue>(null)
 
   const purpose = Form.useWatch('purpose', props.form)
 
@@ -32,6 +33,9 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
 
   useEffect(() => {
     setValueDate([dayjs(props.form.getFieldValue('startTime')), dayjs(props.form.getFieldValue('endTime'))])
+    props.form.setFieldsValue({
+      duration: [dayjs(props.form.getFieldValue('startTime')), dayjs(props.form.getFieldValue('endTime'))]
+    })
   }, [])
 
   const onFinish = (values: any) => {
@@ -53,6 +57,15 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
     { label: 'The next 4 hours', value: [dayjs(), dayjs().add(4, 'hours')] }
   ]
 
+  const disabledDate = (current: Dayjs) => {
+    if (!dates) {
+      return false
+    }
+    const tooLate = current < dayjs().startOf('day') && dates[0] && dates[0] > current
+    const tooEarly = current < dayjs().startOf('day') && dates[1] && dates[1] < current
+    return !!tooEarly || !!tooLate
+  }
+
   return (
     <ScheduleWrapper>
       <Form
@@ -68,7 +81,7 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
                    rules={[{ required: true }]}>
-          <SharedInput placeholder={'Title Meeting'} />
+          <SharedInput placeholder={'Title Meeting'} maxLength={50} showCount />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.purpose')} name='purpose'
                    rules={[{ required: true }]}>
@@ -86,7 +99,17 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
         }
         <Form.Item style={{ display: 'none' }} name='startTime'><SharedInput /></Form.Item>
         <Form.Item style={{ display: 'none' }} name='endTime'><SharedInput /></Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.duration')}>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.duration')} name={'duration'}
+                   rules={[
+                     () => ({
+                       validator(_) {
+                         if (valueDate?.[0] && valueDate?.[1] && valueDate[1].diff(valueDate[0], 'minutes', true) > 15) {
+                           return Promise.resolve()
+                         }
+                         return Promise.reject(new Error('The meeting duration must > 15 minutes'))
+                       }
+                     })]}
+        >
           <RangePicker
             className={'w-full'}
             presets={[
@@ -96,9 +119,10 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
               },
               ...rangePresets
             ]}
+            disabledDate={disabledDate}
             showTime
-            value={valueDate}
             format='YYYY/MM/DD HH:mm'
+            onCalendarChange={setDates}
             onChange={setValueDate}
           />
         </Form.Item>

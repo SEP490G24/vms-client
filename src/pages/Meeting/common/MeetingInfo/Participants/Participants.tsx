@@ -46,7 +46,7 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
               <SharedSelect mode={'multiple'} allowClear className={'w-full'}
                             placeholder={t('common.placeholder.roles')}
                             options={customers.map((customer) => {
-                              return { label: customer.visitorName, value: customer.id }
+                              return { label: `${customer.visitorName} - ${customer.email} - ${customer.phoneNumber}`, value: customer.id }
                             })} />
             </Form.Item>
           </Col>

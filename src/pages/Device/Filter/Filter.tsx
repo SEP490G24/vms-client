@@ -29,15 +29,16 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   const onFinish = (values: any) => {
     const payload: DeviceFilterPayload = {
+      keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.toDate(),
       createdOnEnd: valueDate?.date?.['1']?.toDate(),
     }
-    if (values?.query?.trim()) payload.keyword = values?.query?.trim()
     args.onFilter(payload)
   }
 
   const onReset = () => {
     setValueDate(null)
+    setDisable(true)
     form.resetFields()
     args.onFilter({})
   }
@@ -91,7 +92,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             optionType="button"
           />
         </Form.Item>
-        <Form.Item label={t('organization.device.search.counselor')} name="query">
+        <Form.Item label={t('organization.device.search.counselor')} name="keyword">
           <SharedInput
             placeholder={t('organization.device.search.counselor_placeholder')}
             value={keyword}

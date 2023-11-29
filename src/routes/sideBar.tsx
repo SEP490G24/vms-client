@@ -4,12 +4,12 @@ import {
   PATH_CONFIGURATION,
   PATH_CUSTOMER,
   PATH_DASHBOARD,
-  PATH_DEPARTMENT,
+  PATH_DEPARTMENT, PATH_DEVICE,
   PATH_HISTORY,
   PATH_MEETING_CALENDAR,
   PATH_MEETING_ROOM,
   PATH_MEETING_STATISTIC,
-  PATH_MY_ORGANIZATION,
+  PATH_MY_ORGANIZATION, PATH_MY_SITE,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_QR_CODE_MANAGER,
@@ -129,6 +129,13 @@ export const SIDE_BARS: MenuItem[] = [
         children: []
       },
       {
+        key: PATH_MY_SITE,
+        title: 'sidebar.organization.sub.info',
+        path: PATH_MY_SITE,
+        role: PATH_ROLE_MAP['PATH_MY_SITE'],
+        children: []
+      },
+      {
         key: PATH_ORGANIZATION,
         title: 'sidebar.organization.sub.organization',
         path: PATH_ORGANIZATION,
@@ -176,13 +183,13 @@ export const SIDE_BARS: MenuItem[] = [
         path: PATH_TEMPLATE,
         role: PATH_ROLE_MAP['PATH_TEMPLATE'],
         children: []
+      },
+      {
+        key: PATH_DEVICE,
+        title: 'sidebar.organization.sub.device',
+        path: PATH_DEVICE,
+        children: []
       }
-      // {
-      //   key: PATH_DEVICE,
-      //   title: 'sidebar.organization.sub.device',
-      //   path: PATH_DEVICE,
-      //   children: []
-      // }
     ]
   },
   {

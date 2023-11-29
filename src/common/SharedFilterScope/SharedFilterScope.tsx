@@ -18,7 +18,7 @@ export const SharedFilterScope: React.FC<SharedFilterScopeProps> = memo((props) 
     // @ts-ignore
     return (
       <>
-        <Form.Item label={t('common.field.site.name')} name='siteId'>
+        <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'>
           <SharedSelect allowClear options={sites.map((site) => {
             return { label: site.name, value: site.id, key: site.id }
           }) ?? []}

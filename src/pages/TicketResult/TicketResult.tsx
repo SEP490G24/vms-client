@@ -99,7 +99,7 @@ const TicketResult: React.FC<Props> = (props) => {
             <DescriptionsItem
               label={'Purpose'}>{meetingQRDto.purpose}</DescriptionsItem>
             <DescriptionsItem
-              label={'CreateBy'}>{meetingQRDto.createBy}</DescriptionsItem>
+              label={'CreateBy'}>{meetingQRDto.createdBy}</DescriptionsItem>
             <DescriptionsItem
               label={'Room'}>{meetingQRDto.roomName}</DescriptionsItem>
             <DescriptionsItem label={'Duration'} span={2}>

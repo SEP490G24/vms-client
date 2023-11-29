@@ -6,6 +6,8 @@ import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput, Share
 import { DateRadioRange } from '~/interface'
 import { AuditLogFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
+import { AuthSection } from '~/auth'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
   onFilter: (filterPayload: AuditLogFilterPayload) => void
@@ -24,7 +26,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
       siteId: siteId,
-      auditType: values['type']
+      auditType: values['type'],
     }
     args.onFilter(payload)
   }
@@ -83,7 +85,9 @@ const Filter: React.FC<FilterArgs> = (args) => {
             placeholder={t('common.placeholder.keyword')}
           />
         </Form.Item>
-        <SharedFilterScope onChangeSite={onChangeSite} />
+        <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
+          <SharedFilterScope onChangeSite={onChangeSite} />
+        </AuthSection>
         <Form.Item className={'mb-3'} label={t('common.field.type')} name='type'>
           <SharedSelect
             options={[{ label: 'CREATE', value: 'CREATE' }, { label: 'UPDATE', value: 'UPDATE' }, {
@@ -93,7 +97,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             placeholder={t('common.placeholder.type')} />
         </Form.Item>
 
-        <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate}
+        <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} hiddenRadio={true}
                             setValueDate={setValueDate} />
       </Form>
     </Card>

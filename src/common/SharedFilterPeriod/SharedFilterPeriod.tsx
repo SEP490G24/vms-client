@@ -12,6 +12,7 @@ interface SharedFilterScopeProps {
   showTime?: boolean
   format: string
   label: string
+  name?: string
 }
 
 export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props) => {
@@ -25,7 +26,7 @@ export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props)
 
   return (
     <>
-      <Form.Item label={t( props.label)} name='date' key='date'>
+      <Form.Item label={t( props.label)} name={props.name} key='date'>
         <RangePicker
           format={props.format}
           value={props.valueDate?.date}

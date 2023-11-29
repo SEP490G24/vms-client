@@ -1,14 +1,17 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
-import React, { useEffect } from 'react'
-import { RoomDto } from '~/interface'
+import React, { useEffect, useState } from 'react'
+import { DeviceDto, RoomDto } from '~/interface'
 import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateRoomInfo } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
 import moment from 'moment'
+import deviceService from '~/service/deviceService.ts'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
+import { AuthSection } from '~/auth'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface CreateRoomFormArgs {
   room?: RoomDto
@@ -19,8 +22,14 @@ interface CreateRoomFormArgs {
 const Info: React.FC<CreateRoomFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-
+  const [devices, setDevices] = useState([])
   const { sites } = useSelector(sitesSelector)
+  useEffect(() => {
+    deviceService.findAll().then((response) => {
+      setDevices(response.data)
+    })
+    console.log('device')
+  }, [])
 
   useEffect(() => {
     if (props.room) {
@@ -31,7 +40,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         siteId: props.room.siteId,
         description: props.room.description,
         enable: props.room.enable,
-        macIp: props.room.macIp
+        macIp: props.room.macIp,
       })
     }
   }, [props.room])
@@ -65,18 +74,26 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
                    rules={[{ required: true }]}>
           <SharedInput disabled={!!props.room} placeholder={t('common.placeholder.code')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
-                   rules={[{ required: true }]}>
+        <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
+          <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
+                     rules={[{ required: true }]}>
+            <SharedSelect
+              options={sites.map((site) => {
+                return { label: site.name, value: site.id, key: site.id }
+              }) ?? []}
+              disabled={!!props.room}
+              placeholder={t('common.placeholder.site')}
+            ></SharedSelect>
+          </Form.Item>
+        </AuthSection>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.device')} name='deviceId'>
           <SharedSelect
-            options={sites.map((site) => {
-              return { label: site.name, value: site.id, key: site.id }
+            options={devices.map((room: DeviceDto) => {
+              return { label: room.name, value: room.id, key: room.id }
             }) ?? []}
             disabled={!!props.room}
             placeholder={t('common.placeholder.site')}
           ></SharedSelect>
-        </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.ip_device')} name='macIp'>
-          <SharedInput placeholder={t('common.placeholder.ip_device')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
           <TextArea

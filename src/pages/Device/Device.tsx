@@ -1,18 +1,17 @@
 import { DeviceWrapper } from './styles.ts'
 
-import { Col, Divider, message, Row, Space, Table } from 'antd'
+import { Col, Divider, message, Row, Space} from 'antd'
 import Modal from 'antd/es/modal/Modal'
-import Column from 'antd/es/table/Column'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { DeviceDto, PageableResponse } from '~/interface'
+import { DeviceDto, PageableResponse} from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission } from '~/utils'
 import { DeviceInfo } from './Info'
 import { DeviceFilter } from './Filter'
 import { DeviceFilterPayload, deviceService } from '~/service'
-import moment from 'moment/moment'
+import { DeviceTable } from '~/pages/Device/Table'
 
 const Device = () => {
 
@@ -30,6 +29,7 @@ const Device = () => {
     deviceService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
       setPageableResponse(response?.data)
     })
+    console.log(pageableResponse)
   }, [filterPayload, currentPage])
 
   const onFilter = (filterPayload: DeviceFilterPayload) => {
@@ -56,7 +56,7 @@ const Device = () => {
         }
       })
       .catch(async () => {
-        await message.error(t('common.message.error.save'))
+        await message.error(t('common.message.error'))
       })
   }
 
@@ -93,47 +93,10 @@ const Device = () => {
                   >
                     {t('organization.device.table.btn-add')}
                   </SharedButton>
-                  {/*<Spin spinning={exportEx}>*/}
-                  {/*  <SharedButton onClick={exportData} type={'primary'}>*/}
-                  {/*    {t('common.label.export_data')}*/}
-                  {/*  </SharedButton>*/}
-                  {/*</Spin>*/}
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
-              <Table
-                dataSource={pageableResponse?.content}
-                rowKey='id'
-                pagination={{
-                  current: currentPage,
-                  total: pageableResponse?.totalElements,
-                  onChange: setCurrentPage,
-                  pageSize: pageableResponse?.pageable?.pageSize,
-                  showSizeChanger: false,
-                  position: ['bottomCenter']
-                }}
-                className='vms-table no-bg'
-                scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
-                size='middle'
-              >
-                <Column
-                  title={t('common.field.device')}
-                  render={(value: DeviceDto) => <a onClick={() => openEdit(value)}>{value.name}</a>}
-                />
-                <Column title={t('common.field.code')} dataIndex='code' key='code' />
-                <Column
-                  title={t('common.field.status')}
-                  dataIndex='enable'
-                  key='enable'
-                  render={(enable) =>
-                    enable ? t('common.label.enable') : t('common.label.disable')
-                  }
-                />
-                <Column title={t('common.field.registration_date')} key='createdOn'
-                        render={(value: DeviceDto) => moment(value.createdOn).format('L')} />
-                <Column title={t('common.field.modification_date')} key='lastUpdatedOn'
-                        render={(value: DeviceDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : undefined} />
-              </Table>
+              <DeviceTable pageableResponse={pageableResponse} loading={false} onEdit={openEdit} />
             </Col>
             {openModal && (
               <Modal

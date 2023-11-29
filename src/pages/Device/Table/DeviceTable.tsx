@@ -1,6 +1,6 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { PageableResponse, OrganizationDto } from '~/interface'
+import { PageableResponse, DeviceDto } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Table, TablePaginationConfig } from 'antd'
@@ -8,14 +8,14 @@ import { SharedStatus } from '~/common'
 import { FilterValue } from 'antd/es/table/interface'
 
 interface MeetingItemProps {
-  pageableResponse?: PageableResponse<OrganizationDto>
+  pageableResponse?: PageableResponse<DeviceDto>
   onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
   currentPage?: number
   loading: boolean
-  onEdit: (value: OrganizationDto) => void
+  onEdit: (value: DeviceDto) => void
 }
 
-const OrganizationTable: React.FC<MeetingItemProps> = (props) => {
+const DeviceTable: React.FC<MeetingItemProps> = (props) => {
 
   const { t } = useTranslation()
 
@@ -39,12 +39,11 @@ const OrganizationTable: React.FC<MeetingItemProps> = (props) => {
         title={t('common.field.name')}
         sorter={true}
         key='name'
-        render={(value: OrganizationDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
+        render={(value: DeviceDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
       <Column title={t('common.field.code')} dataIndex='code' key='code' />
-      <Column title={t('common.field.website')} dataIndex='website' key='website' />
-
-      <Column title={t('common.field.representative')} dataIndex='representative' key='representative' />
+      <Column title={t('common.field.macIp')} dataIndex='macIp' key='macIp' />
+      <Column title={t('common.field.deviceType')} dataIndex='deviceType' key='deviceType' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'
@@ -56,10 +55,11 @@ const OrganizationTable: React.FC<MeetingItemProps> = (props) => {
         filterMultiple={false}
         render={(enable) => <SharedStatus status={enable} />}
       />
+      <Column title={t('common.field.description')} dataIndex='description' key='description' />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
-              render={(value: OrganizationDto) => moment(value.createdOn).format('DD/MM/YYYY')} />
+              render={(value: DeviceDto) => moment(value.createdOn).format('L')} />
     </Table>
   )
 }
 
-export default OrganizationTable
+export default DeviceTable

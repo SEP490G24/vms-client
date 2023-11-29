@@ -1,75 +1,55 @@
 import httpService from './httpServices'
 import authService from './authService'
-import { ROOM } from '~/constants/api.ts'
+import { DEVICE } from '~/constants/api.ts'
 import { PageableRequest } from '~/interface'
 
 export interface CreateDeviceInfo {
-  name: string;
-  phoneNumber: string;
-  province: string;
-  district: string;
-  ward: string;
-  address: string;
-  taxCode: string;
-  description: string;
+
 }
 
 export interface UpdateDeviceInfo {
-  name?: string;
-  phoneNumber?: string;
-  province?: string;
-  district?: string;
-  ward?: string;
-  address?: string;
-  taxCode?: string;
-  description?: string;
-  enable?: string;
 }
 
 export interface DeviceFilterPayload {
-  names?: string[];
-  usernames?: string[];
+  keyword?: string;
   createdOnStart?: Date;
-  createdOnEnd?: Date;
-  createBy?: string;
-  lastUpdatedBy?: string
-  enable?: string
-  keyword?: string
+  createdOnEnd?: Date
+
 }
 
 const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.get(ROOM.BASE_PATH)
+  const response = await httpService.post(DEVICE.DEVICE_NOT_USE)
   return httpService.handleResponseStatus(response)
 }
 
 const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.get(ROOM.BASE_PATH + `/${id}`)
+  const response = await httpService.get(DEVICE.BASE_PATH + `/${id}`)
   return httpService.handleResponseStatus(response)
 }
 
 const insert = async (payload: CreateDeviceInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.post(ROOM.BASE_PATH, payload)
+  const response = await httpService.post(DEVICE.BASE_PATH, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const update = async (id: string, payload: UpdateDeviceInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.put(ROOM.BASE_PATH + `/${id}`, payload)
+  const response = await httpService.put(DEVICE.BASE_PATH + `/${id}`, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const remove = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.delete(ROOM.BASE_PATH + `/${id}`)
+  const response = await httpService.delete(DEVICE.BASE_PATH + `/${id}`)
   return httpService.handleResponseStatus(response)
 }
 
 const filter = async (payload: DeviceFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.post(ROOM.FILTER, payload, {
+  const response = await httpService.post(DEVICE.FILTER, payload, {
     params: {
       isPageable,
       size: pageableRequest?.size,
@@ -81,13 +61,13 @@ const filter = async (payload: DeviceFilterPayload, isPageable?: boolean, pageab
 
 const getDeviceProfile = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.get(ROOM.MY_ROOM)
+  const response = await httpService.get(DEVICE.MY_DEVICE)
   return httpService.handleResponseStatus(response)
 }
 
 const updateDeviceProfile = async (payload: any) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.post(ROOM.MY_ROOM, payload)
+  const response = await httpService.post(DEVICE.MY_DEVICE, payload)
   return httpService.handleResponseStatus(response)
 }
 

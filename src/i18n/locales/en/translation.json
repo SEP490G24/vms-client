@@ -92,7 +92,9 @@
       "new_value": "New Value",
       "ip_device": "Ip device",
       "create_card": "Create card",
-      "cardId": "Card Id"
+      "cardId": "Card Id",
+      "macIp": "MacIp",
+      "deviceType": "Device Type"
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -155,7 +157,10 @@
       "representative": "Enter representative",
       "keyword": "Enter keyword for search",
       "ip_device": "Enter mac Ip of device",
-      "cardId": "Enter card id"
+      "cardId": "Enter card id",
+      "audit_type": "Choose audit type",
+      "status": "Choose status",
+      "meeting": "Enter meeting info"
     },
     "error": {
       "content_is_too_long": "Content is too long!",

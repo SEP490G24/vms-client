@@ -37,11 +37,12 @@ export interface MeetingFilterPayload {
   siteId?: string;
   keyword?: string;
   purpose?: string;
-  status?: string;
+  statuss?: string;
   startTimeStart?: string;
   endTimeStart?: string;
   startTimeEnd?: string;
   endTimeEnd?: string;
+  auditType?: string
 }
 
 export interface CancelTicketPayload {
@@ -67,7 +68,7 @@ const findAll = async () => {
 
 const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.get(TICKET.BASE_PATH + `/${id}`)
+  const response = await httpService.get(TICKET.DETAIL + `/${id}`)
   return httpService.handleResponseStatus(response)
 }
 

@@ -56,6 +56,13 @@ const findById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
+const getMySite = async () => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.get(SITE.MY_SITE)
+  return httpService.handleResponseStatus(response)
+}
+
+
 const insert = async (payload: CreateSiteInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(SITE.BASE_PATH, payload)
@@ -106,7 +113,8 @@ const siteService = {
   filter,
   getSiteProfile,
   updateSiteProfile,
-  findAllByOrganization
+  findAllByOrganization,
+  getMySite
 }
 
 export default siteService

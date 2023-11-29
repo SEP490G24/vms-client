@@ -15,7 +15,7 @@ interface CreateCardFormArgs {
 const CreateCard: React.FC<CreateCardFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-
+  // const [eventSource, setEventSource] = useState<EventSourceObserver>()
 
   useEffect(() => {
       form.setFieldsValue({

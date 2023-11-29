@@ -10,6 +10,8 @@ export interface DeviceDto {
   siteId?: string;
   siteName?: string;
   description?: string;
+  macIp?: string
+  deviceType?: string
 }
 
 

@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next'
 import { PATH_DASHBOARD } from '~/routes/paths.ts'
 import { CreateCard } from '~/pages/CheckInManager/TicketInfo/CreateCard'
 import { cardService } from '~/service'
+import { AuthSection } from '~/auth'
+import { PERMISSION_ROLE_MAP } from '~/role'
 
 interface Props {
   ticketResult?: {
@@ -28,11 +30,9 @@ const TicketInfo: React.FC<Props> = (props) => {
   const [openCancelModalReject, setOpenCancelModalReject] = useState(false)
   const [openModalCreateCard, setOpenModalCreateCard] = useState(false)
   const [messageApi, contextHolder] = message.useMessage()
-
   const [checkInCodeState, setCheckInCodeState] = useState('')
-  console.log(props.ticketResult?.checkInCode)
+
   useEffect(() => {
-    console.log(props.ticketResult?.checkInCode)
     if (props.ticketResult?.checkInCode) {
       setCheckInCodeState(props.ticketResult?.checkInCode)
       meetingTicketService.findByQRCode(props.ticketResult?.checkInCode).then((response) => {
@@ -108,7 +108,7 @@ const TicketInfo: React.FC<Props> = (props) => {
           <DescriptionsItem
             label={'Purpose'}>{meetingQRDto.purpose}</DescriptionsItem>
           <DescriptionsItem
-            label={'CreateBy'}>{meetingQRDto.createBy}</DescriptionsItem>
+            label={'CreateBy'}>{meetingQRDto.createdBy}</DescriptionsItem>
           <DescriptionsItem
             label={'Room'}>{meetingQRDto.roomName}</DescriptionsItem>
           <DescriptionsItem label={'Duration'} span={2}>
@@ -133,8 +133,10 @@ const TicketInfo: React.FC<Props> = (props) => {
           <SharedButton key='console' onClick={() => setOpenCancelModalReject(true)}>Reject</SharedButton>
           <SharedButton type='primary' onClick={() => onCheckOut()}
                         key='buy'>Check Out</SharedButton>
-          <SharedButton type='primary' onClick={() => setOpenModalCreateCard(true)}
-                        key='buy'>Create Card</SharedButton>
+          <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_UPDATE}>
+            <SharedButton type='primary' onClick={() => setOpenModalCreateCard(true)}
+                          key='buy'>Create Card</SharedButton>
+          </AuthSection>
         </Space>
       </Space>
       <MeetingCancelModals

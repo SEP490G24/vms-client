@@ -33,7 +33,7 @@ import {
   PATH_HISTORY,
   PATH_MEETING_CALENDAR,
   PATH_MEETING_ROOM,
-  PATH_MEETING_STATISTIC, PATH_MY_ORGANIZATION,
+  PATH_MEETING_STATISTIC, PATH_MY_ORGANIZATION, PATH_MY_SITE,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_PROFILE,
@@ -46,6 +46,7 @@ import {
 } from './paths'
 import { PATH_ROLE_MAP } from '~/role'
 import { RouteItem } from '~/interface'
+import { MySite } from '~/pages/MySite'
 
 export const publicRoutes = [
   {
@@ -155,6 +156,11 @@ export const privateRoutes: RouteItem[] = [
     path: PATH_AUDIT_LOG,
     component: AuditLog,
     role: PATH_ROLE_MAP['PATH_AUDIT_LOG']
+  },
+  {
+    path: PATH_MY_SITE,
+    component: MySite,
+    role: PATH_ROLE_MAP['PATH_MY_SITE']
   },
   {
     path: PATH_CHECK_IN_MANAGER,

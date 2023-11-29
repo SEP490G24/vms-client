@@ -6,8 +6,6 @@ import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateDeviceInfo } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
-import { useSelector } from 'react-redux'
-import { sitesSelector } from '~/redux'
 
 interface CreateDeviceFormArgs {
   device?: DeviceDto
@@ -19,16 +17,17 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
 
-  const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
     if (props.device) {
       form.setFieldsValue({
         name: props.device.name,
         code: props.device.code,
+        macIp: props.device.macIp,
         siteId: props.device.siteId,
         description: props.device.description,
-        enable: props.device.enable
+        enable: props.device.enable,
+        deviceType: props.device.deviceType
       })
     }
   }, [props.device])
@@ -68,11 +67,12 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
                    rules={[{ required: true }]}>
           <SharedInput placeholder={t('common.placeholder.code')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.macIp')} name='macIp' >
+          <SharedInput placeholder={t('common.placeholder.macIp')} />
+        </Form.Item>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.deviceType')} name='deviceType'
                    rules={[{ required: true }]}>
-          <SharedSelect options={sites.map((site) => {
-            return { label: site.name, value: site.id, key: site.id }
-          }) ?? []}
+          <SharedSelect options={[{label:"SCAN_CARD", value:"SCAN_CARD"},{label:"DOOR", value: "DOOR"}]}
                         placeholder={t('common.placeholder.site')}></SharedSelect>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>

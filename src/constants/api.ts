@@ -26,7 +26,7 @@ export const DEPARTMENT = {
 export const SITE = {
   BASE_PATH: `${VITE_API_SERVER_URL}/site`,
   FILTER: `${VITE_API_SERVER_URL}/site/filter`,
-  MY_SITE: `${VITE_API_SERVER_URL}/site/profile`
+  MY_SITE: `${VITE_API_SERVER_URL}/site/view`
 }
 
 export const AUDIT_LOG = {
@@ -64,6 +64,13 @@ export const ROOM = {
   MY_ROOM: `${VITE_API_SERVER_URL}/room/profile`
 }
 
+export const DEVICE = {
+  BASE_PATH: `${VITE_API_SERVER_URL}/device`,
+  DEVICE_NOT_USE: `${VITE_API_SERVER_URL}/device/not-use`,
+  FILTER: `${VITE_API_SERVER_URL}/device/filter`,
+  MY_DEVICE: `${VITE_API_SERVER_URL}/device/profile`
+}
+
 export const DASHBOARD = {
   COUNT_TICKETS_BY_PURPOSE_WITH_PIE: `${VITE_API_SERVER_URL}/dashboard/ticket/purpose/pie`,
   COUNT_TICKETS_BY_PURPOSE_BY_WITH_MULTI_LINE: `${VITE_API_SERVER_URL}/dashboard/ticket/purpose/multi-line`,
@@ -76,6 +83,7 @@ export const DASHBOARD = {
 
 export const CARD = {
   BASE_PATH: `${VITE_API_SERVER_URL}/ticket/customer/card`,
+  SCAN: `${VITE_API_SERVER_URL}/ticket/card/scan`,
 }
 
 export const MODULE_PERMISSION = {
@@ -109,6 +117,7 @@ export const FILE = {
 
 export const TICKET = {
   BASE_PATH: `${VITE_API_SERVER_URL}/ticket`,
+  DETAIL: `${VITE_API_SERVER_URL}/ticket/view-detail`,
   FIND_BY_QR: `${VITE_API_SERVER_URL}/ticket/check-in/{checkInCode}`,
   FILTER: `${VITE_API_SERVER_URL}/ticket/filter`,
   CANCEL: `${VITE_API_SERVER_URL}/ticket/cancel`,

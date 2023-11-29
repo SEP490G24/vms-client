@@ -6,11 +6,13 @@ import { MeetingDto } from '~/interface'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
 import { MeetingActions } from '~/pages/Meeting/common'
+import { MeetingBookMark } from '~/service'
 
 interface MeetingItemProps {
   meeting: MeetingDto
   onEdit: (value: MeetingDto) => void
   onCancelMeeting: (meeting: MeetingDto) => void
+  onBookmark: (payload: MeetingBookMark) => void
 }
 
 export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
@@ -21,7 +23,7 @@ export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
       className={'bg-body w-full'}
       actions={[
         <EditOutlined key='edit' onClick={() => props.onEdit(props.meeting)} />,
-        <MeetingActions onCancel={props.onCancelMeeting} meeting={props.meeting} />,
+        <MeetingActions onCancel={props.onCancelMeeting} meeting={props.meeting} onBookMark={props.onBookmark}/>,
       ]}
     >
       <Descriptions bordered>

@@ -23,7 +23,8 @@ const MeetingKanban: React.FC<MeetingItemProps> = (props) => {
       dataSource={props.pageableResponse?.content}
       renderItem={(item) => (
         <List.Item>
-          <MeetingItem meeting={item} onCancelMeeting={props.onCancelMeeting} onEdit={props.onEdit} />
+          <MeetingItem meeting={item} onCancelMeeting={props.onCancelMeeting} onEdit={props.onEdit}
+                       onBookmark={props.onBookmark} />
         </List.Item>
       )}
     />

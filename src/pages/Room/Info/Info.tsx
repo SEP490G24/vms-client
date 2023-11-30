@@ -14,6 +14,9 @@ import { AuthSection } from '~/auth'
 import { SCOPE_ROLE_MAP } from '~/role'
 
 interface CreateRoomFormArgs {
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
   room?: RoomDto
   onSave: (room: CreateRoomInfo) => void
   onClose: () => void
@@ -32,27 +35,37 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
   }, [])
 
   useEffect(() => {
-    if (props.room) {
-      form.setFieldsValue({
-        name: props.room.name,
-        code: props.room.code,
-        siteName: props.room.siteName,
-        siteId: props.room.siteId,
-        description: props.room.description,
-        enable: props.room.enable,
-        macIp: props.room.macIp,
-      })
+    if (props.open) {
+      if (props.room) {
+        form.setFieldsValue({
+          name: props.room.name,
+          code: props.room.code,
+          siteName: props.room.siteName,
+          siteId: props.room.siteId,
+          description: props.room.description,
+          enable: props.room.enable,
+          macIp: props.room.macIp
+        })
+      } else {
+        form.resetFields()
+      }
     }
-  }, [props.room])
+  }, [props.room, props.open])
 
   const onClose = () => {
     props.onClose()
   }
 
   return (
-    <InfoWrapper title={t(!!props.room ? 'organization.room.popup.title-edit' : 'organization.room.popup.title-add')}
-                 onOk={form.submit}
-                 onCancel={onClose}
+    <InfoWrapper
+      open={props.open}
+      confirmLoading={props.confirmLoading}
+      width={props.width}
+      footer={null}
+      closable={false}
+      title={t(!!props.room ? 'organization.room.popup.title-edit' : 'organization.room.popup.title-add')}
+      onOk={form.submit}
+      onCancel={onClose}
     >
       <Form
         labelCol={{ span: 6 }}

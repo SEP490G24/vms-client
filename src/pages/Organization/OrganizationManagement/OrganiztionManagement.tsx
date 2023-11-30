@@ -64,9 +64,9 @@ const OrganiztionManagement = () => {
           await message.success(t('common.message.success.save'))
         }
       })
-      .catch(async () => {
+      .catch(async (error) => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
-        await message.error(t('common.message.error.save'))
+        await message.error(error.data.message)
       })
   }
 

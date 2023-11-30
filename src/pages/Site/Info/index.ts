@@ -1,1 +1,1 @@
-export { default as SiteInfo } from './Info.tsx';
+export { default as SiteInfoModal } from './Info.tsx';

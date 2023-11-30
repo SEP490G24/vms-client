@@ -1,5 +1,6 @@
 import styled from 'styled-components'
+import { Modal } from 'antd'
 
-export const ModalWrapper = styled.div`
+export const ModalWrapper = styled(Modal)`
 
 `

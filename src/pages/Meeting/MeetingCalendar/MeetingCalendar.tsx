@@ -3,7 +3,7 @@ import { Card, Col, message, Row, Space, Spin } from 'antd'
 import { useTranslation } from 'react-i18next'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { Scheduler } from '@aldabil/react-scheduler'
-import { MeetingInfo } from '~/pages/Meeting/common/MeetingInfo'
+import { MeetingInfoModal } from '~/pages/Meeting/common/MeetingInfo'
 import { useEffect, useState } from 'react'
 import { ProcessedEvent } from '@aldabil/react-scheduler/types'
 import { MeetingDto } from '~/interface'
@@ -52,9 +52,9 @@ const MeetingCalendar = () => {
     setMeetingsState({ ...meetingsState, loading: true })
     ticketService.filter(filterPayload).then((response) => {
       setMeetingsState({ loading: false, meetings: response.data })
-    }).catch(() => {
+    }).catch((error) => {
       setMeetingsState({ ...meetingsState, loading: false })
-      message.error(t('common.message.error.save'))
+      message.error(error.data.message)
     })
   }
 
@@ -91,7 +91,7 @@ const MeetingCalendar = () => {
                     hourFormat={'24'}
                     fields={[{ name: 'id', type: 'input' }]}
                     dialogMaxWidth={'xl'}
-                    customEditor={(scheduler) => <MeetingInfo classname={'w-[750px]'} scheduler={scheduler} />}
+                    customEditor={(scheduler) => <MeetingInfoModal open={true} classname={'w-[750px]'} scheduler={scheduler} />}
                     events={transferTickets()}
                   />
                 </Card>

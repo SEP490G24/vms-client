@@ -2,7 +2,7 @@ import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect } from 'react'
 import { TemplateDto } from '~/interface'
 import { TemplateVariable } from '~/constants'
-import { TemplateType } from  '~/constants'
+import { TemplateType } from '~/constants'
 import { SharedCkEditor, SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +15,9 @@ import { AuthSection } from '~/auth'
 import { SCOPE_ROLE_MAP } from '~/role'
 
 interface CreateTemplateFormArgs {
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
   template?: TemplateDto
   onSave: (template: CreateTemplateInfo) => void
   onClose: () => void
@@ -27,21 +30,25 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
   const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
-    if (props.template) {
-      form.setFieldsValue({
-        name: props.template.name,
-        code: props.template.code,
-        subject: props.template.subject,
-        type: props.template.type,
-        enable: props.template.enable,
-        body: props.template.body,
-        siteId: props.template.siteId,
-        description: props.template.description,
-        createdOn: props.template.createdOn,
-        lastUpdatedOn: props.template.createdOn
-      })
+    if (props.open) {
+      if (props.template) {
+        form.setFieldsValue({
+          name: props.template.name,
+          code: props.template.code,
+          subject: props.template.subject,
+          type: props.template.type,
+          enable: props.template.enable,
+          body: props.template.body,
+          siteId: props.template.siteId,
+          description: props.template.description,
+          createdOn: props.template.createdOn,
+          lastUpdatedOn: props.template.createdOn
+        })
+      }
+    } else {
+      form.resetFields()
     }
-  }, [props.template])
+  }, [props.template, props.open])
 
   const onFinish = (values: any) => {
     props.onSave(values)
@@ -49,11 +56,15 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
 
   const onClose = () => {
     props.onClose()
-    form.resetFields()
   }
 
   return (
     <InfoWrapper
+      open={props.open}
+      confirmLoading={props.confirmLoading}
+      width={props.width}
+      footer={null}
+      closable={false}
       title={t(!!props.template ? 'organization.template.popup.title-edit' : 'organization.template.popup.title-add')}
       onOk={form.submit}
       onCancel={onClose}

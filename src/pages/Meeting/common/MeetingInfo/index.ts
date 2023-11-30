@@ -1,1 +1,1 @@
-export { default as MeetingInfo } from './MeetingInfo.tsx';
+export { default as MeetingInfoModal } from './MeetingInfo.tsx';

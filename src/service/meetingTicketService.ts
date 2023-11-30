@@ -23,11 +23,15 @@ export interface CreateMeetingInfo {
 
 export interface UpdateMeetingInfo {
   id: string;
+  purpose: string;
+  purposeNote?: string;
   name: string;
   startTime?: string | Date;
   endTime?: string | Date;
   roomId?: string
-  customers: CreateCustomerInfo[];
+  description?: string
+  newCustomers: CreateCustomerInfo[];
+  oldCustomers: string[];
 }
 
 export interface MeetingBookMark{
@@ -84,15 +88,15 @@ const findByQRCode = async (checkInCode: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const insert = async (payload: CreateMeetingInfo) => {
+const update = async (payload: UpdateMeetingInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.post(TICKET.BASE_PATH, payload)
+  const response = await httpService.post(TICKET.UPDATE, payload)
   return httpService.handleResponseStatus(response)
 }
 
-const update = async (id: string, payload: UpdateMeetingInfo) => {
+const insert = async (payload: CreateMeetingInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.put(TICKET.BASE_PATH + `/${id}`, payload)
+  const response = await httpService.post(TICKET.BASE_PATH, payload)
   return httpService.handleResponseStatus(response)
 }
 

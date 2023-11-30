@@ -2,17 +2,16 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 import React, { useEffect, useState } from 'react'
 import { SharedButton } from '~/common'
 import { useNavigate } from 'react-router-dom'
-import { Descriptions, Divider, message, Modal, Space } from 'antd'
+import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
 import { MeetingQRDto } from '~/interface'
 import { StatusTicket } from '~/constants'
-import { meetingTicketService } from '~/service'
+import { cardService, meetingTicketService } from '~/service'
 import { MeetingCancelModals } from '~/pages'
 import { useTranslation } from 'react-i18next'
 import { PATH_DASHBOARD } from '~/routes/paths.ts'
 import { CreateCard } from '~/pages/CheckInManager/TicketInfo/CreateCard'
-import { cardService } from '~/service'
 import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
 
@@ -62,11 +61,11 @@ const TicketInfo: React.FC<Props> = (props) => {
         if (response?.status === 200) {
           await message.success(t('common.message.success.save'))
         }
-      },
+      }
     )
       .catch(async () => {
           await message.success(t('common.message.success.error'))
-        },
+        }
       )
   }
   const onCheckIn = (checkInStatus: {
@@ -78,10 +77,10 @@ const TicketInfo: React.FC<Props> = (props) => {
       ticketId: meetingQRDto.ticketId,
       customerId: meetingQRDto.customerInfo.id,
       checkInCode: checkInCodeState,
-      ...checkInStatus,
+      ...checkInStatus
     })
       .then(() => success())
-      .catch(() => message.error(t('common.message.error.save')))
+      .catch((error) => message.error(error.data.message))
       .finally(() => {
         setTimeout(() => {
           navigate(PATH_DASHBOARD)
@@ -93,7 +92,7 @@ const TicketInfo: React.FC<Props> = (props) => {
     return messageApi.open({
       type: 'success',
       content: 'This browser tab will redirect to dashboard after 3 seconds',
-      duration: 3,
+      duration: 3
     })
   }
 
@@ -145,16 +144,9 @@ const TicketInfo: React.FC<Props> = (props) => {
         siteId={meetingQRDto.siteId}
         onOk={onReject}
         onClose={() => setOpenCancelModalReject(false)} />
-      <Modal
-        open={openModalCreateCard}
-        closable={false}
-        title={null}
-        footer={null}
-        width={650}
-        onCancel={() => setOpenModalCreateCard(false)}
-      ><CreateCard checkInCode={props.ticketResult?.checkInCode} onSave={onCreateCard}
-                   onClose={() => setOpenModalCreateCard(false)} />
-      </Modal>
+      <CreateCard open={openModalCreateCard} width={650} checkInCode={props.ticketResult?.checkInCode}
+                  onSave={onCreateCard}
+                  onClose={() => setOpenModalCreateCard(false)} />
     </>
     : <></>
 }

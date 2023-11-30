@@ -6,6 +6,9 @@ import { useTranslation } from 'react-i18next'
 import { CreateCardDto } from '~/service'
 
 interface CreateCardFormArgs {
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
   checkInCode?: string
   onSave: (card: CreateCardDto) => void
   onClose: () => void
@@ -18,7 +21,7 @@ const CreateCard: React.FC<CreateCardFormArgs> = (props) => {
   //const [eventSource, setEventSource] = useState<EventSource>()
   useEffect(() => {
     form.setFieldsValue({
-      checkInCode: props.checkInCode,
+      checkInCode: props.checkInCode
     })
   }, [props.checkInCode])
 
@@ -28,9 +31,15 @@ const CreateCard: React.FC<CreateCardFormArgs> = (props) => {
   }
   return (
     <>
-      <CreateCardWrapper title={t('common.field.create_card')}
-                         onOk={form.submit}
-                         onCancel={onClose}
+      <CreateCardWrapper
+        open={props.open}
+        confirmLoading={props.confirmLoading}
+        width={props.width}
+        title={t('common.field.create_card')}
+        footer={null}
+        closable={false}
+        onOk={form.submit}
+        onCancel={onClose}
       >
         <Form
           labelCol={{ span: 6 }}

@@ -33,7 +33,7 @@ const Profile = () => {
         await message.success(t('common.message.success.save'))
         dispatch(setAuth(response.data))
       }
-    }).catch(() => message.error(t('common.message.error.save')))
+    }).catch((error) => message.error(error.data.message))
   }
 
   return (

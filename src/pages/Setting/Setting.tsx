@@ -52,16 +52,14 @@ const Setting = () => {
     settingService.setDefault().then(() => {
       message.success(t('common.message.success.save'))
       setLoad(!load)
-    }).catch(
-      () => message.error(t('common.message.error.save'))
-    )
+    }).catch((error) => message.error(error.data.message))
   }
   const handleSave = (settingId: number, value: string) => {
     settingSiteService.update({
       settingId,
       value
     }).then(() => message.success(t('common.message.success.save')))
-      .catch(() => message.error(t('common.message.error.save')))
+      .catch((error) => message.error(error.data.message))
   }
 
   return (

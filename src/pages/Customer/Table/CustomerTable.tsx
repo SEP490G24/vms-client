@@ -4,7 +4,6 @@ import { CustomerDto, PageableResponse } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Table, TablePaginationConfig } from 'antd'
-import { SharedStatus } from '~/common'
 import { FilterValue } from 'antd/es/table/interface'
 
 interface MeetingItemProps {
@@ -40,18 +39,9 @@ const CustomerTable: React.FC<MeetingItemProps> = (props) => {
         sorter={true}
         render={(value: CustomerDto) => <a onClick={() => props.onEdit(value)}>{value.visitorName}</a>}
       />
+      <Column title={t('common.field.identificationNumber')} sorter={true} dataIndex='identificationNumber' key='identificationNumber' />
       <Column title={t('common.field.contact_number')} sorter={true} dataIndex='phoneNumber' key='phoneNumber' />
-      <Column
-        title={t('common.field.status')}
-        dataIndex='enable'
-        key='enable'
-        filters={[
-          { text: t('common.label.enable'), value: true },
-          { text: t('common.label.disable'), value: false }
-        ]}
-        filterMultiple={false}
-        render={(enable) => <SharedStatus status={enable} />}
-      />
+      <Column title={t('common.field.email')} sorter={true} dataIndex='email' key='email' />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
               render={(value: CustomerDto) => moment(value.createdOn).format('L')} />
       <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}

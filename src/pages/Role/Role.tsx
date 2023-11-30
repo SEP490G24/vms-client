@@ -1,14 +1,13 @@
 import { RoleWrapper } from './styles.ts'
 
 import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
-import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { InfoModalData, RoleDto, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { formatSortParam, resetCurrentPageAction } from '~/utils'
-import { RoleInfo } from './Info'
+import { RoleInfoModal } from './Info'
 import { RoleFilter } from './Filter'
 import { RoleTable } from './Table'
 import { CreateRolePayload, RoleFilterPayload, roleService, UpdateRolePayload } from '~/service'
@@ -27,10 +26,12 @@ const Role = () => {
     entitySelected: undefined
   })
   const [tableAction, setTableAction] = useState<TableAction>({})
-  const [filterPayload, setFilterPayload] = useState<RoleFilterPayload>({attributes: {
+  const [filterPayload, setFilterPayload] = useState<RoleFilterPayload>({
+    attributes: {
       name: [],
       siteId: []
-    }})
+    }
+  })
 
   useEffect(() => {
     fetchRoles()
@@ -81,9 +82,9 @@ const Role = () => {
           await message.success(t('common.message.success.save'))
         }
       })
-      .catch(async () => {
+      .catch(async (error) => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
-        await message.error(t('common.message.error.save'))
+        await message.error(error.data.message)
       })
   }
 
@@ -139,17 +140,8 @@ const Role = () => {
                   onEdit={openEdit} />
               </Card>
             </Col>
-            <Modal
-              open={infoModalData.openModal}
-              closable={false}
-              title={null}
-              footer={null}
-              confirmLoading={infoModalData.confirmLoading}
-              width={650}
-              onCancel={onClose}
-            >
-              <RoleInfo role={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
-            </Modal>
+            <RoleInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
+                           role={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
           </Row>
         </AuthSection>
       </Space>

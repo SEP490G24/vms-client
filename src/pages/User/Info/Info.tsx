@@ -16,6 +16,9 @@ import { SCOPE_ROLE_MAP } from '~/role'
 import { AuthSection } from '~/auth'
 
 interface CreateUserFormArgs {
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
   user?: UserDto
   onSave: (user: CreateUserInfo) => void
   onClose: () => void
@@ -36,40 +39,51 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
       siteId && roleService.filter({ attributes: { 'siteId': siteId ? [siteId] : [] } }).then((response) => setRoles(response.data))
     } else {
       departmentService.filter({}).then((response) => setDepartments(response.data))
-      roleService.filter({ attributes: { 'siteId':  [] } }).then((response) => setRoles(response.data))
+      roleService.filter({ attributes: { 'siteId': [] } }).then((response) => setRoles(response.data))
     }
 
   }, [siteId])
 
 
   useEffect(() => {
-    if (props.user) {
-      setSiteId(props.user.siteId ?? '')
-      form.setFieldsValue({
-        firstName: props.user.firstName,
-        lastName: props.user.lastName,
-        password: '',
-        cPassword: '',
-        username: props.user.userName,
-        roles: props.user.roles,
-        phoneNumber: props.user.phoneNumber,
-        email: props.user.email,
-        enable: props.user.enable,
-        gender: props.user.gender,
-        departmentId: props.user.departmentId,
-        siteId: props.user.siteId
-      })
+    if (props.open) {
+      if (props.user) {
+        setSiteId(props.user.siteId ?? '')
+        form.setFieldsValue({
+          firstName: props.user.firstName,
+          lastName: props.user.lastName,
+          password: '',
+          cPassword: '',
+          username: props.user.username,
+          roles: props.user.roles,
+          phoneNumber: props.user.phoneNumber,
+          email: props.user.email,
+          enable: props.user.enable,
+          gender: props.user.gender,
+          departmentId: props.user.departmentId,
+          siteId: props.user.siteId
+        })
+      } else {
+        form.resetFields()
+      }
     }
-  }, [props.user])
+  }, [props.user, props.open])
 
   const onClose = () => {
     props.onClose()
   }
 
   return (
-    <InfoWrapper title={t(!!props.user ? 'organization.user.popup.title-edit' : 'organization.user.popup.title-add')}
-                 onOk={form.submit}
-                 onCancel={onClose}>
+    <InfoWrapper
+      open={props.open}
+      confirmLoading={props.confirmLoading}
+      width={props.width}
+      footer={null}
+      closable={false}
+      title={t(!!props.user ? 'organization.user.popup.title-edit' : 'organization.user.popup.title-add')}
+      onOk={form.submit}
+      onCancel={onClose}
+    >
       <Form
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 18 }}
@@ -84,12 +98,10 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
         <Form.Item className={'mb-3'} label={t('common.field.name')}>
           <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>
             <Form.Item style={{ marginBottom: 'unset' }} name='firstName' rules={[{ required: true }]}>
-              <SharedInput disabled={!!props.user}
-                           placeholder={t('common.placeholder.first_name')}></SharedInput>
+              <SharedInput placeholder={t('common.placeholder.first_name')}></SharedInput>
             </Form.Item>
             <Form.Item style={{ marginBottom: 'unset' }} name='lastName' rules={[{ required: true }]}>
-              <SharedInput disabled={!!props.user}
-                           placeholder={t('common.placeholder.last_name')}></SharedInput>
+              <SharedInput placeholder={t('common.placeholder.last_name')}></SharedInput>
             </Form.Item>
           </Space>
         </Form.Item>

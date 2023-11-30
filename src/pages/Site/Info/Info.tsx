@@ -11,6 +11,9 @@ import { useLocation } from '~/hook'
 import { REGEX } from '~/constants'
 
 interface CreateSiteFormArgs {
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
   site?: SiteDto
   onSave: (site: CreateSiteInfo) => void
   onClose: () => void
@@ -26,22 +29,25 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
   let { communes, districts, provinces } = useLocation(provinceId, districtId)
 
   useEffect(() => {
-    form.resetFields()
-    if (props.site) {
-      form.setFieldsValue({
-        name: props.site.name,
-        code: props.site.code,
-        phoneNumber: props.site.phoneNumber,
-        provinceId: props.site.provinceId,
-        districtId: props.site.districtId,
-        communeId: props.site.communeId,
-        address: props.site.address,
-        taxCode: props.site.taxCode,
-        description: props.site.description,
-        enable: props.site.enable
-      })
+    if (props.open) {
+      if (props.site) {
+        form.setFieldsValue({
+          name: props.site.name,
+          code: props.site.code,
+          phoneNumber: props.site.phoneNumber,
+          provinceId: props.site.provinceId,
+          districtId: props.site.districtId,
+          communeId: props.site.communeId,
+          address: props.site.address,
+          taxCode: props.site.taxCode,
+          description: props.site.description,
+          enable: props.site.enable
+        })
+      } else {
+        form.resetFields()
+      }
     }
-  }, [props.site])
+  }, [props.site, props.open])
 
   const onClose = () => {
     props.onClose()
@@ -56,6 +62,11 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
 
   return (
     <InfoWrapper
+      open={props.open}
+      confirmLoading={props.confirmLoading}
+      width={props.width}
+      footer={null}
+      closable={false}
       title={t(!!props.site ? 'organization.site.popup.title-edit' : 'organization.site.popup.title-add')}
       onOk={form.submit}
       onCancel={onClose}
@@ -82,7 +93,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
           <SharedInput inputMode={'text'} placeholder={t('common.placeholder.site_name')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')} name={'phoneNumber'}
-                   rules={[{ required: true }, { pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid')}]}>
+                   rules={[{ required: true }, { pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid') }]}>
           <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.province')} name='provinceId'

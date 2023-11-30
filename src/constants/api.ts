@@ -118,6 +118,7 @@ export const FILE = {
 
 export const TICKET = {
   BASE_PATH: `${VITE_API_SERVER_URL}/ticket`,
+  UPDATE: `${VITE_API_SERVER_URL}/ticket/update`,
   DETAIL: `${VITE_API_SERVER_URL}/ticket/view-detail`,
   FIND_BY_QR: `${VITE_API_SERVER_URL}/ticket/check-in/{checkInCode}`,
   FILTER: `${VITE_API_SERVER_URL}/ticket/filter`,

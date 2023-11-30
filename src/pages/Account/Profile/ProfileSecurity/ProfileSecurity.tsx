@@ -11,11 +11,10 @@ const ProfileSecurity = () => {
   const [form] = Form.useForm()
 
   const onFinish = (value: any) => {
-    userService.changePassword(value).then(async (response) => {
-      if (response?.status === 200) await message.success(t('common.message.changePassword.success'))
-      else await message.error(t('common.message.changePassword.failed'))
+    userService.changePassword(value).then(async () => {
+      await message.success(t('common.message.changePassword.success'))
       form.resetFields()
-    }).catch(() => message.error(t('common.message.changePassword.failed')))
+    }).catch((error) => message.error(error.data.message))
   }
 
   return (

@@ -13,6 +13,9 @@ import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
 
 interface InfoDepartmentFormArgs {
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
   department?: DepartmentDto
   onSave: (department: CreateDepartmentInfo | UpdateDepartmentInfo) => void
   onClose: () => void
@@ -25,17 +28,20 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
   const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
-    form.resetFields();
-    if (props.department) {
-      form.setFieldsValue({
-        name: props.department.name,
-        code: props.department.code,
-        siteId: props.department.siteId,
-        description: props.department.description,
-        enable: props.department.enable
-      })
+    if (props.open) {
+      if (props.department) {
+        form.setFieldsValue({
+          name: props.department.name,
+          code: props.department.code,
+          siteId: props.department.siteId,
+          description: props.department.description,
+          enable: props.department.enable
+        })
+      } else {
+        form.resetFields()
+      }
     }
-  }, [props.department])
+  }, [props.department, props.open])
 
   const onFinish = (values: any) => {
     props.onSave(values)
@@ -47,6 +53,11 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
 
   return (
     <InfoWrapper
+      open={props.open}
+      confirmLoading={props.confirmLoading}
+      width={props.width}
+      footer={null}
+      closable={false}
       title={t(!!props.department ? 'organization.department.popup.title-edit' : 'organization.department.popup.title-add')}
       onOk={form.submit}
       onCancel={onClose}

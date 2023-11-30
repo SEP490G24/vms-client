@@ -1,1 +1,1 @@
-export { default as DeviceInfo } from './Info.tsx';
+export { default as DeviceInfoModal } from './Info.tsx';

@@ -1,1 +1,1 @@
-export { default as RoomInfo } from './Info.tsx';
+export { default as RoomInfoModal } from './Info.tsx';

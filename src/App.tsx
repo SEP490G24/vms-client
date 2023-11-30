@@ -13,7 +13,7 @@ import {
   useAppSelector
 } from './redux'
 import { privateRoutes, publicRoutes } from './routes'
-import { GlobalStyles } from './themes'
+import { GlobalStyles, ResetMui } from './themes'
 import { ConfigProvider } from 'antd'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { BrowserHistory, createBrowserHistory } from 'history'
@@ -71,6 +71,7 @@ function App() {
   return (
     <ThemeProvider theme={selectedTheme.themes}>
       <GlobalStyles />
+      <ResetMui />
       <ConfigProvider
         theme={{
           components: {

@@ -3,16 +3,20 @@ import { Card, Col, Divider, message, Row, Segmented, Space, TablePaginationConf
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
-import Modal from 'antd/es/modal/Modal'
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons'
-import { CancelTicketPayload, MeetingBookMark, MeetingFilterPayload, ticketService } from '~/service'
+import {
+  CancelTicketPayload,
+  MeetingBookMark,
+  MeetingFilterPayload,
+  meetingTicketService,
+  ticketService
+} from '~/service'
 import { SegmentedValue } from 'rc-segmented'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedButton } from '~/common'
 import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { InfoModalData, MeetingDto, TableAction, TableData } from '~/interface'
-import { MeetingCancelModals, MeetingFilter, MeetingInfo, MeetingKanban, MeetingTable } from '~/pages'
-import { meetingTicketService } from '~/service'
+import { MeetingCancelModals, MeetingFilter, MeetingInfoModal, MeetingKanban, MeetingTable } from '~/pages'
 import { AuthSection } from '~/auth'
 
 
@@ -23,7 +27,7 @@ const MeetingStatistics = () => {
   const [tableData, setTableData] = useState<TableData<MeetingDto>>({ loading: false })
   const [infoModalData, setInfoModalData] = useState<InfoModalData<MeetingDto>>({
     openModal: false,
-    confirmLoading: false,
+    confirmLoading: false
   })
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [cancelModalData, setCancelModalData] = useState({ openModal: false, meeting: {} as MeetingDto })
@@ -31,7 +35,7 @@ const MeetingStatistics = () => {
 
   const viewTypeOptions = [
     { label: t('common.label.table'), value: 'TABLE', icon: <TableOutlined /> },
-    { label: t('common.label.kanban'), value: 'KANBAN', icon: <AppstoreOutlined /> },
+    { label: t('common.label.kanban'), value: 'KANBAN', icon: <AppstoreOutlined /> }
   ]
 
   useEffect(() => {
@@ -43,12 +47,12 @@ const MeetingStatistics = () => {
     const payload = {
       ...filterPayload,
       purpose: tableAction.filters?.purpose?.[0],
-      status: tableAction.filters?.status?.[0],
+      status: tableAction.filters?.status?.[0]
     } as MeetingFilterPayload
     ticketService.filter(payload, true, {
       page: (tableAction.pagination?.current ?? 1) - 1,
       size: 10,
-      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order),
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
       setTableData({ pageableResponse: response.data, loading: false })
     }).catch(() => {
@@ -79,14 +83,14 @@ const MeetingStatistics = () => {
     const payload = {
       ticketId: cancelModalData.meeting.id,
       reason: values['reason'],
-      reasonNote: values['reasonNote'],
+      reasonNote: values['reasonNote']
     } as CancelTicketPayload
     meetingTicketService.cancel(payload).then(async () => {
       fetchMeetings()
       setCancelModalData({ ...cancelModalData, openModal: false })
       await message.success(t('common.message.success.save'))
-    }).catch(async () => {
-      await message.error(t('common.message.error.save'))
+    }).catch(async (error) => {
+      await message.error(error.data.message)
       setCancelModalData({ ...cancelModalData, openModal: false })
     })
   }
@@ -121,7 +125,7 @@ const MeetingStatistics = () => {
                       onClick={() => setInfoModalData({
                         ...infoModalData,
                         entitySelected: undefined,
-                        openModal: true,
+                        openModal: true
                       })}
                     >
                       {t('common.label.create')}
@@ -148,17 +152,9 @@ const MeetingStatistics = () => {
                     onEdit={openEdit} onBookmark={onBookMark} />}
               </Card>
             </Col>
-            <Modal
-              open={infoModalData.openModal}
-              confirmLoading={infoModalData.confirmLoading}
-              closable={false}
-              title={null}
-              footer={null}
-              width={750}
-              onCancel={onEditClose}
-            >
-              <MeetingInfo onClose={onEditClose} id={infoModalData.entitySelected?.id} />
-            </Modal>
+            <MeetingInfoModal open={infoModalData.openModal}
+                              confirmLoading={infoModalData.confirmLoading} width={750} onClose={onEditClose}
+                              id={infoModalData.entitySelected?.id} />
             <MeetingCancelModals
               openModal={cancelModalData.openModal}
               siteId={cancelModalData.meeting.siteId}

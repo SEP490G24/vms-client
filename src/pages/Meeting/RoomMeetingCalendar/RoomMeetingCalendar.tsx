@@ -6,7 +6,7 @@ import { Scheduler } from '@aldabil/react-scheduler'
 import { useEffect, useState } from 'react'
 import { MeetingDto, RoomDto } from '~/interface'
 import { MeetingFilterPayload, meetingTicketService } from '~/service'
-import { MeetingFilter, MeetingInfo } from '~/pages'
+import { MeetingFilter, MeetingInfoModal } from '~/pages'
 import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import moment from 'moment/moment'
@@ -55,9 +55,9 @@ const RoomMeetingCalendar = () => {
       if (response.data) {
         setDataState({ loading: false, rooms: response.data.rooms, tickets: response.data.tickets })
       }
-    }).catch(() => {
+    }).catch((error) => {
       setDataState({ ...dataState, loading: false })
-      message.error(t('common.message.error.save'))
+      message.error(error.data.message)
     })
   }
 
@@ -113,7 +113,8 @@ const RoomMeetingCalendar = () => {
                       }}
                       fields={[{ name: 'id', type: 'input' }, { name: 'roomId', type: 'input' }]}
                       dialogMaxWidth={'xl'}
-                      customEditor={(scheduler) => <MeetingInfo classname={'w-[750px]'} scheduler={scheduler} />}
+                      customEditor={(scheduler) => <MeetingInfoModal open={true} classname={'w-[750px]'}
+                                                                     scheduler={scheduler} />}
                     />
                   }
                 </Card>

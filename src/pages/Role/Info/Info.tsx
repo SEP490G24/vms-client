@@ -12,6 +12,9 @@ import { SCOPE_ROLE_MAP } from '~/role'
 import { CreateRolePayload, UpdateRolePayload } from '~/service'
 
 interface RoleInfoFormArgs {
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
   role?: RoleDto
   onSave: (role: CreateRolePayload | UpdateRolePayload) => void
   onClose: () => void
@@ -23,24 +26,31 @@ const Info: React.FC<RoleInfoFormArgs> = (props) => {
   const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
-    form.resetFields()
-    if (props.role) {
-      form.setFieldsValue({
-        code: props.role.code,
-        name: props.role.attributes['name'],
-        siteId: props.role.attributes['site_id'],
-        description: props.role.description
-      })
+    if (props.open) {
+      if (props.role) {
+        form.setFieldsValue({
+          code: props.role.code,
+          name: props.role.attributes['name'],
+          siteId: props.role.attributes['site_id'],
+          description: props.role.description
+        })
+      } else {
+        form.resetFields()
+      }
     }
-  }, [props.role])
+  }, [props.role, props.open])
 
   const onClose = () => {
     props.onClose()
-    form.resetFields()
   }
 
   return (
     <InfoWrapper
+      open={props.open}
+      confirmLoading={props.confirmLoading}
+      width={props.width}
+      footer={null}
+      closable={false}
       title={t(!!props.role ? 'organization.role.popup.title-edit' : 'organization.role.popup.title-add')}
       onOk={form.submit}
       onCancel={onClose}

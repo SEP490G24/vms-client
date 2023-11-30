@@ -1,5 +1,4 @@
 import { Card, Col, Divider, message, Row, Space, Spin, TablePaginationConfig } from 'antd'
-import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedUploadModal } from '~/common'
@@ -7,7 +6,7 @@ import { InfoModalData, TableAction, TableData, UserDto } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { PageWrapper } from '~/themes'
 import { exportFile, formatSortParam, resetCurrentPageAction } from '~/utils'
-import { UserInfo } from './Info'
+import { UserInfoModal } from './Info'
 import { UserFilter } from './Filter'
 import { UserFilterPayload, userService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
@@ -68,9 +67,9 @@ const User = () => {
           await message.success(t('common.message.success.save'))
         }
       })
-      .catch(async () => {
+      .catch(async (error) => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
-        await message.error(t('common.message.error.save'))
+        await message.error(error.data.message)
       })
   }
 
@@ -114,14 +113,14 @@ const User = () => {
 
   const onImport = (file: RcFile) => {
     setUploadModalData({ ...uploadModalData, confirmLoading: false })
-    userService.importUser(file).then(() => {
+    userService.importUser(file).then(async () => {
       setUploadModalData({ confirmLoading: false, openModal: false })
       fetchUser()
-      message.success('upload successfully.').then()
+      await message.success(t('common.message.success.upload'))
     })
-      .catch(() => {
+      .catch(async (error) => {
         setUploadModalData({ ...uploadModalData, confirmLoading: false })
-        message.error('upload failed.').then()
+        await message.error(error.data.message)
       })
   }
 
@@ -170,22 +169,13 @@ const User = () => {
                            onEdit={openEdit} />
               </Card>
             </Col>
-            <Modal
-              open={infoModalData.openModal}
-              confirmLoading={infoModalData.confirmLoading}
-              closable={false}
-              title={null}
-              footer={null}
-              width={650}
-              onCancel={onClose}
-            >
-              <UserInfo onClose={onClose} user={infoModalData.entitySelected} onSave={onSave} />
-            </Modal>
-            <Modal open={uploadModalData.openModal} confirmLoading={uploadModalData.confirmLoading} closable={false}
-                   title={null} footer={null} width={500} onCancel={closeUploadModal}>
-              <SharedUploadModal title={t('common.label.uploadFile')} onOk={onImport} onCancel={closeUploadModal}
-                                 onDownloadSample={downloadSample} />
-            </Modal>
+            <UserInfoModal
+              open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
+              onClose={onClose} user={infoModalData.entitySelected} onSave={onSave} />
+            <SharedUploadModal
+              open={uploadModalData.openModal} confirmLoading={uploadModalData.confirmLoading} width={500}
+              title={t('common.label.uploadFile')} onOk={onImport} onCancel={closeUploadModal}
+              onDownloadSample={downloadSample} />
           </Row>
         </AuthSection>
       </Space>

@@ -30,6 +30,17 @@ export const GlobalStyles = createGlobalStyle`
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
+  
+  .vms-modal {
+    .ant-modal-header {
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .ant-modal-content {
+      padding: 24px 40px 40px;
+    }
+  }
 
   .vms-radio-group {
     .ant-radio-button-wrapper {
@@ -48,6 +59,18 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
+  
+`
+
+export const ResetMui = createGlobalStyle`
+
+  .MuiDialog-root,
+  .MuiDialog-container,
+  .MuiBackdrop-root {
+    display: none !important;
+  }
+
+
   .MuiDialog-root,
   .MuiModal-root {
     z-index: 1049 !important;
@@ -60,11 +83,5 @@ export const PageWrapper = styled.div`
   }
   .vms-form .ant-form-item-label>label {
     text-wrap: balance !important;
-  }
-`
-
-export const ModalGlobalStyle = createGlobalStyle`
-  .ant-modal .ant-modal-content {
-    padding: unset;
   }
 `

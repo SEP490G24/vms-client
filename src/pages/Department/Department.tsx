@@ -1,14 +1,13 @@
 import { DepartmentWrapper } from './styles.ts'
 
-import { Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
-import Modal from 'antd/es/modal/Modal'
+import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { DepartmentDto, InfoModalData, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { formatSortParam, resetCurrentPageAction } from '~/utils'
-import { DepartmentInfo } from './Info'
+import { DepartmentInfoModal } from './Info'
 import { DepartmentFilter } from './Filter'
 import { DepartmentTable } from './Table'
 import { DepartmentFilterPayload, departmentService } from '~/service'
@@ -63,9 +62,9 @@ const Department = () => {
           await message.success(t('common.message.success.save'))
         }
       })
-      .catch(async () => {
+      .catch(async (error) => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
-        await message.error(t('common.message.error.save'))
+        await message.error(error.data.message)
       })
   }
 
@@ -94,9 +93,10 @@ const Department = () => {
               <DepartmentFilter onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
-              <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <strong> {t('organization.department.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
-                <Space>
+              <Card
+                title={
+                  <strong> {t('organization.department.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>}
+                extra={<Space>
                   <SharedButton
                     permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type='default'
@@ -108,27 +108,19 @@ const Department = () => {
                   >
                     {t('common.label.create')}
                   </SharedButton>
-                </Space>
-              </Space>
-              <Divider style={{ margin: '16px 0 0' }} />
-              <DepartmentTable
-                loading={tableData.loading}
-                pageableResponse={tableData.pageableResponse}
-                currentPage={tableAction.pagination?.current}
-                onChangeTable={handleChangeTable}
-                onEdit={openEdit} />
+                </Space>}
+              >
+                <DepartmentTable
+                  loading={tableData.loading}
+                  pageableResponse={tableData.pageableResponse}
+                  currentPage={tableAction.pagination?.current}
+                  onChangeTable={handleChangeTable}
+                  onEdit={openEdit} />
+              </Card>
             </Col>
-            <Modal
-              open={infoModalData.openModal}
-              closable={false}
-              title={null}
-              footer={null}
-              confirmLoading={infoModalData.confirmLoading}
-              width={750}
-              onCancel={onClose}
-            >
-              <DepartmentInfo onClose={onClose} department={infoModalData.entitySelected} onSave={onSave} />
-            </Modal>
+            <DepartmentInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading}
+                                 width={750}
+                                 onClose={onClose} department={infoModalData.entitySelected} onSave={onSave} />
           </Row>
         </AuthSection>
       </Space>

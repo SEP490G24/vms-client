@@ -1,18 +1,18 @@
 import { RoomWrapper } from './styles.ts'
 
-import { Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
-import Modal from 'antd/es/modal/Modal'
+import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { InfoModalData, RoomDto, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
-import { RoomInfo } from './Info'
 import { RoomFilter } from './Filter'
 import { RoomFilterPayload, roomService } from '~/service'
 import { RoomTable } from '~/pages/Room/Table'
 import { FilterValue } from 'antd/es/table/interface'
+import { RoomInfoModal } from '~/pages/Room/Info'
+
 
 const Room = () => {
   const { t } = useTranslation()
@@ -61,9 +61,9 @@ const Room = () => {
           await message.success(t('common.message.success.save'))
         }
       })
-      .catch(async () => {
+      .catch(async (error) => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
-        await message.error(t('common.message.error.save'))
+        await message.error(error.data.message)
       })
   }
 
@@ -93,47 +93,32 @@ const Room = () => {
               <RoomFilter onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
-              <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <strong> {t('organization.room.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
-                <Space>
-                  <SharedButton
-                    // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
-                    type='default'
-                    onClick={() => setInfoModalData({
-                      ...infoModalData,
-                      entitySelected: undefined,
-                      openModal: true
-                    })}
-                  >
-                    {t('organization.room.table.btn-add')}
-                  </SharedButton>
-                  {/*<Spin spinning={false}>*/}
-                  {/*  <SharedButton onClick={exportData} type={'primary'}>*/}
-                  {/*    {t('common.label.export_data')}*/}
-                  {/*  </SharedButton>*/}
-                  {/*</Spin>*/}
-                </Space>
-              </Space>
-              <Divider style={{ margin: '16px 0 0' }} />
-              <RoomTable
-                loading={tableData.loading}
-                pageableResponse={tableData.pageableResponse}
-                currentPage={tableAction.pagination?.current}
-                onChangeTable={handleChangeTable}
-                onEdit={openEdit}
-              />
+              <Card
+                title={
+                  <strong> {t('organization.room.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>}
+                extra={<SharedButton
+                  // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
+                  type='default'
+                  onClick={() => setInfoModalData({
+                    ...infoModalData,
+                    entitySelected: undefined,
+                    openModal: true
+                  })}
+                >
+                  {t('organization.room.table.btn-add')}
+                </SharedButton>}
+              >
+                <RoomTable
+                  loading={tableData.loading}
+                  pageableResponse={tableData.pageableResponse}
+                  currentPage={tableAction.pagination?.current}
+                  onChangeTable={handleChangeTable}
+                  onEdit={openEdit}
+                />
+              </Card>
             </Col>
-            <Modal
-              open={infoModalData.openModal}
-              closable={false}
-              title={null}
-              footer={null}
-              confirmLoading={infoModalData.confirmLoading}
-              width={650}
-              onCancel={onClose}
-            >
-              <RoomInfo room={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
-            </Modal>
+            <RoomInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
+                           room={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
           </Row>
         )}
       </Space>

@@ -119,7 +119,7 @@ const AuditLog = () => {
               title={null}
               footer={null}
               confirmLoading={infoModalData.confirmLoading}
-              width={650}
+              width={950}
               onCancel={onClose}
             >
               <AuditLogInfo auditLog={infoModalData.entitySelected} onClose={onClose} />

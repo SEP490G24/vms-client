@@ -219,7 +219,8 @@
       "success": {
         "save": "Save Successfully!",
         "check-in": "Check-in Success",
-        "refresh": "Refresh Data Successfully"
+        "refresh": "Refresh Data Successfully",
+        "upload": "Upload File Successfully"
       },
       "warning": {
         "try-again": "Please try again in a minutes."
@@ -541,6 +542,16 @@
   },
   "configuration": {
     "title": "Configuration Manager"
+  },
+  "ticket-result": {
+    "success": {
+      "title": "Successfully Verify QR Server!",
+      "subTitle": "Ticket number: : {{ticketId}}. Please wait 1-5 minutes 1-5 minutes to takes prepare."
+    },
+    "error": {
+      "title": "Failed Verify QR Server!",
+      "subTitle": "Ticket number: : {{ticketId}}. The ticket or customer's meeting has been rejected. Please contact your appointment for more information."
+    }
   },
   "sidebar": {
     "home": {

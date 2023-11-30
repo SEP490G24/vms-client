@@ -1,14 +1,13 @@
 import { DeviceWrapper } from './styles.ts'
 
-import { Col, Divider, message, Row, Space} from 'antd'
-import Modal from 'antd/es/modal/Modal'
+import { Col, Divider, message, Row, Space } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { DeviceDto, PageableResponse} from '~/interface'
+import { DeviceDto, InfoModalData, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
-import { checkPermission } from '~/utils'
-import { DeviceInfo } from './Info'
+import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
+import { DeviceInfoModal } from './Info'
 import { DeviceFilter } from './Filter'
 import { DeviceFilterPayload, deviceService } from '~/service'
 import { DeviceTable } from '~/pages/Device/Table'
@@ -16,58 +15,65 @@ import { DeviceTable } from '~/pages/Device/Table'
 const Device = () => {
 
   const { t } = useTranslation()
-  const [pageableResponse, setPageableResponse] = useState<PageableResponse<DeviceDto>>()
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [device, setDevice] = useState<DeviceDto>()
-  const [openModal, setOpenModal] = useState<boolean>(false)
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
+
+  const [tableData, setTableData] = useState<TableData<DeviceDto>>({ loading: false })
+  const [infoModalData, setInfoModalData] = useState<InfoModalData<DeviceDto>>({
+    openModal: false,
+    confirmLoading: false
+  })
+  const [tableAction, setTableAction] = useState<TableAction>({})
   const [filterPayload, setFilterPayload] = useState<DeviceFilterPayload>({})
   // const [exportEx, setExportEx] = useState<boolean>(false)
 
-
   useEffect(() => {
-    deviceService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-      setPageableResponse(response?.data)
+    fetchDevice()
+  }, [filterPayload, tableAction])
+
+  const fetchDevice = () => {
+    setTableData({ ...tableData, loading: true })
+    const payload = {
+      ...filterPayload,
+      enable: tableAction.filters?.enable?.[0]
+    } as DeviceFilterPayload
+    deviceService.filter(payload, true, {
+      page: (tableAction.pagination?.current ?? 1) - 1,
+      size: 10,
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
+    }).then((response) => {
+      setTableData({ pageableResponse: response.data, loading: false })
+    }).catch(() => {
+      setTableData({ ...infoModalData, loading: false })
     })
-    console.log(pageableResponse)
-  }, [filterPayload, currentPage])
+  }
 
   const onFilter = (filterPayload: DeviceFilterPayload) => {
-    setCurrentPage(1)
+    setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload(filterPayload)
   }
 
   const onSave = (payload: any) => {
-    setConfirmLoading(true)
-    const request = !!device ? deviceService.update(device.id, payload) : deviceService.insert(payload)
+    setInfoModalData({ ...infoModalData, confirmLoading: true })
+    const request = !!infoModalData.entitySelected ? deviceService.update(infoModalData.entitySelected.id, payload) : deviceService.insert(payload)
     request
       .then(async (res: any) => {
-        console.log('res', res)
         if (res?.status === 200) {
-          setOpenModal(false)
-          setConfirmLoading(false)
-          setDevice(undefined)
-          deviceService.filter(filterPayload, true, { page: currentPage - 1, size: 10 }).then((response) => {
-            setPageableResponse(response?.data)
-          })
+          setInfoModalData({ confirmLoading: false, openModal: false, entitySelected: undefined })
+          setTableAction(resetCurrentPageAction(tableAction))
           await message.success(t('common.message.success.save'))
-        } else {
-          await message.error(t('common.message.error.save'))
         }
       })
-      .catch(async () => {
-        await message.error(t('common.message.error'))
+      .catch(async (error) => {
+        setInfoModalData({ ...infoModalData, confirmLoading: false })
+        await message.error(error.data.message)
       })
   }
 
   const openEdit = (deviceDto: DeviceDto) => {
-    setDevice(deviceDto)
-    setOpenModal(true)
+    setInfoModalData({ ...infoModalData, entitySelected: deviceDto, openModal: true })
   }
 
   const onClose = () => {
-    setDevice(undefined)
-    setOpenModal(false)
+    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
 
   return (
@@ -84,33 +90,28 @@ const Device = () => {
             </Col>
             <Col flex={'auto'}>
               <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <strong> {t('organization.device.table.title', { count: pageableResponse?.totalElements ?? 0 })}</strong>
+                <strong> {t('organization.device.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
                   <SharedButton
                     // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type='default'
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => setInfoModalData({
+                      ...infoModalData,
+                      entitySelected: undefined,
+                      openModal: true
+                    })}
                   >
                     {t('organization.device.table.btn-add')}
                   </SharedButton>
                 </Space>
               </Space>
               <Divider style={{ margin: '16px 0 0' }} />
-              <DeviceTable pageableResponse={pageableResponse} loading={false} onEdit={openEdit} />
+              <DeviceTable pageableResponse={tableData.pageableResponse} loading={tableData.loading}
+                           onEdit={openEdit} />
             </Col>
-            {openModal && (
-              <Modal
-                open={openModal}
-                closable={false}
-                title={null}
-                footer={null}
-                confirmLoading={confirmLoading}
-                width={750}
-                onCancel={onClose}
-              >
-                <DeviceInfo onClose={onClose} device={device} onSave={onSave} />
-              </Modal>
-            )}
+
+            <DeviceInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={750}
+                             onClose={onClose} device={infoModalData.entitySelected} onSave={onSave} />
           </Row>
         )}
       </Space>

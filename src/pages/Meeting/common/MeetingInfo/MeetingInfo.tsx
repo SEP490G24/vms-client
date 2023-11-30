@@ -16,9 +16,12 @@ import {
   resetMeetingSelected
 } from '~/redux/slices/meetingSlice.ts'
 import { formatDate, isNullish } from '~/utils'
-import { meetingTicketService } from '~/service'
+import { meetingTicketService, UpdateMeetingInfo } from '~/service'
 
 interface MeetingInfoArgs {
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
   classname?: string
   scheduler?: SchedulerHelpers
   id?: string
@@ -93,24 +96,50 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
   }
 
   const onFinish = () => {
-    meetingTicketService.insert(meetingForm).then((response) => {
-      if (props.scheduler) {
-        const meeting = response.data
-        const event = {
-          event_id: Math.random(),
-          title: meeting.name,
-          start: new Date(meeting.startTime),
-          end: new Date(meeting.endTime),
-          description: meeting.description,
-          id: meeting.id
-        }
-        props.scheduler.onConfirm(event, 'create')
+    if (!!meetingSelected) {
+      const payload: UpdateMeetingInfo = {
+        id: meetingSelected.id,
+        ...meetingForm
       }
-      onClose()
-      message.success(t('common.message.success.save'))
-    }).catch((error) => {
-      message.error(error.data.message)
-    })
+      meetingTicketService.update(payload).then((response) => {
+        if (props.scheduler) {
+          const meeting = response.data
+          const event = {
+            event_id: props.scheduler.edited?.event_id ?? Math.random(),
+            title: meeting.name,
+            start: new Date(meeting.startTime),
+            end: new Date(meeting.endTime),
+            description: meeting.description,
+            id: meetingSelected.id
+          }
+          props.scheduler.onConfirm(event, 'edit')
+        }
+        onClose()
+        message.success(t('common.message.success.save'))
+      }).catch((error) => {
+        message.error(error.data.message)
+      })
+    } else {
+      meetingTicketService.insert(meetingForm).then((response) => {
+        if (props.scheduler) {
+          const meeting = response.data
+          const event = {
+            event_id: Math.random(),
+            title: meeting.name,
+            start: new Date(meeting.startTime),
+            end: new Date(meeting.endTime),
+            description: meeting.description,
+            id: meeting.id
+          }
+          props.scheduler.onConfirm(event, 'create')
+        }
+        onClose()
+        message.success(t('common.message.success.save'))
+      }).catch((error) => {
+        message.error(error.data.message)
+      })
+    }
+
   }
 
   const steps = [
@@ -201,6 +230,11 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
   return (
     <Spin spinning={loading}>
       <MeetingInfoWrapper
+        open={props.open}
+        confirmLoading={props.confirmLoading}
+        width={props.width}
+        footer={null}
+        closable={false}
         className={props.classname}
         title={t(!!meetingSelected ? 'meeting.popup.title-edit' : 'meeting.popup.title-add')}
         onCancel={onClose}

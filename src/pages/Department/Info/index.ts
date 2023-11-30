@@ -1,1 +1,1 @@
-export { default as DepartmentInfo } from './Info.tsx';
+export { default as DepartmentInfoModal } from './Info.tsx';

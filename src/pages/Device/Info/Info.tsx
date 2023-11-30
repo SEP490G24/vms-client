@@ -8,6 +8,9 @@ import { CreateDeviceInfo } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
 
 interface CreateDeviceFormArgs {
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
   device?: DeviceDto
   onSave: (department: CreateDeviceInfo) => void
   onClose: () => void
@@ -19,18 +22,22 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
 
 
   useEffect(() => {
-    if (props.device) {
-      form.setFieldsValue({
-        name: props.device.name,
-        code: props.device.code,
-        macIp: props.device.macIp,
-        siteId: props.device.siteId,
-        description: props.device.description,
-        enable: props.device.enable,
-        deviceType: props.device.deviceType
-      })
+    if (props.open) {
+      if (props.device) {
+        form.setFieldsValue({
+          name: props.device.name,
+          code: props.device.code,
+          macIp: props.device.macIp,
+          siteId: props.device.siteId,
+          description: props.device.description,
+          enable: props.device.enable,
+          deviceType: props.device.deviceType
+        })
+      } else {
+        form.resetFields()
+      }
     }
-  }, [props.device])
+  }, [props.device, props.open])
 
   const onFinish = (values: any) => {
     props.onSave(values)
@@ -38,15 +45,18 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
 
   const onClose = () => {
     props.onClose()
-    form.resetFields()
   }
 
   return (
     <InfoWrapper
+      open={props.open}
+      confirmLoading={props.confirmLoading}
+      width={props.width}
+      footer={null}
+      closable={false}
       title={t(!!props.device ? 'organization.device.popup.title-edit' : 'organization.device.popup.title-add')}
       onOk={form.submit}
       onCancel={onClose}
-
     >
       <Form
         labelCol={{ span: 6 }}
@@ -67,12 +77,12 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
                    rules={[{ required: true }]}>
           <SharedInput placeholder={t('common.placeholder.code')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.macIp')} name='macIp' >
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.macIp')} name='macIp'>
           <SharedInput placeholder={t('common.placeholder.macIp')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.deviceType')} name='deviceType'
                    rules={[{ required: true }]}>
-          <SharedSelect options={[{label:"SCAN_CARD", value:"SCAN_CARD"},{label:"DOOR", value: "DOOR"}]}
+          <SharedSelect options={[{ label: 'SCAN_CARD', value: 'SCAN_CARD' }, { label: 'DOOR', value: 'DOOR' }]}
                         placeholder={t('common.placeholder.site')}></SharedSelect>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>

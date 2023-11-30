@@ -1,1 +1,1 @@
-export { default as TemplateInfo } from './Info.tsx';
+export { default as TemplateInfoModal } from './Info.tsx';

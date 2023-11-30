@@ -68,7 +68,7 @@ const TicketResult: React.FC<Props> = (props) => {
       ...checkInStatus
     })
       .then(() => success())
-      .catch(() => message.error(t('common.message.error.save')))
+      .catch((error) => message.error(error.data.message))
       .finally(() => {
         setTimeout(() => {
           navigate(PATH_DASHBOARD)
@@ -89,35 +89,35 @@ const TicketResult: React.FC<Props> = (props) => {
       {contextHolder}
       <TicketResultWrapper
         status='success'
-        title='Successfully Verify QR Server!'
-        subTitle={'Ticket number: ' + meetingQRDto.ticketId + '. Cloud server configuration takes 1-5 minutes, please wait.'}
+        title={t('ticket-result.success.title')}
+        subTitle={t('ticket-result.success.subTitle', { ticketId: meetingQRDto.ticketId })}
         extra={<Space className={'w-full'} direction={'vertical'}
                       size={32}>
           <Divider orientation={'left'}>Ticket Info</Divider>
           {meetingQRDto && <Descriptions bordered>
             <DescriptionsItem
-              label={'Title'}>{meetingQRDto.ticketName}</DescriptionsItem>
+              label={t('common.field.title')}>{meetingQRDto.ticketName}</DescriptionsItem>
             <DescriptionsItem
-              label={'Purpose'}>{meetingQRDto.purpose}</DescriptionsItem>
+              label={t('common.field.purpose')}>{meetingQRDto.purpose}</DescriptionsItem>
             <DescriptionsItem
-              label={'CreateBy'}>{meetingQRDto.createdBy}</DescriptionsItem>
+              label={t('common.field.createdBy')}>{meetingQRDto.createdBy}</DescriptionsItem>
             <DescriptionsItem
-              label={'Room'}>{meetingQRDto.roomName}</DescriptionsItem>
+              label={t('common.field.room')}>{meetingQRDto.roomName}</DescriptionsItem>
             <DescriptionsItem label={'Duration'} span={2}>
               <Space size={4}>
-                <span>{moment(meetingQRDto.startTime).format('LTS')}</span>
+                <span>{moment(meetingQRDto.startTime).format('MM Do YYYY, h:mm:ss a')}</span>
                 <span>~</span>
-                <span>{moment(meetingQRDto.endTime).format('LTS')}</span>
+                <span>{moment(meetingQRDto.endTime).format('MM Do YYYY, h:mm:ss a')}</span>
               </Space>
             </DescriptionsItem>
-            <DescriptionsItem label={'Customer'}
+            <DescriptionsItem label={t('common.field.guest')}
                               span={3}>{meetingQRDto.customerInfo.visitorName}</DescriptionsItem>
             <DescriptionsItem
-              label={'Identification Number'}>{meetingQRDto.customerInfo.identificationNumber}</DescriptionsItem>
+              label={t('common.field.identificationNumber')}>{meetingQRDto.customerInfo.identificationNumber}</DescriptionsItem>
             <DescriptionsItem
-              label={'Email'}>{meetingQRDto.customerInfo.email}</DescriptionsItem>
+              label={t('common.field.email')}>{meetingQRDto.customerInfo.email}</DescriptionsItem>
             <DescriptionsItem
-              label={'PhoneNumber'}>{meetingQRDto.customerInfo.phoneNumber}</DescriptionsItem>
+              label={t('common.field.phoneNumber')}>{meetingQRDto.customerInfo.phoneNumber}</DescriptionsItem>
           </Descriptions>}
           <Space className={'w-full justify-center'}
                  direction={'horizontal'}

@@ -1,14 +1,13 @@
 import { SiteWrapper } from './styles.ts'
 
 import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
-import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { InfoModalData, SiteDto, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { formatSortParam, resetCurrentPageAction } from '~/utils'
-import { SiteInfo } from './Info'
+import { SiteInfoModal } from './Info'
 import { SiteFilter } from './Filter'
 import { SiteTable } from './Table'
 import { SiteFilterPayload, siteService } from '~/service'
@@ -66,9 +65,9 @@ const Site = () => {
           await message.success(t('common.message.success.save'))
         }
       })
-      .catch(async () => {
+      .catch(async (error) => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
-        await message.error(t('common.message.error.save'))
+        await message.error(error.data.message)
       })
   }
 
@@ -104,11 +103,12 @@ const Site = () => {
                   <SharedButton
                     permissions={PERMISSION_ROLE_MAP.R_SITE_CREATE}
                     type='default'
-                    onClick={() => {setInfoModalData({
-                      ...infoModalData,
-                      entitySelected: undefined,
-                      openModal: true
-                    });
+                    onClick={() => {
+                      setInfoModalData({
+                        ...infoModalData,
+                        entitySelected: undefined,
+                        openModal: true
+                      })
                     }}
                   >
                     {t('common.label.create')}
@@ -124,17 +124,8 @@ const Site = () => {
                   onEdit={openEdit} />
               </Card>
             </Col>
-            <Modal
-              open={infoModalData.openModal}
-              closable={false}
-              title={null}
-              footer={null}
-              confirmLoading={infoModalData.confirmLoading}
-              width={650}
-              onCancel={onClose}
-            >
-              <SiteInfo site={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
-            </Modal>
+            <SiteInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
+                           site={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
           </Row>
         </AuthSection>
       </Space>

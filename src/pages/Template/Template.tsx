@@ -1,16 +1,15 @@
 import { PageWrapper } from '~/themes'
-import { Col, message, Row, Space, Spin } from 'antd'
+import { Col, Flex, message, Row, Space, Spin } from 'antd'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { useTranslation } from 'react-i18next'
 import { TemplateItem } from './TemplateItem'
 import { TemplateFilterPayload, templateService } from '~/service'
 import { InfoModalData, TemplateDto } from '~/interface'
 import { useEffect, useState } from 'react'
-import Modal from 'antd/es/modal/Modal'
-import { TemplateInfo } from './Info'
 import { SharedButton } from '~/common'
 import { TemplateFilter } from './Filter'
 import { AuthSection } from '~/auth'
+import { TemplateInfoModal } from '~/pages/Template/Info'
 
 const Template = () => {
   const { t } = useTranslation()
@@ -64,19 +63,14 @@ const Template = () => {
     setInfoModalData({ ...infoModalData, confirmLoading: true })
     let request = !!infoModalData.entitySelected ? templateService.update(infoModalData.entitySelected.id, payload) : templateService.insert(payload)
     request
-      .then(async (res: any) => {
-        console.log('res', res)
-        if (res?.status === 200) {
+      .then(async () => {
           setInfoModalData({ openModal: false, confirmLoading: false, entitySelected: undefined })
           fetchTemplates(filterPayload, 1)
           await message.success(t('common.message.success.save'))
-        } else {
-          await message.error(t('common.message.error.save'))
-        }
       })
-      .catch(async () => {
+      .catch(async (error) => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
-        await message.error(t('common.message.error.save'))
+        await message.error(error.data.message)
       })
   }
 
@@ -108,7 +102,7 @@ const Template = () => {
             </Col>
             <Col flex={'auto'}>
               <Spin spinning={templatesState.loading}>
-                <Space className={'w-full mb-4'} direction={'vertical'} size={24} align={'center'}>
+                <Flex className={'w-full mb-4'} gap={'middle'} vertical={true} align={'center'}>
                   <div className={'grid w-full sm:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-2'}>
                     {
                       templatesState.templates?.map((template, index) => (
@@ -117,23 +111,14 @@ const Template = () => {
                     }
                   </div>
                   {!!templatesState.templates?.length && <SharedButton onClick={onShowMore}>Show more</SharedButton>}
-                </Space>
+                </Flex>
               </Spin>
             </Col>
           </Row>
         </AuthSection>
       </Space>
-      <Modal
-        open={infoModalData.openModal}
-        closable={false}
-        title={null}
-        footer={null}
-        confirmLoading={infoModalData.confirmLoading}
-        width={750}
-        onCancel={onClose}
-      >
-        <TemplateInfo onClose={onClose} template={infoModalData.entitySelected} onSave={onSave} />
-      </Modal>
+      <TemplateInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={750}
+                         onClose={onClose} template={infoModalData.entitySelected} onSave={onSave} />
     </PageWrapper>
   )
 }

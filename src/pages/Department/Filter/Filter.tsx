@@ -1,5 +1,5 @@
 import { Card, Form, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput } from '~/common'
 import { DateRadioRange} from '~/interface'
@@ -18,33 +18,25 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
   const [disable, setDisable] = useState<boolean>(true)
-  const [keyword, setKeyword] = useState<string>('')
-  const [siteId, setSiteId] = useState<string | null>('')
 
-  useEffect(() => {
-    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim() || siteId) setDisable(false)
-    else setDisable(true)
-  }, [valueDate,keyword,siteId])
-
-  const onFinish = () => {
+  const onFinish = (values:any) => {
     const payload: DepartmentFilterPayload = {
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
+      keyword: values['keyword'],
+      siteIds: [values['siteId']]
     }
-    if (keyword) payload.keyword = keyword
-    if (siteId) payload.siteIds = [siteId]
     args.onFilter(payload)
   }
 
-  const onChangeSite = (siteId:string) => {
-    setSiteId(siteId);
+  const onFieldsChange = () => {
+    setDisable(false)
   }
-
   const onReset = () => {
     setValueDate(undefined)
-    setSiteId(null)
     form.resetFields()
     args.onFilter({})
+    setDisable(true)
   }
 
   return (
@@ -75,14 +67,13 @@ const Filter: React.FC<FilterArgs> = (args) => {
         labelAlign="left"
         className="vms-form"
         onFinish={onFinish}
+        onFieldsChange={onFieldsChange}
       >
 
-        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope onChangeSite={onChangeSite} />}
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope />}
         <Form.Item label={t('organization.department.search.counselor')} name="keyword">
           <SharedInput
             placeholder={t('organization.department.search.counselor_placeholder')}
-            value={keyword}
-            onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
         <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} setValueDate={setValueDate} />

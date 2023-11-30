@@ -5,24 +5,24 @@ export const SIDE_BAR_COLLAPSE = {
   MEETING: 'MEETING',
   CUSTOMER: 'CUSTOMER',
   ORGANIZATION: 'ORGANIZATION',
-  CONFIGURATION: 'CONFIGURATION'
+  CONFIGURATION: 'CONFIGURATION',
 }
 
 export const Status = {
   ENABLE: true,
-  DISABLE: false
+  DISABLE: false,
 }
 
 export const durationOption = {
   'TODAY': 'common.durationOption.today',
   '1WEEK': 'common.durationOption.1week',
   '1MONTH': 'common.durationOption.1month',
-  '3MONTHS': 'common.durationOption.3months'
+  '3MONTHS': 'common.durationOption.3months',
 }
 
 export const SortDirection = {
   'ascend': 'asc',
-  'descend': 'desc'
+  'descend': 'desc',
 }
 
 export enum Purpose {
@@ -65,8 +65,9 @@ export enum TemplateVariable {
 }
 
 export enum TemplateType {
-  EMAIL = 'EMAIL',
-  SMS = 'SMS'
+  CANCEL_MEETING_EMAIL = 'CANCEL_MEETING_EMAIL',
+  CONFIRM_MEETING_EMAIL = 'CONFIRM_MEETING_EMAIL',
+  UPCOMING_MEETING_EMAIL = 'UPCOMING_MEETING_EMAIL'
 }
 
 export enum StatusTicket {

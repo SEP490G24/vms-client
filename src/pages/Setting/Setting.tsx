@@ -9,7 +9,7 @@ import { SettingDto, SettingGroupDto, SettingSiteDto } from '~/interface/Setting
 import { SettingItem } from '~/pages/Setting/SettingItem'
 import { checkPermission } from '~/utils'
 import { PERMISSION_ROLE_MAP, SCOPE_ROLE_MAP } from '~/role'
-import { SharedSelect } from '~/common'
+import { SharedButton, SharedSelect } from '~/common'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
 import { AuthSection } from '~/auth'
@@ -22,7 +22,7 @@ const Setting = () => {
   const [settingSiteValues, setSettingSiteValues] = useState<SettingSiteDto>()
   const [settingGroupIdSelected, setSettingGroupIdSelected] = useState('')
   const [siteId, setSiteId] = useState()
-
+  const [load,setLoad] = useState(false)
   const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Setting = () => {
       setSettingGroups(response.data)
       setSettingGroupIdSelected(firstElement.id)
     })
-  }, [])
+  }, [load])
 
   useEffect(() => {
     settingGroupIdSelected && handleGroup(settingGroupIdSelected)
@@ -48,6 +48,14 @@ const Setting = () => {
     }
   }
 
+  const handleSetDefault = () => {
+    settingService.setDefault().then(() => {
+      message.success(t('common.message.success.save'))
+      setLoad(!load)
+    }).catch(
+      () => message.error(t('common.message.error.save'))
+    )
+  }
   const handleSave = (settingId: number, value: string) => {
     settingSiteService.update({
       settingId,
@@ -78,7 +86,9 @@ const Setting = () => {
           {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
             <Row gutter={24} wrap={false}>
               <Col span={5}>
-                <Card title={'Group Setting'}>
+                <Card title={'Group Setting'}
+
+                >
                   <Menu className={'w-full'}
                         defaultSelectedKeys={['1']}
                         onSelect={({ key }) => setSettingGroupIdSelected(key)}
@@ -90,7 +100,14 @@ const Setting = () => {
                 </Card>
               </Col>
               <Col flex={'auto'}>
-                <Card title={'Setting'}>
+                <Card title={'Setting'}
+                      extra={<SharedButton
+                        // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
+                        type='primary'
+                        onClick={handleSetDefault}
+                      >
+                        {t('common.button.setting_default')}
+                      </SharedButton>}>
                   <ListView className={'gap-4'}>
                     {settings.map((setting) => <SettingItem key={uuid()} setting={setting}
                                                             defaultValue={setting.defaultValue}

@@ -43,7 +43,6 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
 
   const onClose = () => {
     props.onClose()
-    form.resetFields()
   }
 
   return (

@@ -41,7 +41,6 @@ const CustomerTable: React.FC<MeetingItemProps> = (props) => {
         render={(value: CustomerDto) => <a onClick={() => props.onEdit(value)}>{value.visitorName}</a>}
       />
       <Column title={t('common.field.contact_number')} sorter={true} dataIndex='phoneNumber' key='phoneNumber' />
-      <Column title={t('common.field.address')} dataIndex='address' key='address' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'

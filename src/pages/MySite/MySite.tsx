@@ -1,5 +1,4 @@
 import { Card, Col, Form, FormInstance, message, Row } from 'antd'
-import TextArea from 'antd/es/input/TextArea'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -74,12 +73,12 @@ const MySite = () => {
 
   return (
     <OrganizationWrapper>
-      <h2 className='page-header-text'>{t('organization.info.title')}</h2>
+      <h2 className='page-header-text'>{t('common.field.my_site_info')}</h2>
       <PerfectScrollbar>
         <Row className={'m-0'} style={{ maxHeight: 'calc(100vh - 160px)' }}>
           <Col span={24}>
             <Card
-              title={t('organization.info.title')}
+              title={t('common.field.my_site_info')}
               extra={
                 <SharedButton
                   type='primary'
@@ -170,18 +169,18 @@ const MySite = () => {
                         inputMode={'tel'}
                       />
                     </Form.Item>
-                    <Form.Item
+                    {/*<Form.Item*/}
 
-                      label={t('common.field.description')}
-                      name='description'
-                    >
-                      <TextArea
-                        showCount
-                        maxLength={200}
-                        className={'h-[200px] resize-none'}
-                        placeholder={t('common.placeholder.description')}
-                      />
-                    </Form.Item>
+                    {/*  label={t('common.field.description')}*/}
+                    {/*  name='description'*/}
+                    {/*>*/}
+                    {/*  <TextArea*/}
+                    {/*    showCount*/}
+                    {/*    maxLength={200}*/}
+                    {/*    className={'h-[200px] resize-none'}*/}
+                    {/*    placeholder={t('common.placeholder.description')}*/}
+                    {/*  />*/}
+                    {/*</Form.Item>*/}
                   </Form>
                 </Col>
               </Row>

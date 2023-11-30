@@ -4,7 +4,6 @@ import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from '
 import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton } from '~/common'
 import { CustomerDto, InfoModalData, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
@@ -96,17 +95,17 @@ const Customer = () => {
               <Card title={<Space style={{ width: '100%', justifyContent: 'space-between' }}>
                 <strong> {t('customer.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
                 <Space>
-                  <SharedButton
-                    // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
-                    type='default'
-                    onClick={() => setInfoModalData({
-                      ...infoModalData,
-                      entitySelected: undefined,
-                      openModal: true
-                    })}
-                  >
-                    {t('common.label.create')}
-                  </SharedButton>
+                  {/*<SharedButton*/}
+                  {/*  // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}*/}
+                  {/*  type='default'*/}
+                  {/*  onClick={() => setInfoModalData({*/}
+                  {/*    ...infoModalData,*/}
+                  {/*    entitySelected: undefined,*/}
+                  {/*    openModal: true*/}
+                  {/*  })}*/}
+                  {/*>*/}
+                  {/*  {t('common.label.create')}*/}
+                  {/*</SharedButton>*/}
                   {/*<Spin spinning={false}>*/}
                   {/*  <SharedButton onClick={exportData} type={'primary'}>*/}
                   {/*    {t('common.label.export_data')}*/}

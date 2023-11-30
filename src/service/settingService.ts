@@ -16,9 +16,16 @@ const findById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
+const setDefault = async () => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await  httpService.post(SETTING.SET_DEFAULT)
+  return httpService.handleResponseStatus(response)
+}
+
 const settingService = {
   findAll,
-  findById
+  findById,
+  setDefault
 }
 
 export default settingService

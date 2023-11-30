@@ -47,7 +47,6 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
 
   const onClose = () => {
     props.onClose()
-    form.resetFields()
   }
 
   return (

@@ -64,7 +64,6 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
 
   const onClose = () => {
     props.onClose()
-    form.resetFields()
   }
 
   return (

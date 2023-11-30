@@ -130,7 +130,7 @@ export const SIDE_BARS: MenuItem[] = [
       },
       {
         key: PATH_MY_SITE,
-        title: 'sidebar.organization.sub.info',
+        title: 'sidebar.organization.sub.my_site_info',
         path: PATH_MY_SITE,
         role: PATH_ROLE_MAP['PATH_MY_SITE'],
         children: []

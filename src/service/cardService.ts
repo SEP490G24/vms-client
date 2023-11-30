@@ -17,7 +17,7 @@ const insert = async (payload: CreateCardDto) => {
   const response = await httpService.post(CARD.BASE_PATH, payload)
   return httpService.handleResponseStatus(response)
 }
-const insertCard = async (): Promise<EventSourceObserver> => {
+const scanCard = async (): Promise<EventSourceObserver> => {
   let url = CARD.SCAN
   const controller = new AbortController()
   return {
@@ -31,7 +31,7 @@ const insertCard = async (): Promise<EventSourceObserver> => {
         },
         signal: controller.signal,
         onmessage: (message) => {
-          console.log(message)
+          console.log("tec" + message)
           if (message.event === CHECK_IN_EVENT) {
             observer.next(message)
           }
@@ -54,7 +54,7 @@ const insertCard = async (): Promise<EventSourceObserver> => {
 
 const cardService = {
   insert,
-  insertCard
+  scanCard
 }
 
 export default cardService

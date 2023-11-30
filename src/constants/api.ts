@@ -82,8 +82,8 @@ export const DASHBOARD = {
 }
 
 export const CARD = {
-  BASE_PATH: `${VITE_API_SERVER_URL}/ticket/customer/card`,
-  SCAN: `${VITE_API_SERVER_URL}/ticket/card/scan`,
+  BASE_PATH: `${VITE_API_SERVER_URL}/ticket/customer/card`, //gán card cho customer
+  SCAN: `https://api-vms.azurewebsites.net/api/v1/card/scan`, //scan card
 }
 
 export const MODULE_PERMISSION = {
@@ -107,7 +107,8 @@ export const SETTING_SITE = {
 }
 
 export const SETTING = {
-  BASE_PATH: `${VITE_API_SERVER_URL}/setting`
+  BASE_PATH: `${VITE_API_SERVER_URL}/setting`,
+  SET_DEFAULT: `${VITE_API_SERVER_URL}/settingSiteMap/set-default`
 }
 
 export const FILE = {

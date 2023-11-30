@@ -45,7 +45,6 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
 
   const onClose = () => {
     props.onClose()
-    form.resetFields()
   }
 
   const resetDistrictAndCommune = () => {

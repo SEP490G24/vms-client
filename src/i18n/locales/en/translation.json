@@ -96,7 +96,14 @@
       "create_card": "Create card",
       "cardId": "Card Id",
       "macIp": "MacIp",
-      "deviceType": "Device Type"
+      "deviceType": "Device Type",
+      "createdBy": "Created By",
+      "my_site_info": "Set my site information",
+      "customer_detail": "Customer Detail",
+      "visitorName": "Visitor Name"
+    },
+    "button": {
+      "setting_default": "Set default"
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -564,6 +571,7 @@
       "title": "Site & Org",
       "sub": {
         "info": "Basic Info",
+        "my_site_info": "My Site",
         "organization": "Organizations",
         "site": "Sites",
         "department": "Departments",

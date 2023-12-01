@@ -16,7 +16,8 @@ import {
   resetMeetingSelected
 } from '~/redux/slices/meetingSlice.ts'
 import { formatDate, isNullish } from '~/utils'
-import { meetingTicketService, UpdateMeetingInfo } from '~/service'
+import { CreateMeetingInfo, meetingTicketService, UpdateMeetingInfo } from '~/service'
+import { useForceUpdate } from '~/hook'
 
 interface MeetingInfoArgs {
   open?: boolean;
@@ -36,9 +37,11 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
 
   const dispatch = useDispatch()
   const { meetingSelected, meetingForm, loading } = useSelector(meetingSelector)
+  const [isUpdate, setIsUpdate] = useState(false)
 
   const description = 'This is a description.'
   const [currentStep, setCurrentStep] = useState(0)
+  const forceUpdated = useForceUpdate()
 
   useEffect(() => {
     if (props.id) {
@@ -47,12 +50,15 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       if (props.scheduler) {
         if (props.scheduler.state.id.value) {
           dispatch(fetchMeetingById(props.scheduler.state.id.value) as any)
+        } else {
+          scheduleForm.setFieldsValue({
+            roomId: props.scheduler.roomId
+          })
+          dispatch(patchMeetingForm({
+            startTime: new Date(props.scheduler.state.start.value),
+            endTime: new Date(props.scheduler.state.end.value)
+          }))
         }
-        scheduleForm.setFieldsValue({
-          roomId: props.scheduler.roomId,
-          startTime: new Date(props.scheduler.state.start.value),
-          endTime: new Date(props.scheduler.state.end.value)
-        })
       } else {
         dispatch(resetMeetingForm())
       }
@@ -66,13 +72,15 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
         purpose: meetingSelected.purpose,
         purposeNote: meetingSelected.purposeNote,
         roomId: meetingSelected.roomId,
-        description: meetingSelected.description,
-        startTime: new Date(meetingSelected.startTime),
-        endTime: new Date(meetingSelected.endTime)
+        description: meetingSelected.description
       })
       participantsForm.setFieldsValue({
         oldCustomers: meetingSelected.customers?.map(customer => customer.id) ?? []
       })
+      setIsUpdate(true)
+      forceUpdated()
+    } else {
+      setIsUpdate(false)
     }
   }, [meetingSelected])
 
@@ -96,12 +104,13 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
   }
 
   const onFinish = () => {
-    if (!!meetingSelected) {
-      const payload: UpdateMeetingInfo = {
-        id: meetingSelected.id,
-        ...meetingForm
-      }
-      meetingTicketService.update(payload).then((response) => {
+    const payload = {
+      ...meetingForm,
+      id: isUpdate ? meetingSelected.id : undefined
+    } as CreateMeetingInfo | UpdateMeetingInfo
+    const request = isUpdate ? meetingTicketService.update(payload) : meetingTicketService.insert(payload)
+    request
+      .then((response) => {
         if (props.scheduler) {
           const meeting = response.data
           const event = {
@@ -110,36 +119,15 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
             start: new Date(meeting.startTime),
             end: new Date(meeting.endTime),
             description: meeting.description,
-            id: meetingSelected.id
-          }
-          props.scheduler.onConfirm(event, 'edit')
-        }
-        onClose()
-        message.success(t('common.message.success.save'))
-      }).catch((error) => {
-        message.error(error.data.message)
-      })
-    } else {
-      meetingTicketService.insert(meetingForm).then((response) => {
-        if (props.scheduler) {
-          const meeting = response.data
-          const event = {
-            event_id: Math.random(),
-            title: meeting.name,
-            start: new Date(meeting.startTime),
-            end: new Date(meeting.endTime),
-            description: meeting.description,
             id: meeting.id
           }
-          props.scheduler.onConfirm(event, 'create')
+          props.scheduler.onConfirm(event, isUpdate ? 'edit' : 'create')
         }
         onClose()
-        message.success(t('common.message.success.save'))
+        message.success(t('common.message.success.save')).then()
       }).catch((error) => {
-        message.error(error.data.message)
-      })
-    }
-
+      message.error(error.data.message).then()
+    })
   }
 
   const steps = [
@@ -241,10 +229,14 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
         onOk={onFinish}
         labelOk={t('meeting.popup.btn-save' + ((meetingForm.draft === undefined || meetingForm.draft == true) ? '-draft' : ''))}
       >
-        <Steps current={currentStep} labelPlacement='vertical' items={steps} />
-        {steps.map((step, index) => <ContentWrapper
-          key={index}
-          className={currentStep === index ? '' : 'hidden'}>{step.content}</ContentWrapper>)}
+        {props.open &&
+          <>
+            <Steps current={currentStep} labelPlacement='vertical' items={steps} />
+            {steps.map((step, index) => <ContentWrapper
+              key={index}
+              className={currentStep === index ? '' : 'hidden'}>{step.content}</ContentWrapper>)}
+          </>
+        }
         <div style={{ marginTop: 24 }}>
           {currentStep > 0 && (
             <SharedButton style={{ margin: '0 8px' }} onClick={() => prev(steps[currentStep].onFinish)}>

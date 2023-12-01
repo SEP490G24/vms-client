@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { CheckInFilter } from '~/pages/CheckInManager/Filter'
 import { useEffect, useState } from 'react'
 import { EventSourceObserver, InfoModalData, MeetingQRDto, TableAction, TableData } from '~/interface'
-import { StatusTicket } from '~/constants'
+import { StatusTicketCustomer } from '~/constants'
 import { CheckInFilterPayload } from '~/service/checkInService.ts'
 import { checkInService, meetingTicketService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
@@ -58,13 +58,13 @@ const CheckInManager = () => {
           const meetingQRCode: MeetingQRDto = JSON.parse(message.data)
           setScanCardDto(JSON.parse(message.data))
           switch (meetingQRCode.ticketCustomerStatus) {
-            case StatusTicket.CHECK_IN:
+            case StatusTicketCustomer.CHECK_IN:
               notificationApi.success({
                 message: t('common.message.success.check-in'),
                 description: t('common.message.check-in.success', { customerName: meetingQRCode.customerInfo.visitorName }),
               })
               break
-            case StatusTicket.REJECT:
+            case StatusTicketCustomer.REJECT:
               notificationApi.error({
                 message: t('common.message.error.check-in'),
                 description: t('common.message.check-in.reject', { customerName: meetingQRCode.customerInfo.visitorName }),

@@ -1,35 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Space } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { ReasonDto } from '~/interface'
 import { SharedInput, SharedModal, SharedSelect } from '~/common'
 import { useTranslation } from 'react-i18next'
+import { Reason } from '~/constants'
+import { ReasonDto } from '~/interface'
 import { reasonService } from '~/service'
 
 interface MeetingCancelModalProps {
-  openModal: boolean
-  siteId: string,
+  open: boolean
   onClose: () => void,
   onOk: (values: any) => void
+  reasonType: Reason
 }
 
 export const MeetingCancelModals: React.FC<MeetingCancelModalProps> = React.memo((props) => {
 
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [cancelForm] = Form.useForm()
-  const [reasons, setReasons] = useState<ReasonDto[]>()
+  const [reasons, setReasons] = useState<ReasonDto[]>([])
+
   useEffect(() => {
-    cancelForm.resetFields()
-    !!props.siteId && reasonService.findBySiteId(props.siteId).then((response) => setReasons(response.data))
-  }, [props.siteId])
+    reasonService.findAllByType(props.reasonType).then((response) => setReasons(response.data))
+  }, [props.reasonType, i18n.language])
 
   return (
     <SharedModal
-      open={props.openModal}
+      open={props.open}
       closable={false}
       width={550}
       footer={null}
-      title={<Space><ExclamationCircleOutlined className={'text-[#faad14] text-xl'} /> Cancel Meeting</Space>}
+      title={<Space><ExclamationCircleOutlined
+        className={'text-[#faad14] text-xl'} /> {props.reasonType === Reason.CANCEL ? t('ticket-result.cancel-meeting') : t('ticket-result.reject-customer')}
+      </Space>}
       onOk={cancelForm.submit}
       onCancel={props.onClose}>
       <Form layout={'vertical'} size={'large'}

@@ -550,13 +550,15 @@
     "title": "Configuration Manager"
   },
   "ticket-result": {
+    "cancel-meeting": "Cancel Meeting",
+    "reject-customer": "Reject Customer",
     "success": {
       "title": "Successfully Verify QR Server!",
       "subTitle": "Ticket number: : {{ticketId}}. Please wait 1-5 minutes 1-5 minutes to takes prepare."
     },
     "error": {
       "title": "Failed Verify QR Server!",
-      "subTitle": "Ticket number: : {{ticketId}}. The ticket or customer's meeting has been rejected. Please contact your appointment for more information."
+      "subTitle": "Ticket number: : {{ticketId}}. The meeting has been cancel. Please contact your appointment for more information."
     }
   },
   "sidebar": {

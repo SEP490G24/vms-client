@@ -6,7 +6,7 @@ import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
 import { MeetingQRDto } from '~/interface'
-import { StatusTicket } from '~/constants'
+import { Reason, StatusTicketCustomer } from '~/constants'
 import { cardService, meetingTicketService } from '~/service'
 import { MeetingCancelModals } from '~/pages'
 import { useTranslation } from 'react-i18next'
@@ -51,11 +51,11 @@ const TicketInfo: React.FC<Props> = (props) => {
   }, [props.ticketResult])
 
   const onCheckOut = () => {
-    onCheckIn({ status: StatusTicket.CHECK_OUT })
+    onCheckIn({ status: StatusTicketCustomer.CHECK_OUT })
   }
 
   const onReject = (values: any) => {
-    onCheckIn({ status: StatusTicket.CHECK_IN, ...values })
+    onCheckIn({ status: StatusTicketCustomer.CHECK_IN, ...values })
   }
   const onCreateCard = (values: any) => {
     cardService.insert(values).then(
@@ -71,8 +71,8 @@ const TicketInfo: React.FC<Props> = (props) => {
       )
   }
   const onCheckIn = (checkInStatus: {
-    status: StatusTicket;
-    reasonId?: string;
+    status: StatusTicketCustomer;
+    reasonId?: number;
     reasonNote?: string;
   }) => {
     checkInCodeState && meetingQRDto && meetingTicketService.checkInCustomer({
@@ -142,8 +142,8 @@ const TicketInfo: React.FC<Props> = (props) => {
         </Space>
       </Space>
       <MeetingCancelModals
-        openModal={openCancelModalReject}
-        siteId={meetingQRDto.siteId}
+        reasonType={Reason.REJECT}
+        open={openCancelModalReject}
         onOk={onReject}
         onClose={() => setOpenCancelModalReject(false)} />
       <CreateCard open={openModalCreateCard} width={650} checkInCode={props.ticketResult?.checkInCode}

@@ -21,6 +21,7 @@ const TicketStatisticDashboard: React.FC<Props> = (props) => {
         <TicketStatisticSection
           filterLabel={props.filterLabel}
           totalLabel={t('dashboard.statistic.totalTicket')}
+          totalWithCondition={props.totalTicket.totalTicketWithCondition}
           total={props.totalTicket.totalTicket}
           successLabel={t('dashboard.statistic.totalTicketCompleted')}
           successWithCondition={props.totalTicket.totalCompletedTicketWithCondition}
@@ -34,6 +35,7 @@ const TicketStatisticDashboard: React.FC<Props> = (props) => {
         <TicketStatisticSection
           filterLabel={props.filterLabel}
           totalLabel={t('dashboard.statistic.totalVisitor')}
+          totalWithCondition={props.totalVisits.totalVisitsWithCondition}
           total={props.totalVisits.totalVisits}
           successLabel={t('dashboard.statistic.totalVisitorAccept')}
           successWithCondition={props.totalVisits.totalAcceptanceVisitsWithCondition}

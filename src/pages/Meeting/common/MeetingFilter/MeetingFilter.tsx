@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput, SharedSelect } from '~/common'
 import { DateRadioRange } from '~/interface'
 import { MeetingFilterPayload } from '~/service'
-import { DATE_TIME_HOUR } from '~/constants'
+import { DATE_TIME, DATE_TIME_HOUR } from '~/constants'
 import { checkPermission } from '~/utils'
 import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
+  calendar?: boolean
   onFilter: (filterPayload: MeetingFilterPayload) => void
   onFilterBookmark?: () => void
 }
@@ -31,9 +32,9 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
       endTimeStart: valueDateEnd?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
       startTimeEnd: valueDateStart?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
       endTimeEnd: valueDateEnd?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
-      createdOnStart: valueDateCreated?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
-      createdOnEnd: valueDateCreated?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
-      statuss: values['status'],
+      createdOnStart: valueDateCreated?.date?.['0']?.format(DATE_TIME.START_DAY),
+      createdOnEnd: valueDateCreated?.date?.['1']?.format(DATE_TIME.START_DAY),
+      status: values['status'],
       purpose: values['purpose']
     }
     args.onFilter(payload)
@@ -105,8 +106,8 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
               { value: 'DONE', label: 'DONE' },
               { value: 'CANCEL', label: 'CANCEL' },
               { value: 'REJECT', label: 'REJECT' },
-              { value: 'COMPLETE', label: 'COMPLETE' },
-            ]}/>
+              { value: 'COMPLETE', label: 'COMPLETE' }
+            ]} />
         </Form.Item>
         <Form.Item
           label={t('common.field.purpose')} name='purpose'>
@@ -117,18 +118,20 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
               { value: 'INTERVIEW', label: 'INTERVIEW' },
               { value: 'MEETING', label: 'MEETING' },
               { value: 'OTHERS', label: 'OTHERS' },
-              { value: 'WORKING', label: 'WORKING' },
-            ]}/>
+              { value: 'WORKING', label: 'WORKING' }
+            ]} />
         </Form.Item>
-        <SharedFilterPeriod label={'common.field.created_on'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateCreated}
-                            name={'createdDate'}
-                            setValueDate={setValueDateCreated} hiddenRadio={true} showTime={true} />
+        {!args.calendar &&
+          <SharedFilterPeriod label={'common.field.created_on'} format={'DD-MM-YYYY'} valueDate={valueDateCreated}
+                              name={'createdDate'}
+                              setValueDate={setValueDateCreated} hiddenRadio={true} />
+        }
         <SharedFilterPeriod label={'common.field.start_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateStart}
                             name={'startTime'}
                             setValueDate={setValueDateStart} hiddenRadio={true} showTime={true} />
-          <SharedFilterPeriod label={'common.field.end_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateEnd}
-                              name={'endTime'}
-                              setValueDate={setValueDateEnd} hiddenRadio={true} showTime={true} />
+        <SharedFilterPeriod label={'common.field.end_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateEnd}
+                            name={'endTime'}
+                            setValueDate={setValueDateEnd} hiddenRadio={true} showTime={true} />
       </Form>
 
     </Card>

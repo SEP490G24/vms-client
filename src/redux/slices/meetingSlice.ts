@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '~/redux'
 import { MeetingDto, MeetingQRDto } from '~/interface'
 import { CreateMeetingInfo, meetingTicketService } from '~/service'
+import { StatusTicketMeeting } from '~/constants'
 
 const initialState = {
   meetingSelected: {} as MeetingDto,
@@ -70,7 +71,7 @@ const meetingSlice = createSlice({
         state.meetingForm = {
           startTime: new Date(action.payload.data.startTime),
           endTime: new Date(action.payload.data.endTime),
-          draft: false
+          draft: action.payload.data.state === StatusTicketMeeting.DRAFT
         } as CreateMeetingInfo
       }
     })

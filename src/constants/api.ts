@@ -42,9 +42,7 @@ export const TEMPLATE = {
 }
 
 export const REASON = {
-  BASE_PATH: `${VITE_API_SERVER_URL}/reason`,
-  FILTER: `${VITE_API_SERVER_URL}/reason/filter`,
-  GET_BY_SITE_ID: `${VITE_API_SERVER_URL}/reason/site/{siteId}`,
+  BASE_PATH: `${VITE_API_SERVER_URL}/reason`
 }
 
 export const ROLE = {

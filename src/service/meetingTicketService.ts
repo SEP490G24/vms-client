@@ -3,7 +3,7 @@ import authService from './authService'
 import { TICKET } from '~/constants/api.ts'
 import { fetchEventSource } from '@microsoft/fetch-event-source'
 import { EventSourceObserver, PageableRequest } from '~/interface'
-import { StatusTicket } from '~/constants'
+import { StatusTicketCustomer } from '~/constants'
 import { CreateCustomerInfo } from '~/service/customerService.ts'
 import { Observable } from 'rxjs'
 
@@ -21,16 +21,17 @@ export interface CreateMeetingInfo {
 }
 
 export interface UpdateMeetingInfo {
-  id: string;
-  purpose: string;
-  purposeNote?: string;
+  id?: string;
   name: string;
-  startTime?: string | Date;
-  endTime?: string | Date;
+  startTime: Date;
+  endTime: Date;
   roomId?: string
-  description?: string
   newCustomers: CreateCustomerInfo[];
   oldCustomers: string[];
+  draft?: boolean
+  description?: string
+  purpose: string;
+  purposeNote?: string;
 }
 
 export interface MeetingBookMark{
@@ -46,7 +47,7 @@ export interface MeetingFilterPayload {
   siteId?: string;
   keyword?: string;
   purpose?: string;
-  statuss?: string;
+  status?: string;
   startTimeStart?: string;
   endTimeStart?: string;
   startTimeEnd?: string;
@@ -64,8 +65,8 @@ export interface CheckInPayload {
   ticketId: string;
   customerId: string;
   checkInCode: string;
-  status: StatusTicket;
-  reasonId?: string;
+  status: StatusTicketCustomer;
+  reasonId?: number;
   reasonNote?: string;
 }
 
@@ -89,7 +90,7 @@ const findByQRCode = async (checkInCode: string) => {
 
 const update = async (payload: UpdateMeetingInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
-  const response = await httpService.post(TICKET.UPDATE, payload)
+  const response = await httpService.put(TICKET.UPDATE, payload)
   return httpService.handleResponseStatus(response)
 }
 

@@ -55,7 +55,7 @@ const DashboardSite = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       onRefresh()
-    }, 60 * 1000)
+    }, 15 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
 
@@ -63,10 +63,10 @@ const DashboardSite = () => {
     if (timeClickManual && Date.now() - timeClickManual.getTime() < 60 * 1000) {
       message.warning(t('common.message.warning.try-again')).then()
     } else {
-      message.success(t('common.message.success.refresh')).then()
       fetchApi()
       setTimeClickManual(new Date())
       setLastTimeUpdate(new Date())
+      message.success(t('common.message.success.refresh')).then()
     }
   }
 

@@ -32,11 +32,11 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    setValueDate([dayjs(props.form.getFieldValue('startTime')), dayjs(props.form.getFieldValue('endTime'))])
+    setValueDate([dayjs(props.meeting.startTime), dayjs(props.meeting.endTime)])
     props.form.setFieldsValue({
-      duration: [dayjs(props.form.getFieldValue('startTime')), dayjs(props.form.getFieldValue('endTime'))]
+      duration: [dayjs(props.meeting.startTime), dayjs(props.meeting.endTime)]
     })
-  }, [])
+  }, [props.meeting])
 
   const onFinish = (values: any) => {
     props.onFinish({
@@ -126,8 +126,7 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
             onChange={setValueDate}
           />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.room')} name='roomId'
-                   rules={[{ required: true }]}>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.room')} name='roomId'>
           <SharedSelect
             placeholder={t('common.placeholder.room')}
             options={rooms.map(room => {

@@ -10,9 +10,11 @@ import { MeetingFilter, MeetingInfoModal } from '~/pages'
 import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import moment from 'moment/moment'
-import { ProcessedEvent } from '@aldabil/react-scheduler/types'
+import { ProcessedEvent, RemoteQuery } from '@aldabil/react-scheduler/types'
 import { RESOURCES } from '~/data/event.ts'
 import { randomColor } from '~/utils'
+import dayjs from 'dayjs'
+import { DATE_TIME } from '~/constants'
 
 const RoomMeetingCalendar = () => {
 
@@ -24,10 +26,18 @@ const RoomMeetingCalendar = () => {
     rooms?: RoomDto[]
   }>({ loading: false, tickets: [], rooms: [] })
   const [filterPayload, setFilterPayload] = useState<MeetingFilterPayload>({})
+  const [remoteQuery, setRemoteQuery] = useState<RemoteQuery>()
+
 
   useEffect(() => {
-    fetchApi()
-  }, [filterPayload])
+    // if (remoteQuery) {
+      fetchApi({
+        ...filterPayload,
+        createdOnStart: dayjs(remoteQuery?.start).format(DATE_TIME.START_DAY),
+        createdOnEnd: dayjs(remoteQuery?.end).format(DATE_TIME.START_DAY)
+      })
+    // }
+  }, [filterPayload, remoteQuery])
 
   useEffect(() => {
     console.log(transferRoomsResource())
@@ -49,15 +59,22 @@ const RoomMeetingCalendar = () => {
     setFilterPayload(filterPayload)
   }
 
-  const fetchApi = () => {
+  const fetchApi = (payload: MeetingFilterPayload) => {
     setDataState({ ...dataState, loading: true })
-    meetingTicketService.findWithRoom(filterPayload).then((response) => {
+    meetingTicketService.findWithRoom(payload).then((response) => {
       if (response.data) {
         setDataState({ loading: false, rooms: response.data.rooms, tickets: response.data.tickets })
       }
     }).catch((error) => {
       setDataState({ ...dataState, loading: false })
       message.error(error.data.message)
+    })
+  }
+
+  const fetchRemote = async (query: RemoteQuery): Promise<ProcessedEvent[]> => {
+    setRemoteQuery(query)
+    return new Promise((res) => {
+      res([])
     })
   }
 
@@ -70,7 +87,7 @@ const RoomMeetingCalendar = () => {
         <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FILTER}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
-              <MeetingFilter onFilter={onFilter} />
+              <MeetingFilter calendar onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
               <Spin spinning={dataState.loading}>
@@ -102,6 +119,7 @@ const RoomMeetingCalendar = () => {
                         step: 60,
                         navigation: true
                       }}
+                      getRemoteEvents={fetchRemote}
                       resources={transferRoomsResource()}
                       resourceViewMode={'tabs'}
                       resourceFields={{

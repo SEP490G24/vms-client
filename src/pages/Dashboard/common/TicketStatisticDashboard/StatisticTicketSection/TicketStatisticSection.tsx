@@ -2,10 +2,12 @@ import React from 'react'
 import { TicketStatisticSectionWrapper } from './styles.ts'
 import { Card, Col, Row, Space, Statistic } from 'antd'
 import CountUp from 'react-countup'
+import Title from 'antd/es/typography/Title'
 
 interface Props {
   total?: number,
   totalLabel: string
+  totalWithCondition?: number
   success?: number
   successWithCondition?: number
   successLabel: string
@@ -25,7 +27,9 @@ const TicketStatisticSection: React.FC<Props> = (props) => {
         <Row gutter={12}>
           <Col span={10} className={'statistic-total'}>
             <Card bordered={false}>
-              <Statistic title={props.totalLabel} value={props.total} formatter={formatter} />
+              <Statistic title={<Title level={3}>{props.totalLabel}</Title>} value={props.total}
+                         formatter={formatter} />
+              <p className={'py-2 text-muted'}>In {props.filterLabel}: {props.totalWithCondition}</p>
             </Card>
           </Col>
           <Col span={7}>
@@ -34,7 +38,8 @@ const TicketStatisticSection: React.FC<Props> = (props) => {
                 <Statistic title={<span dangerouslySetInnerHTML={{ __html: props.successLabel }} />}
                            value={props.success}
                            formatter={formatter} />
-                <p className={'px-4 py-2 text-muted bg-white'}>In {props.filterLabel}: {props.successWithCondition}</p>
+                <p
+                  className={'px-4 py-2 text-white bg-gray-400 rounded'}>In {props.filterLabel}: {props.successWithCondition}</p>
               </Space>
             </Card>
           </Col>
@@ -43,7 +48,8 @@ const TicketStatisticSection: React.FC<Props> = (props) => {
               <Space className={'w-full justify-between'} direction={'horizontal'} align={'center'}>
                 <Statistic title={<span dangerouslySetInnerHTML={{ __html: props.failedLabel }} />} value={props.failed}
                            formatter={formatter} />
-                <p className={'px-4 py-2 text-muted bg-white'}>In {props.filterLabel}: {props.failedWithCondition}</p>
+                <p
+                  className={'px-4 py-2 text-white bg-gray-400 rounded'}>In {props.filterLabel}: {props.failedWithCondition}</p>
               </Space>
             </Card>
           </Col>

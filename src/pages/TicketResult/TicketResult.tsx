@@ -7,7 +7,7 @@ import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
 import { MeetingQRDto } from '~/interface'
-import { StatusTicket } from '~/constants'
+import { Reason, StatusTicketCustomer, StatusTicketMeeting } from '~/constants'
 import { meetingTicketService } from '~/service'
 import { MeetingCancelModals } from '~/pages'
 import { useTranslation } from 'react-i18next'
@@ -31,6 +31,7 @@ const TicketResult: React.FC<Props> = (props) => {
 
   const { checkInCode } = useParams()
   const [checkInCodeState, setCheckInCodeState] = useState('')
+  const [meetingState, setMeetingState] = useState<'success' | 'error'>('success')
 
   useEffect(() => {
     if (checkInCode) {
@@ -48,17 +49,21 @@ const TicketResult: React.FC<Props> = (props) => {
     }
   }, [props.ticketResult])
 
+  useEffect(() => {
+    meetingQRDto && setMeetingState(meetingQRDto.ticketStatus === StatusTicketMeeting.PENDING ? 'success' : 'error')
+  }, [meetingQRDto])
+
   const onAccept = () => {
-    onCheckIn({ status: StatusTicket.CHECK_IN })
+    onCheckIn({ status: StatusTicketCustomer.CHECK_IN })
   }
 
   const onReject = (values: any) => {
-    onCheckIn({ status: StatusTicket.CHECK_IN, ...values })
+    onCheckIn({ status: StatusTicketCustomer.CHECK_IN, ...values })
   }
 
   const onCheckIn = (checkInStatus: {
-    status: StatusTicket;
-    reasonId?: string;
+    status: StatusTicketCustomer;
+    reasonId?: number;
     reasonNote?: string;
   }) => {
     checkInCodeState && meetingQRDto && meetingTicketService.checkInCustomer({
@@ -88,9 +93,9 @@ const TicketResult: React.FC<Props> = (props) => {
     <>
       {contextHolder}
       <TicketResultWrapper
-        status='success'
-        title={t('ticket-result.success.title')}
-        subTitle={t('ticket-result.success.subTitle', { ticketId: meetingQRDto.ticketId })}
+        status={meetingState}
+        title={t(`ticket-result.${meetingState}.title`)}
+        subTitle={t(`ticket-result.${meetingState}.subTitle`, { ticketId: meetingQRDto.ticketId })}
         extra={<Space className={'w-full'} direction={'vertical'}
                       size={32}>
           <Divider orientation={'left'}>Ticket Info</Divider>
@@ -119,17 +124,19 @@ const TicketResult: React.FC<Props> = (props) => {
             <DescriptionsItem
               label={t('common.field.phoneNumber')}>{meetingQRDto.customerInfo.phoneNumber}</DescriptionsItem>
           </Descriptions>}
-          <Space className={'w-full justify-center'}
-                 direction={'horizontal'}
-                 size={16}>
-            <SharedButton key='console' onClick={() => setOpenCancelModal(true)}>Reject</SharedButton>
-            <SharedButton type='primary' onClick={() => onAccept()}
-                          key='buy'>Accept</SharedButton>
-          </Space>
+          {meetingState === 'success' &&
+            <Space className={'w-full justify-center'}
+                   direction={'horizontal'}
+                   size={16}>
+              <SharedButton key='console' onClick={() => setOpenCancelModal(true)}>Reject</SharedButton>
+              <SharedButton type='primary' onClick={() => onAccept()}
+                            key='buy'>Accept</SharedButton>
+            </Space>
+          }
         </Space>} />
       <MeetingCancelModals
-        openModal={openCancelModal}
-        siteId={meetingQRDto.siteId}
+        reasonType={Reason.REJECT}
+        open={openCancelModal}
         onOk={onReject}
         onClose={() => setOpenCancelModal(false)} />
     </>

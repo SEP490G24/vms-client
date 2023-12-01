@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import i18n from 'i18next'
 
 class Services {
   axios: any
@@ -33,6 +34,19 @@ class Services {
       }
     )
   }
+
+  attachAcceptLanguageToHeader() {
+    this.interceptors = this.axios.interceptors.request.use(
+      function(config: any) {
+        config.headers['Accept-Language'] = i18n.language
+        return config
+      },
+      function(error: any) {
+        return Promise.reject(error)
+      }
+    )
+  }
+
 
   removeInterceptors() {
     this.axios.interceptors.request.eject(this.interceptors)

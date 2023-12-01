@@ -18,6 +18,7 @@ import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { InfoModalData, MeetingDto, TableAction, TableData } from '~/interface'
 import { MeetingCancelModals, MeetingFilter, MeetingInfoModal, MeetingKanban, MeetingTable } from '~/pages'
 import { AuthSection } from '~/auth'
+import { Reason } from '~/constants'
 
 
 const MeetingStatistics = () => {
@@ -55,7 +56,7 @@ const MeetingStatistics = () => {
       sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
       setTableData({ pageableResponse: response.data, loading: false })
-      console.log("Filter",tableData.pageableResponse)
+      console.log('Filter', tableData.pageableResponse)
     }).catch(() => {
       setTableData({ ...infoModalData, loading: false })
     })
@@ -63,7 +64,7 @@ const MeetingStatistics = () => {
 
   const onFilterBookmark = () => {
     ticketService.filterBookmark().then((res) => {
-      setTableData({pageableResponse: res.data, loading:false})
+      setTableData({ pageableResponse: res.data, loading: false })
     })
   }
 
@@ -163,8 +164,8 @@ const MeetingStatistics = () => {
                               confirmLoading={infoModalData.confirmLoading} width={750} onClose={onEditClose}
                               id={infoModalData.entitySelected?.id} />
             <MeetingCancelModals
-              openModal={cancelModalData.openModal}
-              siteId={cancelModalData.meeting.siteId}
+              reasonType={Reason.CANCEL}
+              open={cancelModalData.openModal}
               onOk={onCancelMeeting}
               onClose={() => setCancelModalData({ openModal: false, meeting: {} as MeetingDto })} />
           </Row>

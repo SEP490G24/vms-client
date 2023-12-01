@@ -70,11 +70,21 @@ export enum TemplateType {
   UPCOMING_MEETING_EMAIL = 'UPCOMING_MEETING_EMAIL'
 }
 
-export enum StatusTicket {
+export enum StatusTicketMeeting {
   DRAFT = 'DRAFT',
   PENDING = 'PENDING',
+  CANCEL = 'CANCEL',
+  COMPLETE = 'COMPLETE',
+}
+
+export enum StatusTicketCustomer {
   CHECK_IN = 'CHECK_IN',
   CHECK_OUT = 'CHECK_OUT',
+  REJECT = 'REJECT',
+  PENDING = 'PENDING'
+}
+
+export enum Reason {
   CANCEL = 'CANCEL',
   REJECT = 'REJECT'
 }

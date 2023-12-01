@@ -1,7 +1,7 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
 import { MeetingDto, PageableResponse } from '~/interface'
-import { StatusTicket, Purpose } from '~/constants'
+import { StatusTicketMeeting, Purpose } from '~/constants'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Space, Table, TablePaginationConfig } from 'antd'
@@ -70,7 +70,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
                 </Space>
               </Space>} />
       <Column title={t('common.field.status')} dataIndex='status' key='status'
-              filters={enumToArray(StatusTicket).map(item => {
+              filters={enumToArray(StatusTicketMeeting).map(item => {
                 return { text: item.key, value: item.key }
               })}
               filterMultiple={true}

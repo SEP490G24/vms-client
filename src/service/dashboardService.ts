@@ -1,13 +1,13 @@
 import httpService from './httpServices'
 import authService from './authService'
 import {DASHBOARD} from '~/constants/api.ts'
-import { StatusTicket } from '~/constants'
+import { StatusTicketCustomer, StatusTicketMeeting } from '~/constants'
 
 export interface DashboardFilterPayload {
   year?: number
   month?: number
   siteId?: string[]
-  status?: StatusTicket[]
+  status?: StatusTicketMeeting[] | StatusTicketCustomer[]
 }
 
 const countTicketsByPurposeWithPie = async (payload: DashboardFilterPayload) => {

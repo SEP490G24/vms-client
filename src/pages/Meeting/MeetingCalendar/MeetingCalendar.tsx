@@ -5,7 +5,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 import { Scheduler } from '@aldabil/react-scheduler'
 import { MeetingInfoModal } from '~/pages/Meeting/common/MeetingInfo'
 import { useEffect, useState } from 'react'
-import { ProcessedEvent } from '@aldabil/react-scheduler/types'
+import { ProcessedEvent, RemoteQuery } from '@aldabil/react-scheduler/types'
 import { MeetingDto } from '~/interface'
 import moment from 'moment'
 import { AuthSection } from '~/auth'
@@ -13,7 +13,8 @@ import { PERMISSION_ROLE_MAP } from '~/role'
 import { MeetingFilter } from '~/pages'
 import { MeetingFilterPayload, ticketService } from '~/service'
 import { randomColor } from '~/utils'
-
+import dayjs from 'dayjs'
+import { DATE_TIME } from '~/constants'
 
 const MeetingCalendar = () => {
 
@@ -23,10 +24,18 @@ const MeetingCalendar = () => {
     meetings: [],
     loading: false
   })
+  // const firstRender = useFirstRender()
+  const [remoteQuery, setRemoteQuery] = useState<RemoteQuery>()
 
   useEffect(() => {
-    fetchMeetings()
-  }, [filterPayload])
+    if (remoteQuery) {
+      fetchMeetings({
+        ...filterPayload,
+        createdOnStart: dayjs(remoteQuery.start).format(DATE_TIME.START_DAY),
+        createdOnEnd: dayjs(remoteQuery.end).format(DATE_TIME.START_DAY)
+      })
+    }
+  }, [filterPayload, remoteQuery])
 
   useEffect(() => {
   }, [meetingsState.meetings])
@@ -48,13 +57,20 @@ const MeetingCalendar = () => {
     })
   }
 
-  const fetchMeetings = () => {
+  const fetchMeetings = (payload: MeetingFilterPayload) => {
     setMeetingsState({ ...meetingsState, loading: true })
-    ticketService.filter(filterPayload).then((response) => {
+    ticketService.filter(payload).then((response) => {
       setMeetingsState({ loading: false, meetings: response.data })
     }).catch((error) => {
       setMeetingsState({ ...meetingsState, loading: false })
       message.error(error.data.message)
+    })
+  }
+
+  const fetchRemote = async (query: RemoteQuery): Promise<ProcessedEvent[]> => {
+    setRemoteQuery(query)
+    return new Promise((res) => {
+      res([])
     })
   }
 
@@ -67,7 +83,7 @@ const MeetingCalendar = () => {
         <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FILTER}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
-              <MeetingFilter  onFilter={onFilter} />
+              <MeetingFilter calendar onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
               <Spin spinning={meetingsState.loading}>
@@ -87,11 +103,13 @@ const MeetingCalendar = () => {
                       step: 60,
                       navigation: true
                     }}
+                    getRemoteEvents={fetchRemote}
                     deletable={false}
                     hourFormat={'24'}
                     fields={[{ name: 'id', type: 'input' }]}
                     dialogMaxWidth={'xl'}
-                    customEditor={(scheduler) => <MeetingInfoModal open={true} classname={'w-[750px]'} scheduler={scheduler} />}
+                    customEditor={(scheduler) => <MeetingInfoModal open={true} classname={'w-[750px]'}
+                                                                   scheduler={scheduler} />}
                     events={transferTickets()}
                   />
                 </Card>

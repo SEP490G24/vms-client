@@ -47,6 +47,7 @@ function App() {
     dispatch(fetchProfile() as any)
     dispatch(fetchProvince() as any)
   }, [])
+
   const CustomRouter = ({ basename, children, history }: Props) => {
 
     const [state, setState] = useState({

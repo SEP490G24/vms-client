@@ -71,7 +71,7 @@ const meetingSlice = createSlice({
         state.meetingForm = {
           startTime: new Date(action.payload.data.startTime),
           endTime: new Date(action.payload.data.endTime),
-          draft: action.payload.data.state === StatusTicketMeeting.DRAFT
+          draft: action.payload.data.status === StatusTicketMeeting.DRAFT
         } as CreateMeetingInfo
       }
     })

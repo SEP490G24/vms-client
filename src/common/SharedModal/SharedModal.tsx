@@ -14,6 +14,7 @@ interface SharedModalProps {
   title?: string | React.ReactNode
   extra?: string | React.ReactNode
   footer?: ModalFooterRender | React.ReactNode;
+  disableOk?: boolean
   children: React.ReactNode
   labelCancel?: string | React.ReactNode
   labelOk?: string | React.ReactNode
@@ -41,6 +42,7 @@ export const SharedModal: React.FC<SharedModalProps> = React.memo((props) => {
             {props.extra ?? <Space>
               <SharedButton onClick={props.onCancel}>{props.labelCancel ?? t('common.label.close')}</SharedButton>
               <SharedButton
+                disabled={props.disableOk}
                 type='primary' onClick={props.onOk}>
                 {props.labelOk ?? t('common.label.save')}
               </SharedButton>

@@ -10,7 +10,7 @@ import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
   onFilter: (filterPayload: MeetingFilterPayload) => void
-  onFilterBookmark: () => void
+  onFilterBookmark?: () => void
 }
 
 const MeetingFilter: React.FC<FilterArgs> = (args) => {

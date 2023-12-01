@@ -67,7 +67,7 @@ const MeetingCalendar = () => {
         <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FILTER}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
-              <MeetingFilter onFilter={onFilter} />
+              <MeetingFilter  onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
               <Spin spinning={meetingsState.loading}>

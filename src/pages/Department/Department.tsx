@@ -68,6 +68,12 @@ const Department = () => {
       })
   }
 
+  const onDelete = (departmentId: string) => {
+    departmentService.remove(departmentId).then((response) => {
+      console.log(response)
+    })
+  }
+
   const openEdit = (departmentDto: DepartmentDto) => {
     setInfoModalData({ ...infoModalData, entitySelected: departmentDto, openModal: true })
   }
@@ -115,7 +121,9 @@ const Department = () => {
                   pageableResponse={tableData.pageableResponse}
                   currentPage={tableAction.pagination?.current}
                   onChangeTable={handleChangeTable}
-                  onEdit={openEdit} />
+                  onEdit={openEdit}
+                  onDelete={onDelete}
+                />
               </Card>
             </Col>
             <DepartmentInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading}

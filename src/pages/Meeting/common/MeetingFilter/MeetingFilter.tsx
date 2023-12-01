@@ -10,6 +10,7 @@ import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
   onFilter: (filterPayload: MeetingFilterPayload) => void
+  onFilterBookmark: () => void
 }
 
 const MeetingFilter: React.FC<FilterArgs> = (args) => {
@@ -38,6 +39,7 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
     args.onFilter(payload)
   }
 
+
   const onReset = () => {
     setValueDateStart(undefined)
     setValueDateEnd(undefined)
@@ -55,6 +57,7 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
       title={t('meeting.manager.search.title')}
       extra={
         <Space>
+          <SharedButton onClick={args.onFilterBookmark}>{t('common.label.bookmark')}</SharedButton>
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
@@ -123,9 +126,9 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
         <SharedFilterPeriod label={'common.field.start_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateStart}
                             name={'startTime'}
                             setValueDate={setValueDateStart} hiddenRadio={true} showTime={true} />
-        <SharedFilterPeriod label={'common.field.end_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateEnd}
-                            name={'endTime'}
-                            setValueDate={setValueDateEnd} hiddenRadio={true} showTime={true} />
+          <SharedFilterPeriod label={'common.field.end_time'} format={'DD-MM-YYYY HH:mm'} valueDate={valueDateEnd}
+                              name={'endTime'}
+                              setValueDate={setValueDateEnd} hiddenRadio={true} showTime={true} />
       </Form>
 
     </Card>

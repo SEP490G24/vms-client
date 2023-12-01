@@ -11,12 +11,13 @@ interface MeetingItemProps {
   onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
   currentPage?: number
   loading: boolean
-  onEdit: (value: SiteDto) => void
+  onViewDetail: (value: HistoryDto) => void
 }
 
 const HistoryTable: React.FC<MeetingItemProps> = (props) => {
 
   const { t } = useTranslation()
+
 
   // @ts-ignore
   return (
@@ -39,7 +40,7 @@ const HistoryTable: React.FC<MeetingItemProps> = (props) => {
         title={t('common.field.ticket_name')}
         sorter={true}
         key='ticketName'
-        render={(value: any) => value.ticketName}
+        render={(value: any) => <a onClick={() => {props.onViewDetail(value.checkInCode)}}>{value.ticketName}</a>}
       />
       <Column title={t('organization.history.table.roomName')} dataIndex='roomName' key='roomName' />
       <Column

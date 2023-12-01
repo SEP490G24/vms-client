@@ -14,6 +14,7 @@ import { FilterValue } from 'antd/es/table/interface'
 import { CheckInTable } from '~/pages/CheckInManager/Table'
 import Modal from 'antd/es/modal/Modal'
 import { TicketInfo } from '~/pages/CheckInManager/TicketInfo'
+import { CardDto } from '~/interface/Card.ts'
 
 
 const CheckInManager = () => {
@@ -25,11 +26,12 @@ const CheckInManager = () => {
   const [infoModalData, setInfoModalData] = useState<InfoModalData<MeetingQRDto>>({
     openModal: false,
     confirmLoading: false,
-    entitySelected: undefined
+    entitySelected: undefined,
   })
   const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [eventSource, setEventSource] = useState<EventSourceObserver>()
+  const [scanCardDto, setScanCardDto] = useState<CardDto>({})
 
   useEffect(() => {
     fetchCheckIn()
@@ -54,22 +56,23 @@ const CheckInManager = () => {
       eventSource.observer.subscribe({
         next: (message) => {
           const meetingQRCode: MeetingQRDto = JSON.parse(message.data)
+          setScanCardDto(JSON.parse(message.data))
           switch (meetingQRCode.ticketCustomerStatus) {
             case StatusTicket.CHECK_IN:
               notificationApi.success({
                 message: t('common.message.success.check-in'),
-                description: t('common.message.check-in.success', { customerName: meetingQRCode.customerInfo.visitorName })
+                description: t('common.message.check-in.success', { customerName: meetingQRCode.customerInfo.visitorName }),
               })
               break
             case StatusTicket.REJECT:
               notificationApi.error({
                 message: t('common.message.error.check-in'),
-                description: t('common.message.check-in.reject', { customerName: meetingQRCode.customerInfo.visitorName })
+                description: t('common.message.check-in.reject', { customerName: meetingQRCode.customerInfo.visitorName }),
               })
               break
           }
           setTableAction(resetCurrentPageAction(tableAction))
-        }
+        },
       })
       return () => {
         eventSource.close()
@@ -85,12 +88,12 @@ const CheckInManager = () => {
     setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,
-      enable: tableAction.filters?.enable?.[0]
+      enable: tableAction.filters?.enable?.[0],
     } as CheckInFilterPayload
     checkInService.filter(payload, true, {
       page: (tableAction.pagination?.current ?? 1) - 1,
       size: 10,
-      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order),
     }).then((response) => {
       setTableData({ pageableResponse: response.data, loading: false })
     }).catch(() => {
@@ -143,10 +146,12 @@ const CheckInManager = () => {
                 width={1000}
                 onCancel={onClose}
               >
-                <TicketInfo ticketResult={{
+
+                <TicketInfo scanCardDto={scanCardDto} ticketResult={{
                   checkInCode: (infoModalData.entitySelected?.checkInCode) ? infoModalData.entitySelected?.checkInCode : '',
-                  meetingQRDto: meetingQRDto
-                }} />
+                  meetingQRDto: meetingQRDto,
+                }}
+                />
               </Modal>
             </Row>
           )}

@@ -4,7 +4,7 @@ import { AUDIT_LOG } from '~/constants/api.ts'
 import { PageableRequest } from '~/interface'
 
 export interface AuditLogFilterPayload {
-  siteId?: string;
+  siteId?: string[];
   createdOnStart?: string;
   createdOnEnd?: string;
   createBy?: string;

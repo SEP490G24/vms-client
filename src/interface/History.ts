@@ -1,5 +1,6 @@
 export interface HistoryDto {
   id: string;
+  checkInCode: string;
   name: string;
   code: string;
   enable: string;

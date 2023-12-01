@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
 import { AuthSection } from '~/auth'
 import { SCOPE_ROLE_MAP } from '~/role'
+import { REGEX } from '~/constants'
 
 interface CreateRoomFormArgs {
   open?: boolean;
@@ -31,8 +32,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
     deviceService.findAll().then((response) => {
       setDevices(response.data)
     })
-    console.log('device')
-  }, [])
+  }, [props.room,props.open])
 
   useEffect(() => {
     if (props.open) {
@@ -53,6 +53,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
   }, [props.room, props.open])
 
   const onClose = () => {
+    form.resetFields()
     props.onClose()
   }
 
@@ -79,11 +80,11 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         labelAlign='left'
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
-                   rules={[{ required: true }]}>
+                   rules={[{ required: true },{ pattern: REGEX.NAME, message: t('common.error.name_valid') }]}>
           <SharedInput placeholder={t('common.placeholder.site_name')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
-                   rules={[{ required: true }]}>
+                   rules={[{ required: true },{ pattern: REGEX.CODE, message: t('common.error.code_valid') }]}>
           <SharedInput disabled={!!props.room} placeholder={t('common.placeholder.code')} />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
@@ -100,17 +101,17 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         </AuthSection>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.device')} name='deviceId'>
           <SharedSelect
+            value={'props.room?.macIp'}
             options={devices.map((room: DeviceDto) => {
               return { label: room.name, value: room.id, key: room.id }
             }) ?? []}
-            disabled={!!props.room}
-            placeholder={t('common.placeholder.site')}
+            placeholder={t('common.placeholder.device')}
           ></SharedSelect>
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
+        <Form.Item className={'mb-3'} label={t('common.field.description')} name='description' rules={[{pattern:REGEX.DESCRIPTION,message:t('common.error.description_valid')}]}>
           <TextArea
             showCount
-            maxLength={200}
+            maxLength={250}
             className={'h-[200px] resize-none'}
             placeholder={t('common.placeholder.description')}
           />

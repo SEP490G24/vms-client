@@ -32,7 +32,7 @@ export interface HistoryFilterPayload {
   createdOnEnd?: string;
   createBy?: string;
   lastUpdatedBy?: string;
-  status?: string;
+  status?: string[];
   keyword?: string;
   provinceId?: string;
   districtId?: string;
@@ -60,9 +60,24 @@ const exportHistory = async (payload: HistoryFilterPayload) => {
   const response = await httpService.post(HISTORY.EXPORT, payload, { responseType: 'blob' })
   return httpService.handleResponseStatus(response)
 }
+
+const viewDetail = async (checkInCode:string) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.get(HISTORY.VIEW_DETAIL + `/${checkInCode}`)
+  return httpService.handleResponseStatus(response)
+}
+
+
+const viewDetailTable = async (checkInCode:string) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.get(HISTORY.TABLE_DETAIL + `/${checkInCode}`)
+  return httpService.handleResponseStatus(response)
+}
 const historyService = {
   filter,
   exportHistory,
+  viewDetail,
+  viewDetailTable
 }
 
 export default historyService

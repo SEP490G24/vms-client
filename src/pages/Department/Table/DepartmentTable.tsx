@@ -4,7 +4,7 @@ import { DepartmentDto, PageableResponse } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Table, TablePaginationConfig } from 'antd'
-import { SharedStatus } from '~/common'
+import { SharedButton, SharedStatus } from '~/common'
 import { FilterValue } from 'antd/es/table/interface'
 
 interface MeetingItemProps {
@@ -13,6 +13,7 @@ interface MeetingItemProps {
   currentPage?: number
   loading: boolean
   onEdit: (value: DepartmentDto) => void
+  onDelete: (id: string) => void
 }
 
 const DepartmentTable: React.FC<MeetingItemProps> = (props) => {
@@ -36,13 +37,13 @@ const DepartmentTable: React.FC<MeetingItemProps> = (props) => {
       size='middle'
     >
       <Column
-        title={t('common.field.department')}
+        title={t('common.field.code')}
         sorter={true}
         key='name'
-        render={(value: DepartmentDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
+        render={(value: DepartmentDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>}
       />
+      <Column title={t('common.field.department')} dataIndex='name' key='name' />
       <Column title={t('common.field.site.name')} dataIndex='siteName' key='siteName' />
-      <Column title={t('common.field.code')} dataIndex='code' key='code' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'
@@ -58,6 +59,7 @@ const DepartmentTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: DepartmentDto) => moment(value.createdOn).format('L')} />
       <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
               render={(value: DepartmentDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : undefined} />
+      <Column render={(value: DepartmentDto) => <SharedButton onClick={() => props.onDelete(value.id)}>{t('common.button.delete')}</SharedButton>}/>
     </Table>
   )
 }

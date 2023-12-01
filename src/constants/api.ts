@@ -123,8 +123,8 @@ export const TICKET = {
   FIND_BY_QR: `${VITE_API_SERVER_URL}/ticket/check-in/{checkInCode}`,
   FILTER: `${VITE_API_SERVER_URL}/ticket/filter`,
   CANCEL: `${VITE_API_SERVER_URL}/ticket/cancel`,
-  CHECK_IN: `${VITE_API_SERVER_URL}/ticket/check-in`,
-  SUBSCRIBE_CHECK_IN: `${VITE_API_SERVER_URL}/ticket/subscribe/check-in`,
+  CHECK_IN: `${VITE_API_SERVER_URL}/ticket/update-status`,
+  SUBSCRIBE_CHECK_IN: `https://api-vms.azurewebsites.net/api/v1/ticket/subscribe/check-in`,
   FIND_WITH_ROOM: `${VITE_API_SERVER_URL}/ticket/room`,
   BOOKMARK: `${VITE_API_SERVER_URL}/ticket/bookmark`,
 }
@@ -150,7 +150,9 @@ export const LOCATION = {
 
 export const HISTORY = {
   FILTER: `${VITE_API_SERVER_URL}/access-history`,
-  EXPORT: `${VITE_API_SERVER_URL}/access-history/export`
+  EXPORT: `${VITE_API_SERVER_URL}/access-history/export`,
+  VIEW_DETAIL: `${VITE_API_SERVER_URL}/ticket/check-in`,
+  TABLE_DETAIL: `${VITE_API_SERVER_URL}/ticket/history`
 }
 
 export const CHECKIN = {

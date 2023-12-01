@@ -83,13 +83,13 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         labelAlign='left'
       >
         <Form.Item className={'mb-3'} label={t('common.field.code')} name='code'
-                   rules={[{ required: true }]}>
+                   rules={[{ required: true },{ pattern: REGEX.CODE, message: t('common.error.code_valid') }]}>
           <SharedInput
             disabled={!!props.site}
             inputMode={'text'} placeholder={t('common.placeholder.code')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.name')} name='name'
-                   rules={[{ required: true }]}>
+                   rules={[{ required: true },{ pattern: REGEX.NAME, message: t('common.error.name_valid') }]}>
           <SharedInput inputMode={'text'} placeholder={t('common.placeholder.site_name')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')} name={'phoneNumber'}

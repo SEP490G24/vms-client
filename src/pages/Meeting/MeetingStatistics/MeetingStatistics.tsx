@@ -55,8 +55,15 @@ const MeetingStatistics = () => {
       sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
       setTableData({ pageableResponse: response.data, loading: false })
+      console.log("Filter",tableData.pageableResponse)
     }).catch(() => {
       setTableData({ ...infoModalData, loading: false })
+    })
+  }
+
+  const onFilterBookmark = () => {
+    ticketService.filterBookmark().then((res) => {
+      setTableData({pageableResponse: res.data, loading:false})
     })
   }
 
@@ -112,7 +119,7 @@ const MeetingStatistics = () => {
         <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FILTER}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
-              <MeetingFilter onFilter={onFilter} />
+              <MeetingFilter onFilterBookmark={onFilterBookmark} onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
               <Card>

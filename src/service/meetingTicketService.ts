@@ -6,7 +6,6 @@ import { EventSourceObserver, PageableRequest } from '~/interface'
 import { StatusTicket } from '~/constants'
 import { CreateCustomerInfo } from '~/service/customerService.ts'
 import { Observable } from 'rxjs'
-import { CHECK_IN_EVENT } from '~/constants'
 
 export interface CreateMeetingInfo {
   name: string;
@@ -129,9 +128,7 @@ const subscribeCheckIn = async (siteId?: string): Promise<EventSourceObserver> =
         },
         signal: controller.signal,
         onmessage: (message) => {
-          if (message.event === CHECK_IN_EVENT) {
             observer.next(message)
-          }
         },
         onerror: (error) => {
           observer.error(error)
@@ -162,6 +159,12 @@ const findWithRoom = async (payload: MeetingFilterPayload) => {
 const bookmark = async (payload: MeetingBookMark) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(TICKET.BOOKMARK, payload)
+  return httpService.handleResponseStatus(response)
+}
+
+const filterBookmark = async () => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  const response = await httpService.get(TICKET.BOOKMARK)
   return httpService.handleResponseStatus(response)
 }
 
@@ -201,7 +204,8 @@ const meetingTicketService = {
   subscribeCheckIn,
   findWithRoom,
   filter,
-  bookmark
+  bookmark,
+  filterBookmark
 }
 
 export default meetingTicketService

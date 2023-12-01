@@ -23,7 +23,6 @@ interface MeetingItemProps {
 const MeetingTable: React.FC<MeetingItemProps> = (props) => {
 
   const { t } = useTranslation()
-
   return (
     <Table
       dataSource={props.pageableResponse?.content}

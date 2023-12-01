@@ -109,15 +109,15 @@ const MySite = () => {
                     className='slx-form'
                     onFinish={onFinish}
                   >
+                    <Form.Item label={t('common.field.code')} name='code' rules={[{ required: true }]}>
+                      <SharedInput disabled placeholder={t('common.placeholder.code')} />
+                    </Form.Item>
                     <Form.Item
                       label={t('common.field.name')}
                       name='name'
                       rules={[{ required: true }]}
                     >
                       <SharedInput placeholder={t('common.placeholder.organizationName')} />
-                    </Form.Item>
-                    <Form.Item label={t('common.field.code')} name='code' rules={[{ required: true }]}>
-                      <SharedInput disabled placeholder={t('common.placeholder.code')} />
                     </Form.Item>
                     <Form.Item label={t('common.field.province')} name='provinceId'
                                rules={[{ required: true }]}>

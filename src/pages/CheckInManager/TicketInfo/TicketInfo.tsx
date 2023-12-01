@@ -14,6 +14,7 @@ import { PATH_DASHBOARD } from '~/routes/paths.ts'
 import { CreateCard } from '~/pages/CheckInManager/TicketInfo/CreateCard'
 import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
+import { CardDto } from '~/interface/Card.ts'
 
 interface Props {
   ticketResult?: {
@@ -21,6 +22,7 @@ interface Props {
     meetingQRDto?: MeetingQRDto
     isDetail?: boolean
   }
+  scanCardDto?: CardDto
 }
 
 const TicketInfo: React.FC<Props> = (props) => {

@@ -4,6 +4,7 @@ import { SharedInput } from '~/common'
 import { CreateCardWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateCardDto } from '~/service'
+import { CardDto } from '~/interface/Card.ts'
 
 interface CreateCardFormArgs {
   open?: boolean;
@@ -12,7 +13,7 @@ interface CreateCardFormArgs {
   checkInCode?: string
   onSave: (card: CreateCardDto) => void
   onClose: () => void
-
+  scanCardDto?: CardDto
 }
 
 const CreateCard: React.FC<CreateCardFormArgs> = (props) => {
@@ -25,6 +26,11 @@ const CreateCard: React.FC<CreateCardFormArgs> = (props) => {
     })
   }, [props.checkInCode])
 
+  useEffect(() => {
+    form.setFieldsValue({
+      cardId: props.scanCardDto?.cardId
+    })
+  }, [props.scanCardDto])
   const onClose = () => {
     props.onClose()
     form.resetFields()

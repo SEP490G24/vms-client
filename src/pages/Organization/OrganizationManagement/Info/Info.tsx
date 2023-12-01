@@ -29,7 +29,7 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
         createdOn: props.organization.createdOn
       })
     }
-  }, [props.organization])
+  })
 
   const onClose = () => {
     props.onClose()

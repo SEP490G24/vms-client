@@ -8,18 +8,19 @@ import { SharedButton } from '~/common'
 import { InfoModalData, HistoryDto, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission, exportFile, formatSortParam, resetCurrentPageAction } from '~/utils'
-import { HistoryInfo } from './Info'
 import { HistoryFilter } from './Filter'
 import { HistoryTable } from './Table'
 import { HistoryFilterPayload, historyService} from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { DownloadOutlined } from '@ant-design/icons'
+import { HistoryInfo } from '~/pages/History/Info'
 
 const History = () => {
   const { t } = useTranslation()
 
 
   const [tableData, setTableData] = useState<TableData<HistoryDto>>({ loading: false })
+  const [tableDataDetail, setTableDataDetail] = useState<TableData<HistoryDto>>({ loading: false })
   const [infoModalData, setInfoModalData] = useState<InfoModalData<HistoryDto>>({
     openModal: false,
     confirmLoading: false
@@ -27,7 +28,7 @@ const History = () => {
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [filterPayload, setFilterPayload] = useState<HistoryFilterPayload>({})
   const [exportEx, setExportEx] = useState<boolean>(false)
-
+  const [historyDetail, setHistoryDetail] = useState<HistoryDto>()
 
   useEffect(() => {
     fetchHistorys()
@@ -49,17 +50,22 @@ const History = () => {
       setTableData({ ...infoModalData, loading: false })
     })
   }
-
+  const onViewDetail = (values: any) => {
+    setInfoModalData({
+      openModal: true,
+      confirmLoading: false
+    })
+    historyService.viewDetail(values).then((res) => {
+      setHistoryDetail(res.data)
+    })
+    historyService.viewDetailTable(values ).then((res) => {
+      setTableDataDetail(res.data)
+    })
+  }
   const onFilter = (filterPayload: HistoryFilterPayload) => {
     setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload(filterPayload)
   }
-
-
-  const openEdit = (historyDto: HistoryDto) => {
-    setInfoModalData({ ...infoModalData, entitySelected: historyDto, openModal: true })
-  }
-
   const onClose = () => {
     setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
@@ -108,7 +114,8 @@ const History = () => {
                   pageableResponse={tableData.pageableResponse}
                   currentPage={tableAction.pagination?.current}
                   onChangeTable={handleChangeTable}
-                  onEdit={openEdit} />
+                  onViewDetail={onViewDetail}
+                 />
               </Card>
             </Col>
             <Modal
@@ -120,7 +127,12 @@ const History = () => {
               width={650}
               onCancel={onClose}
             >
-              <HistoryInfo history={infoModalData.entitySelected} onClose={onClose} />
+              <HistoryInfo onClose={function(): void {
+                              throw new Error('Function not implemented.')
+                          } }
+                           history={historyDetail}
+                           historyDetailTable={tableDataDetail.pageableResponse}
+              />
             </Modal>
           </Row>
         )}

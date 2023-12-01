@@ -18,15 +18,14 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
   const [disable, setDisable] = useState<boolean>(true)
-  const [siteId, setSiteId] = useState<string>()
 
   const onFinish = (values: any) => {
     const payload: AuditLogFilterPayload = {
       keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
-      siteId: siteId,
       auditType: values['type'],
+      siteId:values["siteId"] != null ? [values['siteId']] : undefined
     }
     args.onFilter(payload)
   }
@@ -44,9 +43,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
     setDisable(true)
     form.resetFields()
     args.onFilter({})
-  }
-  const onChangeSite = (siteId: string) => {
-    setSiteId(siteId)
   }
 
   return (
@@ -86,7 +82,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
           />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
-          <SharedFilterScope onChangeSite={onChangeSite} />
+          <SharedFilterScope />
         </AuthSection>
         <Form.Item className={'mb-3'} label={t('common.field.type')} name='type'>
           <SharedSelect

@@ -11,6 +11,7 @@ import { AuthSection } from '~/auth'
 import { SCOPE_ROLE_MAP } from '~/role'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
+import { REGEX } from '~/constants'
 
 interface InfoDepartmentFormArgs {
   open?: boolean;
@@ -19,12 +20,12 @@ interface InfoDepartmentFormArgs {
   department?: DepartmentDto
   onSave: (department: CreateDepartmentInfo | UpdateDepartmentInfo) => void
   onClose: () => void
+  close?: boolean
 }
 
 const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-
   const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
@@ -49,6 +50,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
 
   const onClose = () => {
     props.onClose()
+    form.resetFields()
   }
 
   return (
@@ -74,11 +76,11 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
         labelAlign='left'
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
-                   rules={[{ required: true }]}>
+                   rules={[{ required: true },{ pattern: REGEX.CODE, message: t('common.error.code_valid') }]}>
           <SharedInput disabled={!!props.department} placeholder={t('common.placeholder.code')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
-                   rules={[{ required: true }]}>
+                   rules={[{ required: true },{ pattern: REGEX.NAME, message: t('common.error.name_valid') }]}>
           <SharedInput placeholder={t('common.placeholder.department_name')} />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>

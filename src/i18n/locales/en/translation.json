@@ -103,7 +103,8 @@
       "visitorName": "Visitor Name"
     },
     "button": {
-      "setting_default": "Set default"
+      "setting_default": "Set default",
+      "delete": "Delete"
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -174,6 +175,9 @@
     "error": {
       "content_is_too_long": "Content is too long!",
       "email_valid": "Email is not valid",
+      "code_valid": "Code must has max 10 character and no contain special character",
+      "name_valid": "Name must has max 50 character",
+      "description_valid": "Description must has max 50 character",
       "phoneNumber_valid": "Phone number is not valid"
     },
     "tooltip": {
@@ -199,7 +203,8 @@
       "scope": "Scope",
       "action": "Action",
       "audit-log": "Audit Log",
-      "uploadFile": "Upload File"
+      "uploadFile": "Upload File",
+      "bookmark": "Bookmark"
     },
     "date_range": {
       "start_placeholder": "Start",
@@ -218,6 +223,7 @@
     "message": {
       "success": {
         "save": "Save Successfully!",
+        "delete": "Delete Successfully!",
         "check-in": "Check-in Success",
         "refresh": "Refresh Data Successfully",
         "upload": "Upload File Successfully"

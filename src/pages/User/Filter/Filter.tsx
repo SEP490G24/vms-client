@@ -37,9 +37,9 @@ const Filter: React.FC<FilterArgs> = (args) => {
 
   const onFinish = (values: any) => {
     const payload: UserFilterPayload = {
-      departmentId: [values['departmentId']],
+      siteId: values['siteId'] ? [values['siteId']] : [],
+      departmentId: values['departmentId'] ? [values['departmentId']] : [],
       role: values['role'],
-      siteId: [values['siteId']],
       keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY)

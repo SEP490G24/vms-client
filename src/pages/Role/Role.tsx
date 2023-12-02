@@ -70,7 +70,7 @@ const Role = () => {
       description: payload['description'],
       attributes: {
         name: [payload['name']],
-        site_id: payload['siteId'] ? payload['siteId'] : []
+        siteId: payload['siteId'] ? payload['siteId'] : []
       }
     } as CreateRolePayload | UpdateRolePayload
     let request = !!infoModalData.entitySelected ? roleService.update(infoModalData.entitySelected.code, _payload) : roleService.create(_payload)

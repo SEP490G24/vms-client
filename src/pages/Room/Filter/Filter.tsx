@@ -51,6 +51,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
             disabled={disable}
+            type={'primary'}
           >
             {t('common.label.search')}
           </SharedButton>

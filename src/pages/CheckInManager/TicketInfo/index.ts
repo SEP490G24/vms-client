@@ -1,1 +1,1 @@
-export { default as TicketInfo } from './TicketInfo.tsx'
+export { default as TicketInfoModal } from './TicketInfo.tsx'

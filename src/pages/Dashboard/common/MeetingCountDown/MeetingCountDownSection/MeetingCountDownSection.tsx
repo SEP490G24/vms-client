@@ -30,7 +30,7 @@ const MeetingCountDownSection: React.FC<Props> = (props) => {
 
   return (
     <MeetingCountDownSectionWrapper title={[props.title]}>
-      <PerfectScrollbar className={'w-full max-h-[240px]'} options={{ suppressScrollX: true }}>
+      <PerfectScrollbar className={'w-full h-[240px]'} options={{ suppressScrollX: true }}>
         <List
           grid={{ gutter: 12 }}
           dataSource={props.data}

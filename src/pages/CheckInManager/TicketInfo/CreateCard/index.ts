@@ -1,1 +1,1 @@
-export { default as CreateCard } from './CreateCard.tsx'
+export { default as CreateCardModal } from './CreateCard.tsx'

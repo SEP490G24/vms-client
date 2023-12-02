@@ -1,12 +1,14 @@
 import { HeaderWrapper } from './styles'
 import { Button, Dropdown, MenuProps, Select, Space } from 'antd'
 import { GlobeTwoTone, UserTwoTone } from '~/icon'
-import { DownOutlined, LogoutOutlined, UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
+import { DownOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { authService } from '~/service'
 import { PATH_PROFILE } from '~/routes/paths.ts'
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
+import { Language } from '~/constants'
+import { enumToArray } from '~/utils'
 
 interface HeaderProps {
   collapsed: boolean
@@ -40,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({ collapsed, toggleCollapsed }) => {
 
   return (
     <HeaderWrapper collapsed={collapsed}>
-      <Space className={'w-full justify-between py-4'} >
+      <Space className={'w-full justify-between py-4'}>
         <Button onClick={() => toggleCollapsed(!collapsed)}>
           {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         </Button>
@@ -48,10 +50,10 @@ const Header: React.FC<HeaderProps> = ({ collapsed, toggleCollapsed }) => {
           <Space size={16} className={'cursor-pointer'}>
             <GlobeTwoTone className={'text-[28px]'} />
             <Select bordered={false} className='bg-body w-[100px]' defaultValue={i18n.language || 'en'}
-                    onChange={(value) => i18n.changeLanguage(value)} options={[
-              { label: 'English', value: 'en' },
-              { label: 'Tiếng Việt', value: 'vi' }
-            ]} />
+                    onChange={(value) => i18n.changeLanguage(value)}
+                    options={enumToArray(Language).map((item) => {
+                      return { label: item.value, value: item.key }
+                    })} />
           </Space>
           <Dropdown menu={{ items: userSettings }} placement='bottomRight' trigger={['click']}>
             <Space size={16} className={'cursor-pointer'}>

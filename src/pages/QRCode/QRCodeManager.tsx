@@ -1,6 +1,6 @@
 import { QRCodeManagerWrapper, RightSideBarWrapper } from './styles.ts'
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import { Card, Col, Divider, Row, Space } from 'antd'
+import { Card, Col, Divider, message, Row, Space } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { TicketResult } from '~/pages'
 import { QRCodeFilter } from '~/pages/QRCode/Filter'
@@ -21,7 +21,7 @@ const QRCodeManager = () => {
     if (checkInCode) {
       meetingTicketService.findByQRCode(checkInCode).then((response) => {
         setMeetingQRDto(response.data)
-      })
+      }).catch((error) => message.error(error.data.message))
     } else {
       setMeetingQRDto(undefined)
     }

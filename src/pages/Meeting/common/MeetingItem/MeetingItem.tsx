@@ -27,7 +27,7 @@ export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
       ]}
     >
       <Descriptions bordered>
-        <DescriptionsItem label={'Title'} span={3}>{props.meeting.name}</DescriptionsItem>
+        <DescriptionsItem label={t('common.field.title')} span={3}><strong className={'truncate block'}>{props.meeting.name}</strong></DescriptionsItem>
         <DescriptionsItem label={t('common.field.purpose')} span={3}>{props.meeting.purpose}</DescriptionsItem>
         <DescriptionsItem label={t('common.field.duration')} span={3}>
           <Space direction={'vertical'} size={4}>

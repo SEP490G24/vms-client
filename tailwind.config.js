@@ -2,14 +2,10 @@
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    listStyleType: {
-      none: 'none',
-      disc: 'disc',
-      decimal: 'decimal',
-      square: 'square',
-      roman: 'upper-roman'
-    },
     extend: {
+      screens: {
+        '3xl': '1920px'
+      },
       boxShadow: {
         'inner-xl': 'rgb(202 202 202) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset'
       },
@@ -29,7 +25,7 @@ export default {
         'muted': '#92a3b1',
         'body': '#f6f6f6'
       }
-    },
+    }
   },
   plugins: [],
   important: true,

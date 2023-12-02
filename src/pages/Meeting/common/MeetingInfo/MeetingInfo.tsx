@@ -224,7 +224,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
         footer={null}
         closable={false}
         className={props.classname}
-        disableOk={currentStep !== steps.length - 1}
+        disableOk={isUpdate && currentStep !== steps.length - 1}
         title={t(!!meetingSelected ? 'meeting.popup.title-edit' : 'meeting.popup.title-add')}
         onCancel={onClose}
         onOk={onFinish}

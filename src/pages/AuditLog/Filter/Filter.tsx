@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput, SharedSelect } from '~/common'
 import { DateRadioRange } from '~/interface'
 import { AuditLogFilterPayload } from '~/service'
-import { DATE_TIME } from '~/constants'
+import { AuditAction, DATE_TIME } from '~/constants'
 import { AuthSection } from '~/auth'
 import { SCOPE_ROLE_MAP } from '~/role'
+import { enumToArray } from '~/utils'
 
 interface FilterArgs {
   onFilter: (filterPayload: AuditLogFilterPayload) => void
@@ -86,10 +87,9 @@ const Filter: React.FC<FilterArgs> = (args) => {
         </AuthSection>
         <Form.Item className={'mb-3'} label={t('common.field.type')} name='type'>
           <SharedSelect
-            options={[{ label: 'CREATE', value: 'CREATE' }, { label: 'UPDATE', value: 'UPDATE' }, {
-              label: 'DELETE',
-              value: 'DELETE',
-            }]}
+            options={enumToArray(AuditAction).map((item) => {
+              return {label: item.key, value: item.value}
+            })}
             placeholder={t('common.placeholder.type')} />
         </Form.Item>
 

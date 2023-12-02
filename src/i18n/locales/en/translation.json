@@ -192,6 +192,8 @@
       "import_data": "Import Data",
       "close": "Close",
       "use": "Use",
+      "yes": "Yes",
+      "no": "No",
       "not_use": "Not used",
       "enable": "Enable",
       "disable": "Disable",
@@ -243,6 +245,16 @@
       "check-in": {
         "success": "Customer {{customerName}} has successfully checked in",
         "reject": "Customer {{customerName}} check-in was rejected"
+      },
+      "confirm": {
+        "save": {
+          "title": "Save the task",
+          "description": "Are you sure to save this task?"
+        },
+        "delete": {
+          "title": "Delete the task",
+          "description": "Are you sure to delete this task?"
+        }
       }
     }
   },

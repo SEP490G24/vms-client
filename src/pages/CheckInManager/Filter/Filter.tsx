@@ -80,7 +80,7 @@ const Filter: React.FC<FilterArgs> = (props) => {
             placeholder={t('common.placeholder.customer_filer')}
           />
         </Form.Item>
-        <Form.Item label={t('common.field.start_time')} name='startTime'>
+        <Form.Item className={'mb-3'} label={t('common.field.start_time')} name='startTime'>
           <RangePicker
             format={'DD-MM-YYYY HH:mm'}
             value={valueDateStart?.date}
@@ -94,7 +94,7 @@ const Filter: React.FC<FilterArgs> = (props) => {
             placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
           />
         </Form.Item>
-        <Form.Item label={t('common.field.end_time')} name='endTime' >
+        <Form.Item className={'mb-3'} label={t('common.field.end_time')} name='endTime' >
           <RangePicker
             format={'DD-MM-YYYY HH:mm'}
             value={valueDateEnd?.date}

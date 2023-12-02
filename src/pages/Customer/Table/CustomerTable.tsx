@@ -31,6 +31,7 @@ const CustomerTable: React.FC<MeetingItemProps> = (props) => {
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
+      scroll={{x: 1200}}
       className='vms-table no-bg'
       size='middle'
     >

@@ -44,7 +44,7 @@ export interface MeetingFilterPayload {
   createdOnStart?: string | Date;
   createdOnEnd?: string | Date;
   createBy?: string;
-  siteId?: string;
+  siteId?: string[];
   keyword?: string;
   purpose?: string;
   status?: string;

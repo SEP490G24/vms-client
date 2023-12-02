@@ -17,6 +17,32 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: normal;
   }
 
+  .vms-table {
+    .ant-table-content {
+      &::-webkit-scrollbar-track {
+        border-radius: 4px;
+        background-color: #fbfbfb;
+      }
+
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background-color: #fbfbfb;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #c9c9c9;
+        border-radius: 4px;
+        position: absolute;
+      }
+    }
+  }
+
+  .vms-card.filter-card {
+    max-width: 400px;
+  }
+
+
   .custom-scrollbar::-webkit-scrollbar {
     height: 6px;
   }
@@ -30,13 +56,14 @@ export const GlobalStyles = createGlobalStyle`
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   .vms-modal {
     .ant-modal-header {
       padding-bottom: 12px;
       margin-bottom: 16px;
       border-bottom: 1px solid #f0f0f0;
     }
+
     .ant-modal-content {
       padding: 24px 40px 40px;
     }
@@ -59,7 +86,7 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  
+
 `
 
 export const ResetMui = createGlobalStyle`

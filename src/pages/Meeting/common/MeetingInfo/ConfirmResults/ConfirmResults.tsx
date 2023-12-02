@@ -9,7 +9,6 @@ import { meetingSelector, patchMeetingForm } from '~/redux/slices/meetingSlice.t
 import moment from 'moment/moment'
 import { isNullish } from '~/utils'
 import { useTranslation } from 'react-i18next'
-import { StatusTicketMeeting } from '~/constants'
 
 interface ConfirmResultsWrapperArgs {
 }
@@ -40,7 +39,7 @@ const ConfirmResults: React.FC<ConfirmResultsWrapperArgs> = () => {
           {(!!meetingForm.oldCustomers || !!meetingForm.newCustomers) && <>{(meetingForm.oldCustomers?.length ?? 0) + (meetingForm.newCustomers?.length ?? 0)} people</>}
         </DescriptionsItem>
       </Descriptions>
-      {isNullish(meetingSelected) || meetingSelected.status === StatusTicketMeeting.DRAFT &&
+      {!(!isNullish(meetingSelected) && !meetingForm.draft) &&
         <SharedCheckbox title={t('meeting.popup.confirm')} defaultChecked={meetingForm.draft && !meetingForm.draft}
                         onChange={(e) => {
                           dispatch(patchMeetingForm({ draft: !e.target.checked }))

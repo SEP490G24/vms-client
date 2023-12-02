@@ -34,6 +34,7 @@ const TicketResult: React.FC<Props> = (props) => {
   const [meetingState, setMeetingState] = useState<'success' | 'error'>('success')
 
   useEffect(() => {
+    console.log(checkInCode)
     if (checkInCode) {
       setCheckInCodeState(checkInCode)
       meetingTicketService.findByQRCode(checkInCode).then((response) => {
@@ -58,7 +59,7 @@ const TicketResult: React.FC<Props> = (props) => {
   }
 
   const onReject = (values: any) => {
-    onCheckIn({ status: StatusTicketCustomer.CHECK_IN, ...values })
+    onCheckIn({ status: StatusTicketCustomer.REJECT, ...values })
   }
 
   const onCheckIn = (checkInStatus: {

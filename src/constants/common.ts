@@ -29,6 +29,17 @@ export enum Purpose {
   CONFERENCES, INTERVIEW, MEETING, WORKING, OTHERS
 }
 
+export enum Language {
+  en = 'English',
+  vi = 'Tiếng Việt'
+}
+
+export enum AuditAction {
+  CREATE = 'CREATE',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE'
+}
+
 export enum Gender {
   MALE = 'MALE',
   FEMALE = 'FEMALE',

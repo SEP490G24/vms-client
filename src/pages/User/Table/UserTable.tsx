@@ -32,8 +32,8 @@ const UserTable: React.FC<MeetingItemProps> = (props) => {
         position: ['bottomCenter']
       }}
       onChange={props.onChangeTable}
+      scroll={{ x: 1200 }}
       className='vms-table no-bg'
-
       size='middle'
     >
       <Column title={t('common.field.username')} key='username' sorter={true}

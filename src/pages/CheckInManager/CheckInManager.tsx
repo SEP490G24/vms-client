@@ -12,8 +12,7 @@ import { CheckInFilterPayload } from '~/service/checkInService.ts'
 import { checkInService, meetingTicketService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { CheckInTable } from '~/pages/CheckInManager/Table'
-import Modal from 'antd/es/modal/Modal'
-import { TicketInfo } from '~/pages/CheckInManager/TicketInfo'
+import { TicketInfoModal } from './TicketInfo'
 import { CardDto } from '~/interface/Card.ts'
 
 
@@ -25,10 +24,8 @@ const CheckInManager = () => {
   const [filterPayload, setFilterPayload] = useState<CheckInFilterPayload>({})
   const [infoModalData, setInfoModalData] = useState<InfoModalData<MeetingQRDto>>({
     openModal: false,
-    confirmLoading: false,
-    entitySelected: undefined,
+    confirmLoading: false
   })
-  const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [eventSource, setEventSource] = useState<EventSourceObserver>()
   const [scanCardDto, setScanCardDto] = useState<CardDto>({})
@@ -36,14 +33,6 @@ const CheckInManager = () => {
   useEffect(() => {
     fetchCheckIn()
   }, [filterPayload, tableAction])
-
-  useEffect(() => {
-    if (infoModalData.entitySelected?.checkInCode) {
-      meetingTicketService.findByQRCode(infoModalData.entitySelected?.checkInCode).then((response) => {
-        setMeetingQRDto(response.data)
-      })
-    }
-  }, [infoModalData.entitySelected?.checkInCode])
 
   useEffect(() => {
     !eventSource && meetingTicketService.subscribeCheckIn().then((response) => {
@@ -61,18 +50,18 @@ const CheckInManager = () => {
             case StatusTicketCustomer.CHECK_IN:
               notificationApi.success({
                 message: t('common.message.success.check-in'),
-                description: t('common.message.check-in.success', { customerName: meetingQRCode.customerInfo.visitorName }),
+                description: t('common.message.check-in.success', { customerName: meetingQRCode.customerInfo.visitorName })
               })
               break
             case StatusTicketCustomer.REJECT:
               notificationApi.error({
                 message: t('common.message.error.check-in'),
-                description: t('common.message.check-in.reject', { customerName: meetingQRCode.customerInfo.visitorName }),
+                description: t('common.message.check-in.reject', { customerName: meetingQRCode.customerInfo.visitorName })
               })
               break
           }
           setTableAction(resetCurrentPageAction(tableAction))
-        },
+        }
       })
       return () => {
         eventSource.close()
@@ -88,12 +77,12 @@ const CheckInManager = () => {
     setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,
-      enable: tableAction.filters?.enable?.[0],
+      enable: tableAction.filters?.enable?.[0]
     } as CheckInFilterPayload
     checkInService.filter(payload, true, {
       page: (tableAction.pagination?.current ?? 1) - 1,
       size: 10,
-      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order),
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
       setTableData({ pageableResponse: response.data, loading: false })
     }).catch(() => {
@@ -107,7 +96,6 @@ const CheckInManager = () => {
     console.log(filterPayload)
   }
   const openEdit = (checkInDto: MeetingQRDto) => {
-    console.log(checkInDto.checkInCode)
     setInfoModalData({ ...infoModalData, entitySelected: checkInDto, openModal: true })
   }
   const onClose = () => {
@@ -123,7 +111,7 @@ const CheckInManager = () => {
             <Divider type='vertical' />
           </Space>
           {checkPermission(PERMISSION_ROLE_MAP.R_USER_FILTER) && (
-            <Row className={'w-full m-0'} gutter={24} wrap={false}>
+            <Row gutter={24} wrap={false}>
               <Col flex={'none'} span={12}>
                 <CheckInFilter onFilter={onFilter} />
               </Col>
@@ -137,22 +125,9 @@ const CheckInManager = () => {
                   />
                 </Card>
               </Col>
-              <Modal
-                open={infoModalData.openModal}
-                closable={false}
-                title={null}
-                footer={null}
-                confirmLoading={infoModalData.confirmLoading}
-                width={1000}
-                onCancel={onClose}
-              >
-
-                <TicketInfo scanCardDto={scanCardDto} ticketResult={{
-                  checkInCode: (infoModalData.entitySelected?.checkInCode) ? infoModalData.entitySelected?.checkInCode : '',
-                  meetingQRDto: meetingQRDto,
-                }}
-                />
-              </Modal>
+              <TicketInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={1000}
+                               scanCardDto={scanCardDto} meetingQRDto={infoModalData.entitySelected}
+                               onClose={onClose} />
             </Row>
           )}
         </Space>

@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput, SharedSelect } from '~/common'
 import { DateRadioRange } from '~/interface'
 import { MeetingFilterPayload } from '~/service'
-import { DATE_TIME, DATE_TIME_HOUR } from '~/constants'
-import { checkPermission } from '~/utils'
+import { DATE_TIME, DATE_TIME_HOUR, Purpose, StatusTicketMeeting } from '~/constants'
+import { checkPermission, enumToArray } from '~/utils'
 import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
@@ -26,7 +26,7 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
 
   const onFinish = (values: any) => {
     const payload: MeetingFilterPayload = {
-      siteId: values['siteId'],
+      siteId: values['siteId'] ? [values['siteId']] : [],
       keyword: values['keyword'],
       startTimeStart: valueDateStart?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
       endTimeStart: valueDateEnd?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
@@ -95,31 +95,20 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
           />
         </Form.Item>
         <Form.Item
-          label={t('common.field.status')} name='status'>
-          <SharedSelect
-            placeholder={t('common.placeholder.status')}
-            options={[
-              { value: 'DRAFT', label: 'DRAFT' },
-              { value: 'PENDING', label: 'PENDING' },
-              { value: 'CHECK_IN', label: 'CHECK_IN' },
-              { value: 'CHECK_OUT', label: 'CHECK_OUT' },
-              { value: 'DONE', label: 'DONE' },
-              { value: 'CANCEL', label: 'CANCEL' },
-              { value: 'REJECT', label: 'REJECT' },
-              { value: 'COMPLETE', label: 'COMPLETE' }
-            ]} />
-        </Form.Item>
-        <Form.Item
           label={t('common.field.purpose')} name='purpose'>
           <SharedSelect
             placeholder={t('common.placeholder.purpose')}
-            options={[
-              { value: 'CONFERENCES', label: 'CONFERENCES' },
-              { value: 'INTERVIEW', label: 'INTERVIEW' },
-              { value: 'MEETING', label: 'MEETING' },
-              { value: 'OTHERS', label: 'OTHERS' },
-              { value: 'WORKING', label: 'WORKING' }
-            ]} />
+            options={enumToArray(Purpose).map((status) => {
+              return { label: status.key, value: status.key }
+            })} />
+        </Form.Item>
+        <Form.Item
+          label={t('common.field.status')} name='status'>
+          <SharedSelect
+            placeholder={t('common.placeholder.status')}
+            options={enumToArray(StatusTicketMeeting).map((status) => {
+              return { label: status.key, value: status.value }
+            })} />
         </Form.Item>
         {!args.calendar &&
           <SharedFilterPeriod label={'common.field.created_on'} format={'DD-MM-YYYY'} valueDate={valueDateCreated}

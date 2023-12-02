@@ -1,6 +1,6 @@
 import React from 'react'
 import { ModalWrapper } from './styles'
-import { Space } from 'antd'
+import { Popconfirm, Space } from 'antd'
 import { SharedButton } from '~/common'
 import { useTranslation } from 'react-i18next'
 import { ModalFooterRender } from 'antd/es/modal/interface'
@@ -14,6 +14,7 @@ interface SharedModalProps {
   title?: string | React.ReactNode
   extra?: string | React.ReactNode
   footer?: ModalFooterRender | React.ReactNode;
+  disableConfirm?: boolean
   disableOk?: boolean
   children: React.ReactNode
   labelCancel?: string | React.ReactNode
@@ -41,11 +42,19 @@ export const SharedModal: React.FC<SharedModalProps> = React.memo((props) => {
             {props.title}
             {props.extra ?? <Space>
               <SharedButton onClick={props.onCancel}>{props.labelCancel ?? t('common.label.close')}</SharedButton>
-              <SharedButton
-                disabled={props.disableOk}
-                type='primary' onClick={props.onOk}>
-                {props.labelOk ?? t('common.label.save')}
-              </SharedButton>
+              {!props.disableConfirm && <Popconfirm
+                title={t('common.message.confirm.save.title')}
+                description={t('common.message.confirm.save.description')}
+                onConfirm={props.onOk}
+                okText={t('common.label.yes')}
+                cancelText={t('common.label.no')}
+              >
+                <SharedButton
+                  disabled={props.disableOk}
+                  type='primary'>
+                  {props.labelOk ?? t('common.label.save')}
+                </SharedButton>
+              </Popconfirm>}
             </Space>}
           </Space>
         }

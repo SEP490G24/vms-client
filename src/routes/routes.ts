@@ -150,7 +150,7 @@ export const privateRoutes: RouteItem[] = [
   {
     path: PATH_TICKET_RESULT,
     component: TicketResult,
-    role: PATH_ROLE_MAP['PATH_TICKET_RESULT']
+    // role: PATH_ROLE_MAP['PATH_TICKET_RESULT']
   },
   {
     path: PATH_AUDIT_LOG,

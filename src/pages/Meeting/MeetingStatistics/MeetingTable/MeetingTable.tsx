@@ -1,7 +1,7 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
 import { MeetingDto, PageableResponse } from '~/interface'
-import { StatusTicketMeeting, Purpose } from '~/constants'
+import { Purpose, StatusTicketMeeting } from '~/constants'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Space, Table, TablePaginationConfig } from 'antd'
@@ -36,8 +36,8 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
+      scroll={{ x: 1200 }}
       className='vms-table no-bg'
-      scroll={{ x: 1000, y: 'calc(100vh - 300px)' }}
       size='middle'
     >
       <Column
@@ -75,7 +75,8 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
               })}
               filterMultiple={true}
       />
-
+      <Column title={t('common.field.created_on')} key='createdOn'
+              render={(value: MeetingDto) => moment(value.createdOn).format('L')} />
       <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
               render={(value: MeetingDto) =>
                 <>

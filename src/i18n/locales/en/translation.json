@@ -128,6 +128,7 @@
       "confirm_password": "Please enter a confirm password",
       "organization": "Please enter within 20 characters",
       "organizationName": "Please enter the organization name",
+      "title_meeting": "Please enter the title meeting",
       "representative_email": "Please enter your representative email",
       "code": "Enter code here",
       "suffixCode": "Enter suffix code here",
@@ -220,6 +221,7 @@
     },
     "user": {
       "edit_info": "Edit My Info",
+      "change_password": "Change Password",
       "logout": "Logout"
     },
     "message": {
@@ -622,9 +624,11 @@
     }
   },
   "user": {
+    "title": "User Profile Management",
     "profile": {
-      "label": "User Profile",
-      "title": "Person Info",
+      "label": "My Profile",
+      "title": "Profile Info",
+      "personal_info": "Personal Info",
       "contact_info": "Contact Info",
       "address_info": "Address Info"
     },

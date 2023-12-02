@@ -98,13 +98,13 @@ const Filter: React.FC<FilterArgs> = (args) => {
           <SharedFilterScope siteId={siteId} onChangeSite={setSiteId} />}
         {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
           <>
-            <Form.Item label={t('common.field.department')} name='departmentId'>
+            <Form.Item className={'mb-3'} label={t('common.field.department')} name='departmentId'>
               <SharedSelect options={departments.map((department) => {
                 return { label: department.name, value: department.id, key: department.id }
               }) ?? []}
                             placeholder={t('common.placeholder.department')} />
             </Form.Item>
-            <Form.Item label={t('common.field.role')} name='role'>
+            <Form.Item className={'mb-3'} label={t('common.field.role')} name='role'>
               <SharedSelect options={roles.map((role) => {
                 return { label: role.code, value: role.code }
               })}
@@ -112,7 +112,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             </Form.Item>
           </>
         }
-        <Form.Item label={t('organization.user.search.counselor')} name='keyword'>
+        <Form.Item className={'mb-3'} label={t('organization.user.search.counselor')} name='keyword'>
           <SharedInput
             placeholder={t('organization.user.search.counselor_placeholder')}
           />

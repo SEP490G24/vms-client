@@ -26,7 +26,7 @@ export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props)
 
   return (
     <>
-      <Form.Item label={t( props.label)} name={props.name} key='date'>
+      <Form.Item className={'mb-3'} label={t( props.label)} name={props.name} key='date'>
         <RangePicker
           format={props.format}
           value={props.valueDate?.date}
@@ -40,7 +40,7 @@ export const SharedFilterPeriod: React.FC<SharedFilterScopeProps> = memo((props)
           placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
         />
       </Form.Item>
-      <Form.Item label={<span></span>} name='duration' hidden={props.hiddenRadio}>
+      <Form.Item className={'mb-3'} label={<span></span>} name='duration' hidden={props.hiddenRadio}>
         <SharedRadio
           options={getDataRangeOptions(t)}
           onChange={onChange}

@@ -1,12 +1,12 @@
 import { PersonInfoSection, ProfileInfoWrapper } from './styles.ts'
-import { Button, Card, Form, Input, Space } from 'antd'
+import { Card, Form, Input, Space } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { useTranslation } from 'react-i18next'
 import { authSelector, useAppSelector } from '~/redux'
 import React, { useEffect } from 'react'
-import { SharedInput, SharedSelect } from '~/common'
+import { SharedButton, SharedInput, SharedSelect } from '~/common'
 import { SharedDatePicker } from '~/common/SharedDatePicker'
-import { REGEX, Gender } from '~/constants'
+import { Gender, REGEX } from '~/constants'
 import { enumToArray } from '~/utils'
 import { useLocation } from '~/hook'
 
@@ -65,7 +65,10 @@ const ProfileInfo: React.FC<Props> = (props) => {
 
   return (
     <ProfileInfoWrapper>
-      <Card>
+      <Card title={<strong>{t('user.profile.title')}</strong>}
+            extra={<SharedButton className={'float-right px-8'} type={'primary'}
+                                 onClick={form.submit}>{t('common.label.save')}</SharedButton>}
+      >
         <Form layout={'vertical'} size={'large'}
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 24 }}
@@ -78,7 +81,7 @@ const ProfileInfo: React.FC<Props> = (props) => {
         >
           <Space className={'w-full'} direction={'vertical'} size={32}>
             <PersonInfoSection>
-              <Title level={3}>Personal Info</Title>
+              <Title level={4}>{t('user.profile.personal_info')}</Title>
               <div className={'grid grid-cols-2 gap-x-8'}>
                 <Form.Item label={t('common.field.first_name')} name={'firstName'} rules={[{ required: true }]}>
                   <SharedInput placeholder={t('common.placeholder.first_name')} />
@@ -103,7 +106,7 @@ const ProfileInfo: React.FC<Props> = (props) => {
               </div>
             </PersonInfoSection>
             <PersonInfoSection>
-              <Title level={3}>{t('user.profile.contact_info')}</Title>
+              <Title level={4}>{t('user.profile.contact_info')}</Title>
               <div className={'grid grid-cols-2 gap-x-8'}>
                 <Form.Item label={t('common.field.phoneNumber')} name={'phoneNumber'} rules={[{ required: true }, {
                   pattern: REGEX.PHONE,
@@ -121,7 +124,7 @@ const ProfileInfo: React.FC<Props> = (props) => {
               </div>
             </PersonInfoSection>
             <PersonInfoSection>
-              <Title level={3}>{t('user.profile.address_info')}</Title>
+              <Title level={4}>{t('user.profile.address_info')}</Title>
               <div className={'grid grid-cols-2 gap-x-8'}>
                 <Form.Item label={t('common.field.province')} name='provinceId'
                            rules={[{ required: true }]}>
@@ -153,7 +156,6 @@ const ProfileInfo: React.FC<Props> = (props) => {
                 </Form.Item>
               </div>
             </PersonInfoSection>
-            <Button className={'float-right px-8'} type={'primary'} htmlType={'submit'}>Save</Button>
           </Space>
         </Form>
       </Card>

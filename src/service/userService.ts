@@ -33,6 +33,11 @@ export interface UserFilterPayload {
   role?: string
 }
 
+export interface ChangePasswordPayload {
+  oldPassword: string,
+  newPassword: string
+}
+
 const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.get(USER.BASE_PATH)
@@ -86,7 +91,7 @@ const updateUserProfile = async (payload: UpdateUserInfo) => {
   return httpService.handleResponseStatus(response)
 }
 
-const changePassword = async (payload: { oldPassword: string, newPassword: string }) => {
+const changePassword = async (payload: ChangePasswordPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(USER.CHANGE_PASSWORD, payload)
   return httpService.handleResponseStatus(response)

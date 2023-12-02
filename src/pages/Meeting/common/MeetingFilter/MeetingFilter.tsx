@@ -87,6 +87,7 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
       >
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope />}
         <Form.Item
+          className={'mb-3'}
           label={t('meeting.manager.search.counselor')} name='keyword'>
           <SharedInput
             placeholder={t('common.placeholder.meeting')}
@@ -94,22 +95,28 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
             onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
-        <Form.Item
-          label={t('common.field.purpose')} name='purpose'>
-          <SharedSelect
-            placeholder={t('common.placeholder.purpose')}
-            options={enumToArray(Purpose).map((status) => {
-              return { label: status.key, value: status.key }
-            })} />
-        </Form.Item>
-        <Form.Item
-          label={t('common.field.status')} name='status'>
-          <SharedSelect
-            placeholder={t('common.placeholder.status')}
-            options={enumToArray(StatusTicketMeeting).map((status) => {
-              return { label: status.key, value: status.value }
-            })} />
-        </Form.Item>
+        {!!args.calendar &&
+          <>
+            <Form.Item
+              className={'mb-3'}
+              label={t('common.field.purpose')} name='purpose'>
+              <SharedSelect
+                placeholder={t('common.placeholder.purpose')}
+                options={enumToArray(Purpose).map((status) => {
+                  return { label: status.key, value: status.key }
+                })} />
+            </Form.Item>
+            <Form.Item
+              className={'mb-3'}
+              label={t('common.field.status')} name='status'>
+              <SharedSelect
+                placeholder={t('common.placeholder.status')}
+                options={enumToArray(StatusTicketMeeting).map((status) => {
+                  return { label: status.key, value: status.value }
+                })} />
+            </Form.Item>
+          </>
+        }
         {!args.calendar &&
           <SharedFilterPeriod label={'common.field.created_on'} format={'DD-MM-YYYY'} valueDate={valueDateCreated}
                               name={'createdDate'}

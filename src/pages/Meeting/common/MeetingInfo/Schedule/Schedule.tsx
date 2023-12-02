@@ -5,12 +5,14 @@ import { SharedInput, SharedSelect } from '~/common'
 import TextArea from 'antd/es/input/TextArea'
 import { useTranslation } from 'react-i18next'
 import { Purpose } from '~/constants'
-import { useSelector } from 'react-redux'
-import { roomsSelector } from '~/redux/slices/roomSlice.ts'
+import { useDispatch, useSelector } from 'react-redux'
+import { findAllRoom, roomsSelector } from '~/redux/slices/roomSlice.ts'
 import { RangePicker } from '~/common/SharedDatePicker'
 import dayjs, { Dayjs } from 'dayjs'
-import { enumToArray } from '~/utils'
+import { checkPermission, enumToArray } from '~/utils'
 import { CreateMeetingInfo } from '~/service'
+import { sitesSelector } from '~/redux'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface ScheduleWrapperArgs {
   meeting: CreateMeetingInfo
@@ -22,14 +24,21 @@ export type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
 const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
 
+  const dispatch = useDispatch()
   const { rooms } = useSelector(roomsSelector)
 
+  const { sites } = useSelector(sitesSelector)
   const [valueDate, setValueDate] = useState<RangeValue>(null)
   const [dates, setDates] = useState<RangeValue>(null)
 
   const purpose = Form.useWatch('purpose', props.form)
+  const siteId = Form.useWatch('siteId', props.form)
 
   const { t } = useTranslation()
+
+  useEffect(() => {
+    siteId && dispatch(findAllRoom({ siteId: [siteId] }) as any)
+  }, [siteId])
 
   useEffect(() => {
     setValueDate([dayjs(props.meeting.startTime), dayjs(props.meeting.endTime)])
@@ -45,6 +54,7 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
       purposeNote: values['purposeNote'],
       startTime: valueDate?.[0]?.toDate(),
       endTime: valueDate?.[1]?.toDate(),
+      siteId: values['siteId'],
       roomId: values['roomId'],
       description: values['description']
     })
@@ -79,11 +89,27 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
         onFinish={onFinish}
         labelAlign='left'
       >
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
+        <Form.Item className={'mb-3'} label={t('common.field.name')} name='name'
                    rules={[{ required: true }]}>
-          <SharedInput placeholder={'Title Meeting'} maxLength={50} showCount />
+          <SharedInput placeholder={t('common.placeholder.title_meeting')} maxLength={50} showCount />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.purpose')} name='purpose'
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
+          <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'
+                     rules={[{ required: true }]}>
+            <SharedSelect allowClear options={sites.map((site) => {
+              return { label: site.name, value: site.id, key: site.id }
+            }) ?? []} placeholder={t('common.placeholder.site')}></SharedSelect>
+          </Form.Item>
+        }
+        <Form.Item className={'mb-3'} label={t('common.field.room')} name='roomId'>
+          <SharedSelect
+            placeholder={t('common.placeholder.room')}
+            options={rooms.map(room => {
+              return { label: room.name, value: room.id }
+            })}
+          ></SharedSelect>
+        </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.purpose')} name='purpose'
                    rules={[{ required: true }]}>
           <SharedSelect
             placeholder={t('common.placeholder.purpose')}
@@ -93,13 +119,13 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
           ></SharedSelect>
         </Form.Item>
         {purpose == 'OTHERS' &&
-          <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.purposeNote')} name='purposeNote'>
+          <Form.Item className={'mb-3'} label={t('common.field.purposeNote')} name='purposeNote'>
             <SharedInput placeholder={t('common.placeholder.purposeNote')} />
           </Form.Item>
         }
         <Form.Item style={{ display: 'none' }} name='startTime'><SharedInput /></Form.Item>
         <Form.Item style={{ display: 'none' }} name='endTime'><SharedInput /></Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.duration')} name={'duration'}
+        <Form.Item className={'mb-3'} label={t('common.field.duration')} name={'duration'}
                    rules={[
                      () => ({
                        validator(_) {
@@ -125,14 +151,6 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
             onCalendarChange={setDates}
             onChange={setValueDate}
           />
-        </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.room')} name='roomId'>
-          <SharedSelect
-            placeholder={t('common.placeholder.room')}
-            options={rooms.map(room => {
-              return { label: room.name, value: room.id }
-            })}
-          ></SharedSelect>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
           <TextArea

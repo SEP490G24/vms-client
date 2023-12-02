@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '~/redux'
 import { PageableResponse, RoomDto } from '~/interface'
-import { roomService } from '~/service'
+import { RoomFilterPayload, roomService } from '~/service'
 
 const initialState = {
   pageableResponse: {} as PageableResponse<RoomDto>,
@@ -17,7 +17,7 @@ export const filterRooms = createAsyncThunk(
 )
 
 export const findAllRoom = createAsyncThunk(
-  'room/findAll', (filterPayload: any) => {
+  'room/findAll', (filterPayload: RoomFilterPayload) => {
     return roomService.filter(filterPayload)
   }
 )

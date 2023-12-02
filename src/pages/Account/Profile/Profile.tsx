@@ -2,7 +2,6 @@ import { ProfileWrapper } from './styles.ts'
 import { Col, message, Row, Space } from 'antd'
 import { ProfileNav } from './ProfileNav'
 import { ProfileInfo } from '~/pages/Account/Profile/ProfileInfo'
-import { ProfileSecurity } from '~/pages/Account/Profile/ProfileSecurity'
 import { useState } from 'react'
 import { UploadFileData } from '~/interface'
 import { fileService, userService } from '~/service'
@@ -38,17 +37,19 @@ const Profile = () => {
 
   return (
     <ProfileWrapper>
-      <Row gutter={32}>
-        <Col span={6}>
-          <ProfileNav avatar={avatar} onAvatarChange={setAvatar} />
-        </Col>
-        <Col span={16}>
-          <Space className={'w-full'} direction={'vertical'} size={32}>
-            <ProfileInfo onFinish={onSaveInfo} />
-            <ProfileSecurity />
-          </Space>
-        </Col>
-      </Row>
+      <Space direction='vertical' size={24} style={{ width: '100%' }}>
+        <h2>{t('user.title')}</h2>
+        <Row gutter={32}>
+          <Col span={6}>
+            <ProfileNav avatar={avatar} onAvatarChange={setAvatar} />
+          </Col>
+          <Col span={18}>
+            <Space className={'w-full'} direction={'vertical'} size={32}>
+              <ProfileInfo onFinish={onSaveInfo} />
+            </Space>
+          </Col>
+        </Row>
+      </Space>
     </ProfileWrapper>
   )
 }

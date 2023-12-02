@@ -1,14 +1,16 @@
 import { HeaderWrapper } from './styles'
-import { Button, Dropdown, MenuProps, Select, Space } from 'antd'
+import { Button, Dropdown, MenuProps, message, Select, Space } from 'antd'
 import { GlobeTwoTone, UserTwoTone } from '~/icon'
-import { DownOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons'
+import { DownOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
-import { authService } from '~/service'
+import { authService, ChangePasswordPayload, userService } from '~/service'
 import { PATH_PROFILE } from '~/routes/paths.ts'
 import { useNavigate } from 'react-router-dom'
-import React from 'react'
+import React, { useState } from 'react'
 import { Language } from '~/constants'
 import { enumToArray } from '~/utils'
+import { ChangePasswordModal } from '~/layouts/Header/ChangePasswordModal'
+import { InfoModalData } from '~/interface'
 
 interface HeaderProps {
   collapsed: boolean
@@ -18,9 +20,17 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ collapsed, toggleCollapsed }) => {
   const navigate = useNavigate()
   const { i18n, t } = useTranslation()
+  const [changePasswordModalData, setChangePasswordModalData] = useState<InfoModalData<any>>({
+    confirmLoading: false,
+    openModal: false
+  })
 
   const doLogout = async () => {
     await authService.doLogout()
+  }
+
+  const openChangePassword = () => {
+    setChangePasswordModalData({...changePasswordModalData, openModal: true})
   }
 
   const userSettings: MenuProps['items'] = [
@@ -33,12 +43,24 @@ const Header: React.FC<HeaderProps> = ({ collapsed, toggleCollapsed }) => {
       icon: <UserOutlined />
     },
     {
+      key: 'change-password',
+      label: t('common.user.change_password'),
+      onClick: () => openChangePassword(),
+      icon: <LockOutlined  />
+    },
+    {
       key: 'logout',
       label: t('common.user.logout'),
       onClick: () => doLogout(),
       icon: <LogoutOutlined />
     }
   ]
+
+  const onChangePassword = (value: ChangePasswordPayload) => {
+    userService.changePassword(value).then(async () => {
+      await message.success(t('common.message.changePassword.success'))
+    }).catch((error) => message.error(error.data.message))
+  }
 
   return (
     <HeaderWrapper collapsed={collapsed}>
@@ -64,6 +86,13 @@ const Header: React.FC<HeaderProps> = ({ collapsed, toggleCollapsed }) => {
           </Dropdown>
         </Space>
       </Space>
+      <ChangePasswordModal
+        open={changePasswordModalData.openModal}
+        confirmLoading={changePasswordModalData.confirmLoading} onSave={onChangePassword}
+        onClose={() => setChangePasswordModalData({
+          ...changePasswordModalData,
+          openModal: false
+        })} />
     </HeaderWrapper>
   )
 }

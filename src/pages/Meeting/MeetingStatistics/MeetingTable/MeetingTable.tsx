@@ -42,7 +42,6 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
     >
       <Column
         title={t('common.field.name')}
-        sorter={true}
         render={(value: MeetingDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
       <Column title={t('common.field.purpose')}
@@ -58,8 +57,8 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       />
       <Column title={t('common.field.participate')} key='participate'
               render={(value: MeetingDto) => value.customers && <>{value.customers.length} people</>} />
-      <Column title={t('common.field.room')} sorter={true} dataIndex='roomName' key='roomName' />
-      <Column title={t('common.field.createdBy')} sorter={true} dataIndex='createdBy' key='createdBy' />
+      <Column title={t('common.field.room')} dataIndex='roomName' key='roomName' />
+      <Column title={t('common.field.createdBy')} dataIndex='createdBy' key='createdBy' />
       <Column title={t('common.field.duration')} key='duration'
               render={(value: MeetingDto) => <Space direction={'vertical'} size={4}>
                 <strong>{moment(value.startTime).format('DD-MM-YYYY')}</strong>

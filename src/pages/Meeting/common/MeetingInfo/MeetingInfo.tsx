@@ -91,6 +91,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       purposeNote: values['purposeNote'],
       startTime: formatDate(values['startTime']),
       endTime: formatDate(values['endTime']),
+      siteId: values['siteId'],
       roomId: values['roomId'],
       description: values['description']
     }))

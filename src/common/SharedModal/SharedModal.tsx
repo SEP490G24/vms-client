@@ -17,6 +17,7 @@ interface SharedModalProps {
   disableConfirm?: boolean
   disableOk?: boolean
   children: React.ReactNode
+  centered?: boolean
   labelCancel?: string | React.ReactNode
   labelOk?: string | React.ReactNode
   onCancel: () => void
@@ -35,6 +36,7 @@ export const SharedModal: React.FC<SharedModalProps> = React.memo((props) => {
         closable={props.closable}
         onCancel={props.onCancel}
         onOk={props.onOk}
+        centered={props.centered}
         className={'vms-modal ' + props.className}
         footer={props.footer}
         title={

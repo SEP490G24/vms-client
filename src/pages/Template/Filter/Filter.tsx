@@ -77,21 +77,21 @@ const [disable,setDisable] = useState(true)
       >
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
           <SharedFilterScope siteId={siteFilter} onChangeSite={setSiteFilter} />}
-        <Form.Item label={t('common.field.type')} name='type'>
+        <Form.Item className={'mb-3'} label={t('common.field.type')} name='type'>
           <SharedSelect
             options={enumToArray(TemplateType).map(item => {
               return { label: item.key, value: item.value }
             })}
             placeholder={t('common.placeholder.type')} />
         </Form.Item>
-        <Form.Item label={t('common.field.status')} name='enable'>
+        <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'>
           <SharedSelect
             options={Object.entries(Status).map(item => {
               return { label: item[0], value: item[1] }
             })}
             placeholder={t('common.placeholder.type')} />
         </Form.Item>
-        <Form.Item label={t('organization.template.search.counselor')} name='keyword'>
+        <Form.Item className={'mb-3'} label={t('organization.template.search.counselor')} name='keyword'>
           <SharedInput
             placeholder={t('organization.template.search.counselor_placeholder')}
           />

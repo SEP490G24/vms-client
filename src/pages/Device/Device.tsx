@@ -1,6 +1,6 @@
 import { DeviceWrapper } from './styles.ts'
 
-import { Col, Divider, message, Row, Space } from 'antd'
+import { Card, Col, Divider, message, Row, Space } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
@@ -89,9 +89,10 @@ const Device = () => {
               <DeviceFilter onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
-              <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <strong> {t('organization.device.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
-                <Space>
+              <Card
+                title={
+                  <strong> {t('organization.device.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>}
+                extra={<Space>
                   <SharedButton
                     // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type='default'
@@ -103,11 +104,11 @@ const Device = () => {
                   >
                     {t('organization.device.table.btn-add')}
                   </SharedButton>
-                </Space>
-              </Space>
-              <Divider style={{ margin: '16px 0 0' }} />
-              <DeviceTable pageableResponse={tableData.pageableResponse} loading={tableData.loading}
-                           onEdit={openEdit} />
+                </Space>}
+              >
+                <DeviceTable pageableResponse={tableData.pageableResponse} loading={tableData.loading}
+                             onEdit={openEdit} />
+              </Card>
             </Col>
 
             <DeviceInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={750}

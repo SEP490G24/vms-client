@@ -72,7 +72,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className="vms-form"
         onFinish={onFinish}
       >
-        <Form.Item label={t('common.label.period')}>
+        <Form.Item className={'mb-3'} label={t('common.label.period')}>
           <RangePicker
             value={valueDate?.date}
             onChange={(val) => {
@@ -84,19 +84,19 @@ const Filter: React.FC<FilterArgs> = (args) => {
             placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
           />
         </Form.Item>
-        <Form.Item label={<span></span>} name="duration">
+        <Form.Item className={'mb-3'} label={t('organization.device.search.counselor')} name="keyword">
+          <SharedInput
+            placeholder={t('organization.device.search.counselor_placeholder')}
+            value={keyword}
+            onChange={(e: any) => setKeyword(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item className={'mb-3'} label={<span></span>} name="duration">
           <SharedRadio
             options={getDataRangeOptions(t)}
             onChange={onChange}
             value={valueDate?.key}
             optionType="button"
-          />
-        </Form.Item>
-        <Form.Item label={t('organization.device.search.counselor')} name="keyword">
-          <SharedInput
-            placeholder={t('organization.device.search.counselor_placeholder')}
-            value={keyword}
-            onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
       </Form>

@@ -75,7 +75,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         onFinish={onFinish}
       >
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope onChangeSite={onChangeSite}/>}
-        <Form.Item label={t('customer.search.counselor')} name='query'>
+        <Form.Item className={'mb-3'} label={t('customer.search.counselor')} name='query'>
           <SharedInput
             placeholder={t('customer.search.counselor_placeholder')}
             value={keyword}

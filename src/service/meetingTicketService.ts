@@ -12,6 +12,7 @@ export interface CreateMeetingInfo {
   startTime: Date;
   endTime: Date;
   roomId?: string
+  siteId?: string
   newCustomers: CreateCustomerInfo[];
   oldCustomers: string[];
   draft?: boolean

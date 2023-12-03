@@ -6,6 +6,10 @@ import { InfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
 import { CreateDeviceInfo } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
+import { SCOPE_ROLE_MAP } from '~/role'
+import { AuthSection } from '~/auth'
+import { useSelector } from 'react-redux'
+import { sitesSelector } from '~/redux'
 
 interface CreateDeviceFormArgs {
   open?: boolean;
@@ -19,7 +23,7 @@ interface CreateDeviceFormArgs {
 const Info: React.FC<CreateDeviceFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-
+  const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
     if (props.open) {
@@ -85,6 +89,18 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
           <SharedSelect options={[{ label: 'SCAN_CARD', value: 'SCAN_CARD' }, { label: 'DOOR', value: 'DOOR' }]}
                         placeholder={t('common.placeholder.site')}></SharedSelect>
         </Form.Item>
+        <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
+          <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
+                     rules={[{ required: true }]}>
+            <SharedSelect
+              options={sites.map((site) => {
+                return { label: site.name, value: site.id, key: site.id }
+              }) ?? []}
+              disabled={!!props.device}
+              placeholder={t('common.placeholder.site')}
+            ></SharedSelect>
+          </Form.Item>
+        </AuthSection>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
           <TextArea
             showCount

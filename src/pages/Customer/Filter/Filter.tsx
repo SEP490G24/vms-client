@@ -1,12 +1,10 @@
 import { Card, Form, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput } from '~/common'
+import { SharedButton, SharedFilterPeriod,SharedInput } from '~/common'
 import { DateRadioRange } from '~/interface'
 import { CustomerFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
-import { checkPermission } from '~/utils'
-import { SCOPE_ROLE_MAP } from '~/role'
 
 interface FilterArgs {
   onFilter: (filterPayload: CustomerFilterPayload) => void
@@ -32,10 +30,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
     if (values?.query?.trim()) payload.keyword = values?.query?.trim()
     if (siteId) payload.siteId = siteId
     args.onFilter(payload)
-  }
-
-  const onChangeSite = (siteID: string) => {
-    setSiteId(siteID)
   }
 
   const onReset = () => {
@@ -74,7 +68,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         className='vms-form'
         onFinish={onFinish}
       >
-        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope onChangeSite={onChangeSite}/>}
+        {/*{checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope onChangeSite={onChangeSite}/>}*/}
         <Form.Item className={'mb-3'} label={t('customer.search.counselor')} name='query'>
           <SharedInput
             placeholder={t('customer.search.counselor_placeholder')}

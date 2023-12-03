@@ -1,10 +1,14 @@
 import { Card, Form, Space } from 'antd'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RangePicker, SharedButton, SharedInput } from '~/common'
+import { RangePicker, SharedButton, SharedInput, SharedSelect } from '~/common'
 import { CheckInFilterPayload} from '~/service'
 import { DateRadioRange } from '~/interface'
 import { DATE_TIME_HOUR } from '~/constants'
+import { SCOPE_ROLE_MAP } from '~/role'
+import { AuthSection } from '~/auth'
+import { useSelector } from 'react-redux'
+import { sitesSelector } from '~/redux'
 
 
 interface FilterArgs {
@@ -17,14 +21,15 @@ const Filter: React.FC<FilterArgs> = (props) => {
   const [valueDateStart, setValueDateStart] = useState<DateRadioRange>()
   const [valueDateEnd, setValueDateEnd] = useState<DateRadioRange>()
   const [disable, setDisable] = useState<boolean>(true)
-
+  const { sites } = useSelector(sitesSelector)
   const onFinish = (values: any) => {
     const payload: CheckInFilterPayload = {
       keyword: values['keyword'],
       startTimeStart: valueDateStart?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
       startTimeEnd: valueDateStart?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
       endTimeStart: valueDateEnd?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
-      endTimeEnd: valueDateEnd?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY)
+      endTimeEnd: valueDateEnd?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
+      siteId: [values['siteId']]
     }
     props.onFilter(payload)
   }
@@ -80,6 +85,17 @@ const Filter: React.FC<FilterArgs> = (props) => {
             placeholder={t('common.placeholder.customer_filer')}
           />
         </Form.Item>
+        <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
+          <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
+                     >
+            <SharedSelect
+              options={sites.map((site) => {
+                return { label: site.name, value: site.id, key: site.id }
+              }) ?? []}
+              placeholder={t('common.placeholder.site')}
+            ></SharedSelect>
+          </Form.Item>
+        </AuthSection>
         <Form.Item className={'mb-3'} label={t('common.field.start_time')} name='startTime'>
           <RangePicker
             format={'DD-MM-YYYY HH:mm'}

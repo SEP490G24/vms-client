@@ -33,6 +33,7 @@ export interface CheckInFilterPayload {
   startTimeEnd?: string;
   endTimeStart?: string;
   endTimeEnd?: string;
+  siteId?: string[]
 }
 
 const filter = async (payload: CheckInFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {

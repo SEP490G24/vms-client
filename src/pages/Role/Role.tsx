@@ -75,13 +75,24 @@ const Role = () => {
     })
   }
 
+  const onDelete = (departmentId: string) => {
+    roleService.deleteById(departmentId).then((response) => {
+      if (response.status === 200) {
+        message.success(t('common.message.success.delete'))
+        fetchRoles()
+      }
+    }).catch(async () => {
+      await message.error(t('common.message.error.delete'))
+    })
+  }
+
   const onSave = (payload: any) => {
     const _payload = {
       code: payload['suffixCode'],
       description: payload['description'],
       attributes: {
         name: [payload['name']],
-        siteId: payload['siteId'] ? payload['siteId'] : [],
+        site_id: payload['siteId'] ? [payload['siteId']] : [],
       },
     } as CreateRolePayload | UpdateRolePayload
     let request = !!infoModalData.entitySelected ? roleService.update(infoModalData.entitySelected.code, _payload) : roleService.create(_payload)
@@ -148,7 +159,8 @@ const Role = () => {
                   pageableResponse={tableData.pageableResponse}
                   currentPage={tableAction.pagination?.current}
                   onChangeTable={handleChangeTable}
-                  onEdit={openEdit}/>
+                  onEdit={openEdit}
+                  onDelete={onDelete} />
               </Card>
             </Col>
             <RoleInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}

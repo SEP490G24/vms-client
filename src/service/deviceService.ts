@@ -14,7 +14,7 @@ export interface DeviceFilterPayload {
   keyword?: string;
   createdOnStart?: Date;
   createdOnEnd?: Date
-
+  siteId?: string[]
 }
 
 const findAll = async () => {

@@ -4,6 +4,7 @@ import { Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import Column from 'antd/es/table/Column'
 import { useTranslation } from 'react-i18next'
+import { SharedActionDelete } from '~/common/SharedActionDelete'
 
 
 interface MeetingItemProps {
@@ -12,6 +13,7 @@ interface MeetingItemProps {
   currentPage?: number
   loading: boolean
   onEdit: (value: RoleDto) => void
+  onDelete: (id: string) => void
 }
 
 const RoleTable: React.FC<MeetingItemProps> = (props) => {
@@ -42,6 +44,16 @@ const RoleTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: RoleDto) => value.attributes['name']}
       />
       <Column title={t('common.field.description')} key='description' dataIndex={'description'} />
+      <Column title={t('common.field.description')} key='description' dataIndex={'description'} />
+      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
+              render={(value: RoleDto) =>
+                <>
+                  <SharedActionDelete onDelete={props.onDelete} id={value.code}
+                                      directionIcon={'vertical'} />
+
+                </>
+
+              } />
     </Table>
   )
 }

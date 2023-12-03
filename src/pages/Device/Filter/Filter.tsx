@@ -1,10 +1,14 @@
 import { Card, DatePicker, Form, RadioChangeEvent, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton, SharedInput, SharedRadio } from '~/common'
+import { SharedButton, SharedInput, SharedRadio, SharedSelect } from '~/common'
 import { DateRadioRange } from '~/interface'
 import { DeviceFilterPayload } from '~/service'
 import {getDataRangeOptions, getDateRangeValue} from "~/utils";
+import { useSelector } from 'react-redux'
+import { sitesSelector } from '~/redux'
+import { SCOPE_ROLE_MAP } from '~/role'
+import { AuthSection } from '~/auth'
 
 interface FilterArgs {
   onFilter: (filterPayload: DeviceFilterPayload) => void
@@ -17,11 +21,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const { RangePicker } = DatePicker
   const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
-
-  useEffect(() => {
-    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim()) setDisable(false)
-    else setDisable(true)
-  }, [valueDate,keyword])
+  const { sites } = useSelector(sitesSelector)
 
   const onChange = ({ target: { value } }: RadioChangeEvent) => {
     setValueDate({ key: value, date: getDateRangeValue(value) })
@@ -32,8 +32,13 @@ const Filter: React.FC<FilterArgs> = (args) => {
       keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.toDate(),
       createdOnEnd: valueDate?.date?.['1']?.toDate(),
+      siteId: [values['siteId']]
     }
     args.onFilter(payload)
+  }
+
+  const onFieldsChange = () => {
+    setDisable(false)
   }
 
   const onReset = () => {
@@ -71,6 +76,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         labelAlign="left"
         className="vms-form"
         onFinish={onFinish}
+        onFieldsChange={onFieldsChange}
       >
         <Form.Item className={'mb-3'} label={t('common.label.period')}>
           <RangePicker
@@ -91,6 +97,16 @@ const Filter: React.FC<FilterArgs> = (args) => {
             onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
+        <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
+          <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId' >
+            <SharedSelect
+              options={sites.map((site) => {
+                return { label: site.name, value: site.id, key: site.id }
+              }) ?? []}
+              placeholder={t('common.placeholder.site')}
+            ></SharedSelect>
+          </Form.Item>
+        </AuthSection>
         <Form.Item className={'mb-3'} label={<span></span>} name="duration">
           <SharedRadio
             options={getDataRangeOptions(t)}

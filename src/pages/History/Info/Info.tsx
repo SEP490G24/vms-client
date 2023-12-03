@@ -49,6 +49,7 @@ const Info: React.FC<HistoryFormArgs> = (props) => {
           <DescriptionsItem
             label={'PhoneNumber'}>{meetingQRDto?.customerInfo.phoneNumber}</DescriptionsItem>
         </Descriptions>
+        <Divider orientation={'left'}>History Scan Card</Divider>
         <Space className={'w-full justify-center'}
                size={16}>
           <Table

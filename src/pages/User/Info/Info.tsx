@@ -95,6 +95,10 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
         onFinish={props.onSave}
         labelAlign='left'
       >
+        <Form.Item className={'mb-3'} label={t('common.field.username')} name='username'
+                   rules={[{ required: true }]}>
+          <SharedInput disabled={!!props.user} placeholder={t('common.placeholder.username')} />
+        </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.name')}>
           <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>
             <Form.Item style={{ marginBottom: 'unset' }} name='firstName' rules={[{ required: true }]}>
@@ -104,10 +108,6 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
               <SharedInput placeholder={t('common.placeholder.last_name')}></SharedInput>
             </Form.Item>
           </Space>
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.username')} name='username'
-                   rules={[{ required: true }]}>
-          <SharedInput disabled={!!props.user} placeholder={t('common.placeholder.username')} />
         </Form.Item>
         {!props.user &&
           <>

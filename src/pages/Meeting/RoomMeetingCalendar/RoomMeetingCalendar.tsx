@@ -11,7 +11,6 @@ import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import moment from 'moment/moment'
 import { ProcessedEvent, RemoteQuery } from '@aldabil/react-scheduler/types'
-import { RESOURCES } from '~/data/event.ts'
 import { randomColor } from '~/utils'
 import dayjs from 'dayjs'
 import { DATE_TIME } from '~/constants'
@@ -27,33 +26,39 @@ const RoomMeetingCalendar = () => {
   }>({ loading: false, tickets: [], rooms: [] })
   const [filterPayload, setFilterPayload] = useState<MeetingFilterPayload>({})
   const [remoteQuery, setRemoteQuery] = useState<RemoteQuery>()
-
+  let [roomResources, setRoomResources] = useState<any[]>([])
+  const [showSchedule, setShowSchedule] = useState(false)
 
   useEffect(() => {
     // if (remoteQuery) {
-      fetchApi({
-        ...filterPayload,
-        createdOnStart: dayjs(remoteQuery?.start).format(DATE_TIME.START_DAY),
-        createdOnEnd: dayjs(remoteQuery?.end).format(DATE_TIME.START_DAY)
-      })
+    fetchApi({
+      ...filterPayload,
+      createdOnStart: dayjs(remoteQuery?.start).format(DATE_TIME.START_DAY),
+      createdOnEnd: dayjs(remoteQuery?.end).format(DATE_TIME.START_DAY)
+    })
     // }
   }, [filterPayload, remoteQuery])
 
-  useEffect(() => {
-    console.log(transferRoomsResource())
-    console.log(RESOURCES)
-  }, [dataState])
-
   const transferRoomsResource = () => {
-    return dataState.rooms?.map((room) => {
-      console.log(room)
+    roomResources = dataState.rooms?.map((room) => {
       return {
         ...room,
         roomId: room.id,
         color: randomColor()
       }
-    })
+    }) ?? []
+    setRoomResources(roomResources)
   }
+
+  useEffect(() => {
+    transferRoomsResource()
+  }, [dataState.rooms])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSchedule(true)
+    }, 1500)
+  }, [roomResources])
 
   const onFilter = (filterPayload: MeetingFilterPayload) => {
     setFilterPayload(filterPayload)
@@ -93,7 +98,7 @@ const RoomMeetingCalendar = () => {
               <Spin spinning={dataState.loading}>
                 <Card>
                   {
-                    dataState.rooms?.length &&
+                    showSchedule &&
                     <Scheduler
                       events={dataState.tickets?.map(ticket => {
                         return {
@@ -120,7 +125,7 @@ const RoomMeetingCalendar = () => {
                         navigation: true
                       }}
                       getRemoteEvents={fetchRemote}
-                      resources={transferRoomsResource()}
+                      resources={roomResources}
                       resourceViewMode={'tabs'}
                       resourceFields={{
                         idField: 'roomId',

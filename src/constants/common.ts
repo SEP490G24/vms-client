@@ -1,4 +1,5 @@
 export const CHECK_IN_EVENT = 'CHECK_IN_EVENT'
+export const SCAN_CARD_EVENT = 'SCAN_CARD_EVENT'
 export const BASE_STORAGE = 'https://vmspersonalstorage.blob.core.windows.net/vms-storage/'
 
 export const SIDE_BAR_COLLAPSE = {

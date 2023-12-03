@@ -56,5 +56,9 @@ export function isNullish(object: Object): boolean {
   return Object.values(object).every(value => !value)
 }
 
+export const equalsCheck = (a: any, b: any) => {
+  return JSON.stringify(a) === JSON.stringify(b)
+}
+
 
 

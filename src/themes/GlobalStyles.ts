@@ -96,6 +96,10 @@ export const ResetMui = createGlobalStyle`
   .MuiBackdrop-root {
     display: none !important;
   }
+  
+  .MuiTabs-scrollButtons.Mui-disabled {
+    opacity: unset !important;
+  }
 
 
   .MuiDialog-root,

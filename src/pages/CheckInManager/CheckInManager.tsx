@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { CheckInFilter } from '~/pages/CheckInManager/Filter'
 import { useEffect, useState } from 'react'
 import { EventSourceObserver, InfoModalData, MeetingQRDto, TableAction, TableData } from '~/interface'
-import { StatusTicketCustomer } from '~/constants'
+import { CHECK_IN_EVENT, SCAN_CARD_EVENT, StatusTicketCustomer } from '~/constants'
 import { CheckInFilterPayload } from '~/service/checkInService.ts'
 import { checkInService, meetingTicketService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
@@ -45,22 +45,30 @@ const CheckInManager = () => {
       eventSource.observer.subscribe({
         next: (message) => {
           const meetingQRCode: MeetingQRDto = JSON.parse(message.data)
-          setScanCardDto(JSON.parse(message.data))
-          switch (meetingQRCode.ticketCustomerStatus) {
-            case StatusTicketCustomer.CHECK_IN:
-              notificationApi.success({
-                message: t('common.message.success.check-in'),
-                description: t('common.message.check-in.success', { customerName: meetingQRCode.customerInfo.visitorName })
-              })
+          switch (message.event) {
+            case CHECK_IN_EVENT: {
+              switch (meetingQRCode.ticketCustomerStatus) {
+                case StatusTicketCustomer.CHECK_IN:
+                  notificationApi.success({
+                    message: t('common.message.success.check-in'),
+                    description: t('common.message.check-in.success', { customerName: meetingQRCode.customerInfo.visitorName })
+                  })
+                  break
+                case StatusTicketCustomer.REJECT:
+                  notificationApi.error({
+                    message: t('common.message.error.check-in'),
+                    description: t('common.message.check-in.reject', { customerName: meetingQRCode.customerInfo.visitorName })
+                  })
+                  break
+              }
+              setTableAction(resetCurrentPageAction(tableAction))
               break
-            case StatusTicketCustomer.REJECT:
-              notificationApi.error({
-                message: t('common.message.error.check-in'),
-                description: t('common.message.check-in.reject', { customerName: meetingQRCode.customerInfo.visitorName })
-              })
+            }
+            case SCAN_CARD_EVENT: {
+              setScanCardDto(JSON.parse(message.data))
               break
+            }
           }
-          setTableAction(resetCurrentPageAction(tableAction))
         }
       })
       return () => {

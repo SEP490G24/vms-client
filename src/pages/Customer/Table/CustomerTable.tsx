@@ -5,6 +5,7 @@ import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
+import { DATE_TIME_COMMON } from '~/constants'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<CustomerDto>
@@ -43,10 +44,9 @@ const CustomerTable: React.FC<MeetingItemProps> = (props) => {
       <Column title={t('common.field.identificationNumber')} sorter={true} dataIndex='identificationNumber' key='identificationNumber' />
       <Column title={t('common.field.contact_number')} sorter={true} dataIndex='phoneNumber' key='phoneNumber' />
       <Column title={t('common.field.email')} sorter={true} dataIndex='email' key='email' />
-      <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
-              render={(value: CustomerDto) => moment(value.createdOn).format('L')} />
-      <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
-              render={(value: CustomerDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : null} />
+      <Column title={t('common.field.created_on')} key='createdOn' sorter={true}
+              render={(value: CustomerDto) => moment(value.createdOn).format(DATE_TIME_COMMON.START_DAY)} />
+
     </Table>
   )
 }

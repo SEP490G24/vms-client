@@ -76,6 +76,8 @@ const deleteById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
+
+
 const roleService = {
   getAll,
   getById,

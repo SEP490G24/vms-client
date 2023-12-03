@@ -93,10 +93,10 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
                           placeholder={t('common.placeholder.site')}></SharedSelect>
           </Form.Item>
         </AuthSection>
-        <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>
+        <Form.Item className={'mb-3'} label={t('common.field.description')} name='description' rules={[{max:250}]}>
           <TextArea
             showCount
-            maxLength={200}
+            maxLength={250}
             className={'h-[200px] resize-none'}
             placeholder={t('common.placeholder.description')}
           />

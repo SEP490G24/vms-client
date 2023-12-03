@@ -100,7 +100,8 @@
       "createdBy": "Created By",
       "my_site_info": "Set my site information",
       "customer_detail": "Customer Detail",
-      "visitorName": "Visitor Name"
+      "visitorName": "Visitor Name",
+      "action_delete": "Delete"
     },
     "button": {
       "setting_default": "Set default",
@@ -237,7 +238,8 @@
       },
       "error": {
         "save": "Save failure!",
-        "check-in": "Check In Reject"
+        "check-in": "Check In Reject",
+        "delete": "Delete failed!"
       },
       "changePassword": {
         "success": "Change Password successfully!",
@@ -336,11 +338,11 @@
     "lastUpdate": "Latest update",
     "statistic": {
       "totalTicket": "Total Ticket",
-      "totalTicketCompleted": "Total Ticket <br/> Completed",
-      "totalTicketCancel": "Total Ticket <br/> Cancel",
+      "totalTicketCompleted": "Completed",
+      "totalTicketCancel": "Cancel",
       "totalVisitor": "Total Visitor",
-      "totalVisitorAccept": "Total Visitor <br/> Acceptance",
-      "totalVisitorReject": "Total Visitor <br/> Rejected"
+      "totalVisitorAccept": "Acceptance",
+      "totalVisitorReject": "Rejected"
     }
   },
   "organization": {

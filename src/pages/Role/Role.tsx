@@ -23,14 +23,14 @@ const Role = () => {
   const [infoModalData, setInfoModalData] = useState<InfoModalData<RoleDto>>({
     openModal: false,
     confirmLoading: false,
-    entitySelected: undefined
+    entitySelected: undefined,
   })
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [filterPayload, setFilterPayload] = useState<RoleFilterPayload>({
     attributes: {
       name: [],
-      siteId: []
-    }
+      siteId: [],
+    },
   })
 
   useEffect(() => {
@@ -40,12 +40,12 @@ const Role = () => {
   const fetchRoles = () => {
     setTableData({ ...tableData, loading: true })
     const payload = {
-      ...filterPayload
+      ...filterPayload,
     } as RoleFilterPayload
     roleService.filter(payload, true, {
       page: (tableAction.pagination?.current ?? 1) - 1,
       size: 10,
-      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order),
     }).then((response) => {
       setTableData({ pageableResponse: response.data, loading: false })
     }).catch(() => {
@@ -53,14 +53,25 @@ const Role = () => {
     })
   }
 
+  // const onDelete = (departmentId: string) => {
+  //   roleService.deleteById(departmentId).then((response) => {
+  //     if (response.status === 200) {
+  //       message.success(t('common.message.success.delete'))
+  //       fetchRoles()
+  //     }
+  //   }).catch(async () => {
+  //     await message.error(t('common.message.error.delete'))
+  //   })
+  // }
+
   const onFilter = (filterPayload: RoleFilterData) => {
     setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload({
       code: filterPayload.code,
       attributes: {
         name: filterPayload.name ? [filterPayload.name] : [],
-        siteId: filterPayload.siteId ? [filterPayload.siteId] : []
-      }
+        siteId: filterPayload.siteId ? [filterPayload.siteId] : [],
+      },
     })
   }
 
@@ -70,8 +81,8 @@ const Role = () => {
       description: payload['description'],
       attributes: {
         name: [payload['name']],
-        siteId: payload['siteId'] ? payload['siteId'] : []
-      }
+        siteId: payload['siteId'] ? payload['siteId'] : [],
+      },
     } as CreateRolePayload | UpdateRolePayload
     let request = !!infoModalData.entitySelected ? roleService.update(infoModalData.entitySelected.code, _payload) : roleService.create(_payload)
     request
@@ -123,7 +134,7 @@ const Role = () => {
                       setInfoModalData({
                         ...infoModalData,
                         entitySelected: undefined,
-                        openModal: true
+                        openModal: true,
                       })
                     }}
                   >
@@ -137,7 +148,7 @@ const Role = () => {
                   pageableResponse={tableData.pageableResponse}
                   currentPage={tableAction.pagination?.current}
                   onChangeTable={handleChangeTable}
-                  onEdit={openEdit} />
+                  onEdit={openEdit}/>
               </Card>
             </Col>
             <RoleInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}

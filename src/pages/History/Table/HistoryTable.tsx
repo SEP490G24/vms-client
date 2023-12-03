@@ -38,25 +38,24 @@ const HistoryTable: React.FC<MeetingItemProps> = (props) => {
       size='middle'
     >
       <Column
-        title={t('common.field.ticket_name')}
+        title={t('common.field.visitorName')}
         sorter={true}
-        key='ticketName'
-        render={(value: any) => <a onClick={() => {props.onViewDetail(value.checkInCode)}}>{value.ticketName}</a>}
-      />
-      <Column title={t('organization.history.table.roomName')} dataIndex='roomName' key='roomName' />
-      <Column
-        title={t('organization.history.table.visitorName')}
         key='visitorName'
-        dataIndex='visitorName'
+        render={(value: any) => <a onClick={() => {props.onViewDetail(value.checkInCode)}}>{value.visitorName}</a>}
       />
       <Column
         title={t('common.field.phoneNumber')}
         key='phoneNumber'
         dataIndex='phoneNumber'
       />
+      <Column
+        title={t('common.field.ticket_name')}
+        key='ticketName'
+        dataIndex='ticketName'
+      />
+      <Column title={t('organization.history.table.roomName')} dataIndex='roomName' key='roomName' />
+
       <Column title={t('common.field.status')} dataIndex='ticketCustomerStatus' key='ticketCustomerStatus' />
-      <Column title={t('common.field.created_on')} key='createdOn' sorter={true}
-              render={(value: HistoryDto) => moment(value.createdOn).format('L')} />
       <Column title={t('organization.history.table.check_in')} key='checkInTime' sorter={true}
               render={(value: HistoryDto) => value.checkInTime ?
                 <Space direction={'vertical'}>

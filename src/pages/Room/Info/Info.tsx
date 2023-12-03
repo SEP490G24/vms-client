@@ -26,11 +26,11 @@ interface CreateRoomFormArgs {
 const Info: React.FC<CreateRoomFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const [devices, setDevices] = useState([])
+  const [devices, setDevices] = useState<DeviceDto[]>([])
   const { sites } = useSelector(sitesSelector)
   useEffect(() => {
     deviceService.findAll().then((response) => {
-      setDevices(response.data)
+      setDevices([...response.data,{macIp:props.room?.macIp,id:props.room?.id,name:props.room?.deviceName}])
     })
   }, [props.room,props.open])
 
@@ -101,7 +101,6 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         </AuthSection>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.device')} name='deviceId'>
           <SharedSelect
-            value={'props.room?.macIp'}
             options={devices.map((room: DeviceDto) => {
               return { label: room.name, value: room.id, key: room.id }
             }) ?? []}

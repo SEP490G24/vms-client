@@ -11,6 +11,7 @@ export interface RoomDto {
   enable?: boolean;
   description?: string;
   macIp?: string;
+  deviceName?: string
 }
 
 

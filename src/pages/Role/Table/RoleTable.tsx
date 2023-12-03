@@ -4,7 +4,7 @@ import { Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import Column from 'antd/es/table/Column'
 import { useTranslation } from 'react-i18next'
-import { RoleActions } from '~/pages/Role/common/RoleActions'
+
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<RoleDto>
@@ -42,8 +42,6 @@ const RoleTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: RoleDto) => value.attributes['name']}
       />
       <Column title={t('common.field.description')} key='description' dataIndex={'description'} />
-      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
-              render={(value: RoleDto) => <RoleActions role={value} directionIcon={'vertical'} />} />
     </Table>
   )
 }

@@ -54,11 +54,11 @@ const MySite = () => {
       await request
         .then((resp) => {
           if (resp?.data) {
-            message.success(resp.data.message)
+            message.success(t('common.message.success.save'))
           }
         })
-        .catch((resp) => {
-          message.error(resp.data.message)
+        .catch(() => {
+          message.error(t('common.message.error.save'))
         })
     }
 

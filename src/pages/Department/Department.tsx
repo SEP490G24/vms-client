@@ -69,8 +69,13 @@ const Department = () => {
   }
 
   const onDelete = (departmentId: string) => {
-    departmentService.remove(departmentId).then((response) => {
-      console.log(response)
+    departmentService.remove(departmentId).then( (response) => {
+      if(response.status === 200){
+        message.success(t('common.message.success.delete'))
+        fetchDepartments()
+      }
+    }).catch( async () => {
+      await  message.error(t('common.message.error.delete'))
     })
   }
 

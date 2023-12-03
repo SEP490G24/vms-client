@@ -124,7 +124,7 @@ const TicketInfo: React.FC<Props> = (props) => {
     </Modal>
     <MeetingCancelModals reasonType={Reason.REJECT} open={openCancelModalReject}
                          onOk={onReject} onClose={() => setOpenCancelModalReject(false)} />
-    <CreateCardModal open={openModalCreateCard} width={650} checkInCode={props.meetingQRDto?.checkInCode}
+    <CreateCardModal open={openModalCreateCard} width={650} checkInCode={props.meetingQRDto?.checkInCode} scanCardDto={props.scanCardDto}
                      onSave={onCreateCard} onClose={() => setOpenModalCreateCard(false)} />
   </>
 }

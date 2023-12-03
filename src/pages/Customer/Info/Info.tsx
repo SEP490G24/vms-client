@@ -44,12 +44,6 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
                           label={t('common.field.identificationNumber')}>{props.customer?.identificationNumber}</DescriptionsItem>
         <DescriptionsItem span={3}
                           label={t('common.field.email')}>{props.customer?.email}</DescriptionsItem>
-        <DescriptionsItem span={3}
-                          label={t('common.field.province')}>{props.customer?.provinceName}</DescriptionsItem>
-        <DescriptionsItem span={3}
-                          label={t('common.field.district')}>{props.customer?.districtName}</DescriptionsItem>
-        <DescriptionsItem span={3}
-                          label={t('common.field.commune')}>{props.customer?.communeName}</DescriptionsItem>
       </Descriptions>
     </>
   )

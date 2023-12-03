@@ -22,7 +22,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
 const [disable,setDisable] = useState(true)
   const onFinish = (values: any) => {
     const payload: TemplateFilterPayload = {
-      siteId: values['siteId'] ? [values['siteId']] : undefined,
+      siteId: values['siteId'] ? [values['siteId']] : [],
       type: values['type'],
       keyword: values['keyword'],
       enable: values['enable'],

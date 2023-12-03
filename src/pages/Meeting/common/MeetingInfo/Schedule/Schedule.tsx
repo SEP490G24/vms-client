@@ -96,13 +96,14 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
           <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'
                      rules={[{ required: true }]}>
-            <SharedSelect allowClear options={sites.map((site) => {
+            <SharedSelect options={sites.map((site) => {
               return { label: site.name, value: site.id, key: site.id }
             }) ?? []} placeholder={t('common.placeholder.site')}></SharedSelect>
           </Form.Item>
         }
         <Form.Item className={'mb-3'} label={t('common.field.room')} name='roomId'>
           <SharedSelect
+            allowClear
             placeholder={t('common.placeholder.room')}
             options={rooms.map(room => {
               return { label: room.name, value: room.id }

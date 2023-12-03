@@ -34,7 +34,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       toCheckInTime: valueDateCheckIn?.date?.['1']?.format(DATE_TIME.START_DAY),
       formCheckOutTime: valueDateCheckOut?.date?.['0']?.format(DATE_TIME.START_DAY),
       toCheckOutTime: valueDateCheckOut?.date?.['1']?.format(DATE_TIME.START_DAY),
-      status: [values['status']],
+      status: values['status'] ? [values['status']] : [],
     }
     args.onFilter(payload)
   }

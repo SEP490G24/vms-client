@@ -24,7 +24,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
       keyword: values['keyword'],
-      siteIds:values["siteId"] != null ? [values['siteId']] : undefined
+      siteIds:values["siteId"] ? [values['siteId']] : []
     }
     args.onFilter(payload)
   }

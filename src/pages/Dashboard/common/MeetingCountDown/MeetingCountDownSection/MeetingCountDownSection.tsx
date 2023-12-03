@@ -1,31 +1,21 @@
 import React from 'react'
 import { MeetingCountDownSectionWrapper } from './styles.ts'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { Card, CountdownProps, List, Tooltip } from 'antd'
+import { List } from 'antd'
 import { MeetingDto } from '~/interface'
-import Countdown from 'antd/es/statistic/Countdown'
+import { MeetingCountDownItem } from './MeetingCountDownItem'
 
 interface Props {
   title: string
-  data?: MeetingDto[]
+  data: MeetingDto[]
   state: 'current' | 'future' | 'finish'
+  onFinish?: (meeting: MeetingDto) => void
 }
 
 const MeetingCountDownSection: React.FC<Props> = (props) => {
 
-  const getDeadline = (meeting: MeetingDto): number => {
-    switch (props.state) {
-      case 'future':
-        return (new Date(meeting.startTime).getTime() - Date.now())
-      case 'current':
-        return (new Date(meeting.endTime).getTime() - Date.now())
-      case 'finish':
-      default:
-        return 0
-    }
-  }
-
-  const onFinish: CountdownProps['onFinish'] = () => {
+  const onFinish = (meeting: MeetingDto) => {
+    if (props.onFinish) props.onFinish(meeting)
   }
 
   return (
@@ -36,17 +26,7 @@ const MeetingCountDownSection: React.FC<Props> = (props) => {
           dataSource={props.data}
           renderItem={(meeting: MeetingDto) => (
             <List.Item>
-              <Card className={'bg-body'}>
-                <Countdown
-                  title={
-                    <Tooltip placement='topLeft' title={meeting.name} arrow={true}>
-                      <span
-                        className={'w-[120px] truncate block'}>{meeting.name}
-                      </span>
-                    </Tooltip>
-                  } value={getDeadline(meeting)}
-                  onFinish={onFinish} />
-              </Card>
+              <MeetingCountDownItem meeting={meeting} state={props.state} onFinish={onFinish} />
             </List.Item>
           )}
         />

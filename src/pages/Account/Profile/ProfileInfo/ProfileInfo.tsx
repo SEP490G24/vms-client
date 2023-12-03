@@ -39,7 +39,7 @@ const ProfileInfo: React.FC<Props> = (props) => {
       form.setFieldsValue({
         firstName: profile.firstName,
         lastName: profile.lastName,
-        username: profile.userName,
+        username: profile.username,
         gender: profile.gender,
         dateOfBirth: profile.dateOfBirth,
         email: profile.email,

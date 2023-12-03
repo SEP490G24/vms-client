@@ -71,6 +71,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
         name: meetingSelected.name,
         purpose: meetingSelected.purpose,
         purposeNote: meetingSelected.purposeNote,
+        siteId: meetingSelected.siteId,
         roomId: meetingSelected.roomId,
         description: meetingSelected.description
       })

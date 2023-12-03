@@ -39,10 +39,10 @@ const ProfileNav: React.FC<Props> = (props) => {
         <Space className={'w-full'} classNames={{ item: 'w-full' }} direction={'vertical'} align={'center'}
                size={32}>
           <Space className={'w-full'} direction={'vertical'} align={'center'} size={24}>
-            <SharedAvatar url={props.avatar?.content.url ?? BASE_STORAGE + profile?.avatar} name={profile?.userName}
+            <SharedAvatar url={props.avatar?.content.url ?? BASE_STORAGE + profile?.avatar} name={profile?.username}
                           onChange={onChange} />
             <Title level={2}>{profile?.firstName + ' ' + profile?.lastName}</Title>
-            <Title level={4}>@{profile?.userName}</Title>
+            <Title level={4}>@{profile?.username}</Title>
           </Space>
           <Descriptions title='More Info'>
             <DescriptionsItem label={'Site'} span={3}>

@@ -58,7 +58,7 @@ const User = () => {
 
   const onSave = (payload: any) => {
     setInfoModalData({ ...infoModalData, confirmLoading: true })
-    let request = !!infoModalData.entitySelected ? userService.update(infoModalData.entitySelected.userName, payload) : userService.insert(payload)
+    let request = !!infoModalData.entitySelected ? userService.update(infoModalData.entitySelected.username, payload) : userService.insert(payload)
     request
       .then(async (res: any) => {
         if (res?.status === 200) {

@@ -9,6 +9,7 @@ import { SharedDatePicker } from '~/common/SharedDatePicker'
 import { Gender, REGEX } from '~/constants'
 import { enumToArray } from '~/utils'
 import { useLocation } from '~/hook'
+import dayjs from 'dayjs'
 
 interface Props {
   onFinish: (values: any) => void
@@ -23,6 +24,7 @@ const ProfileInfo: React.FC<Props> = (props) => {
 
   let provinceId = Form.useWatch('provinceId', form)
   let districtId = Form.useWatch('districtId', form)
+  let dateOfBirth = Form.useWatch('dateOfBirth', form)
 
   let { communes, districts, provinces } = useLocation(provinceId, districtId)
 
@@ -39,7 +41,7 @@ const ProfileInfo: React.FC<Props> = (props) => {
       form.setFieldsValue({
         firstName: profile.firstName,
         lastName: profile.lastName,
-        username: profile.userName,
+        username: profile.username,
         gender: profile.gender,
         dateOfBirth: profile.dateOfBirth,
         email: profile.email,
@@ -101,6 +103,7 @@ const ProfileInfo: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item label={t('common.field.dob')} name={'dateOfBirth'}>
                   <SharedDatePicker className={'w-full'} placeholder={t('common.placeholder.dob')}
+                                    defaultValue={dayjs(dateOfBirth)}
                                     onChangeDate={onDateOfBirthChange}></SharedDatePicker>
                 </Form.Item>
               </div>

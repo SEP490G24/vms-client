@@ -347,7 +347,7 @@
   },
   "organization": {
     "info": {
-      "title": "Set basic information"
+      "title": "My organization"
     },
     "user": {
       "title": "User Management",
@@ -593,7 +593,7 @@
       "title": "Check-in Manager"
     },
     "qr-manager": {
-      "title": "Check-in Manager"
+      "title": "QR Code"
     },
     "customer": {
       "title": "Customer",
@@ -605,7 +605,7 @@
     "organization": {
       "title": "Site & Org",
       "sub": {
-        "info": "Basic Info",
+        "info": "My organization",
         "my_site_info": "My Site",
         "organization": "Organizations",
         "site": "Sites",

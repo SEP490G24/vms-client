@@ -21,6 +21,7 @@ import {
 } from '~/interface'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
+import { useFirstRender } from '~/hook'
 
 
 const DashboardSite = () => {
@@ -38,9 +39,11 @@ const DashboardSite = () => {
 
   const [lastTimeUpdate, setLastTimeUpdate] = useState<Date>(new Date())
   const [timeClickManual, setTimeClickManual] = useState<Date>()
+  const firstRender = useFirstRender()
 
 
   useEffect(() => {
+    if (firstRender) return
     fetchApi()
   }, [filterPayload])
 

@@ -27,11 +27,11 @@ const TicketResult: React.FC<Props> = (props) => {
   const navigate = useNavigate()
   const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()
   const [openCancelModal, setOpenCancelModal] = useState(false)
-  const [messageApi, contextHolder] = message.useMessage()
 
   const { checkInCode } = useParams()
   const [checkInCodeState, setCheckInCodeState] = useState('')
   const [meetingState, setMeetingState] = useState<'success' | 'error'>('success')
+  const [disableBtn, setDisableBtn] = useState(false)
 
   useEffect(() => {
     console.log(checkInCode)
@@ -73,7 +73,10 @@ const TicketResult: React.FC<Props> = (props) => {
       checkInCode: checkInCodeState,
       ...checkInStatus
     })
-      .then(() => success())
+      .then(() => message.success(t('common.message.success.save')))
+      .then(() => {
+        setDisableBtn(true)
+      })
       .catch((error) => message.error(error.data.message))
       .finally(() => {
         setTimeout(() => {
@@ -82,17 +85,9 @@ const TicketResult: React.FC<Props> = (props) => {
       })
   }
 
-  const success = () => {
-    return messageApi.open({
-      type: 'success',
-      content: 'This browser tab will redirect to dashboard after 3 seconds',
-      duration: 3
-    })
-  }
 
   return !!meetingQRDto ?
     <>
-      {contextHolder}
       <TicketResultWrapper
         status={meetingState}
         title={t(`ticket-result.${meetingState}.title`)}
@@ -129,8 +124,9 @@ const TicketResult: React.FC<Props> = (props) => {
             <Space className={'w-full justify-center'}
                    direction={'horizontal'}
                    size={16}>
-              <SharedButton key='console' onClick={() => setOpenCancelModal(true)}>Reject</SharedButton>
+              <SharedButton key='console' onClick={() => setOpenCancelModal(true)} disabled={disableBtn}>Reject</SharedButton>
               <SharedButton type='primary' onClick={() => onAccept()}
+                            disabled={disableBtn}
                             key='buy'>Accept</SharedButton>
             </Space>
           }

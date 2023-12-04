@@ -1,12 +1,10 @@
 import { OrganizationWrapper } from './styles.ts'
 
 import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
-import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { InfoModalData, OrganizationDto, TableAction, TableData } from '~/interface'
-import { PERMISSION_ROLE_MAP } from '~/role'
 import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { OrganizationInfo } from './Info'
 import { OrganizationFilter } from './Filter'
@@ -99,7 +97,7 @@ const OrganiztionManagement = () => {
               <strong> {t('organization.organization.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
               <Space>
                 <SharedButton
-                  permissions={PERMISSION_ROLE_MAP.R_SITE_CREATE}
+                  // permissions={PERMISSION_ROLE_MAP.R_SITE_CREATE}
                   type='default'
                   onClick={() => {
                     setInfoModalData({
@@ -122,17 +120,8 @@ const OrganiztionManagement = () => {
                 onEdit={openEdit} />
             </Card>
           </Col>
-          <Modal
-            open={infoModalData.openModal}
-            closable={false}
-            title={null}
-            footer={null}
-            confirmLoading={infoModalData.confirmLoading}
-            width={650}
-            onCancel={onClose}
-          >
-            <OrganizationInfo organization={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
-          </Modal>
+          <OrganizationInfo open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
+                         organization={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
         </Row>
       </Space>
     </OrganizationWrapper>

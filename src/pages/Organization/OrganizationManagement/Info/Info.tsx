@@ -11,6 +11,9 @@ interface CreateOrganizationFormArgs {
   organization?: OrganizationDto
   onSave: (organization: CreateOrganizationInfo) => void
   onClose: () => void
+  open?: boolean;
+  confirmLoading?: boolean;
+  width?: number
 }
 
 const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
@@ -41,6 +44,12 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
       title={t(!!props.organization ? 'organization.organization.popup.title-edit' : 'organization.organization.popup.title-add')}
       onOk={form.submit}
       onCancel={onClose}
+      open={props.open}
+      confirmLoading={props.confirmLoading}
+      width={props.width}
+      footer={null}
+      closable={false}
+      disableOk={(!!props.organization) ? true : false }
     >
       <Form
         labelCol={{ span: 6 }}

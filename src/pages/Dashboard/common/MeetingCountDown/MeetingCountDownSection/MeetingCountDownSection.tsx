@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MeetingCountDownSectionWrapper } from './styles.ts'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { List } from 'antd'
+import { List, Modal } from 'antd'
 import { MeetingDto } from '~/interface'
 import { MeetingCountDownItem } from './MeetingCountDownItem'
+import { TicketInfo } from '~/pages/Dashboard/common/TicketInfo'
 
 interface Props {
   title: string
@@ -13,6 +14,10 @@ interface Props {
 }
 
 const MeetingCountDownSection: React.FC<Props> = (props) => {
+  const [openModal, setOpenModal] = useState(false)
+  const onOpenModal = () => {
+    setOpenModal(true)
+  }
 
   const onFinish = (meeting: MeetingDto) => {
     if (props.onFinish) props.onFinish(meeting)
@@ -26,11 +31,23 @@ const MeetingCountDownSection: React.FC<Props> = (props) => {
           dataSource={props.data}
           renderItem={(meeting: MeetingDto) => (
             <List.Item>
-              <MeetingCountDownItem meeting={meeting} state={props.state} onFinish={onFinish} />
+              <MeetingCountDownItem onOpenModal={onOpenModal} meeting={meeting} state={props.state} onFinish={onFinish} />
             </List.Item>
           )}
         />
       </PerfectScrollbar>
+      <Modal open={openModal}
+             closable={false}
+             title={null}
+             footer={null}
+             confirmLoading={true}
+             width={1000}
+             >
+        <TicketInfo onClose={function(): void {
+          throw new Error('Function not implemented.')
+        }} />
+      </Modal>
+
     </MeetingCountDownSectionWrapper>
   )
 }

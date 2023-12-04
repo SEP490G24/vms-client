@@ -37,12 +37,13 @@ const OrganizationTable: React.FC<MeetingItemProps> = (props) => {
       size='middle'
     >
 
-      <Column title={t('common.field.code')} dataIndex='code' key='code' />
+      <Column title={t('common.field.code')} key='code'
+              render={(value: OrganizationDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>}/>
       <Column
         title={t('common.field.name')}
         sorter={true}
         key='name'
-        render={(value: OrganizationDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
+        dataIndex='name'
       />
       <Column title={t('common.field.website')} dataIndex='website' key='website' />
 

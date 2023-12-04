@@ -96,7 +96,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
         labelAlign='left'
       >
         <Form.Item className={'mb-3'} label={t('common.field.username')} name='username'
-                   rules={[{ required: true }]}>
+                   rules={[{ required: true },{pattern:REGEX.NAME,message:t('common.error.name_valid')}]}>
           <SharedInput disabled={!!props.user} placeholder={t('common.placeholder.username')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.name')}>

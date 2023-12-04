@@ -78,7 +78,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             placeholder={t('organization.organization.search.counselor_placeholder')}
           />
         </Form.Item>
-        <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} setValueDate={setValueDate} />
+        <SharedFilterPeriod name={'date'} label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} setValueDate={setValueDate} />
       </Form>
     </Card>
   )

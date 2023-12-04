@@ -7,6 +7,7 @@ interface Props {
   meeting: MeetingDto
   onFinish: (meeting: MeetingDto) => void
   state: 'current' | 'future' | 'finish'
+  onOpenModal: () => void
 }
 
 const MeetingCountDownItem: React.FC<Props> = (props) => {
@@ -33,17 +34,26 @@ const MeetingCountDownItem: React.FC<Props> = (props) => {
   }
 
   return (
-    <Card className={'bg-body'}>
-      <Countdown
-        title={
-          <Tooltip placement='topLeft' title={props.meeting.name} arrow={true}>
+    <div onClick={() => {
+      alert('Hello from here')
+    }}>
+      <Card className={'bg-body'}
+      >
+        <Countdown
+          onMouseEnter={() => {
+            console.log('open')
+          }}
+          title={
+            <Tooltip  placement='topLeft' title={props.meeting.name} arrow={true}>
                       <span
                         className={'w-[120px] truncate block'}>{props.meeting.name}
                       </span>
-          </Tooltip>
-        } value={deadline}
-        onFinish={onFinish} />
-    </Card>
+            </Tooltip>
+          } value={deadline}
+          onFinish={onFinish} />
+      </Card>
+    </div>
+
   )
 }
 

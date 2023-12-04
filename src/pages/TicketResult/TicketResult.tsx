@@ -78,11 +78,6 @@ const TicketResult: React.FC<Props> = (props) => {
         setDisableBtn(true)
       })
       .catch((error) => message.error(error.data.message))
-      .finally(() => {
-        setTimeout(() => {
-          navigate(PATH_DASHBOARD)
-        }, 3000)
-      })
   }
 
 

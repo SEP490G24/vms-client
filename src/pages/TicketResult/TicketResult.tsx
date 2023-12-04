@@ -2,7 +2,7 @@ import { TicketResultWrapper } from './styles.ts'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { useEffect, useState } from 'react'
 import { SharedButton } from '~/common'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
@@ -11,7 +11,6 @@ import { Reason, StatusTicketCustomer, StatusTicketMeeting } from '~/constants'
 import { meetingTicketService } from '~/service'
 import { MeetingCancelModals } from '~/pages'
 import { useTranslation } from 'react-i18next'
-import { PATH_DASHBOARD } from '~/routes/paths.ts'
 
 
 interface Props {
@@ -24,7 +23,6 @@ interface Props {
 
 const TicketResult: React.FC<Props> = (props) => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()
   const [openCancelModal, setOpenCancelModal] = useState(false)
 

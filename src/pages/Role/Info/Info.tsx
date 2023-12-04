@@ -10,7 +10,6 @@ import { sitesSelector } from '~/redux'
 import { checkPermission } from '~/utils'
 import { SCOPE_ROLE_MAP } from '~/role'
 import { CreateRolePayload, UpdateRolePayload } from '~/service'
-import { REGEX } from '~/constants'
 
 interface RoleInfoFormArgs {
   open?: boolean;
@@ -90,7 +89,7 @@ const Info: React.FC<RoleInfoFormArgs> = (props) => {
           </Form.Item>
         }
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
-                   rules={[{ required: true },{ pattern: REGEX.NAME, message: t('common.error.name_valid') }]}>
+                   rules={[{ required: true }, { max: 50 }]}>
           <SharedInput placeholder={t('common.placeholder.role_name')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'>

@@ -7,6 +7,7 @@ export interface RoomDto {
   id: string;
   siteName: string;
   siteId: string;
+  deviceId: number;
   code?: string;
   enable?: boolean;
   description?: string;

@@ -76,11 +76,11 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
         labelAlign='left'
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
-                   rules={[{ required: true },{ pattern: REGEX.CODE, message: t('common.error.code_valid') }]}>
+                   rules={[{ required: true }, { pattern: REGEX.CODE, message: t('common.error.code_valid') }]}>
           <SharedInput disabled={!!props.department} placeholder={t('common.placeholder.code')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
-                   rules={[{ required: true },{ pattern: REGEX.NAME, message: t('common.error.name_valid') }]}>
+                   rules={[{ required: true }, { max: 50 }]}>
           <SharedInput placeholder={t('common.placeholder.department_name')} />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
@@ -93,7 +93,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
                           placeholder={t('common.placeholder.site')}></SharedSelect>
           </Form.Item>
         </AuthSection>
-        <Form.Item className={'mb-3'} label={t('common.field.description')} name='description' rules={[{max:250}]}>
+        <Form.Item className={'mb-3'} label={t('common.field.description')} name='description' rules={[{ max: 250 }]}>
           <TextArea
             showCount
             maxLength={250}

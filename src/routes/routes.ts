@@ -42,7 +42,7 @@ import {
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_TICKET_RESULT,
-  PATH_USER,
+  PATH_USER
 } from './paths'
 import { PATH_ROLE_MAP } from '~/role'
 import { RouteItem } from '~/interface'
@@ -144,12 +144,11 @@ export const privateRoutes: RouteItem[] = [
   },
   {
     path: PATH_PROFILE,
-    component: Profile,
-    role: PATH_ROLE_MAP['PATH_PROFILE']
+    component: Profile
   },
   {
     path: PATH_TICKET_RESULT,
-    component: TicketResult,
+    component: TicketResult
     // role: PATH_ROLE_MAP['PATH_TICKET_RESULT']
   },
   {

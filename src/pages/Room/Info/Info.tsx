@@ -30,9 +30,9 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
   const { sites } = useSelector(sitesSelector)
   useEffect(() => {
     deviceService.findAll().then((response) => {
-      setDevices([...response.data,{macIp:props.room?.macIp,id:props.room?.id,name:props.room?.deviceName}])
+      setDevices([...response.data, { macIp: props.room?.macIp, id: props.room?.id, name: props.room?.deviceName }])
     })
-  }, [props.room,props.open])
+  }, [props.room, props.open])
 
   useEffect(() => {
     if (props.open) {
@@ -42,6 +42,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
           code: props.room.code,
           siteName: props.room.siteName,
           siteId: props.room.siteId,
+          deviceId: props.room.deviceId,
           description: props.room.description,
           enable: props.room.enable,
           macIp: props.room.macIp
@@ -80,11 +81,11 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         labelAlign='left'
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
-                   rules={[{ required: true },{ pattern: REGEX.NAME, message: t('common.error.name_valid') }]}>
+                   rules={[{ required: true }, { max: 50 }]}>
           <SharedInput placeholder={t('common.placeholder.site_name')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
-                   rules={[{ required: true },{ pattern: REGEX.CODE, message: t('common.error.code_valid') }]}>
+                   rules={[{ required: true }, { pattern: REGEX.CODE, message: t('common.error.code_valid') }]}>
           <SharedInput disabled={!!props.room} placeholder={t('common.placeholder.code')} />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
@@ -107,7 +108,8 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
             placeholder={t('common.placeholder.device')}
           ></SharedSelect>
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.description')} name='description' rules={[{pattern:REGEX.DESCRIPTION,message:t('common.error.description_valid')}]}>
+        <Form.Item className={'mb-3'} label={t('common.field.description')} name='description'
+                   rules={[{ max: 250 }]}>
           <TextArea
             showCount
             maxLength={250}

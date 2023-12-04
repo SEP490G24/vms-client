@@ -122,7 +122,7 @@ export const TICKET = {
   FILTER: `${VITE_API_SERVER_URL}/ticket/filter`,
   CANCEL: `${VITE_API_SERVER_URL}/ticket/cancel`,
   CHECK_IN: `${VITE_API_SERVER_URL}/ticket/update-status`,
-  SUBSCRIBE_CHECK_IN: `https://api-vms.azurewebsites.net/api/v1/ticket/subscribe/check-in`,
+  SUBSCRIBE_CHECK_IN: `${VITE_API_SERVER_URL}/ticket/subscribe/check-in`,
   FIND_WITH_ROOM: `${VITE_API_SERVER_URL}/ticket/room`,
   BOOKMARK: `${VITE_API_SERVER_URL}/ticket/bookmark`,
 }

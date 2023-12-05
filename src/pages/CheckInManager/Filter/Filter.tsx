@@ -29,7 +29,7 @@ const Filter: React.FC<FilterArgs> = (props) => {
       startTimeEnd: valueDateStart?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
       endTimeStart: valueDateEnd?.date?.['0']?.format(DATE_TIME_HOUR.START_DAY),
       endTimeEnd: valueDateEnd?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
-      siteId: [values['siteId']]
+      siteId: values['siteId'] ? [values['siteId']] : []
     }
     props.onFilter(payload)
   }

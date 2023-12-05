@@ -17,7 +17,7 @@ import {
   PATH_ROOM,
   PATH_SITE,
   PATH_TEMPLATE,
-  PATH_USER,
+  PATH_USER
 } from './paths.ts'
 import {
   ApartmentOutlined,
@@ -45,7 +45,10 @@ export const SIDE_BARS: MenuItem[] = [
     key: SIDE_BAR_COLLAPSE.MEETING,
     icon: <ScheduleOutlined className={'text-[18px]'} />,
     title: 'sidebar.meeting.title',
-    role: [...PATH_ROLE_MAP['PATH_MEETING_CALENDAR'], ...PATH_ROLE_MAP['PATH_MEETING_STATISTIC'], ...PATH_ROLE_MAP['PATH_MEETING_ROOM']],
+    role: [
+      ...PATH_ROLE_MAP['PATH_MEETING_CALENDAR'],
+      ...PATH_ROLE_MAP['PATH_MEETING_STATISTIC'],
+      ...PATH_ROLE_MAP['PATH_MEETING_ROOM']],
     children: [
       {
         key: PATH_MEETING_CALENDAR,
@@ -80,7 +83,7 @@ export const SIDE_BARS: MenuItem[] = [
   },
   {
     key: PATH_QR_CODE_MANAGER,
-    icon: <QrcodeOutlined  className={'text-[18px]'} />,
+    icon: <QrcodeOutlined className={'text-[18px]'} />,
     title: 'sidebar.qr-manager.title',
     path: PATH_QR_CODE_MANAGER,
     role: [...PATH_ROLE_MAP['PATH_QR_CODE_MANAGER']],
@@ -90,6 +93,10 @@ export const SIDE_BARS: MenuItem[] = [
     key: SIDE_BAR_COLLAPSE.CUSTOMER,
     icon: <UserSwitchOutlined className={'text-[18px]'} />,
     title: 'sidebar.customer.title',
+    role: [
+      ...PATH_ROLE_MAP['PATH_CUSTOMER'],
+      ...PATH_ROLE_MAP['PATH_HISTORY']
+    ],
     children: [
       {
         key: PATH_CUSTOMER,
@@ -198,7 +205,8 @@ export const SIDE_BARS: MenuItem[] = [
     title: 'sidebar.configuration.title',
     role: [
       ...PATH_ROLE_MAP['PATH_PERMISSION'],
-      ...PATH_ROLE_MAP['PATH_CONFIGURATION']
+      ...PATH_ROLE_MAP['PATH_CONFIGURATION'],
+      ...PATH_ROLE_MAP['PATH_AUDIT_LOG']
     ],
     children: [
       {

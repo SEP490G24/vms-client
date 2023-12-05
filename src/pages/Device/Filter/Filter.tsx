@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedInput, SharedRadio, SharedSelect } from '~/common'
 import { DateRadioRange } from '~/interface'
 import { DeviceFilterPayload } from '~/service'
-import {getDataRangeOptions, getDateRangeValue} from "~/utils";
+import { getDataRangeOptions, getDateRangeValue } from '~/utils'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
 import { SCOPE_ROLE_MAP } from '~/role'
@@ -32,7 +32,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.toDate(),
       createdOnEnd: valueDate?.date?.['1']?.toDate(),
-      siteId: [values['siteId']]
+      siteId: values['siteId'] ? [values['siteId']] : []
     }
     args.onFilter(payload)
   }
@@ -64,7 +64,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         </Space>
       }
       bordered={false}
-      className="vms-card filter-card"
+      className='vms-card filter-card'
     >
       <Form
         labelCol={{ span: 6 }}
@@ -73,8 +73,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
         form={form}
         initialValues={{ layout: 'horizontal' }}
         colon={false}
-        labelAlign="left"
-        className="vms-form"
+        labelAlign='left'
+        className='vms-form'
         onFinish={onFinish}
         onFieldsChange={onFieldsChange}
       >
@@ -85,12 +85,12 @@ const Filter: React.FC<FilterArgs> = (args) => {
               setValueDate({ key: undefined, date: val })
             }}
             changeOnBlur
-            className="vms-picker"
+            className='vms-picker'
             style={{ width: '100%' }}
             placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
           />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('organization.device.search.counselor')} name="keyword">
+        <Form.Item className={'mb-3'} label={t('organization.device.search.counselor')} name='keyword'>
           <SharedInput
             placeholder={t('organization.device.search.counselor_placeholder')}
             value={keyword}
@@ -98,7 +98,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
           />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
-          <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId' >
+          <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'>
             <SharedSelect
               options={sites.map((site) => {
                 return { label: site.name, value: site.id, key: site.id }
@@ -107,12 +107,12 @@ const Filter: React.FC<FilterArgs> = (args) => {
             ></SharedSelect>
           </Form.Item>
         </AuthSection>
-        <Form.Item className={'mb-3'} label={<span></span>} name="duration">
+        <Form.Item className={'mb-3'} label={<span></span>} name='duration'>
           <SharedRadio
             options={getDataRangeOptions(t)}
             onChange={onChange}
             value={valueDate?.key}
-            optionType="button"
+            optionType='button'
           />
         </Form.Item>
       </Form>

@@ -30,7 +30,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
   const { sites } = useSelector(sitesSelector)
   useEffect(() => {
     deviceService.findAll().then((response) => {
-      setDevices([...response.data, { macIp: props.room?.macIp, id: props.room?.id, name: props.room?.deviceName }])
+      setDevices(response.data)
     })
   }, [props.room, props.open])
 
@@ -80,20 +80,20 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         onFinish={props.onSave}
         labelAlign='left'
       >
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
-                   rules={[{ required: true }, { max: 50 }]}>
-          <SharedInput placeholder={t('common.placeholder.site_name')} />
-        </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
                    rules={[{ required: true }, { pattern: REGEX.CODE, message: t('common.error.code_valid') }]}>
           <SharedInput disabled={!!props.room} placeholder={t('common.placeholder.code')} />
+        </Form.Item>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
+                   rules={[{ required: true }, { max: 50 }]}>
+          <SharedInput placeholder={t('common.placeholder.name')} />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
                      rules={[{ required: true }]}>
             <SharedSelect
               options={sites.map((site) => {
-                return { label: site.name, value: site.id, key: site.id }
+                return { label: site.name, value: site.id }
               }) ?? []}
               disabled={!!props.room}
               placeholder={t('common.placeholder.site')}
@@ -103,7 +103,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.device')} name='deviceId'>
           <SharedSelect
             options={devices.map((room: DeviceDto) => {
-              return { label: room.name, value: room.id, key: room.id }
+              return { label: room.name, value: room.id }
             }) ?? []}
             placeholder={t('common.placeholder.device')}
           ></SharedSelect>

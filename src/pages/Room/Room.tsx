@@ -5,17 +5,20 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
 import { InfoModalData, RoomDto, TableAction, TableData } from '~/interface'
-import { PERMISSION_ROLE_MAP } from '~/role'
+import { PERMISSION_ROLE_MAP, SCOPE_ROLE_MAP } from '~/role'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { RoomFilter } from './Filter'
 import { RoomFilterPayload, roomService } from '~/service'
 import { RoomTable } from '~/pages/Room/Table'
 import { FilterValue } from 'antd/es/table/interface'
 import { RoomInfoModal } from '~/pages/Room/Info'
+import { findAllRoom } from '~/redux'
+import { useDispatch } from 'react-redux'
 
 
 const Room = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const [tableData, setTableData] = useState<TableData<RoomDto>>({ loading: false })
   const [infoModalData, setInfoModalData] = useState<InfoModalData<RoomDto>>({
     openModal: false,
@@ -40,6 +43,7 @@ const Room = () => {
       sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
       setTableData({ pageableResponse: response.data, loading: false })
+      if (!checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) dispatch(findAllRoom({}) as any)
     }).catch(() => {
       setTableData({ ...infoModalData, loading: false })
     })

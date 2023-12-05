@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { MeetingQRDto, PageableResponse } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
-import { Space, Table, TablePaginationConfig } from 'antd'
+import { Space, Table, TablePaginationConfig, Tooltip } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 
 interface MeetingItemProps {
@@ -32,21 +32,22 @@ const CheckInTable: React.FC<MeetingItemProps> = (props) => {
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
-      scroll={{x: 1200}}
+      scroll={{ x: 1200 }}
       className='vms-table no-bg'
       size='middle'
     >
       <Column
-        title={t('common.field.title_meeting')}
-        key='ticketName'
-        render={(value: MeetingQRDto) => <a onClick={() => props.onEdit(value)}>{value.ticketName}</a>}
-      />
-      <Column title={t('common.field.purpose')} dataIndex='purpose' key='purpose' />
-      <Column
         title={t('common.field.visitor_name')}
         key='name'
-        render={(value: MeetingQRDto) => value.customerInfo.visitorName}
+        render={(value: MeetingQRDto) => <a onClick={() => props.onEdit(value)}>{value.customerInfo.visitorName}</a>}
       />
+      <Column
+        title={t('common.field.title_meeting')}
+        key='ticketName'
+        render={(value: MeetingQRDto) => <Tooltip placement={'topLeft'} title={value.ticketName} arrow={true}><span
+          className={'truncate w-[120px] block'}>{value.ticketName}</span></Tooltip>}
+      />
+      <Column title={t('common.field.purpose')} dataIndex='purpose' key='purpose' />
       <Column title={t('common.field.checkIn_status')} dataIndex='ticketCustomerStatus' key='ticketCustomerStatus' />
       <Column title={t('common.field.room_name')} dataIndex='roomName' key='roomName' />
       <Column title={t('common.field.duration')} key='startTime'

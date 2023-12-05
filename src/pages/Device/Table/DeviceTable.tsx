@@ -36,13 +36,14 @@ const DeviceTable: React.FC<MeetingItemProps> = (props) => {
       className='vms-table no-bg'
       size='middle'
     >
+      <Column title={t('common.field.code')} key='code'
+              render={(value: DeviceDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>} />
       <Column
         title={t('common.field.name')}
         sorter={true}
         key='name'
-        render={(value: DeviceDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
+        dataIndex='name'
       />
-      <Column title={t('common.field.code')} dataIndex='code' key='code' />
       <Column title={t('common.field.macIp')} dataIndex='macIp' key='macIp' />
       <Column title={t('common.field.deviceType')} dataIndex='deviceType' key='deviceType' />
       <Column

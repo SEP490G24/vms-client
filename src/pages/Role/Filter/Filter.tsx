@@ -37,6 +37,7 @@ const Filter: React.FC<FilterArgs> = (props) => {
 
   const onReset = () => {
     setDisable(true)
+    form.resetFields()
     props.onFilter({})
   }
 

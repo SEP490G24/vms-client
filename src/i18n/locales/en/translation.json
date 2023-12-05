@@ -66,7 +66,7 @@
       "purposeNote": "Purpose Note",
       "purpose": "Purpose",
       "checkIn_status": "Check In Status",
-      "identificationNumber": "ID Card",
+      "identificationNumber": "Identification Number",
       "name": "Name",
       "tax_code": "Tax_code",
       "customer": "Customer",
@@ -123,6 +123,8 @@
       "reasonNote": "Please enter a reason note",
       "city": "Please select a city",
       "address": "Please enter a address",
+      "name": "Please enter a name",
+      "macIp": "Please enter a macIp",
       "phoneNumber": "Please enter a phone number.",
       "current_password": "Please enter a current password",
       "new_password": "Please enter a new password",
@@ -148,6 +150,7 @@
       "device": "Select a device",
       "room": "Select a room",
       "department": "Please select a department",
+      "deviceType": "Please select a device type",
       "site": "Please select a site",
       "province": "Please select a province",
       "district": "Please select a district",
@@ -202,6 +205,7 @@
       "disable": "Disable",
       "active": "Active",
       "deactivate": "Deactivate",
+      "ticketInfo": "Ticket Info",
       "reset": "Reset",
       "search": "Search",
       "period": "Period",
@@ -275,7 +279,7 @@
       "search": {
         "title": "Search",
         "counselor": "Meeting",
-        "counselor_placeholder": "User require, participants, ..."
+        "counselor_placeholder": "Name, Create By, ..."
       }
     },
     "popup": {
@@ -294,7 +298,7 @@
     "search": {
       "title": "Search",
       "counselor": "Customer",
-      "counselor_placeholder": "Name"
+      "counselor_placeholder": "Name, Identification Number, Phone, Email"
     },
     "table": {
       "title": "Total {{count}} customer",
@@ -315,7 +319,7 @@
     "search": {
       "title": "Search",
       "counselor": "Customer",
-      "counselor_placeholder": "Name"
+      "counselor_placeholder": "Visitor Name, Phone Number, Ticket Title"
     },
     "table": {
       "title": "Total {{count}} customer",
@@ -400,7 +404,7 @@
       "search": {
         "title": "Search",
         "counselor": "Department",
-        "counselor_placeholder": "Name"
+        "counselor_placeholder": "Code, Name"
       },
       "table": {
         "title": "Total {{count}} department"
@@ -420,7 +424,7 @@
       "search": {
         "title": "Search",
         "counselor": "Room",
-        "counselor_placeholder": "Name"
+        "counselor_placeholder": "Code, Name"
       },
       "table": {
         "title": "Total {{count}} room",
@@ -486,7 +490,7 @@
       "search": {
         "title": "Search",
         "counselor": "Template",
-        "counselor_placeholder": "Name"
+        "counselor_placeholder": "Code, Name, Subject"
       },
       "table": {
         "title": "Total {{count}} template",
@@ -507,7 +511,7 @@
       "search": {
         "title": "Search",
         "counselor": "Device",
-        "counselor_placeholder": "Name"
+        "counselor_placeholder": "Name, Code, Mac Ip"
       },
       "table": {
         "title": "Total {{count}} device",
@@ -575,7 +579,7 @@
     },
     "error": {
       "title": "Failed Verify QR Server!",
-      "subTitle": "Ticket number: : {{ticketId}}. The meeting has been cancel. Please contact your appointment for more information."
+      "subTitle": "Ticket number: : {{ticketId}}. Please contact your appointment for more information."
     }
   },
   "sidebar": {

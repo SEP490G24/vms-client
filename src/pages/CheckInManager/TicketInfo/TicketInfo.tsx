@@ -83,7 +83,7 @@ const TicketInfo: React.FC<Props> = (props) => {
     >
       <Space className={'w-full'} direction={'vertical'}
              size={32}>
-        <Divider orientation={'left'}>Ticket Info</Divider>
+        <Divider orientation={'left'}>{t('common.label.ticketInfo')}</Divider>
         {props.meetingQRDto && <Descriptions bordered>
           <DescriptionsItem
             label={t('common.field.title')}>{props.meetingQRDto.ticketName}</DescriptionsItem>

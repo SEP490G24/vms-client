@@ -4,7 +4,6 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { List, Modal } from 'antd'
 import { MeetingDto } from '~/interface'
 import { MeetingCountDownItem } from './MeetingCountDownItem'
-import { TicketInfo } from '~/pages/Dashboard/common/TicketInfo'
 
 interface Props {
   title: string
@@ -43,9 +42,6 @@ const MeetingCountDownSection: React.FC<Props> = (props) => {
              confirmLoading={true}
              width={1000}
              >
-        <TicketInfo onClose={function(): void {
-          throw new Error('Function not implemented.')
-        }} />
       </Modal>
 
     </MeetingCountDownSectionWrapper>

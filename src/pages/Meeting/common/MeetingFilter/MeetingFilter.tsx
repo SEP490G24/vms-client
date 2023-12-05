@@ -14,7 +14,7 @@ interface FilterArgs {
   onFilterBookmark?: () => void
 }
 
-const MeetingFilter: React.FC<FilterArgs> = (args) => {
+const MeetingFilter: React.FC<FilterArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const [valueDateStart, setValueDateStart] = useState<DateRadioRange>()
@@ -37,7 +37,7 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
       status: values['status'],
       purpose: values['purpose']
     }
-    args.onFilter(payload)
+    props.onFilter(payload)
   }
 
 
@@ -45,7 +45,7 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
     setValueDateStart(undefined)
     setValueDateEnd(undefined)
     form.resetFields()
-    args.onFilter({})
+    props.onFilter({})
     setDisable(true)
   }
 
@@ -58,7 +58,7 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
       title={t('meeting.manager.search.title')}
       extra={
         <Space>
-          <SharedButton onClick={args.onFilterBookmark}>{t('common.label.bookmark')}</SharedButton>
+          {!props.calendar && <SharedButton onClick={props.onFilterBookmark}>{t('common.label.bookmark')}</SharedButton>}
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
@@ -95,7 +95,7 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
             onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
-        {!!args.calendar &&
+        {!!props.calendar &&
           <>
             <Form.Item
               className={'mb-3'}
@@ -117,7 +117,7 @@ const MeetingFilter: React.FC<FilterArgs> = (args) => {
             </Form.Item>
           </>
         }
-        {!args.calendar &&
+        {!props.calendar &&
           <SharedFilterPeriod label={'common.field.created_on'} format={'DD-MM-YYYY'} valueDate={valueDateCreated}
                               name={'createdDate'}
                               setValueDate={setValueDateCreated} hiddenRadio={true} />

@@ -7,7 +7,7 @@ import { UploadFileData } from '~/interface'
 import { fileService, userService } from '~/service'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { setAuth } from '~/redux'
+import { setProfile } from '~/redux'
 
 const Profile = () => {
 
@@ -30,7 +30,7 @@ const Profile = () => {
     userService.updateUserProfile(payload).then(async (response) => {
       if (response?.status === 200) {
         await message.success(t('common.message.success.save'))
-        dispatch(setAuth(response.data))
+        dispatch(setProfile(response.data))
       }
     }).catch((error) => message.error(error.data.message))
   }

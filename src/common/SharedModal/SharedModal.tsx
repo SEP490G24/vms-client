@@ -36,6 +36,7 @@ export const SharedModal: React.FC<SharedModalProps> = React.memo((props) => {
         closable={props.closable}
         onCancel={props.onCancel}
         onOk={props.onOk}
+        maskClosable={false}
         centered={props.centered}
         className={'vms-modal ' + props.className}
         footer={props.footer}

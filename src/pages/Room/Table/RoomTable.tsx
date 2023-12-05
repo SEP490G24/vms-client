@@ -32,17 +32,19 @@ const RoomTable: React.FC<MeetingItemProps> = (props) => {
         position: ['bottomCenter']
       }}
       onChange={props.onChangeTable}
-      scroll={{x: 1200}}
+      scroll={{ x: 1200 }}
       className='vms-table no-bg'
       size='middle'
     >
+      <Column title={t('common.field.code')} key='code'
+              render={(value: RoomDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>}
+      />
       <Column
         title={t('common.field.room')}
         sorter={true}
         key='name'
-        render={(value: RoomDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
+        dataIndex='name'
       />
-      <Column title={t('common.field.code')} dataIndex='code' key='code'/>
       <Column title={t('common.field.site.name')} dataIndex='siteName' key='siteName' />
       <Column
         title={t('common.field.status')}

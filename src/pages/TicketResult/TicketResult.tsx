@@ -49,7 +49,7 @@ const TicketResult: React.FC<Props> = (props) => {
   }, [props.ticketResult])
 
   useEffect(() => {
-    meetingQRDto && setMeetingState(meetingQRDto.ticketStatus === StatusTicketMeeting.PENDING ? 'success' : 'error')
+    meetingQRDto && setMeetingState((meetingQRDto.ticketStatus === StatusTicketMeeting.PENDING && meetingQRDto.ticketCustomerStatus === StatusTicketCustomer.PENDING) ? 'success' : 'error')
   }, [meetingQRDto])
 
   const onAccept = () => {
@@ -87,7 +87,7 @@ const TicketResult: React.FC<Props> = (props) => {
         subTitle={t(`ticket-result.${meetingState}.subTitle`, { ticketId: meetingQRDto.ticketId })}
         extra={<Space className={'w-full'} direction={'vertical'}
                       size={32}>
-          <Divider orientation={'left'}>Ticket Info</Divider>
+          <Divider orientation={'left'}>{t('common.label.ticketInfo')}</Divider>
           {meetingQRDto && <Descriptions bordered>
             <DescriptionsItem
               label={t('common.field.title')}>{meetingQRDto.ticketName}</DescriptionsItem>
@@ -117,7 +117,8 @@ const TicketResult: React.FC<Props> = (props) => {
             <Space className={'w-full justify-center'}
                    direction={'horizontal'}
                    size={16}>
-              <SharedButton key='console' onClick={() => setOpenCancelModal(true)} disabled={disableBtn}>Reject</SharedButton>
+              <SharedButton key='console' onClick={() => setOpenCancelModal(true)}
+                            disabled={disableBtn}>Reject</SharedButton>
               <SharedButton type='primary' onClick={() => onAccept()}
                             disabled={disableBtn}
                             key='buy'>Accept</SharedButton>

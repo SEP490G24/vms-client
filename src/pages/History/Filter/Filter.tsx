@@ -89,7 +89,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       >
         <Form.Item className={'mb-3'} label={t('common.field.name')} name='keyword'>
           <SharedInput
-            placeholder={t('organization.site.search.counselor_placeholder')}
+            placeholder={t('history.search.counselor_placeholder')}
           />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>

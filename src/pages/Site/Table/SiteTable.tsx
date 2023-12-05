@@ -32,17 +32,18 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
-      scroll={{x: 1200}}
+      scroll={{ x: 1200 }}
       className='vms-table no-bg'
       size='middle'
     >
 
-      <Column title={t('common.field.code')} dataIndex='code' key='code' />
+      <Column title={t('common.field.code')} key='code'
+              render={(value: SiteDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>} />
       <Column
         title={t('common.field.name')}
         sorter={true}
         key='name'
-        render={(value: SiteDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
+        dataIndex='name'
       />
       <Column title={t('common.field.contact_number')} dataIndex='phoneNumber' key='phoneNumber' />
       <Column title={t('common.field.province')}

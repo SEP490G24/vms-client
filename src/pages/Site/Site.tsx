@@ -13,10 +13,12 @@ import { SiteTable } from './Table'
 import { SiteFilterPayload, siteService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { AuthSection } from '~/auth'
+import { findAllSitesInOrganization } from '~/redux'
+import { useDispatch } from 'react-redux'
 
 const Site = () => {
   const { t } = useTranslation()
-
+  const dispatch = useDispatch()
 
   const [tableData, setTableData] = useState<TableData<SiteDto>>({ loading: false })
   const [infoModalData, setInfoModalData] = useState<InfoModalData<SiteDto>>({
@@ -44,6 +46,7 @@ const Site = () => {
       size: 10,
       sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
+      dispatch(findAllSitesInOrganization() as any)
       setTableData({ pageableResponse: response.data, loading: false })
     }).catch(() => {
       setTableData({ ...infoModalData, loading: false })
@@ -124,7 +127,7 @@ const Site = () => {
                   onEdit={openEdit} />
               </Card>
             </Col>
-            <SiteInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
+            <SiteInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={750}
                            site={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
           </Row>
         </AuthSection>

@@ -73,13 +73,13 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
         onFinish={onFinish}
         labelAlign='left'
       >
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
+                     rules={[{ required: true }]}>
+          <SharedInput disabled={!!props.device} placeholder={t('common.placeholder.code')} />
+        </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
                    rules={[{ required: true }]}>
-          <SharedInput disabled={!!props.device} placeholder={t('common.placeholder.name')} />
-        </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
-                   rules={[{ required: true }]}>
-          <SharedInput placeholder={t('common.placeholder.code')} />
+          <SharedInput placeholder={t('common.placeholder.name')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.macIp')} name='macIp'>
           <SharedInput placeholder={t('common.placeholder.macIp')} />
@@ -87,7 +87,7 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.deviceType')} name='deviceType'
                    rules={[{ required: true }]}>
           <SharedSelect options={[{ label: 'SCAN_CARD', value: 'SCAN_CARD' }, { label: 'DOOR', value: 'DOOR' }]}
-                        placeholder={t('common.placeholder.site')}></SharedSelect>
+                        placeholder={t('common.placeholder.deviceType')}></SharedSelect>
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
@@ -115,8 +115,8 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
                        rules={[{ required: true }]}>
               <Radio.Group name='enable'>
                 <Space>
-                  <Radio value={true}>{t('common.label.use')}</Radio>
-                  <Radio value={false}>{t('common.label.not_use')}</Radio>
+                  <Radio value={true}>{t('common.label.enable')}</Radio>
+                  <Radio value={false}>{t('common.label.disable')}</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>

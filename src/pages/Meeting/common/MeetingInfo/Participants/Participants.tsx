@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ParticipantsWrapper } from './styles.ts'
 import { Col, Divider, Form, FormInstance, Row, Space } from 'antd'
 
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedInput, SharedSelect } from '~/common'
-import { useSelector } from 'react-redux'
-import { customersSelector } from '~/redux/slices/customerSlice.ts'
+import { useDispatch, useSelector } from 'react-redux'
+import { customersSelector, fetchAllCustomerAvailable } from '~/redux/slices/customerSlice.ts'
 import { CreateMeetingInfo, CustomerCheckType, customerService } from '~/service'
 import { REGEX } from '~/constants'
 import { RuleObject } from 'antd/es/form/index'
@@ -19,6 +19,7 @@ interface ParticipantsArgs {
 
 const Participants: React.FC<ParticipantsArgs> = (props) => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const { customers } = useSelector(customersSelector)
 
   const onFinish = (values: any) => {
@@ -32,6 +33,10 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
     await customerService.checkCustomerExist({ value, type }).then(() => Promise.resolve())
       .catch((error) => Promise.reject(new Error(error.data.message)))
   }
+
+  useEffect(() => {
+    dispatch(fetchAllCustomerAvailable({}) as any)
+  }, [])
 
   return (
     <ParticipantsWrapper>

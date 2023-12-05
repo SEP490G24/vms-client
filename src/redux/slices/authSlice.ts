@@ -3,11 +3,8 @@ import { RootState } from '~/redux'
 import { UserDto } from '~/interface'
 import { userService } from '~/service'
 
-const initialState: { profile: UserDto | null, auth: { token: string | null } } = {
-  profile: null,
-  auth: {
-    token: null
-  }
+const initialState: { profile: UserDto | null } = {
+  profile: null
 }
 
 export const fetchProfile = createAsyncThunk(
@@ -20,9 +17,6 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setAuth: (state, action) => {
-      state.auth = action.payload
-    },
     setProfile: (state, action) => {
       state.profile = action.payload
     }
@@ -37,6 +31,6 @@ const authSlice = createSlice({
   }
 })
 
-export const { setAuth, setProfile } = authSlice.actions
+export const { setProfile } = authSlice.actions
 export const authSelector = (state: RootState) => state.auth
 export default authSlice.reducer

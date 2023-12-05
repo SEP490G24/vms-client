@@ -195,6 +195,7 @@ export const SIDE_BARS: MenuItem[] = [
         key: PATH_DEVICE,
         title: 'sidebar.organization.sub.device',
         path: PATH_DEVICE,
+        role: PATH_ROLE_MAP['PATH_DEVICE'],
         children: []
       }
     ]

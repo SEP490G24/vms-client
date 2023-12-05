@@ -7,8 +7,9 @@ import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedInput, SharedSelect } from '~/common'
 import { useSelector } from 'react-redux'
 import { customersSelector } from '~/redux/slices/customerSlice.ts'
-import { CreateMeetingInfo } from '~/service'
+import { CreateMeetingInfo, CustomerCheckType, customerService } from '~/service'
 import { REGEX } from '~/constants'
+import { RuleObject } from 'antd/es/form/index'
 
 interface ParticipantsArgs {
   meeting: CreateMeetingInfo
@@ -25,6 +26,11 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
       oldCustomers: values['oldCustomers'],
       newCustomers: values['newCustomers']
     })
+  }
+
+  const validate = async (_: RuleObject, value: string, type: CustomerCheckType) => {
+    await customerService.checkCustomerExist({ value, type }).then(() => Promise.resolve())
+      .catch((error) => Promise.reject(new Error(error.data.message)))
   }
 
   return (
@@ -46,7 +52,10 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
               <SharedSelect mode={'multiple'} allowClear className={'w-full'}
                             placeholder={t('common.placeholder.roles')}
                             options={customers.map((customer) => {
-                              return { label: `${customer.visitorName} - ${customer.email} - ${customer.phoneNumber}`, value: customer.id }
+                              return {
+                                label: `${customer.visitorName} - ${customer.email} - ${customer.phoneNumber}`,
+                                value: customer.id
+                              }
                             })} />
             </Form.Item>
           </Col>
@@ -68,23 +77,31 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
                       </Form.Item>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.identificationNumber')}
                                  name={[index, 'identificationNumber']}
-                                 rules={[{ required: true }]}>
+                                 validateDebounce={1000}
+                                 rules={[
+                                   { required: true },
+                                   { validator: (_, value) => validate(_, value, CustomerCheckType.IDENTIFICATION_NUMBER) }
+                                 ]}>
                         <SharedInput placeholder={t('common.placeholder.identificationNumber')} />
                       </Form.Item>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.phoneNumber')}
                                  name={[index, 'phoneNumber']}
-                                 rules={[{ required: true }, {
-                                   pattern: REGEX.PHONE,
-                                   message: t('common.error.phoneNumber_valid')
-                                 }]}>
+                                 validateDebounce={1000}
+                                 rules={[
+                                   { required: true },
+                                   { pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid') },
+                                   { validator: (_, value) => validate(_, value, CustomerCheckType.PHONE_NUMBER) }
+                                 ]}>
                         <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} />
                       </Form.Item>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.email')}
                                  name={[index, 'email']}
-                                 rules={[{ required: true }, {
-                                   pattern: REGEX.EMAIL,
-                                   message: t('common.error.email_valid')
-                                 }]}>
+                                 validateDebounce={1000}
+                                 rules={[
+                                   { required: true },
+                                   { pattern: REGEX.EMAIL, message: t('common.error.email_valid') },
+                                   { validator: (_, value) => validate(_, value, CustomerCheckType.EMAIL) }
+                                 ]}>
                         <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')} />
                       </Form.Item>
                     </Col>

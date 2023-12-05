@@ -118,7 +118,7 @@ const CheckInManager = () => {
             <h2>{t('check-in.title')}</h2>
             <Divider type='vertical' />
           </Space>
-          {checkPermission(PERMISSION_ROLE_MAP.R_USER_FILTER) && (
+          {checkPermission(PERMISSION_ROLE_MAP.R_TICKET_FIND_QR_CODE) && (
             <Row gutter={24} wrap={false}>
               <Col flex={'none'} span={12}>
                 <CheckInFilter onFilter={onFilter} />

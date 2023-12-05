@@ -8,11 +8,10 @@ import { settingGroupService, settingService, settingSiteService } from '~/servi
 import { SettingDto, SettingGroupDto, SettingSiteDto } from '~/interface/Setting.ts'
 import { SettingItem } from '~/pages/Setting/SettingItem'
 import { checkPermission } from '~/utils'
-import { PERMISSION_ROLE_MAP, SCOPE_ROLE_MAP } from '~/role'
+import { SCOPE_ROLE_MAP } from '~/role'
 import { SharedButton, SharedSelect } from '~/common'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
-import { AuthSection } from '~/auth'
 
 const Setting = () => {
 
@@ -22,7 +21,7 @@ const Setting = () => {
   const [settingSiteValues, setSettingSiteValues] = useState<SettingSiteDto>()
   const [settingGroupIdSelected, setSettingGroupIdSelected] = useState('')
   const [siteId, setSiteId] = useState()
-  const [load,setLoad] = useState(false)
+  const [load, setLoad] = useState(false)
   const { sites } = useSelector(sitesSelector)
 
   useEffect(() => {
@@ -80,44 +79,44 @@ const Setting = () => {
             </Row>
           }
         </Space>
-        <AuthSection permissions={PERMISSION_ROLE_MAP.R_SETTING_FILTER}>
-          {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
-            <Row gutter={24} wrap={false}>
-              <Col span={5}>
-                <Card title={'Group Setting'}
+        {/*<AuthSection permissions={PERMISSION_ROLE_MAP.R_SETTING_FILTER}>*/}
+        {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
+          <Row gutter={24} wrap={false}>
+            <Col span={5}>
+              <Card title={'Group Setting'}
 
-                >
-                  <Menu className={'w-full'}
-                        defaultSelectedKeys={['1']}
-                        onSelect={({ key }) => setSettingGroupIdSelected(key)}
-                        mode={'inline'}
-                        items={settingGroups.map((settingGroup) => {
-                          return { key: settingGroup.id, label: settingGroup.name }
-                        })}>
-                  </Menu>
-                </Card>
-              </Col>
-              <Col flex={'auto'}>
-                <Card title={'Setting'}
-                      extra={<SharedButton
-                        // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
-                        type='primary'
-                        onClick={handleSetDefault}
-                      >
-                        {t('common.button.setting_default')}
-                      </SharedButton>}>
-                  <ListView className={'gap-4'}>
-                    {settings.map((setting) => <SettingItem key={uuid()} setting={setting}
-                                                            defaultValue={setting.defaultValue}
-                                                            value={settingSiteValues?.settings?.[setting.code]}
-                                                            onSaveSetting={(value) => handleSave(setting.id, value)}
-                    />)}
-                  </ListView>
-                </Card>
-              </Col>
-            </Row>
-          }
-        </AuthSection>
+              >
+                <Menu className={'w-full'}
+                      defaultSelectedKeys={['1']}
+                      onSelect={({ key }) => setSettingGroupIdSelected(key)}
+                      mode={'inline'}
+                      items={settingGroups.map((settingGroup) => {
+                        return { key: settingGroup.id, label: settingGroup.name }
+                      })}>
+                </Menu>
+              </Card>
+            </Col>
+            <Col flex={'auto'}>
+              <Card title={'Setting'}
+                    extra={<SharedButton
+                      // permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
+                      type='primary'
+                      onClick={handleSetDefault}
+                    >
+                      {t('common.button.setting_default')}
+                    </SharedButton>}>
+                <ListView className={'gap-4'}>
+                  {settings.map((setting) => <SettingItem key={uuid()} setting={setting}
+                                                          defaultValue={setting.defaultValue}
+                                                          value={settingSiteValues?.settings?.[setting.code]}
+                                                          onSaveSetting={(value) => handleSave(setting.id, value)}
+                  />)}
+                </ListView>
+              </Card>
+            </Col>
+          </Row>
+        }
+        {/*</AuthSection>*/}
       </Space>
     </SettingWrapper>
   )

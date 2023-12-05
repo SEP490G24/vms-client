@@ -18,11 +18,11 @@ export const SharedPieChart: React.FC<SharedPieChartProps> = memo((props) => {
       colorField: props.colorField,
       // color: [themes.tertiary, themes.primary.normal],
       radius: 1,
-      innerRadius: 0.5,
+      innerRadius: 0,
       label: {
         type: 'inner',
         offset: '-50%',
-        content: `{${props.angleField ?? 'value'}}`,
+        content: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
         style: {
           textAlign: 'center',
           fontSize: 14

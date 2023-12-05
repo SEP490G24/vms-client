@@ -40,6 +40,17 @@ export interface CustomerAvailablePayload {
   endTime?: string | Date;
 }
 
+export enum CustomerCheckType {
+  EMAIL = 'EMAIL',
+  PHONE_NUMBER = 'PHONE_NUMBER',
+  IDENTIFICATION_NUMBER = 'IDENTIFICATION_NUMBER'
+}
+
+export interface CustomerCheckExist {
+  value?: string
+  type: CustomerCheckType
+}
+
 const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.get(CUSTOMER.BASE_PATH)
@@ -88,6 +99,13 @@ const filter = async (payload: CustomerFilterPayload, isPageable?: boolean, page
   return httpService.handleResponseStatus(response)
 }
 
+const checkCustomerExist = async (payload: CustomerCheckExist) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
+  const response = await httpService.post(CUSTOMER.CHECK, payload)
+  return httpService.handleResponseStatus(response)
+}
+
 const customerService = {
   findAll,
   findById,
@@ -95,7 +113,8 @@ const customerService = {
   update,
   remove,
   filter,
-  findCustomerAvailable
+  findCustomerAvailable,
+  checkCustomerExist
 }
 
 export default customerService

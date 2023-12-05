@@ -130,7 +130,8 @@ export const TICKET = {
 export const CUSTOMER = {
   BASE_PATH: `${VITE_API_SERVER_URL}/customer`,
   FILTER: `${VITE_API_SERVER_URL}/customer/filter`,
-  AVAILABLE: `${VITE_API_SERVER_URL}/customer/available`
+  AVAILABLE: `${VITE_API_SERVER_URL}/customer/available`,
+  CHECK: `${VITE_API_SERVER_URL}/customer/check`
 }
 
 export const KEYCLOAK = {

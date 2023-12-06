@@ -2,7 +2,7 @@
 import { Card, Form, Space } from 'antd'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton, SharedFilterPeriod, SharedInput, SharedSelect } from '~/common'
+import { SharedButton, SharedInput, SharedSelect } from '~/common'
 import { DateRadioRange } from '~/interface'
 import { SiteFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
@@ -118,7 +118,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
                         disabled={!districtId}
                         placeholder={t('common.placeholder.commune')} />
         </Form.Item>
-        <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} setValueDate={setValueDate} />
+        {/*<SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} setValueDate={setValueDate} />*/}
       </Form>
     </Card>
   )

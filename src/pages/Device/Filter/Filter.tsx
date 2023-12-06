@@ -1,10 +1,9 @@
-import { Card, DatePicker, Form, RadioChangeEvent, Space } from 'antd'
+import { Card, DatePicker, Form, Space } from 'antd'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton, SharedInput, SharedRadio, SharedSelect } from '~/common'
+import { SharedButton, SharedInput, SharedSelect } from '~/common'
 import { DateRadioRange } from '~/interface'
 import { DeviceFilterPayload } from '~/service'
-import { getDataRangeOptions, getDateRangeValue } from '~/utils'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
 import { SCOPE_ROLE_MAP } from '~/role'
@@ -22,10 +21,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
   const { sites } = useSelector(sitesSelector)
-
-  const onChange = ({ target: { value } }: RadioChangeEvent) => {
-    setValueDate({ key: value, date: getDateRangeValue(value) })
-  }
 
   const onFinish = (values: any) => {
     const payload: DeviceFilterPayload = {
@@ -78,25 +73,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
         onFinish={onFinish}
         onFieldsChange={onFieldsChange}
       >
-        <Form.Item className={'mb-3'} label={t('common.label.period')}>
-          <RangePicker
-            value={valueDate?.date}
-            onChange={(val) => {
-              setValueDate({ key: undefined, date: val })
-            }}
-            changeOnBlur
-            className='vms-picker'
-            style={{ width: '100%' }}
-            placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
-          />
-        </Form.Item>
-        <Form.Item className={'mb-3'} label={t('organization.device.search.counselor')} name='keyword'>
-          <SharedInput
-            placeholder={t('organization.device.search.counselor_placeholder')}
-            value={keyword}
-            onChange={(e: any) => setKeyword(e.target.value)}
-          />
-        </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'>
             <SharedSelect
@@ -107,12 +83,24 @@ const Filter: React.FC<FilterArgs> = (args) => {
             ></SharedSelect>
           </Form.Item>
         </AuthSection>
-        <Form.Item className={'mb-3'} label={<span></span>} name='duration'>
-          <SharedRadio
-            options={getDataRangeOptions(t)}
-            onChange={onChange}
-            value={valueDate?.key}
-            optionType='button'
+        <Form.Item className={'mb-3'} label={t('organization.device.search.counselor')} name='keyword'>
+          <SharedInput
+            placeholder={t('organization.device.search.counselor_placeholder')}
+            value={keyword}
+            onChange={(e: any) => setKeyword(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item className={'mb-3'} name={'date'} label={t('common.label.period')}>
+          <RangePicker
+            format={'DD/MM/YYYY'}
+            value={valueDate?.date}
+            onChange={(val) => {
+              setValueDate({ key: undefined, date: val })
+            }}
+            changeOnBlur
+            className='vms-picker'
+            style={{ width: '100%' }}
+            placeholder={[t('common.date_range.start_placeholder'), t('common.date_range.end_placeholder')]}
           />
         </Form.Item>
       </Form>

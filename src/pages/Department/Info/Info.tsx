@@ -36,10 +36,13 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
           code: props.department.code,
           siteId: props.department.siteId,
           description: props.department.description,
-          enable: props.department.enable
+          enable: props.department.enable,
         })
       } else {
         form.resetFields()
+        form.setFieldsValue({
+          enable: true,
+        })
       }
     }
   }, [props.department, props.open])

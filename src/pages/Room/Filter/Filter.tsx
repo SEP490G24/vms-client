@@ -30,7 +30,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
     }
-    if (values?.query?.trim()) payload.keyword = values?.query?.trim()
+    if (values?.keyword?.trim()) payload.keyword = values?.keyword?.trim()
     if (siteId) payload.siteId = [siteId]
     args.onFilter(payload)
   }

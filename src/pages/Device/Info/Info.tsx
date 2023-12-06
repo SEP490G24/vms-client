@@ -39,6 +39,7 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
         })
       } else {
         form.resetFields()
+        form.setFieldsValue({enable: true})
       }
     }
   }, [props.device, props.open])
@@ -87,7 +88,7 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.deviceType')} name='deviceType'
                    rules={[{ required: true }]}>
           <SharedSelect options={[{ label: 'SCAN_CARD', value: 'SCAN_CARD' }, { label: 'DOOR', value: 'DOOR' }]}
-                        placeholder={t('common.placeholder.deviceType')}></SharedSelect>
+                        placeholder={t('common.placeholder.site')}></SharedSelect>
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
@@ -109,17 +110,18 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
             placeholder={t('common.placeholder.description')}
           />
         </Form.Item>
+
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.label.enable')} name='enable'
+                   rules={[{ required: true }]}>
+          <Radio.Group name='enable'>
+            <Space>
+              <Radio value={true}>{t('common.label.enable')}</Radio>
+              <Radio value={false}>{t('common.label.disable')}</Radio>
+            </Space>
+          </Radio.Group>
+        </Form.Item>
         {!!props.device &&
           <>
-            <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.used')} name='enable'
-                       rules={[{ required: true }]}>
-              <Radio.Group name='enable'>
-                <Space>
-                  <Radio value={true}>{t('common.label.enable')}</Radio>
-                  <Radio value={false}>{t('common.label.disable')}</Radio>
-                </Space>
-              </Radio.Group>
-            </Form.Item>
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>

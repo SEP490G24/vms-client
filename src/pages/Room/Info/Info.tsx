@@ -45,10 +45,11 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
           deviceId: props.room.deviceId,
           description: props.room.description,
           enable: props.room.enable,
-          macIp: props.room.macIp
+          macIp: props.room.macIp,
         })
       } else {
         form.resetFields()
+        form.setFieldsValue({ enable: true })
       }
     }
   }, [props.room, props.open])
@@ -117,17 +118,17 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
             placeholder={t('common.placeholder.description')}
           />
         </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
+                   rules={[{ required: true }]}>
+          <Radio.Group name='enable'>
+            <Space>
+              <Radio value={true}>{t('common.label.enable')}</Radio>
+              <Radio value={false}>{t('common.label.disable')}</Radio>
+            </Space>
+          </Radio.Group>
+        </Form.Item>
         {!!props.room &&
           <>
-            <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
-                       rules={[{ required: true }]}>
-              <Radio.Group name='enable'>
-                <Space>
-                  <Radio value={true}>{t('common.label.enable')}</Radio>
-                  <Radio value={false}>{t('common.label.disable')}</Radio>
-                </Space>
-              </Radio.Group>
-            </Form.Item>
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>

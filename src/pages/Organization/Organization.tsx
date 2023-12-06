@@ -118,8 +118,8 @@ const Organization = () => {
                     >
                       <SharedInput size={'large'} placeholder={t('common.placeholder.organizationName')} />
                     </Form.Item>
-                    <Form.Item label={t('common.field.code')} name='code' rules={[{ required: true }]}>
-                      <SharedInput size={'large'} placeholder={t('common.placeholder.code')} />
+                    <Form.Item label={t('common.field.code')} name='code' >
+                      <SharedInput disabled size={'large'} placeholder={t('common.placeholder.code')} />
                     </Form.Item>
                     <Form.Item label={t('common.field.homepage_address')} name='website'>
                       <SharedInput size={'large'} placeholder={t('common.placeholder.homepage_address')} />

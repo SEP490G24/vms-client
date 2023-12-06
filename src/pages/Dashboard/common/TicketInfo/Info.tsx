@@ -3,28 +3,28 @@ import React, { useEffect, useState } from 'react'
 import { HistoryDto, MeetingQRDto, PageableResponse } from '~/interface'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment/moment'
+import { useTranslation } from 'react-i18next'
 
 
 interface HistoryFormArgs {
-  meetingQRDto?: MeetingQRDto
-  onClose: () => void
+  meetingDto?: MeetingQRDto
   historyDetailTable?: PageableResponse<HistoryDto>
 }
 
 const Info: React.FC<HistoryFormArgs> = (props) => {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
   const [meetingQRDto, setMeetingQRDto] = useState<MeetingQRDto>()
   useEffect(() => {
-    setMeetingQRDto(props.meetingQRDto)
-  }, [props.meetingQRDto])
+    setMeetingQRDto(props.meetingDto)
+  }, [props.meetingDto])
   return (
     <>
       <Space className={'w-full'} direction={'vertical'}
              size={32}>
-        <Divider orientation={'left'}>Ticket History</Divider>
+        <Divider orientation={'left'}>{t('common.field.ticket_info')}</Divider>
         <Descriptions bordered>
           <DescriptionsItem
-            label={'Title'}>{meetingQRDto?.ticketName}</DescriptionsItem>
+            label={'Title'}>{meetingQRDto?.name}</DescriptionsItem>
           <DescriptionsItem
             label={'Purpose'}>{meetingQRDto?.purpose}</DescriptionsItem>
           <DescriptionsItem
@@ -38,14 +38,6 @@ const Info: React.FC<HistoryFormArgs> = (props) => {
               <span>{moment(meetingQRDto?.endTime).format('LTS')}</span>
             </Space>
           </DescriptionsItem>
-          <DescriptionsItem label={'Customer'}
-                            span={3}>{meetingQRDto?.customerInfo.visitorName}</DescriptionsItem>
-          <DescriptionsItem
-            label={'Identification Number'}>{meetingQRDto?.customerInfo.identificationNumber}</DescriptionsItem>
-          <DescriptionsItem
-            label={'Email'}>{meetingQRDto?.customerInfo.email}</DescriptionsItem>
-          <DescriptionsItem
-            label={'PhoneNumber'}>{meetingQRDto?.customerInfo.phoneNumber}</DescriptionsItem>
         </Descriptions>
       </Space>
     </>

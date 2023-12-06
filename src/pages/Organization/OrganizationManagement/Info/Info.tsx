@@ -21,6 +21,7 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
   const [form] = Form.useForm()
 
   useEffect(() => {
+    console.log('tec')
     form.resetFields()
     if (props.organization) {
       form.setFieldsValue({
@@ -29,7 +30,11 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
         website: props.organization.website,
         representative: props.organization.representative,
         enable: props.organization.enable,
-        createdOn: props.organization.createdOn
+        createdOn: props.organization.createdOn,
+      })
+    } else {
+      form.setFieldsValue({
+        enable: true,
       })
     }
   })
@@ -49,7 +54,7 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
       width={props.width}
       footer={null}
       closable={false}
-      disableOk={(!!props.organization) ? true : false }
+      disableOk={(!!props.organization) ? true : false}
     >
       <Form
         labelCol={{ span: 6 }}
@@ -79,17 +84,17 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
         <Form.Item className={'mb-3'} label={t('common.field.representative')} name='representative'>
           <SharedInput placeholder={t('common.placeholder.representative')} />
         </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
+                   rules={[{ required: true }]}>
+          <Radio.Group name='enable'>
+            <Space>
+              <Radio value={true}>{t('common.label.enable')}</Radio>
+              <Radio value={false}>{t('common.label.disable')}</Radio>
+            </Space>
+          </Radio.Group>
+        </Form.Item>
         {!!props.organization &&
           <>
-            <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
-                       rules={[{ required: true }]}>
-              <Radio.Group name='enable'>
-                <Space>
-                  <Radio value={true}>{t('common.label.enable')}</Radio>
-                  <Radio value={false}>{t('common.label.disable')}</Radio>
-                </Space>
-              </Radio.Group>
-            </Form.Item>
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>
@@ -97,6 +102,7 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
             </Row>
           </>
         }
+
       </Form>
     </InfoWrapper>
   )

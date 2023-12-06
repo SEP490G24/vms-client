@@ -42,11 +42,12 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
           siteId: props.template.siteId,
           description: props.template.description,
           createdOn: props.template.createdOn,
-          lastUpdatedOn: props.template.createdOn
+          lastUpdatedOn: props.template.createdOn,
         })
       }
     } else {
       form.resetFields()
+      form.setFieldsValue({enable: true})
     }
   }, [props.template, props.open])
 
@@ -116,11 +117,11 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
                 feeds: [
                   {
                     marker: '@',
-                    feed: enumToArray(TemplateVariable).map(item => `@{${item.key}}`)
-                  }
-                ]
+                    feed: enumToArray(TemplateVariable).map(item => `@{${item.key}}`),
+                  },
+                ],
               },
-              placeholder: t('common.placeholder.body')
+              placeholder: t('common.placeholder.body'),
             }}
             onChange={(_, editor) => {
               form.setFieldValue('body', editor.getData())
@@ -135,17 +136,17 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
         <Form.Item className='mb-3' label={t('common.field.description')} name='description'>
           <SharedInput placeholder={t('common.placeholder.description')}></SharedInput>
         </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
+                   rules={[{ required: true }]}>
+          <Radio.Group name='enable'>
+            <Space>
+              <Radio value={true}>{t('common.label.enable')}</Radio>
+              <Radio value={false}>{t('common.label.disable')}</Radio>
+            </Space>
+          </Radio.Group>
+        </Form.Item>
         {!!props.template &&
           <>
-            <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
-                       rules={[{ required: true }]}>
-              <Radio.Group name='enable'>
-                <Space>
-                  <Radio value={true}>{t('common.label.enable')}</Radio>
-                  <Radio value={false}>{t('common.label.disable')}</Radio>
-                </Space>
-              </Radio.Group>
-            </Form.Item>
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>

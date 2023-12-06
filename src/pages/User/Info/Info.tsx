@@ -65,6 +65,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
         })
       } else {
         form.resetFields()
+        form.setFieldsValue({enable: true})
       }
     }
   }, [props.user, props.open])

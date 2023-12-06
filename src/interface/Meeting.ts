@@ -30,6 +30,7 @@ export interface MeetingQRDto {
   checkInCode: string
   ticketCode: string;
   ticketName?: string;
+  name?: string;
   purpose?: string;
   ticketStatus: StatusTicketMeeting;
   ticketCustomerStatus: StatusTicketCustomer;

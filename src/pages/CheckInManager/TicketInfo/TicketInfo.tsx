@@ -48,6 +48,7 @@ const TicketInfo: React.FC<Props> = (props) => {
       async (response) => {
         if (response?.status === 200) {
           await message.success(t('common.message.success.save'))
+          setOpenModalCreateCard(false)
         }
       }
     )

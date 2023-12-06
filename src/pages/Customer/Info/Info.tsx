@@ -8,7 +8,6 @@ import DescriptionsItem from 'antd/es/descriptions/Item'
 interface CreateCustomerFormArgs {
   customer?: CustomerDto
   onSave: (customer: CreateCustomerInfo) => void
-  onClose: () => void
 }
 
 const Info: React.FC<CreateCustomerFormArgs> = (props) => {

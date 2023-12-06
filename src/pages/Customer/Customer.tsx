@@ -131,7 +131,7 @@ const Customer = () => {
               width={650}
               onCancel={onClose}
             >
-              <CustomerInfo customer={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
+              <CustomerInfo customer={infoModalData.entitySelected} onSave={onSave} />
             </Modal>
           </Row>
         )}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { MeetingCountDownSectionWrapper } from './styles.ts'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { List, Modal } from 'antd'
+import { List } from 'antd'
 import { MeetingDto } from '~/interface'
 import { MeetingCountDownItem } from './MeetingCountDownItem'
 
@@ -13,11 +13,14 @@ interface Props {
 }
 
 const MeetingCountDownSection: React.FC<Props> = (props) => {
-  const [openModal, setOpenModal] = useState(false)
-  const onOpenModal = () => {
-    setOpenModal(true)
-  }
 
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const onClose = () => {
+    setIsOpenModal(false)
+  }
+  const onOpen = () => {
+    setIsOpenModal(true)
+  }
   const onFinish = (meeting: MeetingDto) => {
     if (props.onFinish) props.onFinish(meeting)
   }
@@ -28,21 +31,14 @@ const MeetingCountDownSection: React.FC<Props> = (props) => {
         <List
           grid={{ gutter: 12 }}
           dataSource={props.data}
-          renderItem={(meeting: MeetingDto) => (
+          renderItem={(meeting: any) => (
             <List.Item>
-              <MeetingCountDownItem onOpenModal={onOpenModal} meeting={meeting} state={props.state} onFinish={onFinish} />
+              <MeetingCountDownItem onOpen={onOpen} onClose={onClose} isOpenModal={isOpenModal} meeting={meeting} state={props.state} onFinish={onFinish} meetingDetail={meeting} />
             </List.Item>
           )}
         />
       </PerfectScrollbar>
-      <Modal open={openModal}
-             closable={false}
-             title={null}
-             footer={null}
-             confirmLoading={true}
-             width={1000}
-             >
-      </Modal>
+
 
     </MeetingCountDownSectionWrapper>
   )

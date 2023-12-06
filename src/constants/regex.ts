@@ -1,9 +1,7 @@
 export const REGEX = {
   PHONE: /(0[3|5|7|8|9])+([0-9]{8})\b/g,
   EMAIL: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-  CODE: /^[a-zA-Z0-9_]{0,10}$/,
-  NAME: /^.{1,50}$/,
-  DESCRIPTION: /^.{0,250}$/
+  CODE: /^[a-zA-Z0-9_]{0,10}$/
 }
 
 export const DATE_TIME = {

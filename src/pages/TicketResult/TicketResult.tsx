@@ -97,7 +97,7 @@ const TicketResult: React.FC<Props> = (props) => {
               label={t('common.field.createdBy')}>{meetingQRDto.createdBy}</DescriptionsItem>
             <DescriptionsItem
               label={t('common.field.room')}>{meetingQRDto.roomName}</DescriptionsItem>
-            <DescriptionsItem label={'Duration'} span={2}>
+            <DescriptionsItem label={t('common.field.duration')} span={2}>
               <Space size={4}>
                 <span>{moment(meetingQRDto.startTime).format('MM Do YYYY, h:mm:ss a')}</span>
                 <span>~</span>

@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Card, CountdownProps, Modal, Tooltip } from 'antd'
-import { MeetingDto, MeetingQRDto } from '~/interface'
+import { Card, CountdownProps, Tooltip } from 'antd'
+import { MeetingDto } from '~/interface'
 import Countdown from 'antd/es/statistic/Countdown'
-import { TicketInfo } from '~/pages/Dashboard/common/TicketInfo'
 
 interface Props {
   meeting: MeetingDto
-  meetingDetail: MeetingQRDto
   onFinish: (meeting: MeetingDto) => void
   state: 'current' | 'future' | 'finish'
-  isOpenModal: boolean
-  onClose: () => void
-  onOpen: () => void
+  onSelected: (meeting: MeetingDto) => void
 }
 
 const MeetingCountDownItem: React.FC<Props> = (props) => {
@@ -38,36 +34,18 @@ const MeetingCountDownItem: React.FC<Props> = (props) => {
   }
 
   return (
-    <div
-      onClick={() => {
-        props.onOpen()
-        }
-      }
+    <Card className={'bg-body'}
     >
-      <Card className={'bg-body'}
-      >
-        <Countdown
-          title={
-            <Tooltip placement='topLeft' title={props.meeting.name} arrow={true}>
+      <Countdown
+        title={
+          <Tooltip placement='topLeft' title={props.meeting.name} arrow={true}>
                       <span
                         className={'w-[120px] truncate block'}>{props.meeting.name}
                       </span>
-            </Tooltip>
-          } value={deadline}
-          onFinish={onFinish} />
-        <Modal open={props.isOpenModal}
-               closable={true}
-               title={null}
-               footer={null}
-               confirmLoading={true}
-               width={1000}
-               onCancel={props.onClose}
-        >
-          <TicketInfo meetingDto={props.meetingDetail}/>
-        </Modal>
-      </Card>
-    </div>
-
+          </Tooltip>
+        } value={deadline}
+        onFinish={onFinish} />
+    </Card>
   )
 }
 

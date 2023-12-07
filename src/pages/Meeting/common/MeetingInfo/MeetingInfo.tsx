@@ -64,6 +64,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
         dispatch(resetMeetingForm())
       }
     }
+    setCurrentStep(0)
   }, [props.id, props.scheduler])
 
   useEffect(() => {
@@ -122,7 +123,8 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       case 1: {
         return getDataParticipants(steps[currentStep].form?.getFieldsValue())
       }
-      default: return {}
+      default:
+        return {}
     }
   }
 

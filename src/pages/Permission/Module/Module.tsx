@@ -41,7 +41,7 @@ const Module: React.FC<ModuleArgs> = (args) => {
   }, [args.module, i18n.language])
 
   useEffect(() => {
-    console.log(args.module)
+
   }, [])
 
   const onEditLabelFeature = (value: string, permissions: PermissionDto[]) => {

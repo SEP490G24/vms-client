@@ -17,13 +17,13 @@ const initOptions: KeycloakInitOptions = {
 const initKeycloak = (onAuthenticatedCallback: any) => {
   // init event token expired => must login again
   keycloak.onTokenExpired = async () => {
-    console.log('Token expired')
+
     await doLogout()
   }
   keycloak.init(initOptions)
     .then((authenticated) => {
       if (!authenticated) {
-        console.log('user is not authenticated..!')
+
       }
       onAuthenticatedCallback()
     })

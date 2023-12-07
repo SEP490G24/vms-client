@@ -56,7 +56,7 @@ const MeetingStatistics = () => {
       sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
     }).then((response) => {
       setTableData({ pageableResponse: response.data, loading: false })
-      console.log('Filter', tableData.pageableResponse)
+
     }).catch(() => {
       setTableData({ ...infoModalData, loading: false })
     })
@@ -70,7 +70,7 @@ const MeetingStatistics = () => {
 
   const onBookMark = (payload: MeetingBookMark) => {
     ticketService.bookmark(payload).then((res) => {
-      console.log(res)
+
     })
   }
 

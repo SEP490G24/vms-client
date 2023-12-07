@@ -32,7 +32,7 @@ const TicketResult: React.FC<Props> = (props) => {
   const [disableBtn, setDisableBtn] = useState(false)
 
   useEffect(() => {
-    console.log(checkInCode)
+
     if (checkInCode) {
       setCheckInCodeState(checkInCode)
       meetingTicketService.findByQRCode(checkInCode).then((response) => {

@@ -36,7 +36,7 @@ const MySite = () => {
       taxCode: mySite?.taxCode,
       phoneNumber: mySite?.phoneNumber,
     })
-    console.log('tec ' + mySite)
+
   }, [mySite])
 
   const onFinish = async (values: any) => {

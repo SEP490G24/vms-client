@@ -35,11 +35,11 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
           siteId: props.device.siteId,
           description: props.device.description,
           enable: props.device.enable,
-          deviceType: props.device.deviceType
+          deviceType: props.device.deviceType,
         })
       } else {
         form.resetFields()
-        form.setFieldsValue({enable: true})
+        form.setFieldsValue({ enable: true })
       }
     }
   }, [props.device, props.open])
@@ -75,7 +75,7 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
         labelAlign='left'
       >
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.code')} name='code'
-                     rules={[{ required: true }]}>
+                   rules={[{ required: true }]}>
           <SharedInput disabled={!!props.device} placeholder={t('common.placeholder.code')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
@@ -110,18 +110,17 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
             placeholder={t('common.placeholder.description')}
           />
         </Form.Item>
-
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.label.enable')} name='enable'
-                   rules={[{ required: true }]}>
-          <Radio.Group name='enable'>
-            <Space>
-              <Radio value={true}>{t('common.label.enable')}</Radio>
-              <Radio value={false}>{t('common.label.disable')}</Radio>
-            </Space>
-          </Radio.Group>
-        </Form.Item>
         {!!props.device &&
           <>
+            <Form.Item style={{ marginBottom: '12px' }} label={t('common.label.enable')} name='enable'
+                       rules={[{ required: true }]}>
+              <Radio.Group name='enable'>
+                <Space>
+                  <Radio value={true}>{t('common.label.enable')}</Radio>
+                  <Radio value={false}>{t('common.label.disable')}</Radio>
+                </Space>
+              </Radio.Group>
+            </Form.Item>
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>

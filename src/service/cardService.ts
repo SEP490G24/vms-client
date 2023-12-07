@@ -31,7 +31,7 @@ const scanCard = async (): Promise<EventSourceObserver> => {
         },
         signal: controller.signal,
         onmessage: (message) => {
-          console.log("tec" + message)
+
           if (message.event === CHECK_IN_EVENT) {
             observer.next(message)
           }

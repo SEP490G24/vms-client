@@ -102,7 +102,8 @@
       "my_site_info": "Set my site information",
       "customer_detail": "Customer Detail",
       "visitorName": "Visitor Name",
-      "action_delete": "Delete"
+      "action_delete": "Delete",
+      "department_name": "Department Name"
     },
     "button": {
       "setting_default": "Set default",

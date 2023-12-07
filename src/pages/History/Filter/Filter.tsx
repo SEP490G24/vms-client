@@ -47,7 +47,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
     args.onFilter({})
   }
   const onFieldsChange = (value: any) => {
-    console.log(value)
+
     if (value) {
       setDisable(false)
     } else {

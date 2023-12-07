@@ -101,7 +101,7 @@ const CheckInManager = () => {
   const onFilter = (filterPayload: CheckInFilterPayload) => {
     setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload(filterPayload)
-    console.log(filterPayload)
+
   }
   const openEdit = (checkInDto: MeetingQRDto) => {
     setInfoModalData({ ...infoModalData, entitySelected: checkInDto, openModal: true })

@@ -32,7 +32,7 @@ const Organization = () => {
       contactPhoneNumber: myOrganization?.contactPhoneNumber,
       enable: myOrganization?.enable
     })
-    console.log('tec ' + myOrganization)
+
   }, [myOrganization])
 
   const onFinish = async (values: any) => {
@@ -61,7 +61,7 @@ const Organization = () => {
 
   const onChaneLogo: UploadProps['onChange'] = async (data) => {
     const url = await toBase64(data.file)
-    console.log(data.file)
+
     form.setFieldsValue({ logo: url })
     setLogo({
       file: data.file as RcFile,

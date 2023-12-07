@@ -100,7 +100,7 @@ const changePassword = async (payload: ChangePasswordPayload) => {
 const importUser = async (rcFile: RcFile, siteId?: string) => {
   const formData = new FormData()
   formData.append('file', rcFile as RcFile)
-  console.log(formData)
+
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.post(USER.IMPORT, formData, { params: siteId })
   return httpService.handleResponseStatus(response)

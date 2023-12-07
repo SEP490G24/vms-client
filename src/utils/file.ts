@@ -1,8 +1,8 @@
 import { UploadFile } from 'antd'
 
 export function baseUploadTemplate(url?: string, name?: string): UploadFile {
-  console.log(name)
-  console.log(url)
+
+
   return {
     uid: '-1',
     name: name ?? 'Image Preview',

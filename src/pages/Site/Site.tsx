@@ -10,7 +10,7 @@ import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { SiteInfoModal } from './Info'
 import { SiteFilter } from './Filter'
 import { SiteTable } from './Table'
-import { SiteFilterPayload, siteService } from '~/service'
+import { departmentService, SiteFilterPayload, siteService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { AuthSection } from '~/auth'
 import { findAllSitesInOrganization } from '~/redux'
@@ -24,7 +24,7 @@ const Site = () => {
   const [infoModalData, setInfoModalData] = useState<InfoModalData<SiteDto>>({
     openModal: false,
     confirmLoading: false,
-    entitySelected: undefined
+    entitySelected: undefined,
   })
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [filterPayload, setFilterPayload] = useState<SiteFilterPayload>({})
@@ -39,12 +39,12 @@ const Site = () => {
     setTableData({ ...tableData, loading: true })
     const payload = {
       ...filterPayload,
-      enable: tableAction.filters?.enable?.[0]
+      enable: tableAction.filters?.enable?.[0],
     } as SiteFilterPayload
     siteService.filter(payload, true, {
       page: (tableAction.pagination?.current ?? 1) - 1,
       size: 10,
-      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order),
     }).then((response) => {
       dispatch(findAllSitesInOrganization() as any)
       setTableData({ pageableResponse: response.data, loading: false })
@@ -56,6 +56,17 @@ const Site = () => {
   const onFilter = (filterPayload: SiteFilterPayload) => {
     setTableAction(resetCurrentPageAction(tableAction))
     setFilterPayload(filterPayload)
+  }
+
+  const onDelete = (siteId: string) => {
+    departmentService.remove(siteId).then((response) => {
+      if (response.status === 200) {
+        message.success(t('common.message.success.delete'))
+        fetchSites()
+      }
+    }).catch(async () => {
+      await message.error(t('common.message.error.delete'))
+    })
   }
 
   const onSave = (payload: any) => {
@@ -110,7 +121,7 @@ const Site = () => {
                       setInfoModalData({
                         ...infoModalData,
                         entitySelected: undefined,
-                        openModal: true
+                        openModal: true,
                       })
                     }}
                   >
@@ -124,7 +135,9 @@ const Site = () => {
                   pageableResponse={tableData.pageableResponse}
                   currentPage={tableAction.pagination?.current}
                   onChangeTable={handleChangeTable}
-                  onEdit={openEdit} />
+                  onEdit={openEdit}
+                  onDelete={onDelete}
+                />
               </Card>
             </Col>
             <SiteInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={750}

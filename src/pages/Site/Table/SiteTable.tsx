@@ -1,11 +1,12 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { PageableResponse, SiteDto } from '~/interface'
+import { DepartmentDto, PageableResponse, SiteDto } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Space, Table, TablePaginationConfig } from 'antd'
 import { SharedStatus } from '~/common'
 import { FilterValue } from 'antd/es/table/interface'
+import { SharedActionDelete } from '~/common/SharedActionDelete'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<SiteDto>
@@ -13,6 +14,7 @@ interface MeetingItemProps {
   currentPage?: number
   loading: boolean
   onEdit: (value: SiteDto) => void
+  onDelete: (id: string) => void
 }
 
 const SiteTable: React.FC<MeetingItemProps> = (props) => {
@@ -28,7 +30,7 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
         total: props.pageableResponse?.totalElements,
         pageSize: props.pageableResponse?.pageable?.pageSize,
         showSizeChanger: false,
-        position: ['bottomCenter']
+        position: ['bottomCenter'],
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
@@ -59,13 +61,22 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
         key='enable'
         filters={[
           { text: t('common.label.enable'), value: true },
-          { text: t('common.label.disable'), value: false }
+          { text: t('common.label.disable'), value: false },
         ]}
         filterMultiple={false}
         render={(enable) => <SharedStatus status={enable} />}
       />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
               render={(value: SiteDto) => moment(value.createdOn).format('L')} />
+      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
+              render={(value: DepartmentDto) =>
+                <>
+                  <SharedActionDelete onDelete={props.onDelete} id={value.id}
+                                      directionIcon={'vertical'} />
+
+                </>
+
+              } />
     </Table>
   )
 }

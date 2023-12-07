@@ -46,7 +46,7 @@ const insert = async (payload: CreateDepartmentInfo) => {
 }
 
 const update = async (id: string, payload: UpdateDepartmentInfo) => {
-  console.log(payload)
+
   httpService.attachTokenToHeader(authService.getToken() as string)
   const response = await httpService.patch(DEPARTMENT.BASE_PATH + `/${id}`, payload)
   return httpService.handleResponseStatus(response)

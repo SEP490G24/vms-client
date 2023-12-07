@@ -18,7 +18,7 @@ const MeetingCountDown: React.FC<Props> = (props) => {
   })
 
   const onFinishCountDown = (meeting: MeetingDto) => {
-    console.log('Meeting End CountDown', meeting)
+
     props.onRefresh()
   }
 

@@ -21,7 +21,7 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
   const [form] = Form.useForm()
 
   useEffect(() => {
-    console.log('tec')
+
     form.resetFields()
     if (props.organization) {
       form.setFieldsValue({
@@ -31,10 +31,6 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
         representative: props.organization.representative,
         enable: props.organization.enable,
         createdOn: props.organization.createdOn,
-      })
-    } else {
-      form.setFieldsValue({
-        enable: true,
       })
     }
   })
@@ -84,6 +80,8 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
         <Form.Item className={'mb-3'} label={t('common.field.representative')} name='representative'>
           <SharedInput placeholder={t('common.placeholder.representative')} />
         </Form.Item>
+        {!!props.organization &&
+          <>
         <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
                    rules={[{ required: true }]}>
           <Radio.Group name='enable'>
@@ -93,8 +91,7 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
             </Space>
           </Radio.Group>
         </Form.Item>
-        {!!props.organization &&
-          <>
+
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>

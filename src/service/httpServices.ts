@@ -74,7 +74,7 @@ class Services {
       const response = await this.axios.get(url, config)
       return this.handleResponse(response, {} as AxiosError, true)
     } catch (error: any) {
-      console.log('error', error)
+
       return this.handleResponse({} as AxiosResponse, error, false)
     }
   }

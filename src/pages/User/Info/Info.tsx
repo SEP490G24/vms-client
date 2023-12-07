@@ -71,6 +71,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
   }, [props.user, props.open])
 
   const onClose = () => {
+    setSiteId('')
     props.onClose()
   }
 

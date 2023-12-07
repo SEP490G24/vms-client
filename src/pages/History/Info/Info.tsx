@@ -57,14 +57,11 @@ const Info: React.FC<HistoryFormArgs> = (props) => {
             rowKey='id'
             style={{width:950}}
             pagination={{
-              //current: props.currentPage,
               total: props.historyDetailTable?.totalElements,
               pageSize: props.historyDetailTable?.pageable?.pageSize,
               showSizeChanger: false,
               position: ['bottomCenter']
             }}
-            // loading={props.loading}
-            // onChange={props.onChangeTable}
             className='vms-table no-bg'
             size='middle'
             bordered

@@ -27,6 +27,7 @@ interface MeetingInfoArgs {
   scheduler?: SchedulerHelpers
   id?: string
   onClose?: () => void
+  onSave?: () => void
 }
 
 const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
@@ -86,7 +87,11 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
   }, [meetingSelected])
 
   const onFinishSchedule = (values: any) => {
-    dispatch(patchMeetingForm({
+    dispatch(patchMeetingForm(getDataSchedule(values)))
+  }
+
+  const getDataSchedule = (values: any) => {
+    return {
       name: values['name'],
       purpose: values['purpose'],
       purposeNote: values['purposeNote'],
@@ -95,19 +100,37 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       siteId: values['siteId'],
       roomId: values['roomId'],
       description: values['description']
-    }))
+    }
   }
 
   const onFinishParticipants = (values: any) => {
-    dispatch(patchMeetingForm({
+    dispatch(patchMeetingForm(getDataParticipants(values)))
+  }
+
+  const getDataParticipants = (values: any) => {
+    return {
       oldCustomers: values['oldCustomers'],
       newCustomers: values['newCustomers']
-    }))
+    }
+  }
+
+  const getOverrideData = (): any => {
+    switch (currentStep) {
+      case 0: {
+        return getDataSchedule(steps[currentStep].form?.getFieldsValue())
+      }
+      case 1: {
+        return getDataParticipants(steps[currentStep].form?.getFieldsValue())
+      }
+      default: return {}
+    }
   }
 
   const onFinish = () => {
+    let overrideData = getOverrideData()
     const payload = {
       ...meetingForm,
+      ...overrideData,
       id: isUpdate ? meetingSelected.id : undefined
     } as CreateMeetingInfo | UpdateMeetingInfo
     const request = isUpdate ? meetingTicketService.update(payload) : meetingTicketService.insert(payload)
@@ -125,6 +148,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
           }
           props.scheduler.onConfirm(event, isUpdate ? 'edit' : 'create')
         }
+        props.onSave && props.onSave()
         onClose()
         message.success(t('common.message.success.save')).then()
       }).catch((error) => {
@@ -163,8 +187,8 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
         let validate = false
         await participantsForm.validateFields({ validateOnly: true }).then(
           () => {
-            validate = true
-            participantsForm.submit()
+            validate = !!(participantsForm.getFieldValue('oldCustomers') || participantsForm.getFieldValue('newCustomers'))
+            validate && participantsForm.submit()
           },
           () => {
             validate = false

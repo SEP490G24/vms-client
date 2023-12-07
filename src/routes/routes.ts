@@ -1,6 +1,8 @@
 import {
+  AuditLog,
   CheckInManager,
-  Customer, DashboardSite,
+  Customer,
+  DashboardSite,
   Department,
   Device,
   Forbidden,
@@ -9,13 +11,14 @@ import {
   MeetingList,
   Organization,
   Permission,
-  Profile, QRCodeManager, Role,
+  Profile,
+  QRCodeManager,
+  Role,
   Room,
   RoomMeetingCalendar,
   Setting,
   Template,
-  TicketResult,
-  AuditLog
+  TicketResult
 } from '~/pages'
 
 import { Agent } from '~/pages/User'
@@ -33,12 +36,15 @@ import {
   PATH_HISTORY,
   PATH_MEETING_CALENDAR,
   PATH_MEETING_ROOM,
-  PATH_MEETING_STATISTIC, PATH_MY_ORGANIZATION, PATH_MY_SITE,
+  PATH_MEETING_STATISTIC,
+  PATH_MY_ORGANIZATION,
+  PATH_MY_SITE,
   PATH_ORGANIZATION,
   PATH_PERMISSION,
   PATH_PROFILE,
-  PATH_QR_CODE_MANAGER, PATH_ROLE,
-  PATH_ROOM,
+  PATH_QR_CODE_MANAGER,
+  PATH_ROLE,
+  PATH_ROOM, PATH_ROOT,
   PATH_SITE,
   PATH_TEMPLATE,
   PATH_TICKET_RESULT,
@@ -47,6 +53,7 @@ import {
 import { PATH_ROLE_MAP } from '~/role'
 import { RouteItem } from '~/interface'
 import { MySite } from '~/pages/MySite'
+import { authService } from '~/service'
 
 export const publicRoutes = [
   {
@@ -163,12 +170,28 @@ export const privateRoutes: RouteItem[] = [
   },
   {
     path: PATH_CHECK_IN_MANAGER,
-    component: CheckInManager
-    // role: PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']
+    component: CheckInManager,
+    role: PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']
   },
   {
     path: PATH_QR_CODE_MANAGER,
-    component: QRCodeManager
-    // role: PATH_ROLE_MAP['PATH_CHECK_IN_MANAGER']
+    component: QRCodeManager,
+    role: PATH_ROLE_MAP['PATH_QR_CODE_MANAGER']
   }
 ]
+
+export const getAcceptedPrivateRoutes = (): RouteItem[] => {
+  const paths = privateRoutes.filter((r) => authService.hasRole(r.role))
+  const [first] = paths
+  if (first) paths.unshift(clonePaths(PATH_ROOT, first))
+  return paths
+}
+
+const clonePaths = (pathUrl: string, routeItem: RouteItem): RouteItem => {
+  return {
+    path: pathUrl,
+    component: routeItem.component,
+    layout: routeItem.layout,
+  }
+}
+

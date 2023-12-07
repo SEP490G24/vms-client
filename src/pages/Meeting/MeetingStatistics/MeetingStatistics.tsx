@@ -69,9 +69,7 @@ const MeetingStatistics = () => {
   }
 
   const onBookMark = (payload: MeetingBookMark) => {
-    ticketService.bookmark(payload).then((res) => {
-
-    })
+    ticketService.bookmark(payload).then(() => {})
   }
 
   const onFilter = (filterPayload: MeetingFilterPayload) => {
@@ -162,6 +160,7 @@ const MeetingStatistics = () => {
             </Col>
             <MeetingInfoModal open={infoModalData.openModal}
                               confirmLoading={infoModalData.confirmLoading} width={750} onClose={onEditClose}
+                              onSave={() => setTableAction(resetCurrentPageAction(tableAction))}
                               id={infoModalData.entitySelected?.id} />
             <MeetingCancelModals
               reasonType={Reason.CANCEL}

@@ -5,20 +5,21 @@ import { SharedButton } from '~/common'
 import { PATH_ROOT } from '~/routes/paths.ts'
 import { authService } from '~/service'
 import { imagePng } from '~/assets'
-import { ForbiddenWrapper } from '~/pages/Error/Forbidden/style.ts'
+import { NotFoundWrapper } from './style.ts'
 import { getAcceptedPrivateRoutes } from '~/routes'
 
-const Forbidden = () => {
+const NotFound = () => {
   const navigate = useNavigate()
+  const acceptedPrivateRoutes = getAcceptedPrivateRoutes()
 
   const { t } = useTranslation()
-  const acceptedPrivateRoutes = getAcceptedPrivateRoutes()
+
   return (
-    <ForbiddenWrapper>
+    <NotFoundWrapper>
       <Result
         // status={403}
         className={'h-full'}
-        title={'Sorry, you are not authorized to access this page.'}
+        title={'Sorry, the page you visited does not exist.'}
         icon={<Image preview={false} width={456} height={456} src={imagePng.forbidden} />}
         extra={
           <Space>
@@ -41,7 +42,7 @@ const Forbidden = () => {
           </Space>
         }
       />
-    </ForbiddenWrapper>
+    </NotFoundWrapper>
   )
 }
-export default Forbidden
+export default NotFound

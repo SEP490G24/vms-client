@@ -85,19 +85,22 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
                                  validateDebounce={1000}
                                  rules={[
                                    { required: true },
+                                   { max: 12 },
+                                   { pattern: REGEX.IDENTIFICATION_NUMBER, message: t('common.error.identificationNumber_valid') },
                                    { validator: (_, value) => validate(_, value, CustomerCheckType.IDENTIFICATION_NUMBER) }
                                  ]}>
-                        <SharedInput placeholder={t('common.placeholder.identificationNumber')} />
+                        <SharedInput placeholder={t('common.placeholder.identificationNumber')} maxLength={12} showCount/>
                       </Form.Item>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.phoneNumber')}
                                  name={[index, 'phoneNumber']}
                                  validateDebounce={1000}
                                  rules={[
                                    { required: true },
+                                   { max: 10 },
                                    { pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid') },
                                    { validator: (_, value) => validate(_, value, CustomerCheckType.PHONE_NUMBER) }
                                  ]}>
-                        <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} />
+                        <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} maxLength={10} showCount/>
                       </Form.Item>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.email')}
                                  name={[index, 'email']}

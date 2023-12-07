@@ -186,7 +186,8 @@
       "code_valid": "Code must has max 10 character and no contain special character",
       "name_valid": "Name must has max 50 character",
       "description_valid": "Description must has max 50 character",
-      "phoneNumber_valid": "Phone number is not valid"
+      "phoneNumber_valid": "Phone number is not valid",
+      "identificationNumber_valid": "Identification number is not valid"
     },
     "tooltip": {
       "business_registration": "*Register JPG, PNG, PDF up to 2MB"

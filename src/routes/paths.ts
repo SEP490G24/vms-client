@@ -1,4 +1,5 @@
-export const PATH_DASHBOARD = '/'
+export const PATH_ROOT = '/'
+export const PATH_DASHBOARD = '/dashboard'
 export const PATH_CONFIGURATION = '/configuration'
 export const PATH_CUSTOMER = '/customer'
 export const PATH_DEPARTMENT = '/department'

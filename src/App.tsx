@@ -1,24 +1,23 @@
 import { Route, Router, Routes } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
-import { AuthLayout, DefaultLayout } from '~/layouts'
+import { DefaultLayout } from '~/layouts'
 import {
   fetchMyOrganization,
   fetchProfile,
   fetchProvince,
-  findAllRoom,
   findAllSitesInOrganization,
   themeSelector,
   useAppSelector
 } from './redux'
-import { privateRoutes, publicRoutes } from './routes'
+import { getAcceptedPrivateRoutes } from './routes'
 import { GlobalStyles, ResetMui } from './themes'
 import { ConfigProvider } from 'antd'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { BrowserHistory, createBrowserHistory } from 'history'
 import { AuthRoute } from '~/auth'
 import { authService } from '~/service'
-import { Forbidden } from '~/pages'
+import { Forbidden, NotFound } from '~/pages'
 import { useDispatch } from 'react-redux'
 import { checkPermission } from '~/utils'
 import { SCOPE_ROLE_MAP } from '~/role'
@@ -39,8 +38,6 @@ function App() {
     if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
       dispatch(findAllSitesInOrganization() as any)
       dispatch(fetchMyOrganization() as any)
-    } else {
-      dispatch(findAllRoom({}) as any)
     }
     dispatch(fetchProfile() as any)
     dispatch(fetchProvince() as any)
@@ -67,6 +64,8 @@ function App() {
     )
   }
 
+  const acceptedPrivateRoutes = getAcceptedPrivateRoutes()
+
   return (
     <ThemeProvider theme={selectedTheme.themes}>
       <GlobalStyles />
@@ -81,47 +80,35 @@ function App() {
           }
         }}
       >
-        <CustomRouter history={history} basename={window.__RUNTIME_CONFIG__.VITE_BASE_PATH}>
-          <Routes>
-            <Route element={<AuthRoute />}>
-              {privateRoutes.map((route, index) => {
-                const Page = route.component
-                const Layout = route.layout || DefaultLayout
-                return (
-                  <Route
-                    path={route.path}
-                    element={
-                      authService.hasRole(route.role) ? (
-                        <Layout>
-                          <Page />
-                        </Layout>
-                      ) : (
-                        <Forbidden />
-                      )
-                    }
-                    key={index}
-                  />
-                )
-              })}
-            </Route>
-            <Route>
-              {publicRoutes.map((route, index) => {
-                const Page = route.component
-                return (
-                  <Route
-                    path={route.path}
-                    element={
-                      <AuthLayout>
-                        <Page />
-                      </AuthLayout>
-                    }
-                    key={index}
-                  />
-                )
-              })}
-            </Route>
-          </Routes>
-        </CustomRouter>
+        {acceptedPrivateRoutes.length == 0 && <Forbidden />}
+        {acceptedPrivateRoutes.length > 0 &&
+          <CustomRouter history={history} basename={window.__RUNTIME_CONFIG__.VITE_BASE_PATH}>
+            <Routes>
+              <Route element={<AuthRoute />}>
+                {acceptedPrivateRoutes.map((route, index) => {
+                  const Page = route.component
+                  const Layout = route.layout || DefaultLayout
+                  return (
+                    <Route
+                      path={route.path}
+                      element={
+                        authService.hasRole(route.role) ? (
+                          <Layout>
+                            <Page />
+                          </Layout>
+                        ) : (
+                          <Forbidden />
+                        )
+                      }
+                      key={index}
+                    />
+                  )
+                })}
+              </Route>
+              <Route path='*' element={<NotFound />} />
+            </Routes>
+          </CustomRouter>
+        }
       </ConfigProvider>
     </ThemeProvider>
   )

@@ -37,7 +37,11 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    siteId && dispatch(findAllRoom({ siteId: [siteId] }) as any)
+    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
+      siteId && dispatch(findAllRoom({ siteId: [siteId] }) as any)
+    } else {
+      dispatch(findAllRoom({}) as any)
+    }
   }, [siteId])
 
   useEffect(() => {

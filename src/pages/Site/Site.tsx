@@ -10,7 +10,7 @@ import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { SiteInfoModal } from './Info'
 import { SiteFilter } from './Filter'
 import { SiteTable } from './Table'
-import { departmentService, SiteFilterPayload, siteService } from '~/service'
+import { SiteFilterPayload, siteService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { AuthSection } from '~/auth'
 import { findAllSitesInOrganization } from '~/redux'
@@ -59,7 +59,7 @@ const Site = () => {
   }
 
   const onDelete = (siteId: string) => {
-    departmentService.remove(siteId).then((response) => {
+    siteService.remove(siteId).then((response) => {
       if (response.status === 200) {
         message.success(t('common.message.success.delete'))
         fetchSites()

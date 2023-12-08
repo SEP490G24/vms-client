@@ -43,7 +43,6 @@ const RoleTable: React.FC<MeetingItemProps> = (props) => {
       <Column title={t('common.field.name')} key='name'
               render={(value: RoleDto) => value.attributes['name']}
       />
-      <Column title={t('common.field.description')} key='site' dataIndex={'description'} />
       <Column title={t('common.field.description')} key='description' dataIndex={'description'} />
       <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
               render={(value: RoleDto) =>

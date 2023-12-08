@@ -84,7 +84,7 @@ const Info: React.FC<InfoDepartmentFormArgs> = (props) => {
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
                    rules={[{ required: true }, { max: 50 }]}>
-          <SharedInput placeholder={t('common.placeholder.department_name')} />
+          <SharedInput placeholder={t('common.placeholder.department_name')} maxLength={50} showCount />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'

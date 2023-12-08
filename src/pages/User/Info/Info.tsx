@@ -99,7 +99,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
       >
         <Form.Item className={'mb-3'} label={t('common.field.username')} name='username'
                    rules={[{ required: true }, { max: 50 }]}>
-          <SharedInput disabled={!!props.user} placeholder={t('common.placeholder.username')} />
+          <SharedInput disabled={!!props.user} placeholder={t('common.placeholder.username')} maxLength={50} showCount />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.name')}>
           <Space className={'w-full'} size={8} classNames={{ item: 'flex-1' }}>

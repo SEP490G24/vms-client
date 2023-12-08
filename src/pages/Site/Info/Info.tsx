@@ -90,7 +90,7 @@ const Info: React.FC<CreateSiteFormArgs> = (props) => {
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.name')} name='name'
                    rules={[{ required: true }, { max: 50 }]}>
-          <SharedInput inputMode={'text'} placeholder={t('common.placeholder.site_name')} />
+          <SharedInput inputMode={'text'} placeholder={t('common.placeholder.site_name')} maxLength={50} showCount/>
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.phoneNumber')} name={'phoneNumber'}
                    rules={[{ required: true }, { pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid') }]}>

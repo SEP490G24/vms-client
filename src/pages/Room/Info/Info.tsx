@@ -87,7 +87,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')} name='name'
                    rules={[{ required: true }, { max: 50 }]}>
-          <SharedInput placeholder={t('common.placeholder.name')} />
+          <SharedInput placeholder={t('common.placeholder.name')} maxLength={50} showCount />
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'

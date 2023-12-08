@@ -22,6 +22,7 @@ interface SharedSelectProps {
   suffixIcon?: any
   disabled?: boolean
   bordered?: boolean
+  dropdownRender?: (menu: React.ReactElement) => React.ReactElement;
 }
 
 export const SharedSelect: React.FC<SharedSelectProps> = memo(
@@ -43,7 +44,8 @@ export const SharedSelect: React.FC<SharedSelectProps> = memo(
      onSelect,
      suffixIcon,
      bordered,
-     disabled
+     disabled,
+    dropdownRender
    }) => {
     return (
       <Select
@@ -65,6 +67,7 @@ export const SharedSelect: React.FC<SharedSelectProps> = memo(
         onSelect={onSelect}
         suffixIcon={suffixIcon}
         disabled={disabled}
+        dropdownRender={dropdownRender}
       />
     )
   }

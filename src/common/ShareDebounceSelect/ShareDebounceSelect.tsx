@@ -1,13 +1,13 @@
-import { useMemo, useRef, useState } from 'react'
-import { SharedSelect } from '..'
-import { debounce } from 'lodash'
-import { Spin } from 'antd'
+import React, {useMemo, useRef, useState} from 'react'
+import {SharedSelect} from '..'
+import {debounce} from 'lodash'
+import {Spin} from 'antd'
+import {OptionItem} from "~/interface";
 
-interface DebounceSelectProps {
-  fetchOptions: (payload?: any) => Promise<any>;
-  debounceTimeout: number,
+interface Props {
+  options?: OptionItem[]
   defaultValue?: string | any
-  onChange?: (value: string) => void
+  onChange?: (value: any) => void
   className?: string
   value?: string
   placeholder?: string
@@ -15,17 +15,23 @@ interface DebounceSelectProps {
   onSearch?: any
   notFoundContent?: any
   showSearch?: boolean
+  maxTagCount?: number
   labelInValue?: boolean
   style?: any
   mode?: 'multiple' | 'tags';
   allowClear?: boolean
   onSelect?: any
   suffixIcon?: any
+  disabled?: boolean
+  bordered?: boolean
+  fetchOptions: (values?: any) => Promise<OptionItem[]>
+  debounceTimeout: number
+  dropdownRender?: (menu: React.ReactElement) => React.ReactElement;
 }
 
-export const DebounceSelect = (props: DebounceSelectProps) => {
+export const DebounceSelect: React.FC<Props> = (props) => {
   const [fetching, setFetching] = useState(false)
-  const [options, setOptions] = useState([])
+  const [options, setOptions] = useState<OptionItem[]>(props.options ?? [])
   const fetchRef = useRef(0)
   const debounceFetcher = useMemo(() => {
     const loadOptions = async (value: any) => {
@@ -43,26 +49,20 @@ export const DebounceSelect = (props: DebounceSelectProps) => {
     }
 
     return debounce(loadOptions, 800)
-  }, [props.debounceTimeout, props.debounceTimeout])
+  }, [props])
 
   return (
     <SharedSelect
       labelInValue
+      maxTagCount={props.maxTagCount}
+      placeholder={props.placeholder}
       showSearch={true}
       filterOption={false}
       options={options}
       onSearch={debounceFetcher}
-      notFoundContent={fetching ? <Spin size='small' /> : null}
-      className={props.className ? props.className + ' vms-select' : 'vms-select'}
-      defaultValue={props.defaultValue}
-      onChange={props.onChange}
-      value={props.value}
-      placeholder={props.placeholder}
-      allowClear={props.allowClear}
-      style={props.style}
-      mode={props.mode}
-      onSelect={props.onSelect}
-      suffixIcon={props.suffixIcon}
+      notFoundContent={fetching ? <Spin size='small'/> : null}
+      dropdownRender={props.dropdownRender}
+      {...props}
     ></SharedSelect>
   )
 }

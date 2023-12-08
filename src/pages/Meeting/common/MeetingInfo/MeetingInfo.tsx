@@ -64,7 +64,6 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
         dispatch(resetMeetingForm())
       }
     }
-    setCurrentStep(0)
   }, [props.id, props.scheduler])
 
   useEffect(() => {
@@ -189,8 +188,8 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
         let validate = false
         await participantsForm.validateFields({ validateOnly: true }).then(
           () => {
-            validate = !!(participantsForm.getFieldValue('oldCustomers') || participantsForm.getFieldValue('newCustomers'))
-            validate && participantsForm.submit()
+            validate = true
+            participantsForm.submit()
           },
           () => {
             validate = false
@@ -237,6 +236,7 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
   const onClose = () => {
     props.onClose && props.onClose()
     props.scheduler && props.scheduler.close()
+    setCurrentStep(0)
     scheduleForm.resetFields()
     participantsForm.resetFields()
     dispatch(resetMeetingForm())

@@ -57,7 +57,7 @@ export interface MeetingFilterPayload {
 }
 
 export interface CancelTicketPayload {
-  reason: string;
+  reasonId: number;
   reasonNote?: string;
   ticketId: string;
 }

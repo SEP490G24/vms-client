@@ -28,7 +28,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const onFinish = (values: any) => {
     const payload: RoomFilterPayload = {
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
+      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.END_DAY),
     }
     if (values?.keyword?.trim()) payload.keyword = values?.keyword?.trim()
     if (siteId) payload.siteId = [siteId]

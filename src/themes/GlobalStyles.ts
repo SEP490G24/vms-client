@@ -18,6 +18,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .vms-table {
+    .ant-table-body,
     .ant-table-content {
       &::-webkit-scrollbar-track {
         border-radius: 4px;

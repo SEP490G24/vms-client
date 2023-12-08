@@ -88,7 +88,7 @@ const MeetingStatistics = () => {
   const onCancelMeeting = (values: any) => {
     const payload = {
       ticketId: cancelModalData.meeting.id,
-      reason: values['reason'],
+      reasonId: values['reasonId'],
       reasonNote: values['reasonNote']
     } as CancelTicketPayload
     meetingTicketService.cancel(payload).then(async () => {
@@ -159,7 +159,7 @@ const MeetingStatistics = () => {
               </Card>
             </Col>
             <MeetingInfoModal open={infoModalData.openModal}
-                              confirmLoading={infoModalData.confirmLoading} width={750} onClose={onEditClose}
+                              confirmLoading={infoModalData.confirmLoading} width={950} onClose={onEditClose}
                               onSave={() => setTableAction(resetCurrentPageAction(tableAction))}
                               id={infoModalData.entitySelected?.id} />
             <MeetingCancelModals

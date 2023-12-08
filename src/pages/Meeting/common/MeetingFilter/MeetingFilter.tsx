@@ -33,7 +33,7 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
       startTimeEnd: valueDateStart?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
       endTimeEnd: valueDateEnd?.date?.['1']?.format(DATE_TIME_HOUR.START_DAY),
       createdOnStart: valueDateCreated?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDateCreated?.date?.['1']?.format(DATE_TIME.START_DAY),
+      createdOnEnd: valueDateCreated?.date?.['1']?.format(DATE_TIME.END_DAY),
       status: values['status'],
       purpose: values['purpose']
     }

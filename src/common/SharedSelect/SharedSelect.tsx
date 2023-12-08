@@ -8,7 +8,7 @@ interface SharedSelectProps {
   defaultValue?: string | any
   onChange?: (value: any) => void
   className?: string
-  value?: string
+  value?: any
   placeholder?: string
   filterOption?: boolean
   onSearch?: any

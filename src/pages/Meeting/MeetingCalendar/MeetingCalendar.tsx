@@ -108,7 +108,7 @@ const MeetingCalendar = () => {
                     hourFormat={'24'}
                     fields={[{ name: 'id', type: 'input' }]}
                     dialogMaxWidth={'xl'}
-                    customEditor={(scheduler) => <MeetingInfoModal open={true} classname={'w-[750px]'}
+                    customEditor={(scheduler) => <MeetingInfoModal open={true} classname={'w-[1150px]'}
                                                                    scheduler={scheduler} />}
                     events={transferTickets()}
                   />

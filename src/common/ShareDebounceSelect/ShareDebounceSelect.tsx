@@ -1,15 +1,15 @@
-import React, {useMemo, useRef, useState} from 'react'
-import {SharedSelect} from '..'
-import {debounce} from 'lodash'
-import {Spin} from 'antd'
-import {OptionItem} from "~/interface";
+import React, { useEffect, useMemo, useState } from 'react'
+import { SharedSelect } from '..'
+import { debounce } from 'lodash'
+import { Spin } from 'antd'
+import { OptionItem } from '~/interface'
 
 interface Props {
   options?: OptionItem[]
   defaultValue?: string | any
   onChange?: (value: any) => void
   className?: string
-  value?: string
+  value?: any
   placeholder?: string
   filterOption?: boolean
   onSearch?: any
@@ -27,22 +27,17 @@ interface Props {
   fetchOptions: (values?: any) => Promise<OptionItem[]>
   debounceTimeout: number
   dropdownRender?: (menu: React.ReactElement) => React.ReactElement;
+  resetOption?: number
 }
 
 export const DebounceSelect: React.FC<Props> = (props) => {
   const [fetching, setFetching] = useState(false)
   const [options, setOptions] = useState<OptionItem[]>(props.options ?? [])
-  const fetchRef = useRef(0)
   const debounceFetcher = useMemo(() => {
     const loadOptions = async (value: any) => {
-      fetchRef.current += 1
-      const fetchId = fetchRef.current
       setOptions([])
       setFetching(true)
       props.fetchOptions(value).then((newOptions: any) => {
-        if (fetchId !== fetchRef.current) {
-          return
-        }
         setOptions(newOptions)
         setFetching(false)
       })
@@ -50,6 +45,10 @@ export const DebounceSelect: React.FC<Props> = (props) => {
 
     return debounce(loadOptions, 800)
   }, [props])
+
+  useEffect(() => {
+    setOptions([])
+  }, [props.resetOption])
 
   return (
     <SharedSelect
@@ -60,7 +59,7 @@ export const DebounceSelect: React.FC<Props> = (props) => {
       filterOption={false}
       options={options}
       onSearch={debounceFetcher}
-      notFoundContent={fetching ? <Spin size='small'/> : null}
+      notFoundContent={fetching ? <Spin size='small' /> : null}
       dropdownRender={props.dropdownRender}
       {...props}
     ></SharedSelect>

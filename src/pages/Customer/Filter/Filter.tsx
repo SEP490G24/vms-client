@@ -25,7 +25,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const onFinish = (values: any) => {
     const payload: CustomerFilterPayload = {
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY),
+      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.END_DAY),
     }
     if (values?.query?.trim()) payload.keyword = values?.query?.trim()
     if (siteId) payload.siteId = siteId

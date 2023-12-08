@@ -194,6 +194,7 @@
     },
     "label": {
       "save": "Save",
+      "add": "Add",
       "table": "Table",
       "kanban": "Kanban",
       "create": "Create",
@@ -290,7 +291,8 @@
       "title-edit": "Meeting Edit",
       "btn-save-draft": "Save Draft",
       "btn-save": "Save",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "customerInfo": "Search customer info by name, identification number, phone number, email"
     }
   },
   "customer": {

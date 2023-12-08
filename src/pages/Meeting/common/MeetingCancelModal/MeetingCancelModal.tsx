@@ -24,6 +24,12 @@ export const MeetingCancelModals: React.FC<MeetingCancelModalProps> = React.memo
     reasonService.findAllByType(props.reasonType).then((response) => setReasons(response.data))
   }, [props.reasonType, i18n.language])
 
+  useEffect(() => {
+    if (props.open) {
+      cancelForm.resetFields()
+    }
+  }, [props.open])
+
   return (
     <SharedModal
       open={props.open}
@@ -35,16 +41,16 @@ export const MeetingCancelModals: React.FC<MeetingCancelModalProps> = React.memo
       </Space>}
       onOk={cancelForm.submit}
       onCancel={props.onClose}>
-      <Form layout={'vertical'} size={'large'}
-            labelCol={{ span: 24 }}
-            wrapperCol={{ span: 24 }}
+      <Form layout={'horizontal'}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
             form={cancelForm}
             initialValues={{ layout: 'horizontal' }}
             style={{ width: '100%' }}
             colon={false}
             onFinish={props.onOk}
             labelAlign='left'>
-        <Form.Item label={t('common.field.reason')} name={'reasonId'} rules={[{ required: true }]}>
+        <Form.Item className={'mb-3'} label={t('common.field.reason')} name={'reasonId'} rules={[{ required: true }]}>
           <SharedSelect className={'w-full'}
                         options={reasons?.map((reason) => {
                           return { label: reason.name, value: reason.id }
@@ -52,7 +58,7 @@ export const MeetingCancelModals: React.FC<MeetingCancelModalProps> = React.memo
                         placeholder={t('common.placeholder.reason')}
           />
         </Form.Item>
-        <Form.Item label={t('common.field.reasonNote')} name={'reasonNote'}>
+        <Form.Item className={'mb-3'} label={t('common.field.reasonNote')} name={'reasonNote'}>
           <SharedInput placeholder={t('common.placeholder.reasonNote')} />
         </Form.Item>
       </Form>

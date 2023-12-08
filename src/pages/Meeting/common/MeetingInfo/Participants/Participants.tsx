@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from 'react'
-import {ParticipantsWrapper} from './styles.ts'
-import {Button, Col, Divider, Form, FormInstance, Row, Space, Table} from 'antd'
+import React, { useEffect, useState } from 'react'
+import { ParticipantsWrapper } from './styles.ts'
+import { Col, Divider, Form, FormInstance, Row, Space, Table } from 'antd'
 
-import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons'
-import {useTranslation} from 'react-i18next'
-import {DebounceSelect, SharedButton, SharedInput, SharedSelect} from '~/common'
-import {useDispatch, useSelector} from 'react-redux'
-import {customersSelector, fetchAllCustomerAvailable} from '~/redux/slices/customerSlice.ts'
-import {CreateMeetingInfo, CustomerCheckType, customerService} from '~/service'
-import {DATE_TIME_COMMON, REGEX} from '~/constants'
-import {RuleObject} from 'antd/es/form/index'
-import Column from "antd/es/table/Column";
-import {CustomerDto, OptionItem} from "~/interface";
-import moment from "moment";
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
+import { DebounceSelect, SharedButton, SharedInput } from '~/common'
+import { CreateMeetingInfo, CustomerCheckType, customerService } from '~/service'
+import { REGEX } from '~/constants'
+import { RuleObject } from 'antd/es/form/index'
+import Column from 'antd/es/table/Column'
+import { CustomerDto, OptionItem } from '~/interface'
+import { useSelector } from 'react-redux'
+import { meetingSelector } from '~/redux'
 
 interface ParticipantsArgs {
   meeting: CreateMeetingInfo
@@ -21,149 +20,175 @@ interface ParticipantsArgs {
 }
 
 const Participants: React.FC<ParticipantsArgs> = (props) => {
-  const {t} = useTranslation()
-  const dispatch = useDispatch()
-  const {customers} = useSelector(customersSelector)
-  const [oldCustomer, setOldCustomer] = useState<CustomerDto[]>([]);
+  const { t } = useTranslation()
+  const { meetingSelected } = useSelector(meetingSelector)
+  const [customerDtos, setCustomerDtos] = useState<CustomerDto[]>([])
+  const [oldCustomers, setOldCustomers] = useState<CustomerDto[]>([])
+  const [oldIds, setOldIds] = useState<OptionItem[]>([])
+  const [lastResetTime, setLastResetTime] = useState(0)
 
   const onFinish = (values: any) => {
     props.onFinish({
-      oldCustomers: values['oldCustomers'],
+      oldCustomers: oldCustomers,
       newCustomers: values['newCustomers']
     })
   }
 
   const validate = async (_: RuleObject, value: string, type: CustomerCheckType) => {
-    await customerService.checkCustomerExist({value, type}).then(() => Promise.resolve())
-      .catch((error) => Promise.reject(new Error(error.data.message)))
+    if (value) {
+      await customerService.checkCustomerExist({ value, type }).then(() => Promise.resolve())
+        .catch((error) => Promise.reject(new Error(error.data.message)))
+    }
   }
 
-  const fetchCustomer = async (): Promise<OptionItem[]> => {
-    const response = await customerService.findCustomerAvailable({})
-    return response.data.map((item: CustomerDto) => {
-      return {label: `${item.visitorName} - ${item.phoneNumber}`, value: item.id}
+  const fetchCustomer = async (keyword: string): Promise<OptionItem[]> => {
+    const response = await customerService.filter({ keyword: keyword })
+    setCustomerDtos(response.data)
+    return convert2OptionItem(response.data)
+  }
+
+  const convert2OptionItem = (customers: CustomerDto[]) => {
+    return customers.map((item) => {
+      return {
+        label: `${item.visitorName} - ${item.phoneNumber}`,
+        value: item.id,
+        disabled: oldCustomers.some((oldCustomer) => oldCustomer.id === item.id)
+      }
     })
   }
 
   const addItem = () => {
-    console.log('Test')
-  };
+    oldIds.forEach((item) => {
+      if (!oldCustomers.some((oldCustomer) => oldCustomer.id === item.value)) {
+        const _customer = customerDtos.find((_) => _.id === item.value)
+        _customer && setOldCustomers((prev) => [...prev, ...[_customer]])
+      }
+    })
+    setLastResetTime(Date.now())
+    setOldIds([])
+  }
 
   useEffect(() => {
-    dispatch(fetchAllCustomerAvailable({}) as any)
-  }, [])
+    setOldCustomers(meetingSelected.customers ?? [])
+  }, [meetingSelected])
 
   return (
     <ParticipantsWrapper>
-      <Table
-        dataSource={oldCustomer}
-        rowKey='id'
-        style={{width: 950, height: 500}}
-        className='vms-table no-bg'
-        size='middle'
-        bordered
-      >
-        <Column
-          title={t('common.field.name')} sorter={true} dataIndex='visitorName' key='visitorName'/>
-        <Column title={t('common.field.identificationNumber')} dataIndex='identificationNumber'
-                key='identificationNumber'/>
-        <Column title={t('common.field.contact_number')} dataIndex='phoneNumber' key='phoneNumber'/>
-        <Column title={t('common.field.email')} dataIndex='email' key='email'/>
-        <Column title={t('common.field.createBy')} dataIndex='createBy' key='createBy'/>
-        <Column title={t('common.field.created_on')} key='createdOn'
-                render={(value: CustomerDto) => moment(value.createdOn).format(DATE_TIME_COMMON.START_DAY)}/>
-      </Table>
+      <Divider orientation={'left'}>Old Customer</Divider>
+      <Space className={'w-full mb-6'} size={30} direction={'vertical'}>
+        <Table
+          dataSource={oldCustomers}
+          rowKey='id'
+          style={{ width: 950 }}
+          scroll={{ y: 205 }}
+          className='vms-table no-bg'
+          pagination={false}
+          size='middle'
+          bordered
+        >
+          <Column
+            title={t('common.field.name')} dataIndex='visitorName' key='visitorName' />
+          <Column title={t('common.field.identificationNumber')} dataIndex='identificationNumber'
+                  key='identificationNumber' />
+          <Column title={t('common.field.contact_number')} dataIndex='phoneNumber' key='phoneNumber' />
+          <Column title={t('common.field.email')} dataIndex='email' key='email' />
+          <Column width={50} key='operation'
+                  render={(_, __, index) => <MinusCircleOutlined
+                    className='dynamic-delete-button'
+                    onClick={() => {
+                      setOldCustomers((prev) => {
+                        prev.splice(index, 1)
+                        return [...prev]
+                      })
+                    }}
+                  />} />
+        </Table>
+        <DebounceSelect
+          mode={'multiple'}
+          className={'w-full'}
+          fetchOptions={fetchCustomer}
+          debounceTimeout={600}
+          placeholder={t('meeting.popup.customerInfo')}
+          value={oldIds}
+          onChange={setOldIds}
+          resetOption={lastResetTime}
+          dropdownRender={(menu) => (
+            <>
+              {menu}
+              <Divider style={{ margin: '8px 0' }} />
+              <div className={'w-full'}>
+                <Space className={'float-right'} style={{ padding: '0 8px 4px' }}>
+                  <SharedButton className={'float-right'} type={'primary'} icon={<PlusOutlined />} onClick={addItem}>
+                    {t('common.label.add')}
+                  </SharedButton>
+                </Space>
+              </div>
+            </>
+          )}
+        />
+      </Space>
       <Form
-        labelCol={{span: 6}}
-        wrapperCol={{span: 18}}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
         layout={'horizontal'}
         form={props.form}
-        initialValues={{layout: 'horizontal'}}
-        style={{width: '100%'}}
+        initialValues={{ layout: 'horizontal' }}
+        style={{ width: '100%' }}
         colon={false}
         onFinish={onFinish}
         labelAlign='left'
       >
-        <Row className={'w-full'} gutter={8} align={'middle'}>
-          <Col span={23}>
-            <Form.Item className={'mb-3'} label={t('common.field.customers')} name={'oldCustomers'} hidden={true}>
-              <SharedSelect mode={'multiple'} allowClear className={'w-full'}
-                            placeholder={t('common.placeholder.roles')}
-                            options={customers.map((customer) => {
-                              return {label: customer.visitorName, value: customer.id}
-                            })}/>
-            </Form.Item>
-            <DebounceSelect
-              mode={'multiple'}
-              className={'w-100'}
-              fetchOptions={fetchCustomer}
-              debounceTimeout={600}
-              placeholder={t('counselingManagement.inquiry.search.counselor.placeholder')}
-              dropdownRender={(menu) => (
-                <>
-                  {menu}
-                  <Divider style={{margin: '8px 0'}}/>
-                  <Space style={{padding: '0 8px 4px'}}>
-                    <Button type="text" icon={<PlusOutlined/>} onClick={addItem}>
-                      Add item
-                    </Button>
-                  </Space>
-                </>
-              )}
-            />
-          </Col>
-        </Row>
         <Form.List
           name='newCustomers'
         >
-          {(fields, {add, remove}, {errors}) => (
+          {(fields, { add, remove }, { errors }) => (
             <>
               <Space className={'w-full'} direction={'vertical'}>
                 {fields.map((field, index) => (
                   <Row key={field.key} className={'w-full'} align={'middle'}>
-                    <Divider orientation={'left'}>Customer</Divider>
+                    <Divider orientation={'left'}>New Customer</Divider>
                     <Col flex={1} key={index}>
-                      <Form.Item style={{marginBottom: '12px'}} label={t('common.field.name')}
+                      <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')}
                                  name={[index, 'visitorName']}
-                                 rules={[{required: true}]}>
-                        <SharedInput placeholder={t('common.placeholder.site_name')}/>
+                                 rules={[{ required: true }]}>
+                        <SharedInput placeholder={t('common.placeholder.site_name')} />
                       </Form.Item>
-                      <Form.Item style={{marginBottom: '12px'}} label={t('common.field.identificationNumber')}
+                      <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.identificationNumber')}
                                  name={[index, 'identificationNumber']}
                                  validateDebounce={1000}
                                  rules={[
-                                   {required: true},
-                                   {max: 12},
+                                   { required: true },
+                                   { max: 12 },
                                    {
                                      pattern: REGEX.IDENTIFICATION_NUMBER,
                                      message: t('common.error.identificationNumber_valid')
                                    },
-                                   {validator: (_, value) => validate(_, value, CustomerCheckType.IDENTIFICATION_NUMBER)}
+                                   { validator: (_, value) => validate(_, value, CustomerCheckType.IDENTIFICATION_NUMBER) }
                                  ]}>
                         <SharedInput placeholder={t('common.placeholder.identificationNumber')} maxLength={12}
-                                     showCount/>
+                                     showCount />
                       </Form.Item>
-                      <Form.Item style={{marginBottom: '12px'}} label={t('common.field.phoneNumber')}
+                      <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.phoneNumber')}
                                  name={[index, 'phoneNumber']}
                                  validateDebounce={1000}
                                  rules={[
-                                   {required: true},
-                                   {max: 10},
-                                   {pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid')},
-                                   {validator: (_, value) => validate(_, value, CustomerCheckType.PHONE_NUMBER)}
+                                   { required: true },
+                                   { max: 10 },
+                                   { pattern: REGEX.PHONE, message: t('common.error.phoneNumber_valid') },
+                                   { validator: (_, value) => validate(_, value, CustomerCheckType.PHONE_NUMBER) }
                                  ]}>
                         <SharedInput inputMode={'tel'} placeholder={t('common.placeholder.phoneNumber')} maxLength={10}
-                                     showCount/>
+                                     showCount />
                       </Form.Item>
-                      <Form.Item style={{marginBottom: '12px'}} label={t('common.field.email')}
+                      <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.email')}
                                  name={[index, 'email']}
                                  validateDebounce={1000}
                                  rules={[
-                                   {required: true},
-                                   {pattern: REGEX.EMAIL, message: t('common.error.email_valid')},
-                                   {validator: (_, value) => validate(_, value, CustomerCheckType.EMAIL)}
+                                   { required: true },
+                                   { pattern: REGEX.EMAIL, message: t('common.error.email_valid') },
+                                   { validator: (_, value) => validate(_, value, CustomerCheckType.EMAIL) }
                                  ]}>
-                        <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')}/>
+                        <SharedInput inputMode={'email'} placeholder={t('common.placeholder.email')} />
                       </Form.Item>
                     </Col>
                     <Col span={1}>
@@ -175,17 +200,17 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
                   </Row>
                 ))}
               </Space>
-              <Divider/>
+              <Divider />
               <SharedButton
                 type='dashed'
                 onClick={() => {
                   add(0)
                 }}
-                icon={<PlusOutlined/>}
+                icon={<PlusOutlined />}
               >
-                Add new customer
+                New customer
               </SharedButton>
-              <Form.ErrorList errors={errors}/>
+              <Form.ErrorList errors={errors} />
             </>
           )
           }

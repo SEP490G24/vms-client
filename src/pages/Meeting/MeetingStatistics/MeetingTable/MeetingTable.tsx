@@ -58,7 +58,6 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       <Column title={t('common.field.participate')} key='participate'
               render={(value: MeetingDto) => value.customers && <>{value.customers.length} people</>} />
       <Column title={t('common.field.room')} dataIndex='roomName' key='roomName' />
-      <Column title={t('common.field.createdBy')} dataIndex='createdBy' key='createdBy' />
       <Column title={t('common.field.duration')} key='duration'
               render={(value: MeetingDto) => <Space direction={'vertical'} size={4}>
                 <strong>{moment(value.startTime).format('DD-MM-YYYY')}</strong>
@@ -74,6 +73,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
               })}
               filterMultiple={true}
       />
+      <Column title={t('common.field.createdBy')} dataIndex='createdBy' key='createdBy' />
       <Column title={t('common.field.created_on')} key='createdOn'
               render={(value: MeetingDto) => moment(value.createdOn).format('L')} />
       <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}

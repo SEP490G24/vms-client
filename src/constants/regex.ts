@@ -6,7 +6,8 @@ export const REGEX = {
 }
 
 export const DATE_TIME = {
-  START_DAY: 'YYYY-MM-DDT00:00:00.000'
+  START_DAY: 'YYYY-MM-DDT00:00:00.000',
+  END_DAY: 'YYYY-MM-DDT59:59:59.999'
 }
 export const DATE_TIME_COMMON = {
   START_DAY: 'DD/MM/YYYY'

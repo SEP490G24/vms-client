@@ -54,7 +54,7 @@ const Info: React.FC<HistoryFormArgs> = (props) => {
                     key='identificationNumber' />
             <Column title={t('common.field.contact_number')} dataIndex='phoneNumber' key='phoneNumber' />
             <Column title={t('common.field.email')} dataIndex='email' key='email' />
-            <Column title={t('common.field.createBy')} dataIndex='createBy' key='createBy' />
+            <Column title={t('common.field.createdBy')} dataIndex='createdBy' key='createdBy' />
             <Column title={t('common.field.created_on')} key='createdOn'
                     render={(value: CustomerDto) => moment(value.createdOn).format(DATE_TIME_COMMON.START_DAY)} />
           </Table>

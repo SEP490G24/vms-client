@@ -21,7 +21,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
     const payload: OrganizationFilterPayload = {
       keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.START_DAY)
+      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.END_DAY)
     }
     args.onFilter(payload)
   }

@@ -1,5 +1,3 @@
-import { CustomerWrapper } from './styles.ts'
-
 import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
 import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
@@ -12,6 +10,7 @@ import { CustomerFilter } from './Filter'
 import { CustomerTable } from './Table'
 import { CustomerFilterPayload, customerService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
+import { PageWrapper } from '~/themes'
 
 const Customer = () => {
   const { t } = useTranslation()
@@ -80,7 +79,7 @@ const Customer = () => {
 
 
   return (
-    <CustomerWrapper>
+    <PageWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
         <Space>
           <h2>{t('customer.title')}</h2>
@@ -136,7 +135,7 @@ const Customer = () => {
           </Row>
         )}
       </Space>
-    </CustomerWrapper>
+    </PageWrapper>
   )
 }
 

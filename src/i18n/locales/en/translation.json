@@ -271,29 +271,11 @@
       }
     }
   },
-  "meeting": {
-    "calendar": {
-      "title": "Meeting Calendar"
-    },
-    "manager": {
-      "title": "Meeting Management",
-      "table": {
-        "title": "Total {{count}} meetings"
-      },
-      "search": {
-        "title": "Search",
-        "counselor": "Meeting",
-        "counselor_placeholder": "Name, Create By, ..."
-      }
-    },
-    "popup": {
-      "title-add": "Create new meeting",
-      "title-edit": "Meeting Edit",
-      "btn-save-draft": "Save Draft",
-      "btn-save": "Save",
-      "confirm": "Confirm",
-      "customerInfo": "Search customer info by name, identification number, phone number, email"
-    }
+  "check-in": {
+    "title": "Check-in Management"
+  },
+  "configuration": {
+    "title": "Configuration Manager"
   },
   "customer": {
     "title": "Customer Management",
@@ -314,6 +296,18 @@
       "title-edit": "Customer Edit",
       "btn-save": "Save",
       "btn-edit": "Save"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard Management",
+    "lastUpdate": "Latest update",
+    "statistic": {
+      "totalTicket": "Total Ticket",
+      "totalTicketCompleted": "Completed",
+      "totalTicketCancel": "Cancel",
+      "totalVisitor": "Total Visitor",
+      "totalVisitorAccept": "Acceptance",
+      "totalVisitorReject": "Rejected"
     }
   },
   "history": {
@@ -337,22 +331,42 @@
       "btn-edit": "Save"
     }
   },
-  "check-in": {
-    "title": "Check-in Management"
-  },
-  "qr-manager": {
-    "title": "QR Code Management"
-  },
-  "dashboard": {
-    "title": "Dashboard Management",
-    "lastUpdate": "Latest update",
-    "statistic": {
-      "totalTicket": "Total Ticket",
-      "totalTicketCompleted": "Completed",
-      "totalTicketCancel": "Cancel",
-      "totalVisitor": "Total Visitor",
-      "totalVisitorAccept": "Acceptance",
-      "totalVisitorReject": "Rejected"
+  "meeting": {
+    "calendar": {
+      "title": "Meeting Calendar"
+    },
+    "manager": {
+      "title": "Meeting Management",
+      "table": {
+        "title": "Total {{count}} meetings"
+      },
+      "search": {
+        "title": "Search",
+        "counselor": "Meeting",
+        "counselor_placeholder": "Name, Create By, ..."
+      }
+    },
+    "popup": {
+      "title-add": "Create new meeting",
+      "title-edit": "Meeting Edit",
+      "btn-save-draft": "Save Draft",
+      "btn-save": "Save",
+      "confirm": "Confirm",
+      "tabs": {
+        "schedule": {
+          "title": "Schedule",
+          "description": "Setup up schedule info"
+        },
+        "participants": {
+          "title": "Participants",
+          "description": "Setup customer participate"
+        },
+        "confirm": {
+          "title": "Confirm",
+          "description": "Confirm info meeting"
+        }
+      },
+      "customerInfo": "Search customer info by name, identification number, phone number, email"
     }
   },
   "organization": {
@@ -572,20 +586,8 @@
       }
     }
   },
-  "configuration": {
-    "title": "Configuration Manager"
-  },
-  "ticket-result": {
-    "cancel-meeting": "Cancel Meeting",
-    "reject-customer": "Reject Customer",
-    "success": {
-      "title": "Successfully Verify QR Server!",
-      "subTitle": "Ticket number: : {{ticketId}}. Please wait 1-5 minutes 1-5 minutes to takes prepare."
-    },
-    "error": {
-      "title": "Failed Verify QR Server!",
-      "subTitle": "Ticket number: : {{ticketId}}. Please contact your appointment for more information."
-    }
+  "qr-manager": {
+    "title": "QR Code Management"
   },
   "sidebar": {
     "home": {
@@ -622,7 +624,6 @@
         "department": "Departments",
         "user": "User",
         "role": "Role",
-        "rule": "Guard Rules",
         "room": "Room",
         "template": "Template",
         "device": "Device"
@@ -633,6 +634,18 @@
       "sub": {
         "audit-log": "Audit Log"
       }
+    }
+  },
+  "ticket-result": {
+    "cancel-meeting": "Cancel Meeting",
+    "reject-customer": "Reject Customer",
+    "success": {
+      "title": "Successfully Verify QR Server!",
+      "subTitle": "Ticket number: : {{ticketId}}. Please wait 1-5 minutes 1-5 minutes to takes prepare."
+    },
+    "error": {
+      "title": "Failed Verify QR Server!",
+      "subTitle": "Ticket number: : {{ticketId}}. Please contact your appointment for more information."
     }
   },
   "user": {

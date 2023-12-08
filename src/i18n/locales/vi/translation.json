@@ -1,49 +1,223 @@
 {
   "common": {
     "field": {
-      "name": "Tên",
-      "id": "Id",
-      "username": "Tên tài khoản",
+      "customers": "Khách hàng",
+      "username": "Tên đăng nhập",
       "gender": "Giới tính",
-      "dob": "Sinh nhật",
+      "reason": "Lý do",
+      "reasonNote": "Ghi chú lý do",
+      "roles": "Vai trò",
+      "role": "Vai trò",
+      "dob": "Ngày sinh",
+      "duration": "Thời lượng",
+      "title": "Tiêu đề",
+      "guest": "Khách",
       "user": "Người dùng",
-      "first_name": "Tên đầu tiên",
-      "last_name": "Họ",
+      "fullName": "Họ và tên",
+      "contact": "Liên hệ",
+      "first_name": "Họ",
+      "last_name": "Tên",
       "password": "Mật khẩu",
-      "verify_password": "Xác nhận lại mật khẩu",
+      "verify_password": "Xác nhận mật khẩu",
       "phoneNumber": "Số điện thoại",
       "email": "E-mail",
-      "used": "Có nên sử dụng không",
-      "registration_date": "Ngày đăng kí",
+      "used": "Đã sử dụng",
+      "status": "Trạng thái",
+      "registration_date": "Ngày đăng ký",
+      "created_by": "Tạo bởi",
+      "created_on": "Tạo vào ngày",
       "modification_date": "Ngày sửa đổi",
+      "action": "Hành động",
       "city": "Thành phố",
       "address": "Địa chỉ",
       "current_password": "Mật khẩu hiện tại",
       "new_password": "Mật khẩu mới",
-      "confirm_password": "Xác nhận mật khẩu"
+      "confirm_password": "Xác nhận mật khẩu",
+      "organization": "Tổ chức",
+      "representative_email": "Email đại diện",
+      "code": "Mã",
+      "suffixCode": "Mã hậu tố",
+      "type": "Loại",
+      "contact_person_in_charge": "Thông tin liên hệ",
+      "contact_phone_number": "Số điện thoại liên hệ",
+      "homepage_address": "Trang chủ",
+      "representativeName": "Tên đại diện",
+      "company_registration_number": "Số đăng ký doanh nghiệp",
+      "business_registration": "Thẻ đăng ký kinh doanh",
+      "brand_introduction": "Giới thiệu thương hiệu",
+      "department": "Bộ phận",
+      "startTime": "Bắt đầu",
+      "draft": "Bản nháp",
+      "endTime": "Kết thúc",
+      "province": "Tỉnh",
+      "district": "Quận",
+      "commune": "Xã",
+      "ward": "Phường",
+      "taxCode": "Mã số thuế",
+      "description": "Mô tả",
+      "room": "Phòng",
+      "room_name": "Tên phòng",
+      "checkInCode": "Mã QR",
+      "participate": "Tham gia",
+      "device": "Thiết bị",
+      "contact_number": "Số điện thoại liên hệ",
+      "subject": "Chủ đề",
+      "body": "Nội dung",
+      "purposeNote": "Ghi chú mục đích",
+      "purpose": "Mục đích",
+      "checkIn_status": "Trạng thái Check In",
+      "identificationNumber": "Số CMND",
+      "name": "Tên",
+      "tax_code": "Mã số thuế",
+      "customer": "Khách hàng",
+      "ticket": "Vé",
+      "site": {
+        "name": "Địa điểm"
+      },
+      "check_in": "Check In",
+      "check_out": "Check Out",
+      "ticket_name": "Tên vé",
+      "ticket_info": "Thông tin vé",
+      "title_meeting": "Tiêu đề Cuộc họp",
+      "visitor_name": "Tên khách",
+      "start_time": "Bắt đầu",
+      "end_time": "Kết thúc",
+      "representative": "Đại diện",
+      "website": "Website",
+      "organization_name": "Tên tổ chức",
+      "site_name": "Tên chi nhánh",
+      "table_name": "Tên bảng",
+      "audit_type": "Loại kiểm toán",
+      "date_time": "Ngày giờ",
+      "view_detail": "Xem chi tiết",
+      "audit_log_Info": "Thông tin Log kiểm toán",
+      "old_value": "Giá trị cũ",
+      "new_value": "Giá trị mới",
+      "ip_device": "Địa chỉ IP thiết bị",
+      "create_card": "Tạo thẻ",
+      "cardId": "ID thẻ",
+      "macIp": "Địa chỉ MAC/IP",
+      "deviceType": "Loại thiết bị",
+      "createdBy": "Được tạo bởi",
+      "my_site_info": "Thiết lập thông tin trang của tôi",
+      "customer_detail": "Chi tiết khách hàng",
+      "visitorName": "Tên khách",
+      "action_delete": "Xóa",
+      "department_name": "Tên bộ phận"
+    },
+    "button": {
+      "setting_default": "Đặt mặc định",
+      "delete": "Xóa"
     },
     "placeholder": {
-      "id": "Vui lòng nhập id.",
+      "id": "Vui lòng nhập ID.",
       "first_name": "Vui lòng nhập tên",
       "last_name": "Vui lòng nhập họ",
-      "username": "Vui lòng nhập tên người dùng",
+      "username": "Vui lòng nhập tên đăng nhập",
       "password": "Vui lòng nhập mật khẩu",
       "email": "Vui lòng nhập địa chỉ email",
-      "verify_password": "Vui lòng nhập xác minh mật khẩu",
-      "dob": "Vui lòng chọn ngày sinh nhật",
+      "roles": "Vui lòng chọn vai trò",
+      "role": "Vui lòng chọn vai trò",
+      "verify_password": "Vui lòng nhập mật khẩu xác nhận",
+      "dob": "Vui lòng chọn ngày sinh",
       "gender": "Vui lòng chọn giới tính",
-      "city": "Vui lòng chọn một thành phố",
+      "reason": "Vui lòng chọn lý do",
+      "reasonNote": "Vui lòng nhập ghi chú lý do",
+      "city": "Vui lòng chọn thành phố",
       "address": "Vui lòng nhập địa chỉ",
-      "phoneNumber": "Vui lòng nhập số điện thoại.",
+      "name": "Vui lòng nhập tên",
+      "macIp": "Vui lòng nhập địa chỉ MAC/IP",
+      "phoneNumber": "Vui lòng nhập số điện thoại",
       "current_password": "Vui lòng nhập mật khẩu hiện tại",
       "new_password": "Vui lòng nhập mật khẩu mới",
-      "confirm_password": "Vui lòng nhập mật khẩu xác nhận"
+      "confirm_password": "Vui lòng nhập xác nhận mật khẩu",
+      "organization": "Vui lòng nhập trong vòng 20 ký tự",
+      "organization_name": "Vui lòng nhập tên tổ chức",
+      "title_meeting": "Vui lòng nhập tiêu đề cuộc họp",
+      "representative_email": "Vui lòng nhập email đại diện của bạn",
+      "code": "Nhập mã ở đây",
+      "suffixCode": "Nhập mã hậu tố ở đây",
+      "checkInCode": "Vui lòng nhập mã QR của bạn",
+      "contact_person_in_charge": "Vui lòng nhập không có “-”",
+      "contactInfo": "Vui lòng nhập thông tin liên hệ qua email",
+      "contact_phone_number": "Nhập số điện thoại liên hệ của bạn ở đây",
+      "homepage_address": "Vui lòng nhập URL trang chủ",
+      "representativeName": "Vui lòng nhập tên đại diện",
+      "company_registration_number": "Ví dụ) 123-45-6789",
+      "brand_introduction": "Vui lòng nhập thông tin giới thiệu thương hiệu",
+      "identificationNumber": "Vui lòng nhập số CMND",
+      "upload": "Chọn hình ảnh",
+      "purposeNote": "Nhập ghi chú mục đích",
+      "purpose": "Chọn mục đích",
+      "device": "Chọn thiết bị",
+      "room": "Chọn phòng",
+      "department": "Vui lòng chọn bộ phận",
+      "deviceType": "Vui lòng chọn loại thiết bị",
+      "site": "Vui lòng chọn chi nhánh",
+      "province": "Vui lòng chọn tỉnh",
+      "district": "Vui lòng chọn quận",
+      "commune": "Vui lòng chọn xã",
+      "ward": "Vui lòng nhập phường",
+      "taxCode": "Vui lòng nhập mã số thuế",
+      "description": "Mô tả",
+      "site_name": "Vui lòng nhập tên chi nhánh",
+      "department_name": "Vui lòng nhập tên bộ phận",
+      "template_name": "Vui lòng nhập tên mẫu",
+      "subject": "Vui lòng nhập chủ đề",
+      "customer": "Vui lòng nhập ID Khách hàng",
+      "ticket": "Vui lòng nhập ID Vé",
+      "type": "Chọn loại",
+      "body": "Nhập nội dung",
+      "role_name": "Vui lòng nhập tên vai trò",
+      "customer_name": "Nhập tên khách hàng",
+      "customer_filer": "Nhập thông tin khách hàng",
+      "website": "Nhập địa chỉ website",
+      "representative": "Nhập đại diện",
+      "keyword": "Nhập từ khóa để tìm kiếm",
+      "ip_device": "Nhập địa chỉ MAC IP của thiết bị",
+      "cardId": "Nhập ID thẻ",
+      "audit_type": "Chọn loại kiểm toán",
+      "status": "Chọn trạng thái",
+      "meeting": "Nhập thông tin cuộc họp"
+    },
+    "error": {
+      "content_is_too_long": "Nội dung quá dài!",
+      "email_valid": "Email không hợp lệ",
+      "code_valid": "Mã phải có tối đa 10 ký tự và không chứa ký tự đặc biệt",
+      "name_valid": "Tên phải có tối đa 50 ký tự",
+      "description_valid": "Mô tả phải có tối đa 50 ký tự",
+      "phoneNumber_valid": "Số điện thoại không hợp lệ",
+      "identificationNumber_valid": "Số CMND không hợp lệ"
+    },
+    "tooltip": {
+      "business_registration": "*Đăng ký JPG, PNG, PDF lên đến 2MB"
     },
     "label": {
-      "save": "Cứu",
+      "save": "Lưu",
+      "add": "Thêm",
+      "table": "Bảng",
+      "kanban": "Kanban",
+      "create": "Tạo",
+      "export_data": "Xuất Dữ Liệu",
+      "import_data": "Nhập Dữ Liệu",
       "close": "Đóng",
       "use": "Sử dụng",
-      "not_use": "Không được sử dụng"
+      "yes": "Có",
+      "no": "Không",
+      "not_use": "Không sử dụng",
+      "enable": "Kích hoạt",
+      "disable": "Tắt",
+      "active": "Hoạt động",
+      "deactivate": "Ngưng hoạt động",
+      "ticketInfo": "Thông tin vé",
+      "reset": "Đặt lại",
+      "search": "Tìm kiếm",
+      "period": "Khoảng thời gian",
+      "scope": "Phạm vi",
+      "action": "Hành động",
+      "audit-log": "Nhật ký kiểm toán",
+      "uploadFile": "Tải lên Tệp",
+      "bookmark": "Đánh dấu"
     },
     "date_range": {
       "start_placeholder": "Bắt đầu",
@@ -51,82 +225,441 @@
     },
     "durationOption": {
       "today": "Hôm nay",
-      "1week": "1 tuần",
-      "1month": "1 tháng",
-      "3months": "3 tháng"
+      "1week": "1 Tuần",
+      "1month": "1 Tháng",
+      "3months": "3 Tháng"
     },
     "user": {
-      "edit_info": "Chỉnh sửa thông tin của tôi",
+      "edit_info": "Chỉnh sửa Thông tin của tôi",
+      "change_password": "Đổi Mật khẩu",
       "logout": "Đăng xuất"
     },
     "message": {
       "success": {
-        "save": "Lưu lại thành công!"
+        "save": "Lưu thành công!",
+        "delete": "Xóa thành công!",
+        "check-in": "Check-in thành công",
+        "refresh": "Làm mới Dữ liệu thành công",
+        "upload": "Tải lên Tệp thành công"
       },
-      "failed": {
-        "save": "Cứu thất bại!"
+      "warning": {
+        "try-again": "Vui lòng thử lại trong vài phút."
       },
-      "error": "Một lỗi không xác định!"
+      "error": {
+        "save": "Lưu thất bại!",
+        "check-in": "Từ chối Check In",
+        "delete": "Xóa thất bại!"
+      },
+      "changePassword": {
+        "success": "Đổi Mật khẩu thành công!",
+        "failed": "Mật khẩu cũ không hợp lệ!",
+        "error": "Đổi mật khẩu thất bại!"
+      },
+      "check-in": {
+        "success": "Khách hàng {{customerName}} đã check in thành công",
+        "reject": "Khách hàng {{customerName}} check-in đã bị từ chối"
+      },
+      "confirm": {
+        "save": {
+          "title": "Lưu công việc",
+          "description": "Bạn có chắc chắn muốn lưu công việc này không?"
+        },
+        "delete": {
+          "title": "Xóa công việc",
+          "description": "Bạn có chắc chắn muốn xóa công việc này không?"
+        }
+      }
+    }
+  },
+  "check-in": {
+    "title": "Quản lý Check-in"
+  },
+  "configuration": {
+    "title": "Quản lý Cấu hình"
+  },
+  "customer": {
+    "title": "Quản lý Khách hàng",
+    "export": {
+      "file_name": "thong_ke_khach_hang_{{time}}"
+    },
+    "search": {
+      "title": "Tìm kiếm",
+      "counselor": "Khách hàng",
+      "counselor_placeholder": "Tên, Số CMND, Số điện thoại, Email"
+    },
+    "table": {
+      "title": "Tổng cộng {{count}} khách hàng",
+      "btn-add": "Tạo mới"
+    },
+    "popup": {
+      "title-add": "Tạo mới khách hàng",
+      "title-edit": "Chỉnh sửa thông tin khách hàng",
+      "btn-save": "Lưu",
+      "btn-edit": "Lưu"
+    }
+  },
+  "dashboard": {
+    "title": "Quản lý Bảng điều khiển",
+    "lastUpdate": "Cập nhật gần đây",
+    "statistic": {
+      "totalTicket": "Tổng số Vé",
+      "totalTicketCompleted": "Đã hoàn thành",
+      "totalTicketCancel": "Hủy bỏ",
+      "totalVisitor": "Tổng số Khách",
+      "totalVisitorAccept": "Chấp nhận",
+      "totalVisitorReject": "Từ chối"
+    }
+  },
+  "history": {
+    "title": "Quản lý Lịch sử",
+    "export": {
+      "file_name": "thong_ke_khach_hang_{{time}}"
+    },
+    "search": {
+      "title": "Tìm kiếm",
+      "counselor": "Khách hàng",
+      "counselor_placeholder": "Tên Khách, Số điện thoại, Tiêu đề Vé"
+    },
+    "table": {
+      "title": "Tổng cộng {{count}} khách hàng",
+      "btn-add": "Tạo mới"
+    },
+    "popup": {
+      "title-add": "Tạo mới khách hàng",
+      "title-edit": "Chỉnh sửa thông tin khách hàng",
+      "btn-save": "Lưu",
+      "btn-edit": "Lưu"
+    }
+  },
+  "meeting": {
+    "calendar": {
+      "title": "Lịch họp"
+    },
+    "manager": {
+      "title": "Quản lý Cuộc họp",
+      "table": {
+        "title": "Tổng cộng {{count}} cuộc họp"
+      },
+      "search": {
+        "title": "Tìm kiếm",
+        "counselor": "Cuộc họp",
+        "counselor_placeholder": "Tên, Tạo bởi, ..."
+      }
+    },
+    "popup": {
+      "title-add": "Tạo mới cuộc họp",
+      "title-edit": "Chỉnh sửa thông tin cuộc họp",
+      "btn-save-draft": "Lưu nháp",
+      "btn-save": "Lưu",
+      "confirmTooltip": "Xác nhận",
+      "tabs": {
+        "schedule": {
+          "title": "Lịch trình",
+          "description": "Thiết lập thông tin lịch họp"
+        },
+        "participants": {
+          "title": "Người tham gia",
+          "description": "Thiết lập thông tin khách hàng"
+        },
+        "confirm": {
+          "title": "Xác nhận",
+          "description": "Xác nhận thông tin cuộc họp"
+        }
+      },
+      "customerInfo": "Tìm kiếm thông tin khách hàng bằng tên, số CMND, số điện thoại, email"
     }
   },
   "organization": {
+    "info": {
+      "title": "Tổ chức của tôi"
+    },
     "user": {
-      "title": "Quản lý người dùng",
+      "title": "Quản lý Người dùng",
+      "export": {
+        "file_name": "thong_ke_nguoi_dung_{{time}}",
+        "file_sample": "thong_ke_nguoi_dung_mau_{{time}}"
+      },
       "search": {
         "title": "Tìm kiếm",
-        "reset": "Cài lại",
-        "search": "Tìm kiếm",
-        "period": "Giai đoạn",
         "counselor": "Người dùng",
-        "counselor_placeholder": "Tên, Số điện thoại, E-mail"
+        "counselor_placeholder": "Tên, Số điện thoại, Email"
       },
       "table": {
-        "title": "Tổng cộng {{count}} mọi người",
+        "title": "Tổng cộng {{count}} người",
         "btn-add": "Đăng ký làm người dùng"
       },
       "popup": {
         "title-add": "Đăng ký làm người dùng",
-        "title-edit": "Chỉnh sửa người dùng",
+        "title-edit": "Chỉnh sửa thông tin người dùng",
         "btn-save": "Đăng ký",
-        "btn-edit": "Cứu"
+        "btn-edit": "Lưu"
+      }
+    },
+    "site": {
+      "title": "Quản lý Chi Nhánh",
+      "export": {
+        "file_name": "thong_ke_dia_diem_{{time}}"
+      },
+      "search": {
+        "title": "Tìm kiếm",
+        "counselor": "Chi Nhánh",
+        "counselor_placeholder": "Tên"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}} chi nhánh"
+      },
+      "popup": {
+        "title-add": "Tạo mới chi nhánh",
+        "title-edit": "Chỉnh sửa thông tin chi nhánh",
+        "btn-save": "Lưu",
+        "btn-edit": "Lưu"
+      }
+    },
+    "department": {
+      "title": "Quản lý Bộ phận",
+      "export": {
+        "file_name": "thong_ke_bo_phan_{{time}}"
+      },
+      "search": {
+        "title": "Tìm kiếm",
+        "counselor": "Bộ phận",
+        "counselor_placeholder": "Mã, Tên"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}} bộ phận"
+      },
+      "popup": {
+        "title-add": "Tạo mới bộ phận",
+        "title-edit": "Chỉnh sửa thông tin bộ phận",
+        "btn-save": "Lưu",
+        "btn-edit": "Lưu"
+      }
+    },
+    "room": {
+      "title": "Quản lý Phòng",
+      "export": {
+        "file_name": "thong_ke_phong_{{time}}"
+      },
+      "search": {
+        "title": "Tìm kiếm",
+        "counselor": "Phòng",
+        "counselor_placeholder": "Mã, Tên"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}} phòng",
+        "btn-add": "Tạo mới"
+      },
+      "popup": {
+        "title-add": "Tạo mới phòng",
+        "title-edit": "Chỉnh sửa thông tin phòng",
+        "btn-save": "Lưu",
+        "btn-edit": "Lưu"
+      }
+    },
+    "history": {
+      "title": "Quản lý Lịch sử",
+      "search": {
+        "title": "Tìm kiếm",
+        "counselor": "Phòng",
+        "counselor_placeholder": "Tên"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}}",
+        "roomName": "Tên phòng",
+        "visitorName": "Tên khách",
+        "check_in": "Check in",
+        "check_out": "Check out"
+      },
+      "popup": {
+        "title-add": "Tạo mới phòng",
+        "title-edit": "Chỉnh sửa thông tin phòng",
+        "btn-save": "Lưu",
+        "btn-edit": "Lưu"
+      },
+      "export": {
+        "file_name": "thong_ke_lich_su_{{time}}"
+      }
+    },
+    "organization": {
+      "title": "Quản lý Tổ chức",
+      "search": {
+        "title": "Tìm kiếm",
+        "counselor": "Tổ chức",
+        "counselor_placeholder": "Nhập thông tin tổ chức"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}}",
+        "roomName": "Tên phòng",
+        "visitorName": "Tên khách",
+        "check_in": "Check in",
+        "check_out": "Check out"
+      },
+      "popup": {
+        "title-add": "Tạo mới tổ chức",
+        "title-edit": "Chỉnh sửa thông tin tổ chức",
+        "btn-save": "Lưu",
+        "btn-edit": "Lưu"
+      }
+    },
+    "template": {
+      "title": "Quản lý Mẫu",
+      "export": {
+        "file_name": "thong_ke_mau_{{time}}"
+      },
+      "search": {
+        "title": "Tìm kiếm",
+        "counselor": "Mẫu",
+        "counselor_placeholder": "Mã, Tên, Chủ đề"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}} mẫu",
+        "btn-add": "Tạo mới"
+      },
+      "popup": {
+        "title-add": "Tạo mới mẫu",
+        "title-edit": "Chỉnh sửa thông tin mẫu",
+        "btn-save": "Lưu",
+        "btn-edit": "Lưu"
+      }
+    },
+    "device": {
+      "title": "Quản lý Thiết bị",
+      "export": {
+        "file_name": "thong_ke_thiet_bi_{{time}}"
+      },
+      "search": {
+        "title": "Tìm kiếm",
+        "counselor": "Thiết bị",
+        "counselor_placeholder": "Tên, Mã, Mac Ip"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}} thiết bị",
+        "btn-add": "Tạo mới"
+      },
+      "popup": {
+        "title-add": "Tạo mới thiết bị",
+        "title-edit": "Chỉnh sửa thông tin thiết bị",
+        "btn-save": "Lưu",
+        "btn-edit": "Lưu"
+      }
+    },
+    "permission": {
+      "title": "Quản lý Quyền hạn",
+      "popup": {
+        "title-add": "Tạo mới vai trò",
+        "btn-save": "Lưu"
+      }
+    },
+    "audit-log": {
+      "title": "Quản lý Nhật ký Kiểm tra",
+      "search": {
+        "title": "Tìm kiếm"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}} nhật ký kiểm tra"
+      },
+      "export": {
+        "file_name": "thong_ke_nhat_ky_kiem_tra_{{time}}"
+      }
+    },
+    "role": {
+      "title": "Quản lý Vai trò",
+      "search": {
+        "title": "Tìm kiếm",
+        "code": "Mã",
+        "code_placeholder": "Vui lòng nhập mã vai trò",
+        "name": "Tên",
+        "name_placeholder": "Vui lòng nhập tên vai trò"
+      },
+      "table": {
+        "title": "Tổng cộng {{count}} vai trò",
+        "btn-add": "Tạo mới"
+      },
+      "popup": {
+        "title-add": "Tạo mới vai trò",
+        "title-edit": "Chỉnh sửa thông tin vai trò",
+        "btn-save": "Lưu",
+        "btn-edit": "Lưu"
+      },
+      "detail": {
+        "title": "Thông tin vai trò"
       }
     }
+  },
+  "qr-manager": {
+    "title": "Quản lý Mã QR"
   },
   "sidebar": {
     "home": {
-      "title": "Trang chủ"
+      "title": "Bảng điều khiển"
     },
     "meeting": {
-      "title": "Yêu câu gặp mặt"
+      "title": "Yêu cầu Họp",
+      "sub": {
+        "calendar": "Lịch",
+        "meetings": "Cuộc họp",
+        "rooms": "Phòng"
+      }
     },
-    "history": {
-      "title": "Lịch sử"
+    "check-in": {
+      "title": "Quản lý Check-in"
+    },
+    "qr-manager": {
+      "title": "Mã QR"
+    },
+    "customer": {
+      "title": "Khách hàng",
+      "sub": {
+        "customer": "Khách hàng",
+        "history": "Lịch sử"
+      }
     },
     "organization": {
-      "title": "Địa điểm",
+      "title": "Tổ chức & Chi nhánh",
       "sub": {
-        "info": "Thông tin cơ bản",
-        "site": "Trang web",
-        "department": "Phòng ban",
+        "info": "Tổ chức của tôi",
+        "my_site_info": "Chi nhánh của tôi",
+        "organization": "Tổ chức",
+        "site": "Chi nhánh",
+        "department": "Bộ phận",
         "user": "Người dùng",
-        "rule": "Quy tắc bảo vệ",
-        "room": "Phòng"
+        "role": "Vai trò",
+        "room": "Phòng",
+        "template": "Mẫu",
+        "device": "Thiết bị"
       }
     },
     "configuration": {
-      "title": "Cấu hình "
+      "title": "Cấu hình ",
+      "sub": {
+        "audit-log": "Nhật ký Kiểm tra"
+      }
+    }
+  },
+  "ticket-result": {
+    "cancel-meeting": "Hủy Cuộc họp",
+    "reject-customer": "Từ chối Khách hàng",
+    "success": {
+      "title": "Xác minh máy chủ QR thành công!",
+      "subTitle": "Số vé: {{ticketId}}. Vui lòng đợi 1-5 phút để chuẩn bị."
+    },
+    "error": {
+      "title": "Xác minh máy chủ QR thất bại!",
+      "subTitle": "Số vé: {{ticketId}}. Vui lòng liên hệ với người hẹn để biết thêm thông tin."
     }
   },
   "user": {
+    "title": "Quản lý Hồ sơ Người dùng",
     "profile": {
-      "label": "Thông tin người dùng",
-      "title": "Thông tin người",
-      "contact_info": "Thông tin liên lạc",
+      "label": "Hồ sơ của tôi",
+      "title": "Thông tin Hồ sơ",
+      "personal_info": "Thông tin cá nhân",
+      "contact_info": "Thông tin liên hệ",
       "address_info": "Thông tin địa chỉ"
     },
     "security": {
-      "label": "Bảo vệ",
-      "change_password": "Đổi mật khẩu"
+      "label": "Bảo mật",
+      "change_password": "Thay đổi Mật khẩu"
     }
   }
 }

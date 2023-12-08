@@ -6,24 +6,24 @@ export const SIDE_BAR_COLLAPSE = {
   MEETING: 'MEETING',
   CUSTOMER: 'CUSTOMER',
   ORGANIZATION: 'ORGANIZATION',
-  CONFIGURATION: 'CONFIGURATION',
+  CONFIGURATION: 'CONFIGURATION'
 }
 
 export const Status = {
   ENABLE: true,
-  DISABLE: false,
+  DISABLE: false
 }
 
 export const durationOption = {
   'TODAY': 'common.durationOption.today',
   '1WEEK': 'common.durationOption.1week',
   '1MONTH': 'common.durationOption.1month',
-  '3MONTHS': 'common.durationOption.3months',
+  '3MONTHS': 'common.durationOption.3months'
 }
 
 export const SortDirection = {
   'ascend': 'asc',
-  'descend': 'desc',
+  'descend': 'desc'
 }
 
 export enum Purpose {
@@ -73,7 +73,8 @@ export enum TemplateVariable {
   staffName,
   staffPhone,
   staffEmail,
-  checkInCode
+  checkInCode,
+  reason
 }
 
 export enum TemplateType {

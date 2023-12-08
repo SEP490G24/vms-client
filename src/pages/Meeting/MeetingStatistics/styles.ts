@@ -1,5 +1,6 @@
 import styled from 'styled-components'
+import { PageWrapper } from '~/themes'
 
-export const MeetingListWrapper = styled.div`
+export const MeetingListWrapper = styled(PageWrapper)`
 
 `

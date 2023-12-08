@@ -79,7 +79,7 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
         <Table
           dataSource={oldCustomers}
           rowKey='id'
-          style={{ width: 950 }}
+          style={{ width: 1050 }}
           scroll={{ y: 205 }}
           className='vms-table no-bg'
           pagination={false}

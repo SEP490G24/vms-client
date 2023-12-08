@@ -40,7 +40,6 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
   const { meetingSelected, meetingForm, loading } = useSelector(meetingSelector)
   const [isUpdate, setIsUpdate] = useState(false)
 
-  const description = 'This is a description.'
   const [currentStep, setCurrentStep] = useState(0)
   const forceUpdated = useForceUpdate()
 
@@ -159,9 +158,9 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
 
   const steps = [
     {
-      title: 'Schedule',
+      title: t('meeting.popup.tabs.schedule.title'),
+      description: t('meeting.popup.tabs.schedule.description'),
       content: <ScheduleMeeting meeting={meetingForm} form={scheduleForm} onFinish={onFinishSchedule} />,
-      description,
       form: scheduleForm,
       onFinish: async () => {
         scheduleForm.submit()
@@ -179,9 +178,9 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       }
     },
     {
-      title: 'Participants',
+      title: t('meeting.popup.tabs.participants.title'),
+      description: t('meeting.popup.tabs.participants.description'),
       content: <Participants meeting={meetingForm} form={participantsForm} onFinish={onFinishParticipants} />,
-      description,
       form: participantsForm,
       onFinish: async () => {
         participantsForm.submit()
@@ -199,9 +198,9 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       }
     },
     {
-      title: 'Confirm',
-      content: <ConfirmResults />,
-      description
+      title: t('meeting.popup.tabs.confirm.title'),
+      description: t('meeting.popup.tabs.confirm.description'),
+      content: <ConfirmResults />
     }
   ]
 

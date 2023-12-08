@@ -31,13 +31,14 @@ const MeetingCalendar = () => {
     if (remoteQuery) {
       fetchMeetings({
         ...filterPayload,
-        createdOnStart: dayjs(remoteQuery.start).format(DATE_TIME.START_DAY),
-        createdOnEnd: dayjs(remoteQuery.end).format(DATE_TIME.START_DAY)
+        startTimeStart: dayjs(remoteQuery.start).format(DATE_TIME.START_DAY),
+        startTimeEnd: dayjs(remoteQuery.end).format(DATE_TIME.END_DAY)
       })
     }
   }, [filterPayload, remoteQuery])
 
   useEffect(() => {
+    console.log(meetingsState.meetings)
   }, [meetingsState.meetings])
 
   const onFilter = (filterPayload: MeetingFilterPayload) => {

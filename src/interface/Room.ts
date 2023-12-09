@@ -7,12 +7,12 @@ export interface RoomDto {
   id: string;
   siteName: string;
   siteId: string;
-  deviceId: number;
   code?: string;
   enable?: boolean;
   description?: string;
   macIp?: string;
-  deviceName?: string
+  deviceId: string;
+  deviceName: string
 }
 
 

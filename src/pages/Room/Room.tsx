@@ -4,7 +4,7 @@ import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from '
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { InfoModalData, RoomDto, TableAction, TableData } from '~/interface'
+import { DeviceDto, InfoModalData, RoomDto, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP, SCOPE_ROLE_MAP } from '~/role'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { RoomFilter } from './Filter'
@@ -14,6 +14,7 @@ import { FilterValue } from 'antd/es/table/interface'
 import { RoomInfoModal } from '~/pages/Room/Info'
 import { findAllRoom } from '~/redux'
 import { useDispatch } from 'react-redux'
+import deviceService from '../../service/deviceService.ts'
 
 
 const Room = () => {
@@ -26,10 +27,18 @@ const Room = () => {
   })
   const [tableAction, setTableAction] = useState<TableAction>({})
   const [filterPayload, setFilterPayload] = useState<RoomFilterPayload>({})
+  const [devices, setDevices] = useState<DeviceDto[]>([])
+  const [isReloadDevices, setIsReloadDevices] = useState(false)
 
   useEffect(() => {
     fetchRooms()
   }, [filterPayload, tableAction])
+
+  useEffect(() => {
+    deviceService.findAll().then((response) => {
+      setDevices(response.data)
+    })
+  }, [isReloadDevices])
 
   const fetchRooms = () => {
     setTableData({ ...tableData, loading: true })
@@ -69,6 +78,7 @@ const Room = () => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
         await message.error(error.data.message)
       })
+    setIsReloadDevices(!isReloadDevices)
   }
 
   const openEdit = (roomDto: RoomDto) => {
@@ -121,7 +131,7 @@ const Room = () => {
                 />
               </Card>
             </Col>
-            <RoomInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
+            <RoomInfoModal devices={devices} onAddDeviceToList={setDevices} open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
                            room={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
           </Row>
         )}

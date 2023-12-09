@@ -10,6 +10,7 @@ import { SCOPE_ROLE_MAP } from '~/role'
 import { AuthSection } from '~/auth'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
+import moment from 'moment'
 
 interface CreateDeviceFormArgs {
   open?: boolean;
@@ -124,9 +125,9 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>
-              <Col span={7}>{props.device.createdOn}</Col>
+              <Col span={7}>{moment(props.device.createdOn).format('DD/MM/YYYY')}</Col>
               <Col span={5}>{t('common.field.modification_date')}</Col>
-              <Col span={6}>{props.device.lastUpdatedOn}</Col>
+              <Col span={6}>{moment(props.device.lastUpdatedOn).format('DD/MM/YYYY')}</Col>
             </Row>
           </>
         }

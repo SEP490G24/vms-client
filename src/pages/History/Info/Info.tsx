@@ -30,7 +30,7 @@ const Info: React.FC<HistoryFormArgs> = (props) => {
           <DescriptionsItem
             label={t('common.field.purpose')}>{meetingQRDto?.purpose}</DescriptionsItem>
           <DescriptionsItem
-            label={t('common.field.createBy')}>{meetingQRDto?.createBy}</DescriptionsItem>
+            label={t('common.field.created_by')}>{meetingQRDto?.createBy}</DescriptionsItem>
           <DescriptionsItem
             label={t('common.field.room')}>{meetingQRDto?.roomName}</DescriptionsItem>
           <DescriptionsItem label={t('common.field.duration')} span={2}>
@@ -55,7 +55,7 @@ const Info: React.FC<HistoryFormArgs> = (props) => {
           <Table
             dataSource={props.historyDetailTable?.content}
             rowKey='id'
-            style={{width:950}}
+            style={{width:1150}}
             pagination={{
               total: props.historyDetailTable?.totalElements,
               pageSize: props.historyDetailTable?.pageable?.pageSize,

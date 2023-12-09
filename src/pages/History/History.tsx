@@ -124,7 +124,7 @@ const History = () => {
               title={null}
               footer={null}
               confirmLoading={infoModalData.confirmLoading}
-              width={1000}
+              width={1200}
               onCancel={onClose}
             >
               <HistoryInfo onClose={function(): void {

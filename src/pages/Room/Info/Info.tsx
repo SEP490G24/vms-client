@@ -1,5 +1,5 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { DeviceDto, RoomDto } from '~/interface'
 import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { CreateRoomInfo } from '~/service'
 import TextArea from 'antd/es/input/TextArea'
 import moment from 'moment'
-import deviceService from '~/service/deviceService.ts'
 import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
 import { AuthSection } from '~/auth'
@@ -19,6 +18,8 @@ interface CreateRoomFormArgs {
   confirmLoading?: boolean;
   width?: number
   room?: RoomDto
+  devices: DeviceDto[]
+  onAddDeviceToList: (listDevice: DeviceDto[]) => void
   onSave: (room: CreateRoomInfo) => void
   onClose: () => void
 }
@@ -26,17 +27,15 @@ interface CreateRoomFormArgs {
 const Info: React.FC<CreateRoomFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const [devices, setDevices] = useState<DeviceDto[]>([])
   const { sites } = useSelector(sitesSelector)
-  useEffect(() => {
-    deviceService.findAll().then((response) => {
-      setDevices(response.data)
-    })
-  }, [props.room, props.open])
+
 
   useEffect(() => {
     if (props.open) {
       if (props.room) {
+        if (props.room.deviceId) {
+          props.onAddDeviceToList([...props.devices, { id: props.room.deviceId, name: props.room.deviceName }])
+        }
         form.setFieldsValue({
           name: props.room.name,
           code: props.room.code,
@@ -56,6 +55,9 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
 
   const onClose = () => {
     form.resetFields()
+    if (props.room?.deviceId) {
+      props.onAddDeviceToList([...props.devices.slice(0, -1)])
+    }
     props.onClose()
   }
 
@@ -103,7 +105,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         </AuthSection>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.device')} name='deviceId'>
           <SharedSelect
-            options={devices.map((room: DeviceDto) => {
+            options={props.devices.map((room: DeviceDto) => {
               return { label: room.name, value: room.id }
             }) ?? []}
             placeholder={t('common.placeholder.device')}
@@ -118,17 +120,17 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
             placeholder={t('common.placeholder.description')}
           />
         </Form.Item>
-        <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
-                   rules={[{ required: true }]}>
-          <Radio.Group name='enable'>
-            <Space>
-              <Radio value={true}>{t('common.label.enable')}</Radio>
-              <Radio value={false}>{t('common.label.disable')}</Radio>
-            </Space>
-          </Radio.Group>
-        </Form.Item>
         {!!props.room &&
           <>
+            <Form.Item className={'mb-3'} label={t('common.field.status')} name='enable'
+                       rules={[{ required: true }]}>
+              <Radio.Group name='enable'>
+                <Space>
+                  <Radio value={true}>{t('common.label.enable')}</Radio>
+                  <Radio value={false}>{t('common.label.disable')}</Radio>
+                </Space>
+              </Radio.Group>
+            </Form.Item>
             <Divider style={{ margin: '10px 0' }} />
             <Row>
               <Col span={6}>{t('common.field.registration_date')}</Col>

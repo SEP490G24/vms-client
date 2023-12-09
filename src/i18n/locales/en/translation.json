@@ -237,6 +237,7 @@
     "message": {
       "success": {
         "save": "Save Successfully!",
+        "bookmark": "Save Bookmark Successfully!",
         "delete": "Delete Successfully!",
         "check-in": "Check-in Success",
         "refresh": "Refresh Data Successfully",
@@ -247,6 +248,7 @@
       },
       "error": {
         "save": "Save failure!",
+        "bookmark": "Save bookmark failure!",
         "check-in": "Check In Reject",
         "delete": "Delete failed!"
       },

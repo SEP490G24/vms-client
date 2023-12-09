@@ -69,7 +69,14 @@ const MeetingStatistics = () => {
   }
 
   const onBookMark = (payload: MeetingBookMark) => {
-    ticketService.bookmark(payload).then(() => {})
+    ticketService.bookmark(payload).then((response) => {
+      console.log(response)
+      if(response.data === false){
+        message.error(t('common.message.error.bookmark'))
+      } else {
+        message.success(t('common.message.success.bookmark'))
+      }
+    })
   }
 
   const onFilter = (filterPayload: MeetingFilterPayload) => {

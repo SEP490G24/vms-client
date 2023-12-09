@@ -125,6 +125,7 @@ const RoomMeetingCalendar = () => {
                         navigation: true
                       }}
                       getRemoteEvents={fetchRemote}
+                      deletable={false}
                       resources={roomResources}
                       resourceViewMode={'tabs'}
                       resourceFields={{
@@ -136,7 +137,7 @@ const RoomMeetingCalendar = () => {
                       }}
                       fields={[{ name: 'id', type: 'input' }, { name: 'roomId', type: 'input' }]}
                       dialogMaxWidth={'xl'}
-                      customEditor={(scheduler) => <MeetingInfoModal open={true} classname={'w-[750px]'}
+                      customEditor={(scheduler) => <MeetingInfoModal open={true} classname={'w-[950px]'}
                                                                      scheduler={scheduler} />}
                     />
                   }

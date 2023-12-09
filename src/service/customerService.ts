@@ -10,9 +10,6 @@ export interface CreateCustomerInfo {
   phoneNumber?: string
   gender?: Gender
   description?: string
-  provinceId?: number
-  districtId?: number
-  communeId?: number
 }
 
 export interface UpdateCustomerInfo {
@@ -22,9 +19,6 @@ export interface UpdateCustomerInfo {
   phoneNumber?: string
   gender?: string
   description?: string
-  provinceId?: string
-  districtId?: string
-  communeId?: string
 }
 
 export interface CustomerFilterPayload {

@@ -22,9 +22,6 @@ const Info: React.FC<CreateCustomerFormArgs> = (props) => {
         identificationNumber: props.customer.identificationNumber,
         phoneNumber: props.customer.phoneNumber,
         email: props.customer.email,
-        provinceId: props.customer.provinceId,
-        districtId: props.customer.districtId,
-        communeId: props.customer.communeId,
         description: props.customer.description,
       })
     }

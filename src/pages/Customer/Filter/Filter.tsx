@@ -41,6 +41,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
         <Space>
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
+            type={'primary'}
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
           >

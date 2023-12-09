@@ -55,20 +55,16 @@ const Info: React.FC<HistoryFormArgs> = (props) => {
           <Table
             dataSource={props.historyDetailTable?.content}
             rowKey='id'
-            style={{width:1150}}
-            pagination={{
-              total: props.historyDetailTable?.totalElements,
-              pageSize: props.historyDetailTable?.pageable?.pageSize,
-              showSizeChanger: false,
-              position: ['bottomCenter']
-            }}
+            style={{ width: 1150 }}
+            scroll={{ y: 300 }}
+            pagination={false}
             className='vms-table no-bg'
             size='middle'
             bordered
           >
             <Column title={t('common.field.room_name')} dataIndex='roomName' key='roomName' />
             <Column title={t('common.field.status')} dataIndex='status' key='status' />
-            <Column title={t('common.field.created_on')} key='createdOn' sorter={true}
+            <Column title={t('common.field.created_on')} key='createdOn'
                     render={(value: HistoryDto) => moment(value.createdOn).format('DD/MM/YYYY HH:mm')} />
           </Table>
         </Space>

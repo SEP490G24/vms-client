@@ -1,13 +1,13 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { HistoryDto, PageableResponse, SiteDto } from '~/interface'
+import { HistoryDto, PageableResponse } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Space, Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 
 interface MeetingItemProps {
-  pageableResponse?: PageableResponse<SiteDto>
+  pageableResponse?: PageableResponse<HistoryDto>
   onChangeTable?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => void
   currentPage?: number
   loading: boolean

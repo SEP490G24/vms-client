@@ -13,6 +13,7 @@ interface MeetingItemProps {
   onEdit: (value: MeetingDto) => void
   onCancelMeeting: (meeting: MeetingDto) => void
   onBookmark: (payload: MeetingBookMark) => void
+  onUnBookmark: (payload: MeetingBookMark) => void
 }
 
 export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
@@ -23,7 +24,7 @@ export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
       className={'bg-body w-full'}
       actions={[
         <EditOutlined key='edit' onClick={() => props.onEdit(props.meeting)} />,
-        <MeetingActions onCancel={props.onCancelMeeting} meeting={props.meeting} onBookMark={props.onBookmark}/>,
+        <MeetingActions onCancel={props.onCancelMeeting} meeting={props.meeting} onBookMark={props.onBookmark} onUnBookMark={props.onUnBookmark}/>,
       ]}
     >
       <Descriptions bordered>

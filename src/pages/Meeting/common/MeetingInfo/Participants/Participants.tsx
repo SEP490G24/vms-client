@@ -79,7 +79,7 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
         <Table
           dataSource={oldCustomers}
           rowKey='id'
-          style={{ width: 1050 }}
+          style={{ width: 850 }}
           scroll={{ y: 205 }}
           className='vms-table no-bg'
           pagination={false}
@@ -97,7 +97,9 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
                     className='dynamic-delete-button'
                     onClick={() => {
                       setOldCustomers((prev) => {
-                        prev.splice(index, 1)
+                        if (prev.length > index) {
+                          prev.splice(index, 1)
+                        }
                         return [...prev]
                       })
                     }}

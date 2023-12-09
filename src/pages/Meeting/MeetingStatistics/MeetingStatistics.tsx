@@ -171,7 +171,7 @@ const MeetingStatistics = () => {
                     pageableResponse={tableData.pageableResponse}
                     loading={tableData.loading}
                     onCancelMeeting={(meeting: MeetingDto) => setCancelModalData({ openModal: true, meeting })}
-                    onEdit={openEdit} onBookmark={onBookMark} />}
+                    onEdit={openEdit} onBookmark={onBookMark} onUnBookmark={onUnBookMark}/>}
               </Card>
             </Col>
             <MeetingInfoModal open={infoModalData.openModal}

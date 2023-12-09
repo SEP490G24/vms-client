@@ -1,6 +1,6 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { DepartmentDto, RoleDto, UserDto } from '~/interface'
+import { DepartmentDto, RoleDto, SiteDto, UserDto } from '~/interface'
 import { Gender } from '~/constants'
 import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
@@ -145,8 +145,8 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'
                      rules={[{ required: true }]}>
-            <SharedSelect options={sites.map((site) => {
-              return { label: site.name, value: site.id, key: site.id }
+            <SharedSelect options={sites.map((site: SiteDto) => {
+              return { label: site.name, value: site.id, disabled: site.enable }
             }) ?? []}
                           onChange={setSiteId}
                           placeholder={t('common.placeholder.site')}></SharedSelect>
@@ -158,7 +158,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
                        rules={[{ required: true }]}>
               <SharedSelect
                 options={departments.map((department) => {
-                  return { label: department.name, value: department.id, key: department.id }
+                  return { label: department.name, value: department.id, disabled: department.enable }
                 }) ?? []}
                 placeholder={t('common.placeholder.department')}></SharedSelect>
             </Form.Item>

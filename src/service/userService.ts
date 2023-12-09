@@ -111,7 +111,7 @@ const importUser = async (rcFile: RcFile, siteId?: string) => {
   formData.append('file', rcFile as RcFile)
   httpService.attachTokenToHeader(authService.getToken() as string)
   httpService.attachAcceptLanguageToHeader()
-  const response = await httpService.post(USER.IMPORT, formData, { params: siteId })
+  const response = await httpService.post(USER.IMPORT, formData, { params: siteId, responseType: 'blob' })
   return httpService.handleResponseStatus(response)
 }
 

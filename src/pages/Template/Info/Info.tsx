@@ -99,7 +99,7 @@ const Info: React.FC<CreateTemplateFormArgs> = (props) => {
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
                      rules={[{ required: true }]}>
             <SharedSelect options={sites.map((site) => {
-              return { label: site.name, value: site.id, key: site.id }
+              return { label: site.name, value: site.id, disabled: site.enable }
             }) ?? []}
                           placeholder={t('common.placeholder.site')}></SharedSelect>
           </Form.Item>

@@ -2,7 +2,7 @@ export interface SiteDto {
   id: string;
   name: string;
   code: string;
-  enable: string;
+  enable: boolean;
   organizationId?: string;
   organizationName: string;
   phoneNumber?: string;

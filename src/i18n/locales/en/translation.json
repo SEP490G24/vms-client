@@ -673,5 +673,15 @@
       "label": "Security",
       "change_password": "Change Password"
     }
+  },
+  "pageResults": {
+    "logout": "Logout",
+    "backToSystem": "Back to system",
+    "forbidden": {
+      "title": "Sorry, you are not authorized to access this page."
+    },
+    "notFound": {
+      "title": "Sorry, the page you visited does not exist.\n"
+    }
   }
 }

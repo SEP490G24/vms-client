@@ -1,4 +1,4 @@
-import { Avatar, ConfigProvider } from 'antd'
+import { Avatar, ConfigProvider, Menu } from 'antd'
 import React, { useEffect, useState } from 'react'
 
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -141,14 +141,17 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed }) => {
         >
           <Avatar size='large' icon={<UserOutlined />} />
         </SideHeader>
-        <SideContent
-          className='h-full bg-inherit text-gray-400 hover:text-gray-300'
-          defaultSelectedKeys={[location.pathname]}
-          defaultOpenKeys={[keyCollapse]}
-          items={menus}
-          mode='inline'
-          inlineCollapsed={collapsed}
-          onSelect={({ key }) => handleSelectedItem(key)} />
+        <SideContent>
+          <Menu
+            className={'bg-inherit text-gray-400 hover:text-gray-300'}
+            defaultSelectedKeys={[location.pathname]}
+            defaultOpenKeys={[keyCollapse]}
+            items={menus}
+            mode='inline'
+            inlineCollapsed={collapsed}
+            onSelect={({ key }) => handleSelectedItem(key)}
+          />
+        </SideContent>
       </SideBarWrapper>
     </ConfigProvider>
   )

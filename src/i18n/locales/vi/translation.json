@@ -230,7 +230,7 @@
       "3months": "3 Tháng"
     },
     "user": {
-      "edit_info": "Chỉnh sửa Thông tin của tôi",
+      "edit_info": "Thông tin của tôi",
       "change_password": "Đổi Mật khẩu",
       "logout": "Đăng xuất"
     },
@@ -671,5 +671,15 @@
       "label": "Bảo mật",
       "change_password": "Thay đổi Mật khẩu"
     }
-  }
+  },
+  "pageResults": {
+		"logout": "Đăng xuất",
+		"backToSystem": "Quay lại hệ thống",
+		"forbidden": {
+			"title": "Xin lỗi, bạn không được phép truy cập trang này."
+		},
+		"notFound": {
+			"title": "Xin lỗi, trang bạn đã truy cập không tồn tại.\n"
+		}
+	}
 }

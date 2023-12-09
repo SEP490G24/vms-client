@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { Layout, Menu } from 'antd'
+import { Layout } from 'antd'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 export const SideBarWrapper = styled(Layout)`
   background-color: ${(props) => props.theme.black};
@@ -12,16 +13,20 @@ export const SideBarWrapper = styled(Layout)`
 export const SideHeader = styled.div`
 `
 
-export const SideContent = styled(Menu)`
+export const SideContent = styled(PerfectScrollbar)`
+  width: 100%;
+  height: calc(100vh - 120px);
+
   &.ant-menu-inline {
     width: 220px;
   }
 
   &.ant-menu-inline-collapsed {
     width: 100px;
+
     .ant-menu-submenu-selected > .ant-menu-submenu-title {
-    background-color: ${(props) => props.theme.sidebar.bg} !important;
-  }
+      background-color: ${(props) => props.theme.sidebar.bg} !important;
+    }
   }
 
   .ant-menu-submenu-title:hover {

@@ -122,7 +122,7 @@ const User = () => {
       .catch(async (error) => {
         switch (error.status) {
           case 406: {
-            message.error("common.message.error.import")
+            message.error(t('common.message.error.import'))
             exportFile(error.data, `${t('organization.user.export.report_error_name', { time: Date.now() })}.xlsx`)
             break
           }

@@ -43,6 +43,7 @@ const Info: React.FC<HistoryFormArgs> = (props) => {
           <Table
             dataSource={props.meetingDto?.customers}
             rowKey='id'
+            pagination={false}
             style={{ width: 950}}
             scroll={{y: 300}}
             className='vms-table no-bg'

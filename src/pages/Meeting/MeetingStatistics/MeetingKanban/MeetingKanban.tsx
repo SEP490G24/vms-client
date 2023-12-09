@@ -10,6 +10,7 @@ interface MeetingItemProps {
   onEdit: (value: MeetingDto) => void
   onCancelMeeting: (meeting: MeetingDto) => void
   onBookmark: (payload: MeetingBookMark) => void
+  onUnBookmark: (payload: MeetingBookMark) => void
 }
 
 const MeetingKanban: React.FC<MeetingItemProps> = (props) => {
@@ -22,7 +23,8 @@ const MeetingKanban: React.FC<MeetingItemProps> = (props) => {
         {props.pageableResponse?.content?.map(meeting => <MeetingItem meeting={meeting}
                                                                       onCancelMeeting={props.onCancelMeeting}
                                                                       onEdit={props.onEdit}
-                                                                      onBookmark={props.onBookmark} />)}
+                                                                      onBookmark={props.onBookmark}
+                                                                      onUnBookmark={props.onBookmark} />)}
       </div>
     </Spin>
     // <List

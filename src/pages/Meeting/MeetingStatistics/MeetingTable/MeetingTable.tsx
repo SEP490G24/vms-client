@@ -18,6 +18,7 @@ interface MeetingItemProps {
   onCancelMeeting: (meeting: MeetingDto) => void
   onEdit: (value: MeetingDto) => void
   onBookmark: (payload: MeetingBookMark) => void
+  onUnBookmark: (payload: MeetingBookMark) => void
 }
 
 const MeetingTable: React.FC<MeetingItemProps> = (props) => {
@@ -80,7 +81,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: MeetingDto) =>
                 <>
                   <MeetingActions onCancel={props.onCancelMeeting} meeting={value}
-                                  directionIcon={'vertical'} onBookMark={props.onBookmark}/>
+                                  directionIcon={'vertical'} onBookMark={props.onBookmark} onUnBookMark={props.onUnBookmark}/>
 
                 </>
 

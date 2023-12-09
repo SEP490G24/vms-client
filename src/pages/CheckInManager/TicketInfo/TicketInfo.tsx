@@ -91,7 +91,7 @@ const TicketInfo: React.FC<Props> = (props) => {
           <DescriptionsItem
             label={t('common.field.purpose')}>{props.meetingQRDto.purpose}</DescriptionsItem>
           <DescriptionsItem
-            label={t('common.field.createdBy')}>{props.meetingQRDto.createdBy}</DescriptionsItem>
+            label={t('common.field.createdBy')}>{props.meetingQRDto.createBy}</DescriptionsItem>
           <DescriptionsItem
             label={t('common.field.room')}>{props.meetingQRDto.roomName}</DescriptionsItem>
           <DescriptionsItem label={t('common.field.duration')} span={2}>

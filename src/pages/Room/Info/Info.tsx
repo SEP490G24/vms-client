@@ -19,7 +19,7 @@ interface CreateRoomFormArgs {
   width?: number
   room?: RoomDto
   devices: DeviceDto[]
-  onAddDeviceToList: (listDevice: DeviceDto[]) => void
+  setDevices: (listDevice: DeviceDto[]) => void
   onSave: (room: CreateRoomInfo) => void
   onClose: () => void
 }
@@ -30,11 +30,12 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
   const { sites } = useSelector(sitesSelector)
 
 
+
   useEffect(() => {
     if (props.open) {
       if (props.room) {
         if (props.room.deviceId) {
-          props.onAddDeviceToList([...props.devices, { id: props.room.deviceId, name: props.room.deviceName }])
+          props.setDevices([...props.devices, { id: props.room.deviceId, name: props.room.deviceName }])
         }
         form.setFieldsValue({
           name: props.room.name,
@@ -56,7 +57,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
   const onClose = () => {
     form.resetFields()
     if (props.room?.deviceId) {
-      props.onAddDeviceToList([...props.devices.slice(0, -1)])
+      props.setDevices([...props.devices.slice(0, -1)])
     }
     props.onClose()
   }

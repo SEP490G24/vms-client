@@ -217,7 +217,9 @@
       "action": "Action",
       "audit-log": "Audit Log",
       "uploadFile": "Upload File",
-      "bookmark": "Bookmark"
+      "bookmark": "Bookmark",
+      "unbookmark": "UnBookmark",
+      "cancel_meeting": "Cancel Meeting"
     },
     "date_range": {
       "start_placeholder": "Start Time",

@@ -131,7 +131,7 @@ const Room = () => {
                 />
               </Card>
             </Col>
-            <RoomInfoModal devices={devices} onAddDeviceToList={setDevices} open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
+            <RoomInfoModal devices={devices} setDevices={setDevices} open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
                            room={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
           </Row>
         )}

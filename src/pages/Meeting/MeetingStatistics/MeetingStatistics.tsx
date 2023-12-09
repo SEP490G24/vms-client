@@ -70,7 +70,16 @@ const MeetingStatistics = () => {
 
   const onBookMark = (payload: MeetingBookMark) => {
     ticketService.bookmark(payload).then((response) => {
-      console.log(response)
+      if(response.data === false){
+        message.error(t('common.message.error.bookmark'))
+      } else {
+        message.success(t('common.message.success.bookmark'))
+      }
+    })
+  }
+
+  const onUnBookMark = (payload: MeetingBookMark) => {
+    ticketService.bookmark(payload).then((response) => {
       if(response.data === false){
         message.error(t('common.message.error.bookmark'))
       } else {
@@ -157,7 +166,7 @@ const MeetingStatistics = () => {
                     currentPage={tableAction.pagination?.current}
                     loading={tableData.loading}
                     onCancelMeeting={(meeting: MeetingDto) => setCancelModalData({ openModal: true, meeting })}
-                    onChangeTable={handleChangeTable} onEdit={openEdit} onBookmark={onBookMark} /> :
+                    onChangeTable={handleChangeTable} onEdit={openEdit} onBookmark={onBookMark} onUnBookmark={onUnBookMark} /> :
                   <MeetingKanban
                     pageableResponse={tableData.pageableResponse}
                     loading={tableData.loading}

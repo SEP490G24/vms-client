@@ -20,7 +20,6 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
   const [valueDateStart, setValueDateStart] = useState<DateRadioRange>()
   const [valueDateEnd, setValueDateEnd] = useState<DateRadioRange>()
   const [valueDateCreated, setValueDateCreated] = useState<DateRadioRange>()
-  const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
 
 
@@ -46,11 +45,6 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
     setValueDateEnd(undefined)
     form.resetFields()
     props.onFilter({})
-    setDisable(true)
-  }
-
-  const onFieldsChange = () => {
-    setDisable(false)
   }
 
   return (
@@ -64,7 +58,6 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             type={'primary'}
             onClick={form.submit}
-            disabled={disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -83,7 +76,6 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
-        onFieldsChange={onFieldsChange}
       >
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && <SharedFilterScope />}
         <Form.Item

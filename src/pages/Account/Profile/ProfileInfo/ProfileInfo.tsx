@@ -24,7 +24,6 @@ const ProfileInfo: React.FC<Props> = (props) => {
 
   let provinceId = Form.useWatch('provinceId', form)
   let districtId = Form.useWatch('districtId', form)
-  let dateOfBirth = Form.useWatch('dateOfBirth', form)
 
   let { communes, districts, provinces } = useLocation(provinceId, districtId)
 
@@ -103,7 +102,8 @@ const ProfileInfo: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item label={t('common.field.dob')} name={'dateOfBirth'}>
                   <SharedDatePicker className={'w-full'} placeholder={t('common.placeholder.dob')}
-                                    defaultValue={dayjs(dateOfBirth)}
+                                    defaultValue={dayjs(profile?.dateOfBirth)}
+                                    disabledDate={(current) => current > dayjs().endOf('date')}
                                     onChangeDate={onDateOfBirthChange}></SharedDatePicker>
                 </Form.Item>
               </div>

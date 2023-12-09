@@ -20,7 +20,6 @@ const Filter: React.FC<FilterArgs> = (props) => {
   const [form] = Form.useForm()
   const [valueDateStart, setValueDateStart] = useState<DateRadioRange>()
   const [valueDateEnd, setValueDateEnd] = useState<DateRadioRange>()
-  const [disable, setDisable] = useState<boolean>(true)
   const { sites } = useSelector(sitesSelector)
   const onFinish = (values: any) => {
     const payload: CheckInFilterPayload = {
@@ -33,18 +32,10 @@ const Filter: React.FC<FilterArgs> = (props) => {
     }
     props.onFilter(payload)
   }
-  const onFieldsChange = (value: any) => {
-    if (value){
-      setDisable(false);
-    } else {
-      setDisable(true)
-    }
-  }
 
   const onReset = () => {
     setValueDateStart(undefined)
     setValueDateEnd(undefined)
-    setDisable(true)
     form.resetFields()
     props.onFilter({})
   }
@@ -59,7 +50,6 @@ const Filter: React.FC<FilterArgs> = (props) => {
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             type={'primary'}
             onClick={form.submit}
-            disabled = {disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -78,7 +68,6 @@ const Filter: React.FC<FilterArgs> = (props) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
-        onFieldsChange={onFieldsChange}
       >
         <Form.Item className={'mb-3'} label={t('common.field.customer')} name='keyword'>
           <SharedInput

@@ -85,10 +85,11 @@ const User = () => {
     setExportEx(true)
     userService.exportUser(filterPayload).then((response) => {
       if (response.data) {
+        message.success(t('common.message.success.export'))
         exportFile(response.data, `${t('organization.user.export.file_name', { time: Date.now() })}.xlsx`)
       }
-    })
-    setExportEx(false)
+    }).catch((error) => message.error(error.data.message))
+      .finally(() => setExportEx(false))
   }
 
   const downloadSample = async () => {
@@ -96,7 +97,7 @@ const User = () => {
       if (response.data) {
         exportFile(response.data, `${t('organization.user.export.file_sample', { time: Date.now() })}.xlsx`)
       }
-    })
+    }).catch((error) => message.error(error.data.message))
   }
 
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
@@ -119,9 +120,19 @@ const User = () => {
       await message.success(t('common.message.success.upload'))
     })
       .catch(async (error) => {
+        switch (error.status) {
+          case 406: {
+            message.error("common.message.error.import")
+            exportFile(error.data, `${t('organization.user.export.report_error_name', { time: Date.now() })}.xlsx`)
+            break
+          }
+          case 500: {
+            await message.error(error.data.message)
+            break
+          }
+        }
         setUploadModalData({ ...uploadModalData, confirmLoading: false })
-        await message.error(error.data.message)
-      })
+      }).finally(() => setExportEx(false))
   }
 
   return (
@@ -146,9 +157,11 @@ const User = () => {
                       {t('common.label.export_data')}
                     </SharedButton>
                   </Spin>
-                  <SharedButton icon={<UploadOutlined />} onClick={openUploadModal}>
-                    {t('common.label.import_data')}
-                  </SharedButton>
+                  <Spin spinning={exportEx}>
+                    <SharedButton icon={<UploadOutlined />} onClick={openUploadModal}>
+                      {t('common.label.import_data')}
+                    </SharedButton>
+                  </Spin>
                   <SharedButton
                     permissions={PERMISSION_ROLE_MAP.R_USER_CREATE}
                     type={'primary'}

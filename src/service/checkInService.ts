@@ -38,6 +38,7 @@ export interface CheckInFilterPayload {
 
 const filter = async (payload: CheckInFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(CHECKIN.FILTER, payload, {
     params: {
       isPageable,

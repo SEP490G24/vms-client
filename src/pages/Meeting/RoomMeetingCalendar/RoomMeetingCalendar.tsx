@@ -87,7 +87,7 @@ const RoomMeetingCalendar = () => {
     <RoomMeetingCalendarWrapper>
       <Space direction='vertical' size={24} className={'w-full'}>
         <Space className={'w-full justify-between'}>
-          <h2>{t('meeting.calendar.title')}</h2>
+          <h2>{t('meeting.rooms.title')}</h2>
         </Space>
         <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FILTER}>
           <Row gutter={24} wrap={false}>
@@ -111,16 +111,16 @@ const RoomMeetingCalendar = () => {
                         } as ProcessedEvent
                       })}
                       day={{
-                        startHour: 3,
-                        endHour: 23,
+                        startHour: 8,
+                        endHour: 24,
                         step: 60,
                         navigation: true
                       }}
                       week={{
                         weekDays: [0, 1, 2, 3, 4, 5],
                         weekStartOn: 6,
-                        startHour: 3,
-                        endHour: 23,
+                        startHour: 8,
+                        endHour: 24,
                         step: 60,
                         navigation: true
                       }}

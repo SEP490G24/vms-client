@@ -1,5 +1,5 @@
 import { Card, Form, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton, SharedFilterPeriod, SharedFilterScope, SharedInput } from '~/common'
 import { DateRadioRange } from '~/interface'
@@ -16,14 +16,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
-  const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
   const [siteId, setSiteId] = useState<string>('')
-
-  useEffect(() => {
-    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim() || siteId) setDisable(false)
-    else setDisable(true)
-  }, [valueDate,keyword,siteId])
 
   const onFinish = (values: any) => {
     const payload: RoomFilterPayload = {
@@ -50,7 +44,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
           <SharedButton
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
-            disabled={disable}
             type={'primary'}
           >
             {t('common.label.search')}

@@ -31,8 +31,8 @@ const Info: React.FC<RoleInfoFormArgs> = (props) => {
       if (props.role) {
         form.setFieldsValue({
           code: props.role.code,
-          name: props.role.attributes['name'],
-          siteId: props.role.attributes['site_id'],
+          name: props.role.attributes['name'][0],
+          siteId: props.role.attributes['site_id'][0],
           description: props.role.description
         })
       } else {

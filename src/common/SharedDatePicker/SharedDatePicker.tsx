@@ -9,6 +9,7 @@ interface SharedDatePickerProps {
   className?: string
   placeholder?: string
   name?: string
+  disabledDate?: (date: Dayjs) => boolean;
   format?: string
   defaultValue?: Dayjs | undefined
   style?: any
@@ -16,7 +17,7 @@ interface SharedDatePickerProps {
 }
 
 export const SharedDatePicker: React.FC<SharedDatePickerProps> = memo(
-  ({ onChangeDate, value, className, name, format, defaultValue,style,showTime }) => {
+  ({ onChangeDate, value, className, name, format, disabledDate, defaultValue,style,showTime }) => {
 
     const [valueDate, setValueDate] = useState(value)
 
@@ -35,6 +36,7 @@ export const SharedDatePicker: React.FC<SharedDatePickerProps> = memo(
           name={name}
           format={format}
           defaultValue={defaultValue}
+          disabledDate={disabledDate}
           style={style}
           showTime={showTime}
         />

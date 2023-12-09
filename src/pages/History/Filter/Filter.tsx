@@ -19,7 +19,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [valueDateCheckIn, setValueDateCheckIn] = useState<DateRadioRange>()
   const [valueDateCheckOut, setValueDateCheckOut] = useState<DateRadioRange>()
   const [sites, setSites] = useState<SiteDto[]>([])
-  const [disable, setDisable] = useState<boolean>(true)
 
   useEffect(() => {
     siteService.findAllByOrganization().then((response) => {
@@ -42,19 +41,9 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const onReset = () => {
     setValueDateCheckIn(undefined)
     setValueDateCheckOut(undefined)
-    setDisable(true)
     form.resetFields()
     args.onFilter({})
   }
-  const onFieldsChange = (value: any) => {
-
-    if (value) {
-      setDisable(false)
-    } else {
-      setDisable(true)
-    }
-  }
-
 
   return (
     <Card
@@ -66,7 +55,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             type={'primary'}
             onClick={form.submit}
-            disabled={disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -85,7 +73,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
-        onFieldsChange={onFieldsChange}
       >
         <Form.Item className={'mb-3'} label={t('common.field.name')} name='keyword'>
           <SharedInput

@@ -91,16 +91,16 @@ const MeetingCalendar = () => {
                 <Card>
                   <Scheduler
                     day={{
-                      startHour: 3,
-                      endHour: 23,
+                      startHour: 8,
+                      endHour: 24,
                       step: 60,
                       navigation: true
                     }}
                     week={{
-                      weekDays: [0, 1, 2, 3, 4, 5],
+                      weekDays: [0, 1, 2, 3, 4, 5, 6],
                       weekStartOn: 6,
-                      startHour: 3,
-                      endHour: 23,
+                      startHour: 8,
+                      endHour: 24,
                       step: 60,
                       navigation: true
                     }}

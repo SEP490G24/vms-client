@@ -1,5 +1,3 @@
-import { DeviceWrapper } from './styles.ts'
-
 import { Card, Col, Divider, message, Row, Space } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,6 +9,7 @@ import { DeviceInfoModal } from './Info'
 import { DeviceFilter } from './Filter'
 import { DeviceFilterPayload, deviceService } from '~/service'
 import { DeviceTable } from '~/pages/Device/Table'
+import { PageWrapper } from '~/themes'
 
 const Device = () => {
 
@@ -78,7 +77,7 @@ const Device = () => {
   }
 
   return (
-    <DeviceWrapper>
+    <PageWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
         <Space>
           <h2>{t('organization.device.title')}</h2>
@@ -117,7 +116,7 @@ const Device = () => {
           </Row>
         )}
       </Space>
-    </DeviceWrapper>
+    </PageWrapper>
   )
 }
 

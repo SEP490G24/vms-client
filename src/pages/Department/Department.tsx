@@ -1,5 +1,3 @@
-import { DepartmentWrapper } from './styles.ts'
-
 import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +11,7 @@ import { DepartmentTable } from './Table'
 import { DepartmentFilterPayload, departmentService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { AuthSection } from '~/auth'
+import { PageWrapper } from '~/themes'
 
 const Department = () => {
 
@@ -92,7 +91,7 @@ const Department = () => {
   }
 
   return (
-    <DepartmentWrapper>
+    <PageWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
         <Space>
           <h2>{t('organization.department.title')}</h2>
@@ -137,7 +136,7 @@ const Department = () => {
           </Row>
         </AuthSection>
       </Space>
-    </DepartmentWrapper>
+    </PageWrapper>
   )
 }
 

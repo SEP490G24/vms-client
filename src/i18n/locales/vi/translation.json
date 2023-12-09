@@ -46,9 +46,9 @@
       "business_registration": "Thẻ đăng ký kinh doanh",
       "brand_introduction": "Giới thiệu thương hiệu",
       "department": "Bộ phận",
-      "startTime": "Bắt đầu",
+      "startTime": "Thời gian bắt đầu",
       "draft": "Bản nháp",
-      "endTime": "Kết thúc",
+      "endTime": "Thời gian kết thúc",
       "province": "Tỉnh",
       "district": "Quận",
       "commune": "Xã",
@@ -80,8 +80,8 @@
       "ticket_info": "Thông tin vé",
       "title_meeting": "Tiêu đề Cuộc họp",
       "visitor_name": "Tên khách",
-      "start_time": "Bắt đầu",
-      "end_time": "Kết thúc",
+      "start_time": "Thời gian bắt đầu",
+      "end_time": "Thời gian kết thúc",
       "representative": "Đại diện",
       "website": "Website",
       "organization_name": "Tên tổ chức",
@@ -220,8 +220,8 @@
       "bookmark": "Đánh dấu"
     },
     "date_range": {
-      "start_placeholder": "Bắt đầu",
-      "end_placeholder": "Kết thúc"
+      "start_placeholder": "Thời gian bắt đầu",
+      "end_placeholder": "Thời gian kết thúc"
     },
     "durationOption": {
       "today": "Hôm nay",
@@ -237,16 +237,20 @@
     "message": {
       "success": {
         "save": "Lưu thành công!",
+        "bookmark": "Lưu dấu trang thành công!",
         "delete": "Xóa thành công!",
         "check-in": "Check-in thành công",
         "refresh": "Làm mới Dữ liệu thành công",
-        "upload": "Tải lên Tệp thành công"
+        "upload": "Tải lên Tệp thành công",
+        "export": "Xuất ra Tệp thành công"
       },
       "warning": {
         "try-again": "Vui lòng thử lại trong vài phút."
       },
       "error": {
         "save": "Lưu thất bại!",
+        "bookmark": "Lưu dấu trang thất bại!",
+        "import": "Nhập dữ liệu thất bại! Vui lòng kiểm tra lại tệp báo cáo!",
         "check-in": "Từ chối Check In",
         "delete": "Xóa thất bại!"
       },
@@ -346,6 +350,9 @@
         "counselor_placeholder": "Tên, Tạo bởi, ..."
       }
     },
+    "rooms": {
+      "title": "Phòng họp"
+    },
     "popup": {
       "title-add": "Tạo mới cuộc họp",
       "title-edit": "Chỉnh sửa thông tin cuộc họp",
@@ -377,6 +384,7 @@
       "title": "Quản lý Người dùng",
       "export": {
         "file_name": "thong_ke_nguoi_dung_{{time}}",
+        "report_error_name": "bao_cao_import_nguoi_dung_{{time}}",
         "file_sample": "thong_ke_nguoi_dung_mau_{{time}}"
       },
       "search": {
@@ -629,10 +637,12 @@
         "device": "Thiết bị"
       }
     },
-    "configuration": {
-      "title": "Cấu hình ",
+    "system": {
+      "title": "Hệ thống",
       "sub": {
-        "audit-log": "Nhật ký Kiểm tra"
+        "configuration": "Cấu hình",
+        "permission": "Quyền hạn",
+        "audit-log": "Nhật ký kiểm toán"
       }
     }
   },

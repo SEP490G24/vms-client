@@ -21,22 +21,11 @@ const Filter: React.FC<FilterArgs> = (props) => {
   const [form] = Form.useForm()
   const [siteId, setSiteId] = useState('')
 
-  const [disable, setDisable] = useState<boolean>(true)
-
   const onFinish = (values: RoleFilterData) => {
     props.onFilter(values)
   }
 
-  const onFieldsChange = (value: any) => {
-    if (value) {
-      setDisable(false)
-    } else {
-      setDisable(true)
-    }
-  }
-
   const onReset = () => {
-    setDisable(true)
     form.resetFields()
     props.onFilter({})
   }
@@ -51,7 +40,6 @@ const Filter: React.FC<FilterArgs> = (props) => {
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             type={'primary'}
             onClick={form.submit}
-            disabled={disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -70,7 +58,6 @@ const Filter: React.FC<FilterArgs> = (props) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
-        onFieldsChange={onFieldsChange}
       >
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
           <SharedFilterScope siteId={siteId} onChangeSite={setSiteId} />}

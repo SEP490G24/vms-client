@@ -32,36 +32,42 @@ export interface TemplateFilterPayload {
 
 const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.get(TEMPLATE.BASE_PATH)
   return httpService.handleResponseStatus(response)
 }
 
 const findById = async (templatename: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.get(TEMPLATE.BASE_PATH + `/${templatename}`)
   return httpService.handleResponseStatus(response)
 }
 
 const insert = async (payload: CreateTemplateInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(TEMPLATE.BASE_PATH, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const update = async (templatename: string, payload: UpdateTemplateInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.put(TEMPLATE.BASE_PATH + `/${templatename}`, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const remove = async (templatename: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.delete(TEMPLATE.BASE_PATH + `/${templatename}`)
   return httpService.handleResponseStatus(response)
 }
 
 const filter = async (payload: TemplateFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(TEMPLATE.FILTER, payload, {
     params: {
       isPageable,

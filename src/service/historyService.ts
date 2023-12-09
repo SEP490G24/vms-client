@@ -46,6 +46,7 @@ export interface HistoryFilterPayload {
 
 const filter = async (payload: HistoryFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(HISTORY.FILTER, payload, {
     params: {
       isPageable,
@@ -57,12 +58,14 @@ const filter = async (payload: HistoryFilterPayload, isPageable?: boolean, pagea
 
 const exportHistory = async (payload: HistoryFilterPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(HISTORY.EXPORT, payload, { responseType: 'blob' })
   return httpService.handleResponseStatus(response)
 }
 
 const viewDetail = async (checkInCode:string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.get(HISTORY.VIEW_DETAIL + `/${checkInCode}`)
   return httpService.handleResponseStatus(response)
 }
@@ -70,6 +73,7 @@ const viewDetail = async (checkInCode:string) => {
 
 const viewDetailTable = async (checkInCode:string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.get(HISTORY.TABLE_DETAIL + `/${checkInCode}`)
   return httpService.handleResponseStatus(response)
 }

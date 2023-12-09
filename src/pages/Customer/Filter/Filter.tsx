@@ -1,7 +1,7 @@
 import { Card, Form, Space } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SharedButton, SharedFilterPeriod,SharedInput } from '~/common'
+import { SharedButton, SharedFilterPeriod, SharedInput } from '~/common'
 import { DateRadioRange } from '~/interface'
 import { CustomerFilterPayload } from '~/service'
 import { DATE_TIME } from '~/constants'
@@ -14,18 +14,13 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
-  const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
   const [siteId, setSiteId] = useState<string>('')
-  useEffect(() => {
-    if ((valueDate?.date?.['0'] && valueDate?.date?.['1']) || keyword.trim() || siteId) setDisable(false)
-    else setDisable(true)
-  }, [valueDate, keyword, siteId])
 
   const onFinish = (values: any) => {
     const payload: CustomerFilterPayload = {
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.END_DAY),
+      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.END_DAY)
     }
     if (values?.query?.trim()) payload.keyword = values?.query?.trim()
     if (siteId) payload.siteId = siteId
@@ -48,7 +43,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
           <SharedButton
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
-            disabled={disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -76,7 +70,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
             onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
-        <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} setValueDate={setValueDate} />
+        <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate}
+                            setValueDate={setValueDate} />
       </Form>
     </Card>
   )

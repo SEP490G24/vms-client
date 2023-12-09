@@ -37,13 +37,14 @@ const Info: React.FC<HistoryFormArgs> = (props) => {
             </Space>
           </DescriptionsItem>
         </Descriptions>
-        <Divider orientation={'left'}>Customer Participate</Divider>
+        <Divider orientation={'left'}>{t('meeting.popup.tabs.participants.title')}</Divider>
         <Space className={'w-full justify-center'}
                size={16}>
           <Table
             dataSource={props.meetingDto?.customers}
             rowKey='id'
-            style={{ width: 950, height: 500 }}
+            style={{ width: 950}}
+            scroll={{y: 300}}
             className='vms-table no-bg'
             size='middle'
             bordered

@@ -220,8 +220,8 @@
       "bookmark": "Bookmark"
     },
     "date_range": {
-      "start_placeholder": "Start",
-      "end_placeholder": "End"
+      "start_placeholder": "Start Time",
+      "end_placeholder": "End Time"
     },
     "durationOption": {
       "today": "Today",
@@ -241,7 +241,8 @@
         "delete": "Delete Successfully!",
         "check-in": "Check-in Success",
         "refresh": "Refresh Data Successfully",
-        "upload": "Upload File Successfully"
+        "upload": "Upload File Successfully",
+        "export": "Export File Successfully"
       },
       "warning": {
         "try-again": "Please try again in a minutes."
@@ -249,6 +250,7 @@
       "error": {
         "save": "Save failure!",
         "bookmark": "Save bookmark failure!",
+        "import": "Import failure! Please check file report!",
         "check-in": "Check In Reject",
         "delete": "Delete failed!"
       },
@@ -348,6 +350,9 @@
         "counselor_placeholder": "Name, Create By, ..."
       }
     },
+    "rooms": {
+      "title": "Rooms Calendar"
+    },
     "popup": {
       "title-add": "Create new meeting",
       "title-edit": "Meeting Edit",
@@ -379,6 +384,7 @@
       "title": "User Management",
       "export": {
         "file_name": "statistic_users_{{time}}",
+        "report_error_name": "report_import_users_{{time}}",
         "file_sample": "statistic_users_sample_{{time}}"
       },
       "search": {
@@ -631,9 +637,11 @@
         "device": "Device"
       }
     },
-    "configuration": {
-      "title": "Configuration ",
+    "system": {
+      "title": "System",
       "sub": {
+        "configuration": "Configuration",
+        "permission": "Permission",
         "audit-log": "Audit Log"
       }
     }

@@ -203,7 +203,7 @@ export const SIDE_BARS: MenuItem[] = [
   {
     key: SIDE_BAR_COLLAPSE.CONFIGURATION,
     icon: <SettingOutlined className={'text-[18px]'} />,
-    title: 'sidebar.configuration.title',
+    title: 'sidebar.system.title',
     role: [
       ...PATH_ROLE_MAP['PATH_PERMISSION'],
       ...PATH_ROLE_MAP['PATH_CONFIGURATION'],
@@ -212,21 +212,21 @@ export const SIDE_BARS: MenuItem[] = [
     children: [
       {
         key: PATH_PERMISSION,
-        title: 'Permission',
+        title: 'sidebar.system.sub.permission',
         path: PATH_PERMISSION,
         role: PATH_ROLE_MAP['PATH_PERMISSION'],
         children: []
       },
       {
         key: PATH_CONFIGURATION,
-        title: 'sidebar.configuration.title',
+        title: 'sidebar.system.sub.configuration',
         path: PATH_CONFIGURATION,
         role: PATH_ROLE_MAP['PATH_CONFIGURATION'],
         children: []
       },
       {
         key: PATH_AUDIT_LOG,
-        title: 'sidebar.configuration.sub.audit-log',
+        title: 'sidebar.system.sub.audit-log',
         path: PATH_AUDIT_LOG,
         role: PATH_ROLE_MAP['PATH_AUDIT_LOG'],
         children: []

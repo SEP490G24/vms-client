@@ -30,18 +30,21 @@ interface UpdateRolePermissionPayload {
 
 const getAll = async (siteId?: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   let response = await httpService.get(ROLE.GET_ALL_ROLE, { params: { siteId } })
   return httpService.handleResponseStatus(response)
 }
 
 const getById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   let response = await httpService.get(ROLE.GET_BY_ID_ROLE.replace('{id}', id))
   return httpService.handleResponseStatus(response)
 }
 
 const filter = async (payload: RoleFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(ROLE.FILTER_ROLE, payload, {
     params: {
       isPageable,
@@ -54,24 +57,28 @@ const filter = async (payload: RoleFilterPayload, isPageable?: boolean, pageable
 
 const create = async (payload: CreateRolePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   let response = await httpService.post(ROLE.CREATE_ROLE, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const update = async (code: string, payload: UpdateRolePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   let response = await httpService.put(ROLE.UPDATE_ROLE.replace('{code}', code), payload)
   return httpService.handleResponseStatus(response)
 }
 
 const updatePermission = async (id: string, payload: UpdateRolePermissionPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.put(ROLE.UPDATE_PERMISSION_ROLE.replace('{id}', id), payload)
   return httpService.handleResponseStatus(response)
 }
 
 const deleteById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.delete(ROLE.DELETE_ROLE.replace('{id}', id))
   return httpService.handleResponseStatus(response)
 }

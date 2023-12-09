@@ -18,7 +18,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange | null>()
   const { RangePicker } = DatePicker
-  const [disable, setDisable] = useState<boolean>(true)
   const [keyword, setKeyword] = useState<string>('')
   const { sites } = useSelector(sitesSelector)
 
@@ -32,13 +31,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
     args.onFilter(payload)
   }
 
-  const onFieldsChange = () => {
-    setDisable(false)
-  }
-
   const onReset = () => {
     setValueDate(null)
-    setDisable(true)
     form.resetFields()
     args.onFilter({})
   }
@@ -52,7 +46,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
           <SharedButton
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             onClick={form.submit}
-            disabled={disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -71,7 +64,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
-        onFieldsChange={onFieldsChange}
       >
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'>

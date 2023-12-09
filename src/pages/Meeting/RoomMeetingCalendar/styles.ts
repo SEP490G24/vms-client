@@ -1,5 +1,6 @@
 import styled from 'styled-components'
+import { PageWrapper } from '~/themes'
 
-export const RoomMeetingCalendarWrapper = styled.div`
+export const RoomMeetingCalendarWrapper = styled(PageWrapper)`
 
 `

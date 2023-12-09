@@ -34,7 +34,7 @@ const MeetingCountDownItem: React.FC<Props> = (props) => {
   }
 
   return (
-    <Card className={'bg-body'}
+    <Card className={'bg-body'} onClick={() => props.onSelected(props.meeting)}
     >
       <Countdown
         title={

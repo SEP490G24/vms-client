@@ -73,42 +73,49 @@ export interface CheckInPayload {
 
 const findAll = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.get(TICKET.BASE_PATH)
   return httpService.handleResponseStatus(response)
 }
 
 const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.get(TICKET.DETAIL + `/${id}`)
   return httpService.handleResponseStatus(response)
 }
 
 const findByQRCode = async (checkInCode: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.get(TICKET.FIND_BY_QR.replace('{checkInCode}', checkInCode))
   return httpService.handleResponseStatus(response)
 }
 
 const update = async (payload: UpdateMeetingInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.put(TICKET.UPDATE, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const insert = async (payload: CreateMeetingInfo) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(TICKET.BASE_PATH, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const remove = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.delete(TICKET.BASE_PATH + `/${id}`)
   return httpService.handleResponseStatus(response)
 }
 
 const cancel = async (payload: CancelTicketPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(TICKET.CANCEL, payload)
   return httpService.handleResponseStatus(response)
 }
@@ -148,30 +155,35 @@ const subscribeCheckIn = async (siteId?: string): Promise<EventSourceObserver> =
 
 const checkInCustomer = async (payload: CheckInPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.put(TICKET.CHECK_IN, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const findWithRoom = async (payload: MeetingFilterPayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(TICKET.FIND_WITH_ROOM, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const bookmark = async (payload: MeetingBookMark) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(TICKET.BOOKMARK, payload)
   return httpService.handleResponseStatus(response)
 }
 
 const filterBookmark = async () => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.get(TICKET.BOOKMARK)
   return httpService.handleResponseStatus(response)
 }
 
 const filter = async (payload: MeetingFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(TICKET.FILTER, payload, {
     params: {
       isPageable,

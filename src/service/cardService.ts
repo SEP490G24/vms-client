@@ -14,6 +14,7 @@ export interface CreateCardDto {
 
 const insert = async (payload: CreateCardDto) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
   const response = await httpService.post(CARD.BASE_PATH, payload)
   return httpService.handleResponseStatus(response)
 }

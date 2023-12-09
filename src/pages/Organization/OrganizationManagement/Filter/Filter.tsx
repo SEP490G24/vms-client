@@ -15,7 +15,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const [valueDate, setValueDate] = useState<DateRadioRange>()
-  const [disable, setDisable] = useState<boolean>(true)
 
   const onFinish = (values: any) => {
     const payload: OrganizationFilterPayload = {
@@ -26,18 +25,8 @@ const Filter: React.FC<FilterArgs> = (args) => {
     args.onFilter(payload)
   }
 
-  const onFieldsChange = (value: any) => {
-
-    if (value){
-      setDisable(false);
-    } else {
-      setDisable(true)
-    }
-  }
-
   const onReset = () => {
     setValueDate(undefined)
-    setDisable(true)
     form.resetFields()
     args.onFilter({})
   }
@@ -52,7 +41,6 @@ const Filter: React.FC<FilterArgs> = (args) => {
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
             type={'primary'}
             onClick={form.submit}
-            disabled={disable}
           >
             {t('common.label.search')}
           </SharedButton>
@@ -71,14 +59,13 @@ const Filter: React.FC<FilterArgs> = (args) => {
         labelAlign='left'
         className='vms-form'
         onFinish={onFinish}
-        onFieldsChange = {onFieldsChange}
       >
         <Form.Item className={'mb-3'} label={t('organization.organization.search.counselor')} name='keyword'>
           <SharedInput
             placeholder={t('organization.organization.search.counselor_placeholder')}
           />
         </Form.Item>
-        <SharedFilterPeriod name={'date'} label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} setValueDate={setValueDate} />
+        <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate} setValueDate={setValueDate} />
       </Form>
     </Card>
   )

@@ -16,35 +16,13 @@ interface MeetingActionProps {
 export const MeetingActions: React.FC<MeetingActionProps> = React.memo((props) => {
   const { t } = useTranslation()
 
-  const handleBookmark = () => {
-    props.onBookMark({
-      bookmark: true,
-      ticketId: props.meeting.id,
-    })
-  }
-
-  const handleUnBookmark = () => {
-    props.onBookMark({
-      bookmark: false,
-      ticketId: props.meeting.id,
-    })
-  }
-
   const meetingActions: MenuProps['items'] = [
     {
       label: t('common.label.cancel_meeting'),
       key: '1',
       danger: true,
       onClick: () => props.onCancel(props.meeting),
-    },
-    {
-      label: (props.meeting.bookmark) ? t('common.label.unbookmark') : t('common.label.bookmark'),
-      key: '2',
-      danger: true,
-      onClick: () =>{
-        (props.meeting.bookmark) ? handleUnBookmark() : handleBookmark()
-      }
-    },
+    }
   ]
 
   return (

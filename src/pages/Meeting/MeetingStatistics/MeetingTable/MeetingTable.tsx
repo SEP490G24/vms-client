@@ -5,6 +5,7 @@ import { Purpose, StatusTicketMeeting } from '~/constants'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Space, Table, TablePaginationConfig } from 'antd'
+import { StarFilled, StarOutlined } from '@ant-design/icons'
 import { FilterValue } from 'antd/es/table/interface'
 import { MeetingActions } from '~/pages/Meeting/common'
 import { enumToArray } from '~/utils'
@@ -24,6 +25,26 @@ interface MeetingItemProps {
 const MeetingTable: React.FC<MeetingItemProps> = (props) => {
 
   const { t } = useTranslation()
+
+  const renderBookmarkColumn = (value: MeetingDto) => {
+    let isBookmarked = value.isBookmark
+    return (
+      (isBookmarked != null) ? (
+          (isBookmarked) ?
+            <StarFilled
+              onClick={() => {
+                props.onUnBookmark({ ticketId: value.id, bookmark: false })
+              }}
+              style={{ fontSize: '20px', color: '#FFDE33' }} />
+            :
+            <StarOutlined
+              onClick={() => props.onBookmark({ ticketId: value.id, bookmark: true })}
+              style={{ fontSize: '20px' }} />
+        )
+        : <></>
+    )
+  }
+
   return (
     <Table
       dataSource={props.pageableResponse?.content}
@@ -42,6 +63,11 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       size='middle'
     >
       <Column
+        width={'40px'}
+        render={(value: MeetingDto) => renderBookmarkColumn(value)}
+
+      />
+      <Column
         title={t('common.field.name')}
         render={(value: MeetingDto) => <a onClick={() => props.onEdit(value)}>{value.name}</a>}
       />
@@ -57,7 +83,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
               </Space>}
       />
       <Column title={t('common.field.participate')} key='participate'
-              render={(value: MeetingDto) => value.customers && <>{value.customers.length} people</>} />
+              render={(value: MeetingDto) => <>{value.customerCount} people</>} />
       <Column title={t('common.field.room')} dataIndex='roomName' key='roomName' />
       <Column title={t('common.field.duration')} key='duration'
               render={(value: MeetingDto) => <Space direction={'vertical'} size={4}>
@@ -81,13 +107,14 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: MeetingDto) =>
                 <>
                   <MeetingActions onCancel={props.onCancelMeeting} meeting={value}
-                                  directionIcon={'vertical'} onBookMark={props.onBookmark} onUnBookMark={props.onUnBookmark}/>
+                                  directionIcon={'vertical'} onBookMark={props.onBookmark}
+                                  onUnBookMark={props.onUnBookmark} />
 
                 </>
 
-      } />
-</Table>
-)
+              } />
+    </Table>
+  )
 }
 
 export default MeetingTable

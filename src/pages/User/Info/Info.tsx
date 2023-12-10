@@ -146,7 +146,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
           <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'
                      rules={[{ required: true }]}>
             <SharedSelect options={sites.map((site: SiteDto) => {
-              return { label: site.name, value: site.id, disabled: site.enable }
+              return { label: site.name, value: site.id, disabled: !site.enable }
             }) ?? []}
                           onChange={setSiteId}
                           placeholder={t('common.placeholder.site')}></SharedSelect>
@@ -158,7 +158,7 @@ const Info: React.FC<CreateUserFormArgs> = (props) => {
                        rules={[{ required: true }]}>
               <SharedSelect
                 options={departments.map((department) => {
-                  return { label: department.name, value: department.id, disabled: department.enable }
+                  return { label: department.name, value: department.id, disabled: !department.enable }
                 }) ?? []}
                 placeholder={t('common.placeholder.department')}></SharedSelect>
             </Form.Item>

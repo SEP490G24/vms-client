@@ -12,6 +12,7 @@ import Column from 'antd/es/table/Column'
 import { CustomerDto, OptionItem } from '~/interface'
 import { useSelector } from 'react-redux'
 import { meetingSelector } from '~/redux'
+import { cloneDeep } from 'lodash'
 
 interface ParticipantsArgs {
   meeting: CreateMeetingInfo
@@ -97,10 +98,11 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
                     className='dynamic-delete-button'
                     onClick={() => {
                       setOldCustomers((prev) => {
-                        if (prev.length > index) {
-                          prev.splice(index, 1)
+                        const temp = cloneDeep(prev)
+                        if (temp.length > index) {
+                          temp.splice(index, 1)
                         }
-                        return [...prev]
+                        return [...temp]
                       })
                     }}
                   />} />

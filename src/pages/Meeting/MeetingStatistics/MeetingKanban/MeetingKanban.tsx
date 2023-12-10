@@ -1,8 +1,8 @@
 import React from 'react'
 import { MeetingDto, PageableResponse } from '~/interface'
 import { Spin } from 'antd'
-import { MeetingItem } from '~/pages/Meeting/common'
 import { MeetingBookMark } from '~/service'
+import { MeetingItem } from '~/pages'
 
 interface MeetingItemProps {
   loading: boolean
@@ -27,16 +27,6 @@ const MeetingKanban: React.FC<MeetingItemProps> = (props) => {
                                                                       onUnBookmark={props.onBookmark} />)}
       </div>
     </Spin>
-    // <List
-    //   loading={props.loading}
-    //   grid={{ gutter: 16, column: 3}}
-    //   dataSource={props.pageableResponse?.content}
-    //   renderItem={(item) => (
-    //     <List.Item>
-    //
-    //     </List.Item>
-    //   )}
-    // />
   )
 }
 

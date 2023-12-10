@@ -54,7 +54,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
         total: props.pageableResponse?.totalElements,
         pageSize: props.pageableResponse?.pageable?.pageSize,
         showSizeChanger: false,
-        position: ['bottomCenter'],
+        position: ['bottomCenter']
       }}
       loading={props.loading}
       onChange={props.onChangeTable}

@@ -96,7 +96,7 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
                      rules={[{ required: true }]}>
             <SharedSelect
               options={sites.map((site) => {
-                return { label: site.name, value: site.id, disabled: site.enable }
+                return { label: site.name, value: site.id, disabled: !site.enable }
               }) ?? []}
               disabled={!!props.device}
               placeholder={t('common.placeholder.site')}

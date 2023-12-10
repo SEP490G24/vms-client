@@ -63,7 +63,7 @@ const Permission = () => {
                 <Col flex={'none'}><span className={'text-muted'}>Site: </span></Col>
                 <Col flex={'auto'}>
                   <SharedSelect className={'w-full'} allowClear options={sites.map((site) => {
-                    return { label: site.name, value: site.id, disabled: site.enable }
+                    return { label: site.name, value: site.id, disabled: !site.enable }
                   }) ?? []}
                                 onChange={setSiteId}
                                 placeholder={t('common.placeholder.site')}></SharedSelect>

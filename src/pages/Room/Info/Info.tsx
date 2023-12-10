@@ -97,7 +97,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
                      rules={[{ required: true }]}>
             <SharedSelect
               options={sites.map((site) => {
-                return { label: site.name, value: site.id, disabled: site.enable }
+                return { label: site.name, value: site.id, disabled: !site.enable }
               }) ?? []}
               disabled={!!props.room}
               placeholder={t('common.placeholder.site')}

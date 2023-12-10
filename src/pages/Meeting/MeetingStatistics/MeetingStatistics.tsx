@@ -70,9 +70,16 @@ const MeetingStatistics = () => {
 
   const onBookMark = (payload: MeetingBookMark) => {
     ticketService.bookmark(payload).then((response) => {
-      if(response.data === false){
+      if (response.data === false) {
         message.error(t('common.message.error.bookmark'))
       } else {
+        setTableData((prev) => {
+          if (prev.pageableResponse?.content) {
+            const index = prev.pageableResponse.content.findIndex((meeting) => meeting.id === payload.ticketId)
+            prev.pageableResponse.content[index].isBookmark = true
+          }
+          return { ...prev }
+        })
         message.success(t('common.message.success.bookmark'))
       }
     })
@@ -80,9 +87,16 @@ const MeetingStatistics = () => {
 
   const onUnBookMark = (payload: MeetingBookMark) => {
     ticketService.bookmark(payload).then((response) => {
-      if(response.data === false){
+      if (response.data === false) {
         message.error(t('common.message.error.bookmark'))
       } else {
+        setTableData((prev) => {
+          if (prev.pageableResponse?.content) {
+            const index = prev.pageableResponse.content.findIndex((meeting) => meeting.id === payload.ticketId)
+            prev.pageableResponse.content[index].isBookmark = false
+          }
+          return { ...prev }
+        })
         message.success(t('common.message.success.bookmark'))
       }
     })
@@ -166,12 +180,13 @@ const MeetingStatistics = () => {
                     currentPage={tableAction.pagination?.current}
                     loading={tableData.loading}
                     onCancelMeeting={(meeting: MeetingDto) => setCancelModalData({ openModal: true, meeting })}
-                    onChangeTable={handleChangeTable} onEdit={openEdit} onBookmark={onBookMark} onUnBookmark={onUnBookMark} /> :
+                    onChangeTable={handleChangeTable} onEdit={openEdit} onBookmark={onBookMark}
+                    onUnBookmark={onUnBookMark} /> :
                   <MeetingKanban
                     pageableResponse={tableData.pageableResponse}
                     loading={tableData.loading}
                     onCancelMeeting={(meeting: MeetingDto) => setCancelModalData({ openModal: true, meeting })}
-                    onEdit={openEdit} onBookmark={onBookMark} onUnBookmark={onUnBookMark}/>}
+                    onEdit={openEdit} onBookmark={onBookMark} onUnBookmark={onUnBookMark} />}
               </Card>
             </Col>
             <MeetingInfoModal open={infoModalData.openModal}

@@ -5,9 +5,8 @@ import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
 import { MeetingQRDto } from '~/interface'
-import { Reason, StatusTicketCustomer } from '~/constants'
+import { StatusTicketCustomer } from '~/constants'
 import { cardService, meetingTicketService } from '~/service'
-import { MeetingCancelModals } from '~/pages'
 import { useTranslation } from 'react-i18next'
 import { CreateCardModal } from './CreateCard'
 import { AuthSection } from '~/auth'
@@ -26,7 +25,6 @@ interface Props {
 
 const TicketInfo: React.FC<Props> = (props) => {
   const { t } = useTranslation()
-  const [openCancelModalReject, setOpenCancelModalReject] = useState(false)
   const [openModalCreateCard, setOpenModalCreateCard] = useState(false)
   const [checkInCodeState, setCheckInCodeState] = useState('')
 
@@ -40,9 +38,6 @@ const TicketInfo: React.FC<Props> = (props) => {
     onCheckIn({ status: StatusTicketCustomer.CHECK_OUT })
   }
 
-  const onReject = (values: any) => {
-    onCheckIn({ status: StatusTicketCustomer.REJECT, ...values })
-  }
   const onCreateCard = (values: any) => {
     cardService.insert(values).then(
       async (response) => {
@@ -113,8 +108,7 @@ const TicketInfo: React.FC<Props> = (props) => {
         <Space className={'w-full justify-center'}
                direction={'horizontal'}
                size={16}>
-          <SharedButton key='console' onClick={() => setOpenCancelModalReject(true)}>Reject</SharedButton>
-          <SharedButton type='primary' onClick={() => onCheckOut()}
+          <SharedButton onClick={() => onCheckOut()}
                         key='buy'>Check Out</SharedButton>
           <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_UPDATE}>
             <SharedButton type='primary' onClick={() => setOpenModalCreateCard(true)}
@@ -123,8 +117,6 @@ const TicketInfo: React.FC<Props> = (props) => {
         </Space>
       </Space>
     </Modal>
-    <MeetingCancelModals reasonType={Reason.REJECT} open={openCancelModalReject}
-                         onOk={onReject} onClose={() => setOpenCancelModalReject(false)} />
     <CreateCardModal open={openModalCreateCard} width={650} checkInCode={props.meetingQRDto?.checkInCode} scanCardDto={props.scanCardDto}
                      onSave={onCreateCard} onClose={() => setOpenModalCreateCard(false)} />
   </>

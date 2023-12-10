@@ -22,8 +22,8 @@ export interface MeetingDto {
   templateId?: string;
   isBookmark?: boolean;
   draft: boolean;
-  customers: CustomerDto[];
-  customerCount?: string
+  customers?: CustomerDto[]
+  customerCount?: number
 }
 
 export interface MeetingQRDto {

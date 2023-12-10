@@ -43,7 +43,7 @@ export const MeetingItem: React.FC<MeetingItemProps> = React.memo((props) => {
         <DescriptionsItem label={t('common.field.room')} span={3}>{props.meeting.roomName}</DescriptionsItem>
         <DescriptionsItem label={t('common.field.createdBy')} span={3}>{props.meeting.createdBy}</DescriptionsItem>
         <DescriptionsItem label={t('common.field.guest')} span={3}>
-          {props.meeting.customers.length} people
+          {props.meeting.customerCount} people
         </DescriptionsItem>
         <DescriptionsItem label={t('common.field.purposeNote')} span={3}>{props.meeting.purposeNote}</DescriptionsItem>
         <DescriptionsItem label={t('common.field.description')} span={3}>{props.meeting.description}</DescriptionsItem>

@@ -20,9 +20,10 @@ export interface MeetingDto {
   roomId: string;
   roomName?: string;
   templateId?: string;
-  bookmark?: boolean;
+  isBookmark?: boolean;
   draft: boolean;
-  customers: CustomerDto[]
+  customers: CustomerDto[];
+  customerCount?: string
 }
 
 export interface MeetingQRDto {

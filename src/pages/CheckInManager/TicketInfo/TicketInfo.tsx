@@ -109,10 +109,10 @@ const TicketInfo: React.FC<Props> = (props) => {
                direction={'horizontal'}
                size={16}>
           <SharedButton onClick={() => onCheckOut()}
-                        key='buy'>Check Out</SharedButton>
+                        key='buy'>{t('common.field.check_out')}</SharedButton>
           <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_UPDATE}>
             <SharedButton type='primary' onClick={() => setOpenModalCreateCard(true)}
-                          key='buy'>Create Card</SharedButton>
+                          key='buy'>{t('common.field.create_card')}</SharedButton>
           </AuthSection>
         </Space>
       </Space>

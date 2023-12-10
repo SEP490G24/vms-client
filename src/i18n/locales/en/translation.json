@@ -178,7 +178,10 @@
       "cardId": "Enter card id",
       "audit_type": "Choose audit type",
       "status": "Choose status",
-      "meeting": "Enter meeting info"
+      "meeting": "Enter meeting info",
+      "check_out": "Check Out",
+      "create_card": "Create Card",
+      "created_by": "Enter creater"
     },
     "error": {
       "content_is_too_long": "Content is too long!",

@@ -54,6 +54,7 @@ export interface MeetingFilterPayload {
   startTimeEnd?: string;
   endTimeEnd?: string;
   auditType?: string
+  createdBy?: string;
 }
 
 export interface CancelTicketPayload {

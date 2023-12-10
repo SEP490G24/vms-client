@@ -34,7 +34,8 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
       createdOnStart: valueDateCreated?.date?.['0']?.format(DATE_TIME.START_DAY),
       createdOnEnd: valueDateCreated?.date?.['1']?.format(DATE_TIME.END_DAY),
       status: values['status'],
-      purpose: values['purpose']
+      purpose: values['purpose'],
+      createdBy: values['createdBy']
     }
     props.onFilter(payload)
   }
@@ -85,6 +86,11 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
             placeholder={t('common.placeholder.meeting')}
             value={keyword}
             onChange={(e: any) => setKeyword(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item className={'mb-3'} label={t('common.field.created_by')} name='createdBy'>
+          <SharedInput
+            placeholder={t('common.placeholder.created_by')}
           />
         </Form.Item>
         {!!props.calendar &&

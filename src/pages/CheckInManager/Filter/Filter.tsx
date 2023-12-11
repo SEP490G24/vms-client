@@ -74,7 +74,6 @@ const Filter: React.FC<FilterArgs> = (props) => {
             placeholder={t('common.placeholder.customer_filer')}
           />
         </Form.Item>
-
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'
                      >

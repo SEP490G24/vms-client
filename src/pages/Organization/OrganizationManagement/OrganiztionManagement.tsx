@@ -9,7 +9,7 @@ import { formatSortParam, resetCurrentPageAction } from '~/utils'
 import { OrganizationInfo } from './Info'
 import { OrganizationFilter } from './Filter'
 import { OrganizationTable } from './Table'
-import { OrganizationFilterPayload, organizationService } from '~/service'
+import { departmentService, OrganizationFilterPayload, organizationService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 
 const OrganiztionManagement = () => {
@@ -76,6 +76,17 @@ const OrganiztionManagement = () => {
     setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
 
+  const onDelete = (organizationId: string) => {
+    departmentService.remove(organizationId).then( (response) => {
+      if(response.status === 200){
+        message.success(t('common.message.success.delete'))
+        fetchOrganizations()
+      }
+    }).catch( async () => {
+      await  message.error(t('common.message.error.delete'))
+    })
+  }
+
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     setTableAction({ pagination, filters, sorter })
   }
@@ -117,7 +128,7 @@ const OrganiztionManagement = () => {
                 pageableResponse={tableData.pageableResponse}
                 currentPage={tableAction.pagination?.current}
                 onChangeTable={handleChangeTable}
-                onEdit={openEdit} />
+                onEdit={openEdit} onDelete={onDelete} />
             </Card>
           </Col>
           <OrganizationInfo open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}

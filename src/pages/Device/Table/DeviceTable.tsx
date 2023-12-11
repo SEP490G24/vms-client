@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Table, TablePaginationConfig, Tooltip } from 'antd'
 import { SharedStatus } from '~/common'
 import { FilterValue } from 'antd/es/table/interface'
+import { SharedActionDelete } from '~/common/SharedActionDelete'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<DeviceDto>
@@ -13,6 +14,7 @@ interface MeetingItemProps {
   currentPage?: number
   loading: boolean
   onEdit: (value: DeviceDto) => void
+  onDelete: (id: string) => void
 }
 
 const DeviceTable: React.FC<MeetingItemProps> = (props) => {
@@ -62,6 +64,15 @@ const DeviceTable: React.FC<MeetingItemProps> = (props) => {
         className={'truncate w-[300px] block'}>{value}</span></Tooltip>} />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
               render={(value: DeviceDto) => moment(value.createdOn).format('L')} />
+      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
+              render={(value: DeviceDto) =>
+                <>
+                  <SharedActionDelete onDelete={props.onDelete} id={value.id}
+                                      directionIcon={'vertical'} />
+
+                </>
+
+              } />
     </Table>
   )
 }

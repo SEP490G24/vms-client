@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedStatus } from '~/common'
+import { SharedActionDelete } from '~/common/SharedActionDelete'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<RoomDto>
@@ -13,6 +14,7 @@ interface MeetingItemProps {
   currentPage?: number
   loading: boolean
   onEdit: (value: RoomDto) => void
+  onDelete: (id: string) => void
 }
 
 const RoomTable: React.FC<MeetingItemProps> = (props) => {
@@ -63,6 +65,15 @@ const RoomTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: RoomDto) => moment(value.createdOn).format('L')} />
       <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
               render={(value: RoomDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : undefined} />
+      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
+              render={(value: RoomDto) =>
+                <>
+                  <SharedActionDelete onDelete={props.onDelete} id={value.id}
+                                      directionIcon={'vertical'} />
+
+                </>
+
+              } />
     </Table>
   )
 }

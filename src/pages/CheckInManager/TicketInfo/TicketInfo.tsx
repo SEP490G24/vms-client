@@ -48,7 +48,7 @@ const TicketInfo: React.FC<Props> = (props) => {
       }
     )
       .catch(async (error) => {
-          await message.success(error.data.message)
+          await message.error(error.data.message)
         }
       )
   }

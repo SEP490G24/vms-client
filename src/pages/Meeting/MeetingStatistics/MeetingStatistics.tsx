@@ -90,11 +90,11 @@ const MeetingStatistics = () => {
       if (response.data === false) {
         message.error(t('common.message.error.bookmark'))
       } else {
-        setTableData((prev) => {
-          if (prev.pageableResponse?.content) {
-            const index = prev.pageableResponse.content.findIndex((meeting) => meeting.id === payload.ticketId)
-            prev.pageableResponse.content[index].isBookmark = false
-          }
+          setTableData((prev) => {
+            if (prev.pageableResponse?.content) {
+              const index = prev.pageableResponse.content.findIndex((meeting) => meeting.id === payload.ticketId)
+              prev.pageableResponse.content[index].isBookmark = false
+            }
           return { ...prev }
         })
         message.success(t('common.message.success.bookmark'))

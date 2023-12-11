@@ -5,12 +5,10 @@ import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
 import { MeetingQRDto } from '~/interface'
-import { StatusTicketCustomer } from '~/constants'
-import { cardService, meetingTicketService } from '~/service'
+import { ConfigurationCode, StatusTicketCustomer } from '~/constants'
+import { cardService, meetingTicketService, settingSiteService } from '~/service'
 import { useTranslation } from 'react-i18next'
 import { CreateCardModal } from './CreateCard'
-import { AuthSection } from '~/auth'
-import { PERMISSION_ROLE_MAP } from '~/role'
 import { CardDto } from '~/interface/Card.ts'
 import Modal from 'antd/es/modal/Modal'
 
@@ -27,6 +25,16 @@ const TicketInfo: React.FC<Props> = (props) => {
   const { t } = useTranslation()
   const [openModalCreateCard, setOpenModalCreateCard] = useState(false)
   const [checkInCodeState, setCheckInCodeState] = useState('')
+
+  const [useCardConfig, setUseCardConfig] = useState(false)
+
+  useEffect(() => {
+    if (props.meetingQRDto?.siteId) {
+      settingSiteService.findAllByGroupCode(ConfigurationCode.UseCard, props.meetingQRDto.siteId).then((response) => {
+        setUseCardConfig(response.data.value === 'true')
+      })
+    }
+  }, [props.meetingQRDto?.siteId])
 
   useEffect(() => {
     if (props.meetingQRDto) {
@@ -110,14 +118,16 @@ const TicketInfo: React.FC<Props> = (props) => {
                size={16}>
           <SharedButton onClick={() => onCheckOut()}
                         key='buy'>{t('common.field.check_out')}</SharedButton>
-          <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_UPDATE}>
+          {
+            useCardConfig && props.meetingQRDto?.roomId &&
             <SharedButton type='primary' onClick={() => setOpenModalCreateCard(true)}
                           key='buy'>{t('common.field.create_card')}</SharedButton>
-          </AuthSection>
+          }
         </Space>
       </Space>
     </Modal>
-    <CreateCardModal open={openModalCreateCard} width={650} checkInCode={props.meetingQRDto?.checkInCode} scanCardDto={props.scanCardDto}
+    <CreateCardModal open={openModalCreateCard} width={650} checkInCode={props.meetingQRDto?.checkInCode}
+                     scanCardDto={props.scanCardDto}
                      onSave={onCreateCard} onClose={() => setOpenModalCreateCard(false)} />
   </>
 }

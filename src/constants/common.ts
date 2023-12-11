@@ -101,3 +101,7 @@ export enum Reason {
   CANCEL = 'CANCEL',
   REJECT = 'REJECT'
 }
+
+export const ConfigurationCode = {
+  UseCard: 'configuration.card'
+}

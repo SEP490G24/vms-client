@@ -4,7 +4,7 @@ import { Card, Col, Divider, Row, Space, Spin, TablePaginationConfig } from 'ant
 import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { InfoModalData, AuditLogDto, TableAction, TableData } from '~/interface'
+import { AuditLogDto, InfoModalData, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { exportFile, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { AuditLogInfo } from './Info'
@@ -75,8 +75,8 @@ const AuditLog = () => {
       if (response.data) {
         exportFile(response.data, `${t('organization.audit-log.export.file_name', { time: Date.now() })}.xlsx`)
       }
-    })
-    setExportEx(false)
+    }).catch(() => setExportEx(false))
+
   }
 
 

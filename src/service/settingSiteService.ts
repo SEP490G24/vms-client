@@ -31,6 +31,14 @@ const findAllByGroupId = async (settingGroupId: number, siteId?: string) => {
   return httpService.handleResponseStatus(response)
 }
 
+const findAllByGroupCode = async (code: string, siteId?: string) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
+  const response = await httpService.get(SETTING_SITE.FIND_BY_CODE
+    .replace('{code}', code), { params: { siteId } })
+  return httpService.handleResponseStatus(response)
+}
+
 const update = async (payload: SettingValuePayload) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   httpService.attachAcceptLanguageToHeader()
@@ -42,6 +50,7 @@ const settingSiteService = {
   findAll,
   findById,
   findAllByGroupId,
+  findAllByGroupCode,
   update
 }
 

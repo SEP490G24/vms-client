@@ -50,7 +50,7 @@ const DashboardSite = () => {
   const handleFilter = (values: OverviewFilterPayload) => {
     setFilterPayload({
       year: values.year,
-      month: values.month ? values.month + 1 : undefined,
+      month: values.month,
       siteId: values.siteId ? [values.siteId] : []
     })
   }

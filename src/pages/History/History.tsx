@@ -5,12 +5,12 @@ import Modal from 'antd/es/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SharedButton } from '~/common'
-import { InfoModalData, HistoryDto, TableAction, TableData, MeetingQRDto } from '~/interface'
+import { HistoryDto, InfoModalData, MeetingQRDto, TableAction, TableData } from '~/interface'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission, exportFile, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { HistoryFilter } from './Filter'
 import { HistoryTable } from './Table'
-import { HistoryFilterPayload, historyService} from '~/service'
+import { HistoryFilterPayload, historyService } from '~/service'
 import { FilterValue } from 'antd/es/table/interface'
 import { DownloadOutlined } from '@ant-design/icons'
 import { HistoryInfo } from '~/pages/History/Info'
@@ -58,8 +58,8 @@ const History = () => {
     historyService.viewDetail(values).then((res) => {
       setMeetingQRDto(res.data)
     })
-    historyService.viewDetailTable(values ).then((res) => {
-      setTableDataDetail({ pageableResponse: res.data, loading:false })
+    historyService.viewDetailTable(values).then((res) => {
+      setTableDataDetail({ pageableResponse: res.data, loading: false })
     })
   }
   const onFilter = (filterPayload: HistoryFilterPayload) => {
@@ -80,8 +80,7 @@ const History = () => {
       if (response.data) {
         exportFile(response.data, `${t('organization.history.export.file_name', { time: Date.now() })}.xlsx`)
       }
-    })
-    setExportEx(false)
+    }).finally(() => setExportEx(false))
   }
 
 
@@ -115,7 +114,7 @@ const History = () => {
                   currentPage={tableAction.pagination?.current}
                   onChangeTable={handleChangeTable}
                   onViewDetail={onViewDetail}
-                 />
+                />
               </Card>
             </Col>
             <Modal
@@ -128,8 +127,8 @@ const History = () => {
               onCancel={onClose}
             >
               <HistoryInfo onClose={function(): void {
-                              throw new Error('Function not implemented.')
-                          } }
+                throw new Error('Function not implemented.')
+              }}
                            meetingQRDto={meetingQRDto}
                            historyDetailTable={tableDataDetail.pageableResponse}
               />

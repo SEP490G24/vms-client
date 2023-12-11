@@ -95,7 +95,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
                   disabled={!filterPayload.year}
                   onChange={(value) => setFilterPayload({ ...filterPayload, month: value })}
                   options={enumToArray(MONTHS).map((month) => {
-                    return { label: month.key, value: month.value }
+                    return { label: month.key, value: +month.value + 1 }
                   })} />
         </Card>
       </Space>

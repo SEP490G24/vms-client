@@ -7,7 +7,7 @@ import { PERMISSION_ROLE_MAP } from '~/role'
 import { checkPermission, formatSortParam, resetCurrentPageAction } from '~/utils'
 import { DeviceInfoModal } from './Info'
 import { DeviceFilter } from './Filter'
-import { DeviceFilterPayload, deviceService } from '~/service'
+import {  DeviceFilterPayload, deviceService } from '~/service'
 import { DeviceTable } from '~/pages/Device/Table'
 import { PageWrapper } from '~/themes'
 
@@ -76,6 +76,17 @@ const Device = () => {
     setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
 
+  const onDelete = (deviceId: string) => {
+    deviceService.remove(deviceId).then( (response) => {
+      if(response.status === 200){
+        message.success(t('common.message.success.delete'))
+        fetchDevice()
+      }
+    }).catch( async () => {
+      await  message.error(t('common.message.error.delete'))
+    })
+  }
+
   return (
     <PageWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
@@ -107,7 +118,7 @@ const Device = () => {
                 </Space>}
               >
                 <DeviceTable pageableResponse={tableData.pageableResponse} loading={tableData.loading}
-                             onEdit={openEdit} />
+                             onEdit={openEdit} onDelete={onDelete} />
               </Card>
             </Col>
 

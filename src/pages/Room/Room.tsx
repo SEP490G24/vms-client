@@ -89,6 +89,17 @@ const Room = () => {
     setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
 
+  const onDelete = (roomId: string) => {
+    roomService.remove(roomId).then( (response) => {
+      if(response.status === 200){
+        message.success(t('common.message.success.delete'))
+        fetchRooms()
+      }
+    }).catch( async () => {
+      await  message.error(t('common.message.error.delete'))
+    })
+  }
+
   const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
     setTableAction({ pagination, filters, sorter })
   }
@@ -127,12 +138,12 @@ const Room = () => {
                   pageableResponse={tableData.pageableResponse}
                   currentPage={tableAction.pagination?.current}
                   onChangeTable={handleChangeTable}
-                  onEdit={openEdit}
+                  onEdit={openEdit} onDelete={onDelete}
                 />
               </Card>
             </Col>
             <RoomInfoModal devices={devices} setDevices={setDevices} open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
-                           room={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
+                           room={infoModalData.entitySelected}  onClose={onClose} onSave={onSave} />
           </Row>
         )}
       </Space>

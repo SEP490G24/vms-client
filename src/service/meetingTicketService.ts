@@ -55,6 +55,7 @@ export interface MeetingFilterPayload {
   endTimeEnd?: string;
   auditType?: string
   createdBy?: string;
+  bookmark?: boolean
 }
 
 export interface CancelTicketPayload {
@@ -175,12 +176,7 @@ const bookmark = async (payload: MeetingBookMark) => {
   return httpService.handleResponseStatus(response)
 }
 
-const filterBookmark = async () => {
-  httpService.attachTokenToHeader(authService.getToken() as string)
-  httpService.attachAcceptLanguageToHeader()
-  const response = await httpService.get(TICKET.BOOKMARK)
-  return httpService.handleResponseStatus(response)
-}
+
 
 const filter = async (payload: MeetingFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
@@ -219,8 +215,7 @@ const meetingTicketService = {
   subscribeCheckIn,
   findWithRoom,
   filter,
-  bookmark,
-  filterBookmark
+  bookmark
 }
 
 export default meetingTicketService

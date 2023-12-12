@@ -17,7 +17,7 @@ export const SharedActionDelete: React.FC<MeetingActionProps> = React.memo((prop
       label: t('common.field.action_delete'),
       key: '1',
       danger: true,
-      onClick: () => props.onDelete(props.id)
+      onClick: () => props.onDelete(props.id),
     },
 
   ]

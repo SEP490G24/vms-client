@@ -1,177 +1,140 @@
-import { Card, Col, Form, FormInstance, message, Row, UploadProps } from 'antd'
-import TextArea from 'antd/es/input/TextArea'
-import React, { useEffect, useState } from 'react'
+import { OrganizationWrapper } from './styles.ts'
+
+import { Card, Col, Divider, message, Row, Space, TablePaginationConfig } from 'antd'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import PerfectScrollbar from 'react-perfect-scrollbar'
-import { SharedAvatar, SharedButton, SharedInput } from '~/common'
-import { toBase64 } from '~/utils'
-import { OrganizationWrapper } from './styles'
-import { BASE_STORAGE, REGEX } from '~/constants'
-import { useDispatch, useSelector } from 'react-redux'
-import { organizationsSelector, updateMyOrganization } from '~/redux'
-import { fileService, organizationService } from '~/service'
-import { UploadFileData } from '~/interface'
-import { RcFile } from 'antd/es/upload'
+import { SharedButton } from '~/common'
+import { InfoModalData, OrganizationDto, TableAction, TableData } from '~/interface'
+import { formatSortParam, resetCurrentPageAction } from '~/utils'
+import { OrganizationInfo } from './Info'
+import { OrganizationFilter } from './Filter'
+import { OrganizationTable } from './Table'
+import { departmentService, OrganizationFilterPayload, organizationService } from '~/service'
+import { FilterValue } from 'antd/es/table/interface'
 
 const Organization = () => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { myOrganization } = useSelector(organizationsSelector)
-  const [form] = Form.useForm()
-  const formRef = React.useRef<FormInstance>(null)
-  const [logo, setLogo] = useState<UploadFileData>()
+  
+  const [tableData, setTableData] = useState<TableData<OrganizationDto>>({ loading: false })
+  const [infoModalData, setInfoModalData] = useState<InfoModalData<OrganizationDto>>({
+    openModal: false,
+    confirmLoading: false,
+    entitySelected: undefined
+  })
+  const [tableAction, setTableAction] = useState<TableAction>({})
+  const [filterPayload, setFilterPayload] = useState<OrganizationFilterPayload>({})
+  // const [exportEx, setExportEx] = useState<boolean>(false)
+
 
   useEffect(() => {
-    form.setFieldsValue({
-      name: myOrganization?.name,
-      code: myOrganization?.code,
-      website: myOrganization?.website,
-      representative: myOrganization?.representative,
-      logo: myOrganization?.logo,
-      contactInfo: myOrganization?.contactInfo,
-      contactPhoneNumber: myOrganization?.contactPhoneNumber,
-      enable: myOrganization?.enable
+    fetchOrganizations()
+  }, [filterPayload, tableAction])
+
+  const fetchOrganizations = () => {
+    setTableData({ ...tableData, loading: true })
+    const payload = {
+      ...filterPayload,
+      enable: tableAction.filters?.enable?.[0]
+    } as OrganizationFilterPayload
+    organizationService.filter(payload, true, {
+      page: (tableAction.pagination?.current ?? 1) - 1,
+      size: 10,
+      sort: formatSortParam(tableAction.sorter?.columnKey, tableAction.sorter?.order)
+    }).then((response) => {
+      setTableData({ pageableResponse: response.data, loading: false })
+    }).catch(() => {
+      setTableData({ ...infoModalData, loading: false })
     })
+  }
 
-  }, [myOrganization])
+  const onFilter = (filterPayload: OrganizationFilterPayload) => {
+    setTableAction(resetCurrentPageAction(tableAction))
+    setFilterPayload(filterPayload)
+  }
 
-  const onFinish = async (values: any) => {
-    let logoUrl = undefined
-    let payload = values
-    if (logo?.file) {
-      await fileService.uploadRcFile(logo?.file).then((response) => {
-        logoUrl = response.data.name
-      })
-      payload = {
-        ...payload, logo: logoUrl
-      }
-    }
-    const request = !!myOrganization ? organizationService.update(myOrganization.id, payload) : organizationService.insert(payload)
-    await request
-      .then((resp) => {
-        if (resp?.data) {
-          dispatch(updateMyOrganization(resp.data))
-          message.success(resp.data.message)
+  const onSave = (payload: any) => {
+    let request = !!infoModalData.entitySelected ? organizationService.update(infoModalData.entitySelected.id, payload) : organizationService.insert(payload)
+    request
+      .then(async (res: any) => {
+        if (res?.status === 200) {
+          setInfoModalData({ confirmLoading: false, openModal: false, entitySelected: undefined })
+          setTableAction(resetCurrentPageAction(tableAction))
+          await message.success(t('common.message.success.save'))
         }
       })
-      .catch((resp) => {
-        message.error(resp.data.message)
+      .catch(async (error) => {
+        setInfoModalData({ ...infoModalData, confirmLoading: false })
+        await message.error(error.data.message)
       })
   }
 
-  const onChaneLogo: UploadProps['onChange'] = async (data) => {
-    const url = await toBase64(data.file)
+  const openEdit = (organizationDto: OrganizationDto) => {
+    setInfoModalData({ ...infoModalData, entitySelected: organizationDto, openModal: true })
+  }
 
-    form.setFieldsValue({ logo: url })
-    setLogo({
-      file: data.file as RcFile,
-      content: {
-        ...data.fileList,
-        // @ts-ignore
-        url: url
+  const onClose = () => {
+    setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
+  }
+
+  const onDelete = (organizationId: string) => {
+    departmentService.remove(organizationId).then( (response) => {
+      if(response.status === 200){
+        message.success(t('common.message.success.delete'))
+        fetchOrganizations()
       }
+    }).catch( async () => {
+      await  message.error(t('common.message.error.delete'))
     })
   }
+
+  const handleChangeTable = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: any) => {
+    setTableAction({ pagination, filters, sorter })
+  }
+
 
   return (
     <OrganizationWrapper>
-      <h2 className='page-header-text'>{t('organization.info.title')}</h2>
-      <PerfectScrollbar>
-        <Row className={'m-0'} style={{ maxHeight: 'calc(100vh - 160px)' }}>
-          <Col span={24}>
-            <Card
-              title={t('organization.info.title')}
-              extra={
+      <Space direction='vertical' size={24} style={{ width: '100%' }}>
+        <Space>
+          <h2>{t('organization.organization.title')}</h2>
+          <Divider type='vertical' />
+        </Space>
+        <Row className={'w-full m-0'} gutter={24} wrap={false}>
+          <Col flex={'none'} span={12}>
+            <OrganizationFilter onFilter={onFilter} />
+          </Col>
+          <Col flex={'auto'}>
+            <Card title={<Space style={{ width: '100%', justifyContent: 'space-between' }}>
+              <strong> {t('organization.organization.table.title', { count: tableData.pageableResponse?.totalElements ?? 0 })}</strong>
+              <Space>
                 <SharedButton
-                  type='primary'
-                  onClick={form.submit}
+                  // permissions={PERMISSION_ROLE_MAP.R_SITE_CREATE}
+                  type='default'
+                  onClick={() => {
+                    setInfoModalData({
+                      ...infoModalData,
+                      entitySelected: undefined,
+                      openModal: true
+                    })
+                  }}
                 >
-                  {t('common.label.save')}
+                  {t('common.label.create')}
                 </SharedButton>
-              }
-              bordered={false}
-              className='slx-card'
-            >
-              <Row align='top'>
-                <Col span={3}>
-                  <SharedAvatar url={logo?.content.url ?? BASE_STORAGE + myOrganization.logo}
-                                name={myOrganization?.name}
-                                onChange={onChaneLogo} />
-                </Col>
-                <Col span={15}>
-                  <Form
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                    layout={'horizontal'}
-                    form={form}
-                    initialValues={{ layout: 'horizontal' }}
-                    colon={false}
-                    labelAlign='left'
-                    ref={formRef}
-                    className='slx-form'
-                    onFinish={onFinish}
-                  >
-                    <Form.Item label={t('common.field.code')} name='code' >
-                      <SharedInput disabled size={'large'} placeholder={t('common.placeholder.code')} />
-                    </Form.Item>
-                    <Form.Item
-                      label={t('common.field.name')}
-                      name='name'
-                      rules={[{ required: true }]}
-                    >
-                      <SharedInput size={'large'} placeholder={t('common.placeholder.organizationName')} />
-                    </Form.Item>
-                    <Form.Item label={t('common.field.homepage_address')} name='website'>
-                      <SharedInput size={'large'} placeholder={t('common.placeholder.homepage_address')} />
-                    </Form.Item>
-                    <Form.Item
-                      label={t('common.field.representativeName')}
-                      name='representative'
-                    >
-                      <SharedInput size={'large'}
-                                   placeholder={t('common.field.representativeName')}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      label={t('common.field.contact_person_in_charge')}
-                      name='contactInfo'
-                      rules={[{ required: true }]}
-                    >
-                      <SharedInput size={'large'} placeholder={t('common.placeholder.contactInfo')} />
-                    </Form.Item>
-                    <Form.Item
-                      label={t('common.field.contact_phone_number')}
-                      name='contactPhoneNumber'
-                      rules={[{ required: true }, {
-                        pattern: REGEX.PHONE,
-                        message: t('common.error.phoneNumber_valid')
-                      }]}
-                    >
-                      <SharedInput size={'large'}
-                                   placeholder={t('common.field.contact_phone_number')}
-                                   inputMode={'tel'}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      className={'mb-3'}
-                      label={t('common.field.description')}
-                      name='description'
-                    >
-                      <TextArea
-                        showCount
-                        maxLength={200}
-                        className={'h-[200px] resize-none'}
-                        placeholder={t('common.placeholder.description')}
-                      />
-                    </Form.Item>
-                  </Form>
-                </Col>
-              </Row>
+              </Space>
+            </Space>}>
+              <Divider style={{ margin: '16px 0 0' }} />
+              <OrganizationTable
+                loading={tableData.loading}
+                pageableResponse={tableData.pageableResponse}
+                currentPage={tableAction.pagination?.current}
+                onChangeTable={handleChangeTable}
+                onEdit={openEdit} onDelete={onDelete} />
             </Card>
           </Col>
-          <Col span={6}></Col>
+          <OrganizationInfo open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={650}
+                         organization={infoModalData.entitySelected} onClose={onClose} onSave={onSave} />
         </Row>
-      </PerfectScrollbar>
+      </Space>
     </OrganizationWrapper>
   )
 }

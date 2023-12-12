@@ -43,7 +43,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
   }
 
   return (
-    <Card title={'Overview Filter'}
+    <Card title={t('dashboard.search.title')}
           extra={
             <Space>
               <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
@@ -58,7 +58,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
       <Space className={'w-full'} size={24}>
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
           <Card className={'bg-body'}>
-            <strong className={'mr-4'}>Site</strong>
+            <strong className={'mr-4'}>{t('common.field.site.name')}</strong>
             <Select
               bordered={false}
               className={'w-[240px] bg-white'}
@@ -73,7 +73,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
           </Card>
         }
         <Card className={'bg-body'}>
-          <strong className={'mr-4'}>Year</strong>
+          <strong className={'mr-4'}>{t('common.label.year')}</strong>
           <Select bordered={false}
                   className={'bg-white'}
                   allowClear
@@ -86,7 +86,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
                   })} />
         </Card>
         <Card className={'bg-body'}>
-          <strong className={'mr-4'}>Month</strong>
+          <strong className={'mr-4'}>{t('common.label.month')}</strong>
           <Select bordered={false}
                   className={'bg-white'}
                   allowClear

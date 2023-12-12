@@ -207,6 +207,9 @@
       "use": "Use",
       "yes": "Yes",
       "no": "No",
+      "in": "In",
+      "year": "Year",
+      "month": "Month",
       "not_use": "Not used",
       "enable": "Enable",
       "disable": "Disable",
@@ -310,6 +313,22 @@
   "dashboard": {
     "title": "Dashboard Management",
     "lastUpdate": "Latest update",
+    "search": {
+      "title": "Overview Filter"
+    },
+    "state": {
+      "ticket": "Ticket State",
+      "visitor": "Customer Accept"
+    },
+    "purpose": {
+      "overview": "Purpose Overview",
+      "pie": "Meeting Purpose"
+    },
+    "countdown": {
+      "upcoming": "Upcoming Meetings",
+      "current": "Current Taking Meetings",
+      "ended": "Ended Meetings"
+    },
     "statistic": {
       "totalTicket": "Total Ticket",
       "totalTicketCompleted": "Completed",

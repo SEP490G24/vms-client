@@ -1,1 +1,1 @@
-export { default as Agent } from './User.tsx'
+export { default as User } from './User.tsx'

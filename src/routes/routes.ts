@@ -8,22 +8,17 @@ import {
   Forbidden,
   History,
   MeetingCalendar,
-  MeetingList,
-  Organization,
+  MeetingList, MyOrganization, Organiztion,
   Permission,
   Profile,
   QRCodeManager,
   Role,
   Room,
   RoomMeetingCalendar,
-  Setting,
+  Setting, Site,
   Template,
-  TicketResult
+  TicketResult, User
 } from '~/pages'
-
-import { Agent } from '~/pages/User'
-import { Site } from '~/pages/Site'
-import { OrganizationManagement } from '~/pages/Organization/OrganizationManagement'
 
 import {
   PATH_AUDIT_LOG,
@@ -86,12 +81,12 @@ export const privateRoutes: RouteItem[] = [
   },
   {
     path: PATH_ORGANIZATION,
-    component: OrganizationManagement,
+    component: Organiztion,
     role: PATH_ROLE_MAP['PATH_ORGANIZATION']
   },
   {
     path: PATH_MY_ORGANIZATION,
-    component: Organization,
+    component: MyOrganization,
     role: PATH_ROLE_MAP['PATH_MY_ORGANIZATION']
   },
   {
@@ -111,7 +106,7 @@ export const privateRoutes: RouteItem[] = [
   },
   {
     path: PATH_USER,
-    component: Agent,
+    component: User,
     role: PATH_ROLE_MAP['PATH_USER']
   },
   {
@@ -179,6 +174,13 @@ export const privateRoutes: RouteItem[] = [
     role: PATH_ROLE_MAP['PATH_QR_CODE_MANAGER']
   }
 ]
+
+export const getAllPrivateRouters = (): RouteItem[] => {
+  const canAccessRouter = privateRoutes.filter((r) => authService.hasRole(r.role))
+  const [first] = canAccessRouter
+  if (first) return [clonePaths(PATH_ROOT, first), ...privateRoutes]
+  return privateRoutes
+}
 
 export const getAcceptedPrivateRoutes = (): RouteItem[] => {
   const paths = privateRoutes.filter((r) => authService.hasRole(r.role))

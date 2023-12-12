@@ -72,7 +72,7 @@
       "customer": "Khách hàng",
       "ticket": "Vé",
       "site": {
-        "name": "Địa điểm"
+        "name": "Chi nhánh"
       },
       "check_in": "Check In",
       "check_out": "Check Out",
@@ -204,6 +204,9 @@
       "use": "Sử dụng",
       "yes": "Có",
       "no": "Không",
+      "in": "Trong",
+      "year": "Năm",
+      "month": "Tháng",
       "not_use": "Không sử dụng",
       "enable": "Kích hoạt",
       "disable": "Tắt",
@@ -220,8 +223,8 @@
       "bookmark": "Đánh dấu"
     },
     "date_range": {
-      "start_placeholder": "Thời gian bắt đầu",
-      "end_placeholder": "Thời gian kết thúc"
+      "start_placeholder": "Bắt đầu",
+      "end_placeholder": "Kết thúc"
     },
     "durationOption": {
       "today": "Hôm nay",
@@ -303,11 +306,27 @@
     }
   },
   "dashboard": {
-    "title": "Quản lý Bảng điều khiển",
+    "title": "Quản lý Thống kê",
     "lastUpdate": "Cập nhật gần đây",
+    "search": {
+      "title": "Bộ Lọc Tổng Quan"
+    },
+    "state": {
+      "ticket": "Trạng Thái Phiếu",
+      "visitor": "Trạng Thái Khách Hàng"
+    },
+    "purpose": {
+      "overview": "Tổng Quan Mục Đích",
+      "pie": "Mục Đích Cuộc Họp"
+    },
+    "countdown": {
+      "upcoming": "Các Cuộc Họp Sắp Tới",
+      "current": "Các Cuộc Họp Đang Diễn Ra",
+      "ended": "Các Cuộc Họp Đã Kết Thúc"
+    },
     "statistic": {
       "totalTicket": "Tổng số Vé",
-      "totalTicketCompleted": "Đã hoàn thành",
+      "totalTicketCompleted": "Hoàn thành",
       "totalTicketCancel": "Hủy bỏ",
       "totalVisitor": "Tổng số Khách",
       "totalVisitorAccept": "Chấp nhận",
@@ -673,13 +692,13 @@
     }
   },
   "pageResults": {
-		"logout": "Đăng xuất",
-		"backToSystem": "Quay lại hệ thống",
-		"forbidden": {
-			"title": "Xin lỗi, bạn không được phép truy cập trang này."
-		},
-		"notFound": {
-			"title": "Xin lỗi, trang bạn đã truy cập không tồn tại.\n"
-		}
-	}
+    "logout": "Đăng xuất",
+    "backToSystem": "Quay lại hệ thống",
+    "forbidden": {
+      "title": "Xin lỗi, bạn không được phép truy cập trang này."
+    },
+    "notFound": {
+      "title": "Xin lỗi, trang bạn đã truy cập không tồn tại.\n"
+    }
+  }
 }

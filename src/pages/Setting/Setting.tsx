@@ -30,7 +30,7 @@ const Setting = () => {
       setSettingGroups(response.data)
       setSettingGroupIdSelected(firstElement.id)
     })
-    setSiteId(sites[0].id)
+    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) setSiteId(sites?.[0]?.id)
   }, [load])
 
   useEffect(() => {

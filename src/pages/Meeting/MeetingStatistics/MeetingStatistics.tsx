@@ -62,12 +62,6 @@ const MeetingStatistics = () => {
     })
   }
 
-  const onFilterBookmark = () => {
-    ticketService.filterBookmark().then((res) => {
-      setTableData({ pageableResponse: res.data, loading: false })
-    })
-  }
-
   const onBookMark = (payload: MeetingBookMark) => {
     ticketService.bookmark(payload).then((response) => {
       if (response.data === false) {
@@ -148,7 +142,7 @@ const MeetingStatistics = () => {
         <AuthSection permissions={PERMISSION_ROLE_MAP.R_TICKET_FILTER}>
           <Row gutter={24} wrap={false}>
             <Col flex={'none'} span={12}>
-              <MeetingFilter onFilterBookmark={onFilterBookmark} onFilter={onFilter} />
+              <MeetingFilter onFilter={onFilter} />
             </Col>
             <Col flex={'auto'}>
               <Card>

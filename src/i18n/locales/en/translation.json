@@ -1,7 +1,7 @@
 {
   "common": {
     "field": {
-      "customers": "Customers",
+      "customers": "Guests",
       "username": "Username",
       "gender": "Gender",
       "reason": "Reason",
@@ -69,7 +69,7 @@
       "identificationNumber": "Identification Number",
       "name": "Name",
       "tax_code": "Tax_code",
-      "customer": "Customer",
+      "customer": "Guest",
       "ticket": "Ticket",
       "site": {
         "name": "Site"
@@ -78,7 +78,7 @@
       "check_out": "Check Out",
       "ticket_name": "Ticket Name",
       "ticket_info": "Ticket Info",
-      "title_meeting": "Title Meeting",
+      "title_meeting": "Title Appointment",
       "visitor_name": "Visitor Name",
       "start_time": "Start Time",
       "end_time": "End Time",
@@ -100,7 +100,7 @@
       "deviceType": "Device Type",
       "createdBy": "Created By",
       "my_site_info": "Set my site information",
-      "customer_detail": "Customer Detail",
+      "customer_detail": "Guest Detail",
       "visitorName": "Visitor Name",
       "action_delete": "Delete",
       "department_name": "Department Name"
@@ -164,7 +164,7 @@
       "department_name": "Please enter department name",
       "template_name": "Please enter template name",
       "subject": "Please enter subject",
-      "customer": "Please enter Customer Id",
+      "customer": "Please enter Guest Id",
       "ticket": "Please enter Ticket Id",
       "type": "Choose type",
       "body": "Enter body",
@@ -222,7 +222,7 @@
       "uploadFile": "Upload File",
       "bookmark": "Bookmark",
       "unbookmark": "UnBookmark",
-      "cancel_meeting": "Cancel Meeting"
+      "cancel_meeting": "Cancel Appointment"
     },
     "date_range": {
       "start_placeholder": "Start Time",
@@ -265,8 +265,8 @@
         "error": "Change password failed!"
       },
       "check-in": {
-        "success": "Customer {{customerName}} has successfully checked in",
-        "reject": "Customer {{customerName}} check-in was rejected"
+        "success": "Guest {{customerName}} has successfully checked in",
+        "reject": "Guest {{customerName}} check-in was rejected"
       },
       "confirm": {
         "save": {
@@ -287,13 +287,13 @@
     "title": "Configuration Manager"
   },
   "customer": {
-    "title": "Customer Management",
+    "title": "Guest Management",
     "export": {
       "file_name": "statistic_customer_{{time}}"
     },
     "search": {
       "title": "Search",
-      "counselor": "Customer",
+      "counselor": "Guest",
       "counselor_placeholder": "Name, Identification Number, Phone, Email"
     },
     "table": {
@@ -302,7 +302,7 @@
     },
     "popup": {
       "title-add": "Create new customer",
-      "title-edit": "Customer Edit",
+      "title-edit": "Guest Edit",
       "btn-save": "Save",
       "btn-edit": "Save"
     }
@@ -326,7 +326,7 @@
     },
     "search": {
       "title": "Search",
-      "counselor": "Customer",
+      "counselor": "Guest",
       "counselor_placeholder": "Visitor Name, Phone Number, Ticket Title"
     },
     "table": {
@@ -335,23 +335,23 @@
     },
     "popup": {
       "title-add": "Create new customer",
-      "title-edit": "Customer Edit",
+      "title-edit": "Guest Edit",
       "btn-save": "Save",
       "btn-edit": "Save"
     }
   },
   "meeting": {
     "calendar": {
-      "title": "Meeting Calendar"
+      "title": "Appointment Calendar"
     },
     "manager": {
-      "title": "Meeting Management",
+      "title": "Appointment Management",
       "table": {
         "title": "Total {{count}} meetings"
       },
       "search": {
         "title": "Search",
-        "counselor": "Meeting",
+        "counselor": "Appointment",
         "counselor_placeholder": "Name, Create By, ..."
       }
     },
@@ -360,7 +360,7 @@
     },
     "popup": {
       "title-add": "Create new meeting",
-      "title-edit": "Meeting Edit",
+      "title-edit": "Appointment Edit",
       "btn-save-draft": "Save Draft",
       "btn-save": "Save",
       "confirm": "Confirm",
@@ -607,10 +607,10 @@
       "title": "Dashboard"
     },
     "meeting": {
-      "title": "Meeting Request",
+      "title": "Appointment Request",
       "sub": {
         "calendar": "Calendar",
-        "meetings": "Meetings",
+        "meetings": "Appointments",
         "rooms": "Rooms"
       }
     },
@@ -621,9 +621,9 @@
       "title": "QR Code"
     },
     "customer": {
-      "title": "Customer",
+      "title": "Guest",
       "sub": {
-        "customer": "Customer",
+        "customer": "Guest",
         "history": "History"
       }
     },
@@ -652,8 +652,8 @@
     }
   },
   "ticket-result": {
-    "cancel-meeting": "Cancel Meeting",
-    "reject-customer": "Reject Customer",
+    "cancel-meeting": "Cancel Appointment",
+    "reject-customer": "Reject Guest",
     "success": {
       "title": "Successfully Verify QR Server!",
       "subTitle": "Ticket number: : {{ticketId}}. Please wait 1-5 minutes 1-5 minutes to takes prepare."

@@ -20,7 +20,7 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
   const [valueDateStart, setValueDateStart] = useState<DateRadioRange>()
   const [valueDateEnd, setValueDateEnd] = useState<DateRadioRange>()
   const [valueDateCreated, setValueDateCreated] = useState<DateRadioRange>()
-  const [keyword, setKeyword] = useState<string>('')
+  const [isFilterBookmark, setIsFilterBookmark] = useState<boolean>()
 
 
   const onFinish = (values: any) => {
@@ -35,15 +35,20 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
       createdOnEnd: valueDateCreated?.date?.['1']?.format(DATE_TIME.END_DAY),
       status: values['status'],
       purpose: values['purpose'],
-      createdBy: values['createdBy']
+      createdBy: values['createdBy'],
+      bookmark: isFilterBookmark,
     }
     props.onFilter(payload)
   }
 
-
+  const onFilterBookmark = () => {
+    setIsFilterBookmark(true)
+    form.submit()
+  }
   const onReset = () => {
     setValueDateStart(undefined)
     setValueDateEnd(undefined)
+    setIsFilterBookmark(undefined)
     form.resetFields()
     props.onFilter({})
   }
@@ -53,7 +58,7 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
       title={t('meeting.manager.search.title')}
       extra={
         <Space>
-          {!props.calendar && <SharedButton onClick={props.onFilterBookmark}>{t('common.label.bookmark')}</SharedButton>}
+          {!props.calendar && <SharedButton onClick={onFilterBookmark}>{t('common.label.bookmark')}</SharedButton>}
           <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
           <SharedButton
             // permissions={PERMISSION_ROLE_MAP.R_USER_FIND}
@@ -84,8 +89,6 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
           label={t('meeting.manager.search.counselor')} name='keyword'>
           <SharedInput
             placeholder={t('common.placeholder.meeting')}
-            value={keyword}
-            onChange={(e: any) => setKeyword(e.target.value)}
           />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.created_by')} name='createdBy'>

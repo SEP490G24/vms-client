@@ -20,7 +20,7 @@ const Setting = () => {
   const [settings, setSettings] = useState<SettingDto[]>([])
   const [settingSiteValues, setSettingSiteValues] = useState<SettingSiteDto>()
   const [settingGroupIdSelected, setSettingGroupIdSelected] = useState('')
-  const [siteId, setSiteId] = useState()
+  const [siteId, setSiteId] = useState<string>()
   const [load, setLoad] = useState(false)
   const { sites } = useSelector(sitesSelector)
 
@@ -30,6 +30,7 @@ const Setting = () => {
       setSettingGroups(response.data)
       setSettingGroupIdSelected(firstElement.id)
     })
+    setSiteId(sites[0].id)
   }, [load])
 
   useEffect(() => {
@@ -70,9 +71,10 @@ const Setting = () => {
             <Row className={'w-full gap-2'} align={'middle'}>
               <Col flex={'none'}><span className={'text-muted'}>Site: </span></Col>
               <Col flex={'auto'}>
-                <SharedSelect className={'w-full'} allowClear options={sites.map((site) => {
+                <SharedSelect className={'w-full'} bordered={false} options={sites.map((site) => {
                   return { label: site.name, value: site.id, disabled: !site.enable }
                 }) ?? []}
+                              value={siteId}
                               onChange={setSiteId}
                               placeholder={t('common.placeholder.site')}></SharedSelect>
               </Col>
@@ -87,11 +89,11 @@ const Setting = () => {
 
               >
                 <Menu className={'w-full'}
-                      defaultSelectedKeys={['1']}
+                      defaultSelectedKeys={['0']}
                       onSelect={({ key }) => setSettingGroupIdSelected(key)}
                       mode={'inline'}
-                      items={settingGroups.map((settingGroup) => {
-                        return { key: settingGroup.id, label: settingGroup.name }
+                      items={settingGroups.map((settingGroup, index) => {
+                        return { key: index, label: settingGroup.name }
                       })}>
                 </Menu>
               </Card>

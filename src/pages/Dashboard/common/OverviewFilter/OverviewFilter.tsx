@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
 import { checkPermission, enumToArray } from '~/utils'
 import { SCOPE_ROLE_MAP } from '~/role'
-import { MONTHS } from  '~/constants'
+import { MONTHS } from '~/constants'
 import React, { useEffect, useState } from 'react'
 import { SharedButton } from '~/common'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +23,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
   const { t } = useTranslation()
   const defaultValue = {
     year: new Date().getFullYear(),
-    month: new Date().getMonth()
+    month: new Date().getMonth() + 1
   }
 
   const { sites } = useSelector(sitesSelector)
@@ -61,7 +61,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
             <strong className={'mr-4'}>Site</strong>
             <Select
               bordered={false}
-              className={'w-[140px] bg-white'}
+              className={'w-[240px] bg-white'}
               value={filterPayload.siteId}
               placeholder={'Select Site '}
               allowClear

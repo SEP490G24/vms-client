@@ -54,7 +54,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
         total: props.pageableResponse?.totalElements,
         pageSize: props.pageableResponse?.pageable?.pageSize,
         showSizeChanger: false,
-        position: ['bottomCenter']
+        position: ['bottomCenter'],
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
@@ -85,12 +85,16 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       <Column title={t('common.field.participate')} key='participate'
               render={(value: MeetingDto) => <>{value.customerCount} people</>} />
       <Column title={t('common.field.room')} dataIndex='roomName' key='roomName' />
-      <Column title={t('common.field.duration')} key='duration'
+      <Column title={t('common.field.duration')} key='duration' width={'15%'}
               render={(value: MeetingDto) => <Space direction={'vertical'} size={4}>
-                <strong>{moment(value.startTime).format('DD-MM-YYYY')}</strong>
                 <Space direction={'horizontal'} size={4}>
+                  <strong>{moment(value.startTime).format('DD-MM-YYYY')}</strong>
+                  <span></span>
                   <p>{moment(value.startTime).format('LTS')}</p>
-                  <span>~</span>
+                </Space>
+                <Space direction={'horizontal'} size={4}>
+                  <strong>{moment(value.endTime).format('DD-MM-YYYY')}</strong>
+                  <span></span>
                   <p>{moment(value.endTime).format('LTS')}</p>
                 </Space>
               </Space>} />
@@ -102,7 +106,7 @@ const MeetingTable: React.FC<MeetingItemProps> = (props) => {
       />
       <Column title={t('common.field.createdBy')} dataIndex='createdBy' key='createdBy' />
       <Column title={t('common.field.created_on')} key='createdOn'
-              render={(value: MeetingDto) => moment(value.createdOn).format('L')} />
+              render={(value: MeetingDto) => moment(value.createdOn).format('DD/MM/YYYY')} />
       <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
               render={(value: MeetingDto) =>
                 <>

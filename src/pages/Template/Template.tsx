@@ -25,7 +25,6 @@ const Template = () => {
   const [filterPayload, setFilterPayload] = useState<TemplateFilterPayload>({})
 
   useEffect(() => {
-
     fetchTemplates({}, 1)
   }, [])
 
@@ -82,6 +81,14 @@ const Template = () => {
     setInfoModalData({ ...infoModalData, entitySelected: undefined, openModal: false })
   }
 
+  const onDelete = (id: string) => {
+    templateService.remove(id).then(() => {
+      message.success(t('common.message.success.delete'))
+      fetchTemplates({}, currentPage)
+    }).catch(() => {
+      message.error(t('common.message.error.delete'))
+    })
+  }
   return (
     <PageWrapper>
       <Space direction='vertical' size={24} style={{ width: '100%' }}>
@@ -106,7 +113,7 @@ const Template = () => {
                   <div className={'grid w-full sm:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-2'}>
                     {
                       templatesState.templates?.map((template, index) => (
-                        <TemplateItem key={index} templateDto={template} onEdit={openEdit}></TemplateItem>
+                        <TemplateItem key={index} templateDto={template} onEdit={openEdit} onDelete={onDelete}></TemplateItem>
                       ))
                     }
                   </div>

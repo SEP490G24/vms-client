@@ -37,10 +37,6 @@ const MeetingCalendar = () => {
     }
   }, [filterPayload, remoteQuery])
 
-  useEffect(() => {
-    console.log(meetingsState.meetings)
-  }, [meetingsState.meetings])
-
   const onFilter = (filterPayload: MeetingFilterPayload) => {
     setFilterPayload(filterPayload)
   }

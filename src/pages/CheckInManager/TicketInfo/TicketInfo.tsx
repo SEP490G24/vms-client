@@ -47,10 +47,9 @@ const TicketInfo: React.FC<Props> = (props) => {
   }
 
   const onCreateCard = (values: any) => {
-    cardService.insert(values).then(
-      async (response) => {
+    cardService.insert(values).then((response) => {
         if (response?.status === 200) {
-          await message.success(t('common.message.success.save'))
+          message.success(t('common.message.success.save')).then()
           setOpenModalCreateCard(false)
         }
       }
@@ -119,7 +118,7 @@ const TicketInfo: React.FC<Props> = (props) => {
           <SharedButton onClick={() => onCheckOut()}
                         key='buy'>{t('common.field.check_out')}</SharedButton>
           {
-            useCardConfig && props.meetingQRDto?.roomId &&
+            useCardConfig && props.meetingQRDto?.roomId && props.meetingQRDto.isSecurity &&
             <SharedButton type='primary' onClick={() => setOpenModalCreateCard(true)}
                           key='buy'>{t('common.field.create_card')}</SharedButton>
           }

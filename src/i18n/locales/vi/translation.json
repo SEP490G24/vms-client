@@ -103,7 +103,9 @@
       "customer_detail": "Chi tiết khách hàng",
       "visitorName": "Tên khách",
       "action_delete": "Xóa",
-      "department_name": "Tên bộ phận"
+      "department_name": "Tên bộ phận",
+      "old_guest": "Người dùng cũ",
+      "new_guest": "Người dùng mới"
     },
     "button": {
       "setting_default": "Đặt mặc định",
@@ -150,6 +152,7 @@
       "purposeNote": "Nhập ghi chú mục đích",
       "purpose": "Chọn mục đích",
       "device": "Chọn thiết bị",
+      "createdBy": "Nhập tên người dùng tạo",
       "room": "Chọn phòng",
       "department": "Vui lòng chọn bộ phận",
       "deviceType": "Vui lòng chọn loại thiết bị",

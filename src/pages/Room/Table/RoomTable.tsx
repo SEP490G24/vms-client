@@ -7,8 +7,8 @@ import { Table, TablePaginationConfig } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedStatus } from '~/common'
 import { SharedActionDelete } from '~/common/SharedActionDelete'
-import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
+import { checkPermission } from '~/utils'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<RoomDto>
@@ -67,7 +67,7 @@ const RoomTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: RoomDto) => moment(value.createdOn).format('L')} />
       <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
               render={(value: RoomDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : undefined} />
-      <AuthSection permissions={PERMISSION_ROLE_MAP.R_ROOM_DELETE}>
+      {checkPermission(PERMISSION_ROLE_MAP.R_ROOM_DELETE) &&
         <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
                 render={(value: RoomDto) =>
                   <>
@@ -77,7 +77,7 @@ const RoomTable: React.FC<MeetingItemProps> = (props) => {
                   </>
 
                 } />
-      </AuthSection>
+      }
     </Table>
   )
 }

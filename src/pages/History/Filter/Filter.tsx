@@ -84,7 +84,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             <SharedSelect options={sites.map((site) => {
               return { label: site.name, value: site.id, key: site.id }
             })}
-                          placeholder={t('common.placeholder.province')} />s
+                          placeholder={t('common.placeholder.site')} />
           </Form.Item>
         </AuthSection>
 

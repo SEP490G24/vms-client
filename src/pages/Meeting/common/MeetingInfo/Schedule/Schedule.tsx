@@ -56,8 +56,7 @@ const Schedule: React.FC<ScheduleWrapperArgs> = (props) => {
       name: values['name'],
       purpose: values['purpose'],
       purposeNote: values['purposeNote'],
-      startTime: valueDate?.[0]?.toDate(),
-      endTime: valueDate?.[1]?.toDate(),
+      duration: values['duration'],
       siteId: values['siteId'],
       roomId: values['roomId'],
       description: values['description']

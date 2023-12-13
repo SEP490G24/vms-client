@@ -1,4 +1,4 @@
-import { Form, message, Spin, Steps } from 'antd'
+import { Form, Spin, Steps } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ContentWrapper, MeetingInfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +16,7 @@ import {
   resetMeetingSelected
 } from '~/redux/slices/meetingSlice.ts'
 import { formatDate, isNullish } from '~/utils'
-import { CreateMeetingInfo, meetingTicketService, UpdateMeetingInfo } from '~/service'
+import { CreateMeetingInfo, UpdateMeetingInfo } from '~/service'
 import { useForceUpdate } from '~/hook'
 
 interface MeetingInfoArgs {
@@ -94,8 +94,8 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       name: values['name'],
       purpose: values['purpose'],
       purposeNote: values['purposeNote'],
-      startTime: formatDate(values['startTime']),
-      endTime: formatDate(values['endTime']),
+      startTime: formatDate(values['duration']?.[0].toDate()),
+      endTime: formatDate(values['duration']?.[1].toDate()),
       siteId: values['siteId'],
       roomId: values['roomId'],
       description: values['description']
@@ -133,27 +133,28 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       ...overrideData,
       id: isUpdate ? meetingSelected.id : undefined
     } as CreateMeetingInfo | UpdateMeetingInfo
-    const request = isUpdate ? meetingTicketService.update(payload) : meetingTicketService.insert(payload)
-    request
-      .then((response) => {
-        if (props.scheduler) {
-          const meeting = response.data
-          const event = {
-            event_id: props.scheduler.edited?.event_id ?? Math.random(),
-            title: meeting.name,
-            start: new Date(meeting.startTime),
-            end: new Date(meeting.endTime),
-            description: meeting.description,
-            id: meeting.id
-          }
-          props.scheduler.onConfirm(event, isUpdate ? 'edit' : 'create')
-        }
-        props.onSave && props.onSave()
-        onClose()
-        message.success(t('common.message.success.save')).then()
-      }).catch((error) => {
-      message.error(error.data.message).then()
-    })
+    console.log(payload)
+    // const request = isUpdate ? meetingTicketService.update(payload) : meetingTicketService.insert(payload)
+    // request
+    //   .then((response) => {
+    //     if (props.scheduler) {
+    //       const meeting = response.data
+    //       const event = {
+    //         event_id: props.scheduler.edited?.event_id ?? Math.random(),
+    //         title: meeting.name,
+    //         start: new Date(meeting.startTime),
+    //         end: new Date(meeting.endTime),
+    //         description: meeting.description,
+    //         id: meeting.id
+    //       }
+    //       props.scheduler.onConfirm(event, isUpdate ? 'edit' : 'create')
+    //     }
+    //     props.onSave && props.onSave()
+    //     onClose()
+    //     message.success(t('common.message.success.save')).then()
+    //   }).catch((error) => {
+    //   message.error(error.data.message).then()
+    // })
   }
 
   const steps = [

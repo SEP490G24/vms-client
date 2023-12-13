@@ -103,11 +103,15 @@
       "customer_detail": "Guest Detail",
       "visitorName": "Visitor Name",
       "action_delete": "Delete",
-      "department_name": "Department Name"
+      "department_name": "Department Name",
+      "old_guest": "Old Guest",
+      "new_guest": "New Guest",
+      "created_by": "Enter creater"
     },
     "button": {
       "setting_default": "Set default",
-      "delete": "Delete"
+      "delete": "Delete",
+      "edit": "Edit"
     },
     "placeholder": {
       "id": "Please enter the id.",
@@ -180,8 +184,7 @@
       "status": "Choose status",
       "meeting": "Enter meeting info",
       "check_out": "Check Out",
-      "create_card": "Create Card",
-      "created_by": "Enter creater"
+      "create_card": "Create Card"
     },
     "error": {
       "content_is_too_long": "Content is too long!",
@@ -300,11 +303,11 @@
       "counselor_placeholder": "Name, Identification Number, Phone, Email"
     },
     "table": {
-      "title": "Total {{count}} customer",
+      "title": "Total {{count}} guest",
       "btn-add": "Create"
     },
     "popup": {
-      "title-add": "Create new customer",
+      "title-add": "Create new guest",
       "title-edit": "Guest Edit",
       "btn-save": "Save",
       "btn-edit": "Save"

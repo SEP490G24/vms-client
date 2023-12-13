@@ -13,7 +13,7 @@ const Filter: React.FC<FilterArgs> = (props) => {
   const [form] = Form.useForm()
 
   const onFinish = (values: any) => {
-    props.onFilter(values['checkInCode'])
+    props.onFilter(values['checkInCode'].trim())
   }
 
   const onReset = () => {

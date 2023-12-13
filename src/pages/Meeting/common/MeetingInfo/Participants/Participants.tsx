@@ -75,7 +75,7 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
 
   return (
     <ParticipantsWrapper>
-      <Divider orientation={'left'}>Old Customer</Divider>
+      <Divider orientation={'left'}>{t('old_guest')}</Divider>
       <Space className={'w-full mb-6'} size={30} direction={'vertical'}>
         <Table
           dataSource={oldCustomers}
@@ -150,7 +150,7 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
               <Space className={'w-full'} direction={'vertical'}>
                 {fields.map((field, index) => (
                   <Row key={field.key} className={'w-full'} align={'middle'}>
-                    <Divider orientation={'left'}>New Customer</Divider>
+                    <Divider orientation={'left'}>{t('new_guest')}</Divider>
                     <Col flex={1} key={index}>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')}
                                  name={[index, 'visitorName']}

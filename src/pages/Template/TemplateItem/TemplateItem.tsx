@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Descriptions } from 'antd'
+import { Card, Descriptions, Popconfirm, Space } from 'antd'
 import { SharedButton, SharedStatus } from '~/common'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import { TemplateDto } from '~/interface'
@@ -9,13 +9,29 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 interface TemplateItemProps {
   templateDto: TemplateDto
   onEdit: (templateDto: TemplateDto) => void
+  onDelete: (id: string) => void
 }
 
 export const TemplateItem: React.FC<TemplateItemProps> = React.memo((props) => {
   const { t } = useTranslation()
   return (
     <Card className={'w-full'} title={props.templateDto.name}
-          extra={<SharedButton onClick={() => props.onEdit(props.templateDto)}>Edit</SharedButton>}>
+          extra={
+            <Space>
+              {
+                <Popconfirm
+                  title={t('common.message.confirm.save.title')}
+                  description={t('common.message.confirm.save.description')}
+                  onConfirm={() => props.onDelete(props.templateDto.id)}
+                  okText={t('common.label.yes')}
+                  cancelText={t('common.label.no')}
+                > <SharedButton>{t('common.button.delete')}</SharedButton>
+                </Popconfirm>}
+              <SharedButton type='primary'
+                            onClick={() => props.onEdit(props.templateDto)}>{t('common.button.edit')}</SharedButton>
+            </Space>
+          }
+    >
       <Descriptions bordered>
         <DescriptionsItem label={t('common.field.code')} span={3}>
           {props.templateDto.code}

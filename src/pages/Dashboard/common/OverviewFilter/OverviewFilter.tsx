@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { sitesSelector } from '~/redux'
 import { checkPermission, enumToArray } from '~/utils'
 import { SCOPE_ROLE_MAP } from '~/role'
-import { MONTHS } from  '~/constants'
+import { MONTHS } from '~/constants'
 import React, { useEffect, useState } from 'react'
 import { SharedButton } from '~/common'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +23,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
   const { t } = useTranslation()
   const defaultValue = {
     year: new Date().getFullYear(),
-    month: new Date().getMonth()
+    month: new Date().getMonth() + 1
   }
 
   const { sites } = useSelector(sitesSelector)
@@ -43,7 +43,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
   }
 
   return (
-    <Card title={'Overview Filter'}
+    <Card title={t('dashboard.search.title')}
           extra={
             <Space>
               <SharedButton onClick={onReset}>{t('common.label.reset')}</SharedButton>
@@ -58,10 +58,10 @@ const OverviewFilter: React.FC<Props> = (props) => {
       <Space className={'w-full'} size={24}>
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
           <Card className={'bg-body'}>
-            <strong className={'mr-4'}>Site</strong>
+            <strong className={'mr-4'}>{t('common.field.site.name')}</strong>
             <Select
               bordered={false}
-              className={'w-[140px] bg-white'}
+              className={'w-[240px] bg-white'}
               value={filterPayload.siteId}
               placeholder={'Select Site '}
               allowClear
@@ -73,7 +73,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
           </Card>
         }
         <Card className={'bg-body'}>
-          <strong className={'mr-4'}>Year</strong>
+          <strong className={'mr-4'}>{t('common.label.year')}</strong>
           <Select bordered={false}
                   className={'bg-white'}
                   allowClear
@@ -86,7 +86,7 @@ const OverviewFilter: React.FC<Props> = (props) => {
                   })} />
         </Card>
         <Card className={'bg-body'}>
-          <strong className={'mr-4'}>Month</strong>
+          <strong className={'mr-4'}>{t('common.label.month')}</strong>
           <Select bordered={false}
                   className={'bg-white'}
                   allowClear

@@ -84,7 +84,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             <SharedSelect options={sites.map((site) => {
               return { label: site.name, value: site.id, key: site.id }
             })}
-                          placeholder={t('common.placeholder.province')} />
+                          placeholder={t('common.placeholder.province')} />s
           </Form.Item>
         </AuthSection>
 
@@ -92,7 +92,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
           <SharedSelect
             options={[{ label: 'CHECK_IN', value: 'CHECK_IN' },
               { label: 'CHECK_OUT', value: 'CHECK_OUT' }]}
-            placeholder={t('common.placeholder.province')} />
+            placeholder={t('common.placeholder.status')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.check_in')} name='checkIn'>
           <RangePicker

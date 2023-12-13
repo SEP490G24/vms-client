@@ -7,6 +7,8 @@ import { Table, TablePaginationConfig } from 'antd'
 import { SharedStatus } from '~/common'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedActionDelete } from '~/common/SharedActionDelete'
+import { AuthSection } from '~/auth'
+import { PERMISSION_ROLE_MAP } from '~/role'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<DepartmentDto>
@@ -61,15 +63,17 @@ const DepartmentTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: DepartmentDto) => moment(value.createdOn).format('L')} />
       <Column title={t('common.field.modification_date')} key='lastUpdatedOn' sorter={true}
               render={(value: DepartmentDto) => value.lastUpdatedOn ? moment(value.lastUpdatedOn).format('L') : undefined} />
-      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
-              render={(value: DepartmentDto) =>
-                <>
-                  <SharedActionDelete onDelete={props.onDelete} id={value.id}
-                                  directionIcon={'vertical'} />
+      <AuthSection permissions={PERMISSION_ROLE_MAP.R_DEPARTMENT_DELETE}>
+        <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
+                render={(value: DepartmentDto) =>
+                  <>
+                    <SharedActionDelete onDelete={props.onDelete} id={value.id}
+                                    directionIcon={'vertical'} />
 
-                </>
+                  </>
 
-              } />
+                } />
+      </AuthSection>
     </Table>
   )
 }

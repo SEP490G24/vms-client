@@ -1,6 +1,6 @@
 import React from 'react'
 import Column from 'antd/es/table/Column'
-import { PageableResponse, OrganizationDto } from '~/interface'
+import { OrganizationDto, PageableResponse } from '~/interface'
 import moment from 'moment/moment'
 import { useTranslation } from 'react-i18next'
 import { Table, TablePaginationConfig } from 'antd'
@@ -34,13 +34,13 @@ const OrganizationTable: React.FC<MeetingItemProps> = (props) => {
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
-      scroll={{x: 1200}}
+      scroll={{ x: 1200 }}
       className='vms-table no-bg'
       size='middle'
     >
 
       <Column title={t('common.field.code')} key='code'
-              render={(value: OrganizationDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>}/>
+              render={(value: OrganizationDto) => <a onClick={() => props.onEdit(value)}>{value.code}</a>} />
       <Column
         title={t('common.field.name')}
         sorter={true}

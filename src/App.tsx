@@ -10,7 +10,7 @@ import {
   themeSelector,
   useAppSelector
 } from './redux'
-import { getAcceptedPrivateRoutes } from './routes'
+import { getAcceptedPrivateRoutes, getAllPrivateRouters } from './routes'
 import { GlobalStyles, ResetMui } from './themes'
 import { ConfigProvider } from 'antd'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
@@ -65,6 +65,7 @@ function App() {
   }
 
   const acceptedPrivateRoutes = getAcceptedPrivateRoutes()
+  const allPrivateRoutes = getAllPrivateRouters()
 
   return (
     <ThemeProvider theme={selectedTheme.themes}>
@@ -85,7 +86,7 @@ function App() {
           <CustomRouter history={history} basename={window.__RUNTIME_CONFIG__.VITE_BASE_PATH}>
             <Routes>
               <Route element={<AuthRoute />}>
-                {acceptedPrivateRoutes.map((route, index) => {
+                {allPrivateRoutes.map((route, index) => {
                   const Page = route.component
                   const Layout = route.layout || DefaultLayout
                   return (

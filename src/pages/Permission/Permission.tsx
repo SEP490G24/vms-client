@@ -21,7 +21,7 @@ const Permission = () => {
   const [activeTab, setActiveTab] = useState('')
 
   const { sites } = useSelector(sitesSelector)
-  const [siteId, setSiteId] = useState()
+  const [siteId, setSiteId] = useState<string>()
 
   useEffect(() => {
     permissionService.getAllModule(true).then((response) => {
@@ -31,6 +31,7 @@ const Permission = () => {
         setActiveTab(firstClient.clientId)
       }
     })
+    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) setSiteId(sites?.[0]?.id)
   }, [])
 
   useEffect(() => {
@@ -62,9 +63,10 @@ const Permission = () => {
               <Row className={'w-full gap-2'} align={'middle'}>
                 <Col flex={'none'}><span className={'text-muted'}>Site: </span></Col>
                 <Col flex={'auto'}>
-                  <SharedSelect className={'w-full'} allowClear options={sites.map((site) => {
+                  <SharedSelect className={'w-full'} bordered={false} options={sites.map((site) => {
                     return { label: site.name, value: site.id, disabled: !site.enable }
                   }) ?? []}
+                                value={siteId}
                                 onChange={setSiteId}
                                 placeholder={t('common.placeholder.site')}></SharedSelect>
                 </Col>

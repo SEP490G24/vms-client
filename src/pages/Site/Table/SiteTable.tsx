@@ -7,6 +7,8 @@ import { Space, Table, TablePaginationConfig } from 'antd'
 import { SharedStatus } from '~/common'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedActionDelete } from '~/common/SharedActionDelete'
+import { AuthSection } from '~/auth'
+import { PERMISSION_ROLE_MAP } from '~/role'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<SiteDto>
@@ -30,7 +32,7 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
         total: props.pageableResponse?.totalElements,
         pageSize: props.pageableResponse?.pageable?.pageSize,
         showSizeChanger: false,
-        position: ['bottomCenter'],
+        position: ['bottomCenter']
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
@@ -61,22 +63,24 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
         key='enable'
         filters={[
           { text: t('common.label.enable'), value: true },
-          { text: t('common.label.disable'), value: false },
+          { text: t('common.label.disable'), value: false }
         ]}
         filterMultiple={false}
         render={(enable) => <SharedStatus status={enable} />}
       />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
               render={(value: SiteDto) => moment(value.createdOn).format('L')} />
-      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
-              render={(value: DepartmentDto) =>
-                <>
-                  <SharedActionDelete onDelete={props.onDelete} id={value.id}
-                                      directionIcon={'vertical'} />
+      <AuthSection permissions={PERMISSION_ROLE_MAP.R_SITE_DELETE}>
+        <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
+                render={(value: DepartmentDto) =>
+                  <>
+                    <SharedActionDelete onDelete={props.onDelete} id={value.id}
+                                        directionIcon={'vertical'} />
 
-                </>
+                  </>
 
-              } />
+                } />
+      </AuthSection>
     </Table>
   )
 }

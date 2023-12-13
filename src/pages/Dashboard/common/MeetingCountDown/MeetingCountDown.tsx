@@ -4,6 +4,7 @@ import { InfoModalData, MeetingDto, TicketsPeriodResponse } from '~/interface'
 import MeetingCountDownSection from './MeetingCountDownSection/MeetingCountDownSection.tsx'
 import { TicketInfo } from '~/pages/Dashboard/common/TicketInfo'
 import { Modal } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   ticketsPeriod: TicketsPeriodResponse
@@ -11,6 +12,8 @@ interface Props {
 }
 
 const MeetingCountDown: React.FC<Props> = (props) => {
+
+  const { t } = useTranslation()
 
   const [modalInfoData, setModalInfoData] = useState<InfoModalData<MeetingDto>>({
     openModal: false,
@@ -41,11 +44,11 @@ const MeetingCountDown: React.FC<Props> = (props) => {
 
   return (
     <MeetingCountDownWrapper className={'w-full'} classNames={{ item: 'flex-1' }}>
-      <MeetingCountDownSection title={'Upcoming Meetings'} data={props.ticketsPeriod.upcomingMeetings ?? []}
+      <MeetingCountDownSection title={t('dashboard.countdown.upcoming')} data={props.ticketsPeriod.upcomingMeetings ?? []}
                                state={'future'} onFinish={onFinishCountDown} onSelected={onSelected} />
-      <MeetingCountDownSection title={'Current Taking Meetings'} data={props.ticketsPeriod.ongoingMeetings ?? []}
+      <MeetingCountDownSection title={t('dashboard.countdown.current')} data={props.ticketsPeriod.ongoingMeetings ?? []}
                                state={'current'} onFinish={onFinishCountDown} onSelected={onSelected} />
-      <MeetingCountDownSection title={'Ended Meetings'} data={props.ticketsPeriod.recentlyFinishedMeetings ?? []}
+      <MeetingCountDownSection title={t('dashboard.countdown.ended')} data={props.ticketsPeriod.recentlyFinishedMeetings ?? []}
                                state={'finish'} onSelected={onSelected} />
       <Modal open={modalInfoData.openModal}
              closable={true}

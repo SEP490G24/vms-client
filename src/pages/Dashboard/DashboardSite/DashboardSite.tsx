@@ -145,7 +145,7 @@ const DashboardSite = () => {
         <Space className={'w-full mb-10'} size={32} direction={'vertical'}>
           <OverviewFilterDashboard onFilter={handleFilter} />
           <TicketStatisticDashboard totalTicket={totalTicketResponse} totalVisits={totalVisitsResponse}
-                                    filterLabel={filterPayload.month ? 'Month' : 'Year'} />
+                                    filterLabel={filterPayload.month ? t('common.label.month') : t('common.label.year')} />
           <TicketStatusDashboard visitsStateColumn={visitsStateColumnResponse}
                                  ticketStateColumn={ticketStateColumnResponse} />
           <TicketPurposeDashboard ticketPurposePie={ticketPurposePieResponse}

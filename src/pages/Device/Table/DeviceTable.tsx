@@ -7,6 +7,8 @@ import { Table, TablePaginationConfig, Tooltip } from 'antd'
 import { SharedStatus } from '~/common'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedActionDelete } from '~/common/SharedActionDelete'
+import { PERMISSION_ROLE_MAP } from '~/role'
+import { AuthSection } from '~/auth'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<DeviceDto>
@@ -64,15 +66,17 @@ const DeviceTable: React.FC<MeetingItemProps> = (props) => {
         className={'truncate w-[300px] block'}>{value}</span></Tooltip>} />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
               render={(value: DeviceDto) => moment(value.createdOn).format('L')} />
-      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
-              render={(value: DeviceDto) =>
-                <>
-                  <SharedActionDelete onDelete={props.onDelete} id={value.id}
-                                      directionIcon={'vertical'} />
+      <AuthSection permissions={PERMISSION_ROLE_MAP.R_DEVICE_DELETE}>
+        <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
+                render={(value: DeviceDto) =>
+                  <>
+                    <SharedActionDelete onDelete={props.onDelete} id={value.id}
+                                        directionIcon={'vertical'} />
 
-                </>
+                  </>
 
-              } />
+                } />
+      </AuthSection>
     </Table>
   )
 }

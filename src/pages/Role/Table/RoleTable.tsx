@@ -5,6 +5,8 @@ import { FilterValue } from 'antd/es/table/interface'
 import Column from 'antd/es/table/Column'
 import { useTranslation } from 'react-i18next'
 import { SharedActionDelete } from '~/common/SharedActionDelete'
+import { AuthSection } from '~/auth'
+import { PERMISSION_ROLE_MAP } from '~/role'
 
 
 interface MeetingItemProps {
@@ -33,7 +35,7 @@ const RoleTable: React.FC<MeetingItemProps> = (props) => {
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
-      scroll={{x: 1200}}
+      scroll={{ x: 1200 }}
       className='vms-table no-bg'
       size='middle'
     >
@@ -44,15 +46,17 @@ const RoleTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: RoleDto) => value.attributes['name']}
       />
       <Column title={t('common.field.description')} key='description' dataIndex={'description'} />
-      <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
-              render={(value: RoleDto) =>
-                <>
-                  <SharedActionDelete onDelete={props.onDelete} id={value.code}
-                                      directionIcon={'vertical'} />
+      <AuthSection permissions={PERMISSION_ROLE_MAP.R_ROLE_DELETE}>
+        <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
+                render={(value: RoleDto) =>
+                  <>
+                    <SharedActionDelete onDelete={props.onDelete} id={value.code}
+                                        directionIcon={'vertical'} />
 
-                </>
+                  </>
 
-              } />
+                } />
+      </AuthSection>
     </Table>
   )
 }

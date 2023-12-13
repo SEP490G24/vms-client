@@ -50,7 +50,6 @@ const Info: React.FC<CreateOrganizationFormArgs> = (props) => {
       width={props.width}
       footer={null}
       closable={false}
-      disableOk={(!!props.organization) ? true : false}
     >
       <Form
         labelCol={{ span: 6 }}

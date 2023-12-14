@@ -18,10 +18,10 @@ const findById = async (id: string) => {
   return httpService.handleResponseStatus(response)
 }
 
-const setDefault = async () => {
+const setDefault = async (siteId?: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   httpService.attachAcceptLanguageToHeader()
-  const response = await  httpService.post(SETTING.SET_DEFAULT)
+  const response = await httpService.post(SETTING.SET_DEFAULT, null, { params: { siteId } })
   return httpService.handleResponseStatus(response)
 }
 

@@ -45,7 +45,7 @@ const MeetingCalendar = () => {
     return meetingsState.meetings.map((meeting: MeetingDto, index) => {
       return {
         event_id: index,
-        title: meeting.name,
+        title: `${meeting.name} ${meeting.status === 'DRAFT' ? '(Draft)' : ''}`,
         start: moment(meeting.startTime).toDate(),
         end: moment(meeting.endTime).toDate(),
         color: randomColor() || randomColor(),

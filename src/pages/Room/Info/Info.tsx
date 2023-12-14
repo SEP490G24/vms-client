@@ -106,6 +106,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         </AuthSection>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.device')} name='deviceId'>
           <SharedSelect
+            allowClear
             options={props.devices.map((room: DeviceDto) => {
               return { label: room.name, value: room.id }
             }) ?? []}

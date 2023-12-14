@@ -32,6 +32,7 @@ const TicketInfo: React.FC<Props> = (props) => {
     if (props.meetingQRDto?.siteId) {
       settingSiteService.findAllByGroupCode(ConfigurationCode.UseCard, props.meetingQRDto.siteId).then((response) => {
         setUseCardConfig(response.data.value === 'true')
+        console.log('card',response.data.value === 'true')
       })
     }
   }, [props.meetingQRDto?.siteId])
@@ -118,7 +119,7 @@ const TicketInfo: React.FC<Props> = (props) => {
           <SharedButton onClick={() => onCheckOut()}
                         key='buy'>{t('common.field.check_out')}</SharedButton>
           {
-            useCardConfig && props.meetingQRDto?.roomId && props.meetingQRDto.isSecurity &&
+            useCardConfig && props.meetingQRDto?.roomId && props.meetingQRDto.security &&
             <SharedButton type='primary' onClick={() => setOpenModalCreateCard(true)}
                           key='buy'>{t('common.field.create_card')}</SharedButton>
           }

@@ -250,6 +250,7 @@
         "save": "Save Successfully!",
         "update": "Update Successfully!",
         "bookmark": "Save Bookmark Successfully!",
+        "unbookmark": "Unbookmark Successfully!",
         "delete": "Delete Successfully!",
         "check-in": "Check-in Success",
         "refresh": "Refresh Data Successfully",
@@ -263,6 +264,7 @@
         "save": "Save failure!",
         "update": "Update failure!",
         "bookmark": "Save bookmark failure!",
+        "unbookmark": "Unbookmark failure!",
         "import": "Import failure! Please check file report!",
         "check-in": "Check In Reject",
         "delete": "Delete failed!"

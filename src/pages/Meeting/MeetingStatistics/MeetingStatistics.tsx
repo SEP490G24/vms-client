@@ -91,7 +91,7 @@ const MeetingStatistics = () => {
             }
           return { ...prev }
         })
-        message.success(t('common.message.success.bookmark'))
+        message.success(t('common.message.success.unbookmark'))
       }
     })
   }

@@ -45,7 +45,7 @@ export interface MeetingQRDto {
   createdOn?: string;
   lastUpdatedBy?: string;
   lastUpdatedOn?: string;
-  isSecurity?: boolean;
+  security?: boolean;
   customerInfo: CustomerDto;
 }
 

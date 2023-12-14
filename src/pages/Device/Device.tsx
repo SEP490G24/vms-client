@@ -51,7 +51,7 @@ const Device = () => {
   }
 
   const onSave = (payload: any) => {
-    console.log("trec")
+
     setInfoModalData({ ...infoModalData, confirmLoading: true })
     const request = !!infoModalData.entitySelected ? deviceService.update(infoModalData.entitySelected.id, payload) : deviceService.insert(payload)
     request
@@ -62,9 +62,9 @@ const Device = () => {
           await message.success(t('common.message.success.save'))
         }
       })
-      .catch(async () => {
+      .catch(async (error) => {
         setInfoModalData({ ...infoModalData, confirmLoading: false })
-        await message.error(t('common.message.error.save'))
+        await message.error(error.data.message)
       })
   }
 

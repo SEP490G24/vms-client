@@ -184,7 +184,8 @@
       "status": "Choose status",
       "meeting": "Enter meeting info",
       "check_out": "Check Out",
-      "create_card": "Create Card"
+      "create_card": "Create Card",
+      "device_type": "Please chosse device type"
     },
     "error": {
       "content_is_too_long": "Content is too long!",

@@ -83,13 +83,13 @@ const Info: React.FC<CreateDeviceFormArgs> = (props) => {
                    rules={[{ required: true }]}>
           <SharedInput placeholder={t('common.placeholder.name')} />
         </Form.Item>
-        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.macIp')} name='macIp'>
+        <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.macIp')} rules={[{ required: true }]} name='macIp'>
           <SharedInput placeholder={t('common.placeholder.macIp')} />
         </Form.Item>
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.deviceType')} name='deviceType'
                    rules={[{ required: true }]}>
           <SharedSelect options={[{ label: 'SCAN_CARD', value: 'SCAN_CARD' }, { label: 'DOOR', value: 'DOOR' }]}
-                        placeholder={t('common.placeholder.site')}></SharedSelect>
+                        placeholder={t('common.placeholder.device_type')}></SharedSelect>
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.site.name')} name='siteId'

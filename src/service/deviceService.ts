@@ -24,6 +24,13 @@ const findAll = async () => {
   return httpService.handleResponseStatus(response)
 }
 
+const findBySiteId = async (id: string) => {
+  httpService.attachTokenToHeader(authService.getToken() as string)
+  httpService.attachAcceptLanguageToHeader()
+  const response = await httpService.post(DEVICE.DEVICE_NOT_USE + `?siteId=${id}`)
+  return httpService.handleResponseStatus(response)
+}
+
 const findById = async (id: string) => {
   httpService.attachTokenToHeader(authService.getToken() as string)
   httpService.attachAcceptLanguageToHeader()
@@ -87,7 +94,8 @@ const deviceService = {
   remove,
   filter,
   getDeviceProfile,
-  updateDeviceProfile
+  updateDeviceProfile,
+  findBySiteId
 }
 
 export default deviceService

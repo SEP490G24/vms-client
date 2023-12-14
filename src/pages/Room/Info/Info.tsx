@@ -1,5 +1,5 @@
 import { Col, Divider, Form, Radio, Row, Space } from 'antd'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DeviceDto, RoomDto } from '~/interface'
 import { SharedInput, SharedSelect } from '~/common'
 import { InfoWrapper } from './styles.ts'
@@ -12,14 +12,14 @@ import { sitesSelector } from '~/redux'
 import { AuthSection } from '~/auth'
 import { SCOPE_ROLE_MAP } from '~/role'
 import { REGEX } from '~/constants'
+import deviceService from '../../../service/deviceService.ts'
+import { checkPermission } from '~/utils'
 
 interface CreateRoomFormArgs {
   open?: boolean;
   confirmLoading?: boolean;
   width?: number
   room?: RoomDto
-  devices: DeviceDto[]
-  setDevices: (listDevice: DeviceDto[]) => void
   onSave: (room: CreateRoomInfo) => void
   onClose: () => void
 }
@@ -28,14 +28,36 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const { sites } = useSelector(sitesSelector)
+  const [devices, setDevices] = useState<DeviceDto[]>([])
 
+  useEffect(() => {
+    setDevices([])
+    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) {
+      if (props.room) {
+        findDeviceBySite(props.room.siteId)
+      }
+    } else {
+      deviceService.findAll().then((response) => {
+        setDevices(response.data)
+      })
+    }
+  }, [props.open])
 
+  const findDeviceBySite = (siteId: string) => {
+    deviceService.findBySiteId(siteId).then((response) => {
+      setDevices(response.data)
+    })
+  }
+
+  const onSelectSite = (siteId: string) => {
+    findDeviceBySite(siteId)
+  }
 
   useEffect(() => {
     if (props.open) {
       if (props.room) {
         if (props.room.deviceId) {
-          props.setDevices([...props.devices, { id: props.room.deviceId, name: props.room.deviceName }])
+          setDevices([...devices, { id: props.room.deviceId, name: props.room.deviceName }])
         }
         form.setFieldsValue({
           name: props.room.name,
@@ -53,11 +75,10 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
       }
     }
   }, [props.room, props.open])
-
   const onClose = () => {
     form.resetFields()
     if (props.room?.deviceId) {
-      props.setDevices([...props.devices.slice(0, -1)])
+      setDevices([...devices.slice(0, -1)])
     }
     props.onClose()
   }
@@ -99,6 +120,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
               options={sites.map((site) => {
                 return { label: site.name, value: site.id, disabled: !site.enable }
               }) ?? []}
+              onChange={(value) => onSelectSite(value)}
               disabled={!!props.room}
               placeholder={t('common.placeholder.site')}
             ></SharedSelect>
@@ -107,7 +129,7 @@ const Info: React.FC<CreateRoomFormArgs> = (props) => {
         <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.device')} name='deviceId'>
           <SharedSelect
             allowClear
-            options={props.devices.map((room: DeviceDto) => {
+            options={devices.map((room: DeviceDto) => {
               return { label: room.name, value: room.id }
             }) ?? []}
             placeholder={t('common.placeholder.device')}

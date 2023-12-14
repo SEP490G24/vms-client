@@ -5,8 +5,8 @@ import { FilterValue } from 'antd/es/table/interface'
 import Column from 'antd/es/table/Column'
 import { useTranslation } from 'react-i18next'
 import { SharedActionDelete } from '~/common/SharedActionDelete'
-import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
+import { checkPermission } from '~/utils'
 
 
 interface MeetingItemProps {
@@ -46,7 +46,7 @@ const RoleTable: React.FC<MeetingItemProps> = (props) => {
               render={(value: RoleDto) => value.attributes['name']}
       />
       <Column title={t('common.field.description')} key='description' dataIndex={'description'} />
-      <AuthSection permissions={PERMISSION_ROLE_MAP.R_ROLE_DELETE}>
+      {checkPermission(PERMISSION_ROLE_MAP.R_ROLE_DELETE) &&
         <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
                 render={(value: RoleDto) =>
                   <>
@@ -56,7 +56,7 @@ const RoleTable: React.FC<MeetingItemProps> = (props) => {
                   </>
 
                 } />
-      </AuthSection>
+      }
     </Table>
   )
 }

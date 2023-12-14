@@ -105,8 +105,7 @@
       "action_delete": "Delete",
       "department_name": "Department Name",
       "old_guest": "Old Guest",
-      "new_guest": "New Guest",
-      "created_by": "Enter creater"
+      "new_guest": "New Guest"
     },
     "button": {
       "setting_default": "Set default",
@@ -152,6 +151,7 @@
       "identificationNumber": "Please enter id card",
       "upload": "Select image",
       "purposeNote": "Enter purpose note",
+      "createdBy": "Enter a user create by",
       "purpose": "Select a purpose",
       "device": "Select a device",
       "room": "Select a room",
@@ -678,7 +678,7 @@
     "reject-customer": "Reject Guest",
     "success": {
       "title": "Successfully Verify QR Server!",
-      "subTitle": "Ticket number: : {{ticketId}}. Please wait 1-5 minutes 1-5 minutes to takes prepare."
+      "subTitle": "Ticket number: : {{ticketId}}. Please wait 1-5 minutes to takes prepare."
     },
     "error": {
       "title": "Failed Verify QR Server!",

@@ -23,6 +23,7 @@ const Template = () => {
   })
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [filterPayload, setFilterPayload] = useState<TemplateFilterPayload>({})
+  const [showMore, setShowMore] = useState(true)
 
   useEffect(() => {
     fetchTemplates({}, 1)
@@ -35,6 +36,7 @@ const Template = () => {
     })
     templateService.filter(_filterPayload, true, { page: _currentPage - 1, size: 10 })
       .then((response) => {
+        setShowMore(currentPage < response.data.totalElements)
         setTemplatesState({
           loading: false,
           templates: append ? templatesState.templates?.concat(response.data?.content) : response.data?.content
@@ -117,7 +119,7 @@ const Template = () => {
                       ))
                     }
                   </div>
-                  {!!templatesState.templates?.length && <SharedButton onClick={onShowMore}>Show more</SharedButton>}
+                  {showMore && <SharedButton onClick={onShowMore}>Show more</SharedButton>}
                 </Flex>
               </Spin>
             </Col>

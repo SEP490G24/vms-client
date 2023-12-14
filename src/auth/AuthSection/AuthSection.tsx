@@ -8,7 +8,6 @@ export interface AuthSectionProps {
 
 const AuthSection: React.FC<AuthSectionProps> = (props) => {
   const { children, permissions } = props
-
   return <>{authService.hasRole(permissions) ? children : undefined}</>
 }
 

@@ -115,12 +115,12 @@ const MeetingStatistics = () => {
       reasonId: values['reasonId'],
       reasonNote: values['reasonNote']
     } as CancelTicketPayload
-    meetingTicketService.cancel(payload).then(async () => {
+    meetingTicketService.cancel(payload).then(() => {
       fetchMeetings()
       setCancelModalData({ ...cancelModalData, openModal: false })
-      await message.success(t('common.message.success.save'))
-    }).catch(async (error) => {
-      await message.error(error.data.message)
+      message.success(t('common.message.success.save')).then()
+    }).catch((error) => {
+      message.error(error.data.message).then()
       setCancelModalData({ ...cancelModalData, openModal: false })
     })
   }

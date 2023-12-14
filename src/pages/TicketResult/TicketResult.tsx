@@ -71,11 +71,12 @@ const TicketResult: React.FC<Props> = (props) => {
       checkInCode: checkInCodeState,
       ...checkInStatus
     })
-      .then(() => message.success(t('common.message.success.save')))
       .then(() => {
-        setDisableBtn(true)
+        message.success(t('common.message.success.save')).then()
+        setOpenCancelModal(false)
       })
       .catch((error) => message.error(error.data.message))
+      .finally(() => setDisableBtn(true))
   }
 
 

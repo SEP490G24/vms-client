@@ -7,8 +7,8 @@ import { Space, Table, TablePaginationConfig } from 'antd'
 import { SharedStatus } from '~/common'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedActionDelete } from '~/common/SharedActionDelete'
-import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
+import { checkPermission } from '~/utils'
 
 interface MeetingItemProps {
   pageableResponse?: PageableResponse<SiteDto>
@@ -70,7 +70,7 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
       />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
               render={(value: SiteDto) => moment(value.createdOn).format('L')} />
-      <AuthSection permissions={PERMISSION_ROLE_MAP.R_SITE_DELETE}>
+      {checkPermission(PERMISSION_ROLE_MAP.R_SITE_DELETE) &&
         <Column title={t('common.field.action')} key='operation' fixed={'right'} width={80}
                 render={(value: DepartmentDto) =>
                   <>
@@ -80,7 +80,7 @@ const SiteTable: React.FC<MeetingItemProps> = (props) => {
                   </>
 
                 } />
-      </AuthSection>
+      }
     </Table>
   )
 }

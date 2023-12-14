@@ -75,8 +75,31 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
 
   return (
     <ParticipantsWrapper>
-      <Divider orientation={'left'}>{t('old_guest')}</Divider>
+      <Divider orientation={'left'}>{t('common.field.old_guest')}</Divider>
       <Space className={'w-full mb-6'} size={30} direction={'vertical'}>
+        <DebounceSelect
+          mode={'multiple'}
+          className={'w-full'}
+          fetchOptions={fetchCustomer}
+          debounceTimeout={600}
+          placeholder={t('meeting.popup.customerInfo')}
+          value={oldIds}
+          onChange={setOldIds}
+          resetOption={lastResetTime}
+          dropdownRender={(menu) => (
+            <>
+              {menu}
+              <Divider style={{ margin: '8px 0' }} />
+              <div className={'w-full'}>
+                <Space className={'float-right'} style={{ padding: '0 8px 4px' }}>
+                  <SharedButton className={'float-right'} type={'primary'} icon={<PlusOutlined />} onClick={addItem}>
+                    {t('common.label.add')}
+                  </SharedButton>
+                </Space>
+              </div>
+            </>
+          )}
+        />
         <Table
           dataSource={oldCustomers}
           rowKey='id'
@@ -107,29 +130,6 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
                     }}
                   />} />
         </Table>
-        <DebounceSelect
-          mode={'multiple'}
-          className={'w-full'}
-          fetchOptions={fetchCustomer}
-          debounceTimeout={600}
-          placeholder={t('meeting.popup.customerInfo')}
-          value={oldIds}
-          onChange={setOldIds}
-          resetOption={lastResetTime}
-          dropdownRender={(menu) => (
-            <>
-              {menu}
-              <Divider style={{ margin: '8px 0' }} />
-              <div className={'w-full'}>
-                <Space className={'float-right'} style={{ padding: '0 8px 4px' }}>
-                  <SharedButton className={'float-right'} type={'primary'} icon={<PlusOutlined />} onClick={addItem}>
-                    {t('common.label.add')}
-                  </SharedButton>
-                </Space>
-              </div>
-            </>
-          )}
-        />
       </Space>
       <Form
         labelCol={{ span: 6 }}
@@ -150,12 +150,12 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
               <Space className={'w-full'} direction={'vertical'}>
                 {fields.map((field, index) => (
                   <Row key={field.key} className={'w-full'} align={'middle'}>
-                    <Divider orientation={'left'}>{t('new_guest')}</Divider>
+                    <Divider orientation={'left'}>{t('common.field.new_guest')}</Divider>
                     <Col flex={1} key={index}>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.name')}
                                  name={[index, 'visitorName']}
                                  rules={[{ required: true }]}>
-                        <SharedInput placeholder={t('common.placeholder.site_name')} />
+                        <SharedInput placeholder={t('common.placeholder.name')} />
                       </Form.Item>
                       <Form.Item style={{ marginBottom: '12px' }} label={t('common.field.identificationNumber')}
                                  name={[index, 'identificationNumber']}

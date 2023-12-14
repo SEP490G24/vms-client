@@ -93,7 +93,7 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.created_by')} name='createdBy'>
           <SharedInput
-            placeholder={t('common.placeholder.created_by')}
+            placeholder={t('common.placeholder.createdBy')}
           />
         </Form.Item>
         {!!props.calendar &&

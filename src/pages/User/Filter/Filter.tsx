@@ -41,7 +41,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
       role: values['role'],
       keyword: values['keyword'],
       createdOnStart: valueDate?.date?.['0']?.format(DATE_TIME.START_DAY),
-      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.END_DAY)
+      createdOnEnd: valueDate?.date?.['1']?.format(DATE_TIME.END_DAY),
     }
     args.onFilter(payload)
   }
@@ -84,19 +84,25 @@ const Filter: React.FC<FilterArgs> = (args) => {
       >
         {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
           <SharedFilterScope siteId={siteId} onChangeSite={setSiteId} />}
-        {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId) || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
+        {((checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) && siteId)
+            || !checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) &&
           <>
             <Form.Item className={'mb-3'} label={t('common.field.department')} name='departmentId'>
-              <SharedSelect options={departments.map((department) => {
-                return { label: department.name, value: department.id, key: department.id }
-              }) ?? []}
-                            placeholder={t('common.placeholder.department')} />
+              <SharedSelect
+                allowClear
+                options={departments.map((department) => {
+                  return { label: department.name, value: department.id, key: department.id }
+                }) ?? []}
+                placeholder={t('common.placeholder.department')} />
             </Form.Item>
+
             <Form.Item className={'mb-3'} label={t('common.field.role')} name='role'>
-              <SharedSelect options={roles.map((role) => {
-                return { label: role.code, value: role.code }
-              })}
-                            placeholder={t('common.placeholder.role')} />
+              <SharedSelect
+                allowClear
+                options={roles.map((role) => {
+                  return { label: role.code, value: role.code }
+                })}
+                placeholder={t('common.placeholder.role')} />
             </Form.Item>
           </>
         }
@@ -105,6 +111,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
             placeholder={t('organization.user.search.counselor_placeholder')}
           />
         </Form.Item>
+
         <SharedFilterPeriod label={'common.label.period'} format={'DD-MM-YYYY'} valueDate={valueDate}
                             setValueDate={setValueDate} />
       </Form>

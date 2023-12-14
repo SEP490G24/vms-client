@@ -1,4 +1,4 @@
-import { Form, Spin, Steps } from 'antd'
+import { Form, message, Spin, Steps } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ContentWrapper, MeetingInfoWrapper } from './styles.ts'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +16,7 @@ import {
   resetMeetingSelected
 } from '~/redux/slices/meetingSlice.ts'
 import { formatDate, isNullish } from '~/utils'
-import { CreateMeetingInfo, UpdateMeetingInfo } from '~/service'
+import { CreateMeetingInfo, meetingTicketService, UpdateMeetingInfo } from '~/service'
 import { useForceUpdate } from '~/hook'
 
 interface MeetingInfoArgs {

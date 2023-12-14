@@ -46,16 +46,16 @@ const MyOrganization = () => {
         ...payload, logo: logoUrl
       }
     }
-    const request = !!myOrganization ? organizationService.update(myOrganization.id, payload) : organizationService.insert(payload)
+    const request = organizationService.update(myOrganization.id, payload)
     await request
       .then((resp) => {
         if (resp?.data) {
           dispatch(updateMyOrganization(resp.data))
-          message.success(resp.data.message)
+          message.success(t('common.message.success.update'))
         }
       })
-      .catch((resp) => {
-        message.error(resp.data.message)
+      .catch(() => {
+        message.error(t('common.message.error.update'))
       })
   }
 
@@ -135,9 +135,11 @@ const MyOrganization = () => {
                     <Form.Item
                       label={t('common.field.contact_person_in_charge')}
                       name='contactInfo'
-                      rules={[{ required: true }]}
+                      rules={[{ required: true },{pattern: REGEX.EMAIL,message: t('common.error.email_valid')}]}
                     >
-                      <SharedInput size={'large'} placeholder={t('common.placeholder.contactInfo')} />
+                      <SharedInput
+                        size={'large'}
+                        placeholder={t('common.placeholder.contactInfo')} />
                     </Form.Item>
                     <Form.Item
                       label={t('common.field.contact_phone_number')}

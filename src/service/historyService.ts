@@ -41,7 +41,7 @@ export interface HistoryFilterPayload {
   toCheckInTime?: string;
   formCheckOutTime?: string;
   toCheckOutTime?: string;
-  site?: string;
+  sites?: string[];
 }
 
 const filter = async (payload: HistoryFilterPayload, isPageable?: boolean, pageableRequest?: PageableRequest) => {

@@ -27,7 +27,7 @@ const Filter: React.FC<FilterArgs> = (args) => {
   }, [])
   const onFinish = (values: any) => {
     const payload: HistoryFilterPayload = {
-      site: values['siteId'],
+      sites: values['siteId'] == null ? [] : [values['siteId']],
       keyword: values['keyword'],
       formCheckInTime: valueDateCheckIn?.date?.['0']?.format(DATE_TIME.START_DAY),
       toCheckInTime: valueDateCheckIn?.date?.['1']?.format(DATE_TIME.END_DAY),
@@ -81,17 +81,24 @@ const Filter: React.FC<FilterArgs> = (args) => {
         </Form.Item>
         <AuthSection permissions={SCOPE_ROLE_MAP.SCOPE_ORGANIZATION}>
           <Form.Item className={'mb-3'} label={t('common.field.site.name')} name='siteId'>
-            <SharedSelect options={sites.map((site) => {
-              return { label: site.name, value: site.id, key: site.id }
-            })}
-                          placeholder={t('common.placeholder.site')} />
+            <SharedSelect
+              allowClear
+              options={sites.map((site) => {
+                return { label: site.name, value: site.id, key: site.id }
+              })}
+              placeholder={t('common.placeholder.site')} />
           </Form.Item>
         </AuthSection>
 
         <Form.Item className={'mb-3'} label={t('common.field.status')} name='status'>
           <SharedSelect
-            options={[{ label: 'CHECK_IN', value: 'CHECK_IN' },
-              { label: 'CHECK_OUT', value: 'CHECK_OUT' }]}
+            allowClear
+            options={
+              [
+                { label: 'CHECK_IN', value: 'CHECK_IN' },
+                { label: 'CHECK_OUT', value: 'CHECK_OUT' },
+              ]
+            }
             placeholder={t('common.placeholder.status')} />
         </Form.Item>
         <Form.Item className={'mb-3'} label={t('common.field.check_in')} name='checkIn'>

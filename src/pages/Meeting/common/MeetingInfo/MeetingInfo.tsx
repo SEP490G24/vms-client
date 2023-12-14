@@ -133,28 +133,27 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
       ...overrideData,
       id: isUpdate ? meetingSelected.id : undefined
     } as CreateMeetingInfo | UpdateMeetingInfo
-    console.log(payload)
-    // const request = isUpdate ? meetingTicketService.update(payload) : meetingTicketService.insert(payload)
-    // request
-    //   .then((response) => {
-    //     if (props.scheduler) {
-    //       const meeting = response.data
-    //       const event = {
-    //         event_id: props.scheduler.edited?.event_id ?? Math.random(),
-    //         title: meeting.name,
-    //         start: new Date(meeting.startTime),
-    //         end: new Date(meeting.endTime),
-    //         description: meeting.description,
-    //         id: meeting.id
-    //       }
-    //       props.scheduler.onConfirm(event, isUpdate ? 'edit' : 'create')
-    //     }
-    //     props.onSave && props.onSave()
-    //     onClose()
-    //     message.success(t('common.message.success.save')).then()
-    //   }).catch((error) => {
-    //   message.error(error.data.message).then()
-    // })
+    const request = isUpdate ? meetingTicketService.update(payload) : meetingTicketService.insert(payload)
+    request
+      .then((response) => {
+        if (props.scheduler) {
+          const meeting = response.data
+          const event = {
+            event_id: props.scheduler.edited?.event_id ?? Math.random(),
+            title: meeting.name,
+            start: new Date(meeting.startTime),
+            end: new Date(meeting.endTime),
+            description: meeting.description,
+            id: meeting.id
+          }
+          props.scheduler.onConfirm(event, isUpdate ? 'edit' : 'create')
+        }
+        props.onSave && props.onSave()
+        onClose()
+        message.success(t('common.message.success.save')).then()
+      }).catch((error) => {
+      message.error(error.data.message).then()
+    })
   }
 
   const steps = [

@@ -31,8 +31,11 @@ const Permission = () => {
         setActiveTab(firstClient.clientId)
       }
     })
-    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) setSiteId(sites?.[0]?.id)
   }, [])
+
+  useEffect(() => {
+    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) setSiteId(sites?.[0]?.id)
+  }, [sites])
 
   useEffect(() => {
     if (!checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) || siteId)

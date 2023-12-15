@@ -30,8 +30,11 @@ const Setting = () => {
       setSettingGroups(response.data)
       setSettingGroupIdSelected(firstElement.id)
     })
-    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) setSiteId(sites?.[0]?.id)
   }, [load])
+
+  useEffect(() => {
+    if (checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION)) setSiteId(sites?.[0]?.id)
+  }, [sites])
 
   useEffect(() => {
     settingGroupIdSelected && handleGroup(settingGroupIdSelected)
@@ -49,13 +52,14 @@ const Setting = () => {
   }
 
   const handleSetDefault = () => {
-    settingService.setDefault().then(() => {
+    settingService.setDefault(siteId).then(() => {
       message.success(t('common.message.success.save'))
       setLoad(!load)
     }).catch((error) => message.error(error.data.message))
   }
   const handleSave = (settingId: number, value: string) => {
     settingSiteService.update({
+      siteId: siteId,
       settingId,
       value
     }).then(() => message.success(t('common.message.success.save')))

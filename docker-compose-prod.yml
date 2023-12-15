@@ -14,5 +14,3 @@ services:
       - CLIENT_SECRET=7r5uiBkk4lDoXKzwt20UYWACNRxwfeZD
       - API_SERVER_URL=https://api-vms.azurewebsites.net/api/v1
       - BASE_PATH=
-      - TZ=Asia/Ho_Chi_Minh
-      - WEBSITE_TIME_ZONE=Asia/Ho_Chi_Minh

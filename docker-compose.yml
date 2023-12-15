@@ -6,6 +6,16 @@ services:
     container_name: vms-client
     ports:
       - "3000:80" # map 80 in container => 3000 in local
+    environment:
+      - REALM_NAME=https://idm-vms.azurewebsites.net/
+      - AUTH_SERVER_URL=vms
+      - SSL_REQUIRED=external
+      - CLIENT_ID=vms-app
+      - CLIENT_SECRET=7r5uiBkk4lDoXKzwt20UYWACNRxwfeZD
+      - API_SERVER_URL=https://api-vms.azurewebsites.net/api/v1
+      - BASE_PATH=
+      - TZ=Asia/Ho_Chi_Minh
+      - WEBSITE_TIME_ZONE=Asia/Ho_Chi_Minh
     networks:
       - vms
 

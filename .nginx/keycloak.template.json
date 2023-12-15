@@ -1,0 +1,10 @@
+{
+  "realm": "${REALM_NAME}",
+  "auth-server-url": "${AUTH_SERVER_URL}",
+  "ssl-required": "${SSL_REQUIRED}",
+  "resource": "${CLIENT_ID}",
+  "credentials": {
+    "secret": "${CLIENT_SECRET}"
+  },
+  "confidential-port": 0
+}

@@ -1,7 +1,7 @@
 import Keycloak, { KeycloakInitOptions } from 'keycloak-js'
 import * as _ from 'lodash'
 
-const keycloak = new Keycloak(window.__RUNTIME_CONFIG__.VITE_BASE_PATH + '/config/keycloak.json')
+const keycloak = new Keycloak(window.__RUNTIME_CONFIG__.VITE_BASE_PATH + '/keycloak.json')
 
 const initOptions: KeycloakInitOptions = {
   onLoad: 'login-required',

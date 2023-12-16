@@ -7,12 +7,12 @@ services:
     ports:
       - "3000:80" # map 80 in container => 3000 in local
     environment:
-      - REALM_NAME=https://idm-vms.azurewebsites.net/
-      - AUTH_SERVER_URL=vms
-      - SSL_REQUIRED=external
-      - VERIFY_TOKEN_AUDIENCE=true
-      - USE_RESOURCE_ROLE_MAPPINGS=true
-      - CLIENT_ID=vms-app
-      - CLIENT_SECRET=7r5uiBkk4lDoXKzwt20UYWACNRxwfeZD
+#      - REALM_NAME=https://idm-vms.azurewebsites.net/
+#      - AUTH_SERVER_URL=vms
+#      - SSL_REQUIRED=external
+#      - VERIFY_TOKEN_AUDIENCE=true
+#      - USE_RESOURCE_ROLE_MAPPINGS=true
+#      - CLIENT_ID=vms-app
+#      - CLIENT_SECRET=7r5uiBkk4lDoXKzwt20UYWACNRxwfeZD
       - API_SERVER_URL=https://api-vms.azurewebsites.net/api/v1
       - BASE_PATH=

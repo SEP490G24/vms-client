@@ -93,11 +93,11 @@ const Setting = () => {
 
               >
                 <Menu className={'w-full'}
-                      defaultSelectedKeys={['0']}
+                      defaultSelectedKeys={[settingGroupIdSelected]}
                       onSelect={({ key }) => setSettingGroupIdSelected(key)}
                       mode={'inline'}
-                      items={settingGroups.map((settingGroup, index) => {
-                        return { key: index, label: settingGroup.name }
+                      items={settingGroups.map((settingGroup) => {
+                        return { key: settingGroup.id, label: settingGroup.name }
                       })}>
                 </Menu>
               </Card>

@@ -3,8 +3,10 @@
   "auth-server-url": "https://idm-vms.azurewebsites.net/",
   "ssl-required": "external",
   "resource": "vms-app",
+  "verify-token-audience": true,
   "credentials": {
     "secret": "7r5uiBkk4lDoXKzwt20UYWACNRxwfeZD"
   },
+  "use-resource-role-mappings": true,
   "confidential-port": 0
 }

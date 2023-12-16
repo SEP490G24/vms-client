@@ -2,6 +2,8 @@
   "realm": "${REALM_NAME}",
   "auth-server-url": "${AUTH_SERVER_URL}",
   "ssl-required": "${SSL_REQUIRED}",
+  "verify-token-audience": "${VERIFY_TOKEN_AUDIENCE}",
+  "use-resource-role-mappings": "${USE_RESOURCE_ROLE_MAPPINGS}",
   "resource": "${CLIENT_ID}",
   "credentials": {
     "secret": "${CLIENT_SECRET}"

@@ -103,7 +103,7 @@ const RoomMeetingCalendar = () => {
                       events={dataState.tickets?.map(ticket => {
                         return {
                           event_id: ticket.id,
-                          title: `${ticket.name} [${ticket.status}]`,
+                          title: `[${ticket.status}] ${ticket.name}`,
                           start: moment(ticket.startTime).toDate(),
                           end: moment(ticket.endTime).toDate(),
                           id: ticket.id,

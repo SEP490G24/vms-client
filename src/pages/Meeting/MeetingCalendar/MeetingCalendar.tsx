@@ -47,7 +47,7 @@ const MeetingCalendar = () => {
     return meetingsState.meetings.map((meeting: MeetingDto, index) => {
       return {
         event_id: index,
-        title: meeting.name,
+        title: `[${meeting.status}] ${meeting.name}`,
         start: moment(meeting.startTime).toDate(),
         end: moment(meeting.endTime).toDate(),
         color: TICKET_STATUS_COLOR_MAP[meeting.status],

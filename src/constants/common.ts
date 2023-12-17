@@ -10,9 +10,9 @@ export const SIDE_BAR_COLLAPSE = {
 }
 
 export const TICKET_STATUS_COLOR_MAP = {
-  'CANCEL': '#cd5f5b',
-  'COMPLETE': '#408039',
-  'DRAFT': '#98a0a8',
+  'CANCEL': '#FF0000',
+  'COMPLETE': '#00CC33',
+  'DRAFT': '#CC3399',
   'PENDING': '#70778f'
 }
 

@@ -36,7 +36,7 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
       status: values['status'],
       purpose: values['purpose'],
       createdBy: values['createdBy'],
-      bookmark: isFilterBookmark,
+      bookmark: isFilterBookmark
     }
     props.onFilter(payload)
   }
@@ -112,7 +112,7 @@ const MeetingFilter: React.FC<FilterArgs> = (props) => {
               label={t('common.field.status')} name='status'>
               <SharedSelect
                 placeholder={t('common.placeholder.status')}
-                options={enumToArray(StatusTicketMeeting).map((status) => {
+                options={enumToArray(StatusTicketMeeting).filter((status) => status.key != 'CANCEL').map((status) => {
                   return { label: status.key, value: status.value }
                 })} />
             </Form.Item>

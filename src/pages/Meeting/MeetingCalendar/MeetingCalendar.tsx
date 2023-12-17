@@ -44,7 +44,7 @@ const MeetingCalendar = () => {
   }
 
   const transferTickets = () => {
-    return meetingsState.meetings.map((meeting: MeetingDto, index) => {
+    return meetingsState.meetings.filter((meeting: MeetingDto) => meeting.status != 'CANCEL').map((meeting: MeetingDto, index) => {
       return {
         event_id: index,
         title: `[${meeting.status}] ${meeting.name}`,

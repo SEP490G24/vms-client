@@ -100,7 +100,7 @@ const RoomMeetingCalendar = () => {
                   {
                     showSchedule &&
                     <Scheduler
-                      events={dataState.tickets?.map(ticket => {
+                      events={dataState.tickets?.filter((meeting: MeetingDto) => meeting.status != 'CANCEL').map(ticket => {
                         return {
                           event_id: ticket.id,
                           title: `[${ticket.status}] ${ticket.name}`,

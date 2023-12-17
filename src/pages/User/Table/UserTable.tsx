@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { Space, Table, TablePaginationConfig, Tag } from 'antd'
 import { FilterValue } from 'antd/es/table/interface'
 import { SharedStatus } from '~/common'
+import { SCOPE_ROLE_MAP } from '~/role'
+import { checkPermission } from '~/utils'
 
 interface MeetingItemProps {
   loading: boolean
@@ -43,6 +45,9 @@ const UserTable: React.FC<MeetingItemProps> = (props) => {
         title={t('common.field.fullName')}
         render={(value: UserDto) => <>{value.firstName + ' ' + value.lastName}</>}
       />
+      {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
+        <Column title={t('common.field.site_name')} dataIndex='siteName'/>
+      }
       <Column
         title={t('common.field.roles')}
         render={(value: UserDto) => <Space direction={'vertical'}>{value.roles?.map((item, index) =>

@@ -50,6 +50,7 @@ const DeviceTable: React.FC<MeetingItemProps> = (props) => {
       />
       <Column title={t('common.field.macIp')} dataIndex='macIp' key='macIp' />
       <Column title={t('common.field.deviceType')} dataIndex='deviceType' key='deviceType' />
+      <Column title={t('common.field.site_name')} dataIndex='siteName' key='siteName' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'

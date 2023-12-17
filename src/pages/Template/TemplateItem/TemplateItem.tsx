@@ -5,6 +5,8 @@ import DescriptionsItem from 'antd/es/descriptions/Item'
 import { TemplateDto } from '~/interface'
 import { useTranslation } from 'react-i18next'
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import { checkPermission } from '~/utils'
+import { SCOPE_ROLE_MAP } from '~/role'
 
 interface TemplateItemProps {
   templateDto: TemplateDto
@@ -48,6 +50,11 @@ export const TemplateItem: React.FC<TemplateItemProps> = React.memo((props) => {
         <DescriptionsItem label={t('common.field.status')} span={3}>
           <SharedStatus status={props.templateDto.enable} />
         </DescriptionsItem>
+        {checkPermission(SCOPE_ROLE_MAP.SCOPE_ORGANIZATION) &&
+          < DescriptionsItem label={t('common.field.site_name')} span={3}>
+            {props.templateDto.siteName}
+          </DescriptionsItem>
+        }
         <DescriptionsItem label={t('common.field.description')} span={3}>
           {props.templateDto.description}
         </DescriptionsItem>

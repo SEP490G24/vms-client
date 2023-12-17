@@ -32,7 +32,7 @@ const DeviceTable: React.FC<MeetingItemProps> = (props) => {
         total: props.pageableResponse?.totalElements,
         pageSize: props.pageableResponse?.pageable?.pageSize,
         showSizeChanger: false,
-        position: ['bottomCenter']
+        position: ['bottomCenter'],
       }}
       loading={props.loading}
       onChange={props.onChangeTable}
@@ -50,20 +50,22 @@ const DeviceTable: React.FC<MeetingItemProps> = (props) => {
       />
       <Column title={t('common.field.macIp')} dataIndex='macIp' key='macIp' />
       <Column title={t('common.field.deviceType')} dataIndex='deviceType' key='deviceType' />
+      <Column title={t('common.field.site_name')} dataIndex='siteName' key='siteName' />
       <Column
         title={t('common.field.status')}
         dataIndex='enable'
         key='enable'
         filters={[
           { text: t('common.label.enable'), value: true },
-          { text: t('common.label.disable'), value: false }
+          { text: t('common.label.disable'), value: false },
         ]}
         filterMultiple={false}
         render={(enable) => <SharedStatus status={enable} />}
       />
       <Column title={t('common.field.description')} dataIndex='description'
-              key='description' render={(value) => <Tooltip placement={'topLeft'} title={value} arrow={true}><span
-        className={'truncate w-[300px] block'}>{value}</span></Tooltip>} />
+              key='description'
+              render={(value) => <Tooltip placement={'topLeft'} title={value} arrow={true}><span
+                className={'truncate w-[150px] block'}>{value}</span></Tooltip>} />
       <Column title={t('common.field.registration_date')} key='createdOn' sorter={true}
               render={(value: DeviceDto) => moment(value.createdOn).format('L')} />
       {checkPermission(PERMISSION_ROLE_MAP.R_DEVICE_DELETE) &&
@@ -72,9 +74,7 @@ const DeviceTable: React.FC<MeetingItemProps> = (props) => {
                   <>
                     <SharedActionDelete onDelete={props.onDelete} id={value.id}
                                         directionIcon={'vertical'} />
-
                   </>
-
                 } />
       }
     </Table>

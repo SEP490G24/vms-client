@@ -12,6 +12,7 @@ export interface TemplateDto {
   type: string;
   description: string;
   enable: boolean;
+  siteName?: string
 }
 
 

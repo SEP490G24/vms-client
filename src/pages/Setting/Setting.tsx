@@ -28,7 +28,9 @@ const Setting = () => {
     settingGroupService.findAll().then((response) => {
       const [firstElement] = response.data
       setSettingGroups(response.data)
-      setSettingGroupIdSelected(firstElement.id)
+      if (!settingGroupIdSelected) {
+        setSettingGroupIdSelected(firstElement.id)
+      }
     })
   }, [load])
 

@@ -34,7 +34,7 @@ const MySite = () => {
       districtId: mySite?.districtId,
       address: mySite?.address,
       taxCode: mySite?.taxCode,
-      phoneNumber: mySite?.phoneNumber,
+      phoneNumber: mySite?.phoneNumber
     })
 
   }, [mySite])
@@ -90,100 +90,92 @@ const MySite = () => {
               bordered={false}
               className='slx-card'
             >
-              <Row align='top'>
-                <Col span={3}>
-                  {/*<SharedAvatar url={logo?.content.url ?? BASE_STORAGE + mySite.logo}*/}
-                  {/*              name={mySite?.name}*/}
-                  {/*              onChange={onChaneLogo} />*/}
-                </Col>
-                <Col span={15}>
-                  <Form
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                    layout={'horizontal'}
-                    form={form}
-                    initialValues={{ layout: 'horizontal' }}
-                    colon={false}
-                    labelAlign='left'
-                    ref={formRef}
-                    className='slx-form'
-                    onFinish={onFinish}
-                  >
-                    <Form.Item label={t('common.field.code')} name='code' rules={[{ required: true }]}>
-                      <SharedInput disabled placeholder={t('common.placeholder.code')} />
-                    </Form.Item>
-                    <Form.Item
-                      label={t('common.field.name')}
-                      name='name'
-                      rules={[{ required: true }]}
-                    >
-                      <SharedInput placeholder={t('common.placeholder.organizationName')} />
-                    </Form.Item>
-                    <Form.Item label={t('common.field.province')} name='provinceId'
-                               rules={[{ required: true }]}>
-                      <SharedSelect options={provinces.map((province) => {
-                        return { label: province.name, value: province.id, key: province.id }
-                      })}
-                                    onChange={resetDistrictAndCommune}
-                                    placeholder={t('common.placeholder.province')} />
-                    </Form.Item>
-                    <Form.Item label={t('common.field.district')} name='districtId'
-                               rules={[{ required: true }]}>
-                      <SharedSelect
-                        options={districts?.map((district) => {
-                          return { label: district.name, value: district.id, key: district.id }
-                        }) ?? []}
-                        disabled={!provinceId}
-                        onChange={resetDistrictCombobox}
-                        placeholder={t('common.placeholder.district')} />
-                    </Form.Item>
-                    <Form.Item label={t('common.field.commune')} name='communeId'
-                               rules={[{ required: true }]}>
-                      <SharedSelect options={communes?.map((commune) => {
-                        return { label: commune.name, value: commune.id, key: commune.id }
-                      }) ?? []}
-                                    disabled={!districtId}
-                                    placeholder={t('common.placeholder.commune')} />
-                    </Form.Item>
-                    <Form.Item label={t('common.field.address')} name='address'
-                               rules={[{ required: true }]}>
-                      <SharedInput placeholder={t('common.placeholder.address')} />
-                    </Form.Item>
-                    <Form.Item
-                      label={t('common.field.taxCode')}
-                      name='taxCode'
-                      rules={[{ required: true }]}
-                    >
-                      <SharedInput placeholder={t('common.placeholder.taxCode')} />
-                    </Form.Item>
-                    <Form.Item
-                      label={t('common.field.contact_phone_number')}
-                      name='phoneNumber'
-                      rules={[{ required: true }, {
-                        pattern: REGEX.PHONE,
-                        message: t('common.error.phoneNumber_valid'),
-                      }]}
-                    >
-                      <SharedInput
-                        placeholder={t('common.field.contact_phone_number')}
-                        inputMode={'tel'}
-                      />
-                    </Form.Item>
-                    {/*<Form.Item*/}
 
-                    {/*  label={t('common.field.description')}*/}
-                    {/*  name='description'*/}
-                    {/*>*/}
-                    {/*  <TextArea*/}
-                    {/*    showCount*/}
-                    {/*    maxLength={200}*/}
-                    {/*    className={'h-[200px] resize-none'}*/}
-                    {/*    placeholder={t('common.placeholder.description')}*/}
-                    {/*  />*/}
-                    {/*</Form.Item>*/}
-                  </Form>
-                </Col>
-              </Row>
+              <Form
+                labelCol={{ span: 6 }}
+                wrapperCol={{ span: 18 }}
+                layout={'horizontal'}
+                form={form}
+                initialValues={{ layout: 'horizontal' }}
+                colon={false}
+                labelAlign='left'
+                ref={formRef}
+                className='slx-form'
+                onFinish={onFinish}
+              >
+                <Form.Item label={t('common.field.code')} name='code' rules={[{ required: true }]}>
+                  <SharedInput disabled placeholder={t('common.placeholder.code')} />
+                </Form.Item>
+                <Form.Item
+                  label={t('common.field.name')}
+                  name='name'
+                  rules={[{ required: true }]}
+                >
+                  <SharedInput placeholder={t('common.placeholder.organizationName')} />
+                </Form.Item>
+                <Form.Item label={t('common.field.province')} name='provinceId'
+                           rules={[{ required: true }]}>
+                  <SharedSelect options={provinces.map((province) => {
+                    return { label: province.name, value: province.id, key: province.id }
+                  })}
+                                onChange={resetDistrictAndCommune}
+                                placeholder={t('common.placeholder.province')} />
+                </Form.Item>
+                <Form.Item label={t('common.field.district')} name='districtId'
+                           rules={[{ required: true }]}>
+                  <SharedSelect
+                    options={districts?.map((district) => {
+                      return { label: district.name, value: district.id, key: district.id }
+                    }) ?? []}
+                    disabled={!provinceId}
+                    onChange={resetDistrictCombobox}
+                    placeholder={t('common.placeholder.district')} />
+                </Form.Item>
+                <Form.Item label={t('common.field.commune')} name='communeId'
+                           rules={[{ required: true }]}>
+                  <SharedSelect options={communes?.map((commune) => {
+                    return { label: commune.name, value: commune.id, key: commune.id }
+                  }) ?? []}
+                                disabled={!districtId}
+                                placeholder={t('common.placeholder.commune')} />
+                </Form.Item>
+                <Form.Item label={t('common.field.address')} name='address'
+                           rules={[{ required: true }]}>
+                  <SharedInput placeholder={t('common.placeholder.address')} />
+                </Form.Item>
+                <Form.Item
+                  label={t('common.field.taxCode')}
+                  name='taxCode'
+                  rules={[{ required: true }]}
+                >
+                  <SharedInput placeholder={t('common.placeholder.taxCode')} />
+                </Form.Item>
+                <Form.Item
+                  label={t('common.field.contact_phone_number')}
+                  name='phoneNumber'
+                  rules={[{ required: true }, {
+                    pattern: REGEX.PHONE,
+                    message: t('common.error.phoneNumber_valid')
+                  }]}
+                >
+                  <SharedInput
+                    placeholder={t('common.field.contact_phone_number')}
+                    inputMode={'tel'}
+                  />
+                </Form.Item>
+                {/*<Form.Item*/}
+
+                {/*  label={t('common.field.description')}*/}
+                {/*  name='description'*/}
+                {/*>*/}
+                {/*  <TextArea*/}
+                {/*    showCount*/}
+                {/*    maxLength={200}*/}
+                {/*    className={'h-[200px] resize-none'}*/}
+                {/*    placeholder={t('common.placeholder.description')}*/}
+                {/*  />*/}
+                {/*</Form.Item>*/}
+              </Form>
             </Card>
           </Col>
           <Col span={6}></Col>

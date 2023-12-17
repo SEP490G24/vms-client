@@ -15,4 +15,5 @@ services:
 #      - CLIENT_ID=vms-app
 #      - CLIENT_SECRET=7r5uiBkk4lDoXKzwt20UYWACNRxwfeZD
       - API_SERVER_URL=https://api-vms.azurewebsites.net/api/v1
+      - STORAGE_URL=https://vmscloudstorage.blob.core.windows.net/vms-file-storage/
       - BASE_PATH=

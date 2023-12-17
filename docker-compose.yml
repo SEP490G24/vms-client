@@ -15,6 +15,7 @@ services:
 #      - VERIFY_TOKEN_AUDIENCE=true
 #      - USE_RESOURCE_ROLE_MAPPINGS=true
       - API_SERVER_URL=https://api-vms.azurewebsites.net/api/v1
+      - STORAGE_URL=https://vmscloudstorage.blob.core.windows.net/vms-file-storage/
       - BASE_PATH=
       - TZ=Asia/Ho_Chi_Minh
       - WEBSITE_TIME_ZONE=Asia/Ho_Chi_Minh

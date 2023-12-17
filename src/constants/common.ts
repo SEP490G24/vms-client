@@ -1,12 +1,19 @@
 export const CHECK_IN_EVENT = 'CHECK_IN_EVENT'
 export const SCAN_CARD_EVENT = 'SCAN_CARD_EVENT'
-export const BASE_STORAGE = 'https://vmspersonalstorage.blob.core.windows.net/vms-storage/'
+export const BASE_STORAGE = window.__RUNTIME_CONFIG__.VITE_STORAGE_URL
 
 export const SIDE_BAR_COLLAPSE = {
   MEETING: 'MEETING',
   CUSTOMER: 'CUSTOMER',
   ORGANIZATION: 'ORGANIZATION',
   CONFIGURATION: 'CONFIGURATION'
+}
+
+export const TICKET_STATUS_COLOR_MAP = {
+  'CANCEL': '#cd5f5b',
+  'COMPLETE': '#408039',
+  'DRAFT': '#98a0a8',
+  'PENDING': '#70778f'
 }
 
 export const Status = {

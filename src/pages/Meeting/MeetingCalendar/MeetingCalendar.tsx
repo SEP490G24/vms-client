@@ -12,15 +12,17 @@ import { AuthSection } from '~/auth'
 import { PERMISSION_ROLE_MAP } from '~/role'
 import { MeetingFilter } from '~/pages'
 import { MeetingFilterPayload, ticketService } from '~/service'
-import { randomColor } from '~/utils'
 import dayjs from 'dayjs'
-import { DATE_TIME } from '~/constants'
+import { DATE_TIME, TICKET_STATUS_COLOR_MAP } from '~/constants'
 
 const MeetingCalendar = () => {
 
   const { t } = useTranslation()
   const [filterPayload, setFilterPayload] = useState<MeetingFilterPayload>({})
-  const [meetingsState, setMeetingsState] = useState<{ meetings: MeetingDto[], loading: boolean }>({
+  const [meetingsState, setMeetingsState] = useState<{
+    meetings: MeetingDto[],
+    loading: boolean
+  }>({
     meetings: [],
     loading: false
   })
@@ -45,10 +47,10 @@ const MeetingCalendar = () => {
     return meetingsState.meetings.map((meeting: MeetingDto, index) => {
       return {
         event_id: index,
-        title: `${meeting.name} ${meeting.status === 'DRAFT' ? '(Draft)' : ''}`,
+        title: meeting.name,
         start: moment(meeting.startTime).toDate(),
         end: moment(meeting.endTime).toDate(),
-        color: randomColor() || randomColor(),
+        color: TICKET_STATUS_COLOR_MAP[meeting.status],
         id: meeting.id
       } as ProcessedEvent
     })

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { PageWrapper } from '~/themes'
 
-export const OrganizationWrapper = styled(PageWrapper)`
+export const MySiteWrapper = styled(PageWrapper)`
   .btn-edit-icon {
     position: absolute;
     bottom: -10%;

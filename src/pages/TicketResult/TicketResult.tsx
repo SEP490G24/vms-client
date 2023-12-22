@@ -40,7 +40,7 @@ const TicketResult: React.FC<Props> = (props) => {
       setCheckInCodeState(checkInCode)
       meetingTicketService.findByQRCode(checkInCode).then((response) => {
         setMeetingQRDto(response.data)
-      })
+      }).catch((error) => message.error(error.data.message))
     }
   }, [checkInCode])
 
@@ -94,7 +94,7 @@ const TicketResult: React.FC<Props> = (props) => {
                       size={32}>
           <Divider orientation={'left'}>{t('common.label.ticketInfo')}</Divider>
           {meetingQRDto && <Descriptions layout={screen === ScreenType.MOBILE ? 'vertical' : 'horizontal'}
-                                         bordered={screen !== ScreenType.MOBILE}>
+                                         bordered>
             <DescriptionsItem
               span={screen === ScreenType.MOBILE ? 3 : 1}
               label={t('common.field.title')}>{meetingQRDto.ticketName}</DescriptionsItem>
@@ -103,7 +103,7 @@ const TicketResult: React.FC<Props> = (props) => {
               label={t('common.field.purpose')}>{meetingQRDto.purpose}</DescriptionsItem>
             <DescriptionsItem
               span={screen === ScreenType.MOBILE ? 3 : 1}
-              label={t('common.field.createdBy')}>{meetingQRDto.createdBy}</DescriptionsItem>
+              label={t('common.field.createdBy')}>{meetingQRDto.createBy}</DescriptionsItem>
             <DescriptionsItem
               span={screen === ScreenType.MOBILE ? 3 : 1}
               label={t('common.field.room')}>{meetingQRDto.roomName}</DescriptionsItem>

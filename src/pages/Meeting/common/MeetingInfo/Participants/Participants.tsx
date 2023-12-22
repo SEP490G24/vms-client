@@ -28,6 +28,12 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
   const [oldIds, setOldIds] = useState<OptionItem[]>([])
   const [lastResetTime, setLastResetTime] = useState(0)
 
+  useEffect(() => {
+    customerService.filter({ keyword: '' }).then((response) => {
+      setCustomerDtos(response.data)
+    })
+  }, [])
+
   const onFinish = (values: any) => {
     props.onFinish({
       oldCustomers: oldCustomers,
@@ -44,7 +50,6 @@ const Participants: React.FC<ParticipantsArgs> = (props) => {
 
   const fetchCustomer = async (keyword: string): Promise<OptionItem[]> => {
     const response = await customerService.filter({ keyword: keyword })
-    setCustomerDtos(response.data)
     return convert2OptionItem(response.data)
   }
 

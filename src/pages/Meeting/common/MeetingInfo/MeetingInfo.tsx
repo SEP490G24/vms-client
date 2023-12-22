@@ -18,6 +18,7 @@ import {
 import { formatDate, isNullish } from '~/utils'
 import { CreateMeetingInfo, meetingTicketService, UpdateMeetingInfo } from '~/service'
 import { useForceUpdate } from '~/hook'
+import { StatusTicketMeeting, TICKET_STATUS_COLOR_MAP } from '~/constants'
 
 interface MeetingInfoArgs {
   open?: boolean;
@@ -140,11 +141,12 @@ const MeetingInfo: React.FC<MeetingInfoArgs> = (props) => {
           const meeting = response.data
           const event = {
             event_id: props.scheduler.edited?.event_id ?? Math.random(),
-            title: meeting.name,
+            title: `[${meeting.status}] ${meeting.name}`,
             start: new Date(meeting.startTime),
             end: new Date(meeting.endTime),
             description: meeting.description,
-            id: meeting.id
+            id: meeting.id,
+            color: TICKET_STATUS_COLOR_MAP[meeting.status as StatusTicketMeeting]
           }
           props.scheduler.onConfirm(event, isUpdate ? 'edit' : 'create')
         }

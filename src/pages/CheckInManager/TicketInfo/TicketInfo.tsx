@@ -4,7 +4,7 @@ import { SharedButton } from '~/common'
 import { Descriptions, Divider, message, Space } from 'antd'
 import DescriptionsItem from 'antd/es/descriptions/Item'
 import moment from 'moment'
-import { MeetingQRDto } from '~/interface'
+import { InfoModalData, MeetingQRDto } from '~/interface'
 import { ConfigurationCode, StatusTicketCustomer } from '~/constants'
 import { cardService, meetingTicketService, settingSiteService } from '~/service'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +19,7 @@ interface Props {
   meetingQRDto?: MeetingQRDto
   scanCardDto?: CardDto
   onClose: () => void
+  setCloseModal: (item: InfoModalData<MeetingQRDto>) => void
 }
 
 const TicketInfo: React.FC<Props> = (props) => {
@@ -52,12 +53,16 @@ const TicketInfo: React.FC<Props> = (props) => {
         if (response?.status === 200) {
           message.success(t('common.message.success.save')).then()
           setOpenModalCreateCard(false)
+          props.setCloseModal({
+            entitySelected: undefined, openModal: false,
+            confirmLoading: false,
+          })
         }
-      }
+      },
     )
       .catch(async (error) => {
           await message.error(error.data.message)
-        }
+        },
       )
   }
   const onCheckIn = (checkInStatus: {
@@ -69,9 +74,15 @@ const TicketInfo: React.FC<Props> = (props) => {
       ticketId: props.meetingQRDto.ticketId,
       customerId: props.meetingQRDto.customerInfo.id,
       checkInCode: checkInCodeState,
-      ...checkInStatus
+      ...checkInStatus,
     })
-      .then(() => message.success(t('common.message.success.save')))
+      .then(() => {
+        message.success(t('common.message.success.save'))
+        props.setCloseModal({
+          entitySelected: undefined, openModal: false,
+          confirmLoading: false,
+        })
+      })
       .catch((error) => message.error(error.data.message))
   }
 

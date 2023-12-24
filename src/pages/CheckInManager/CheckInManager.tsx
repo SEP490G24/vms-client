@@ -133,7 +133,7 @@ const CheckInManager = () => {
                   />
                 </Card>
               </Col>
-              <TicketInfoModal open={infoModalData.openModal} confirmLoading={infoModalData.confirmLoading} width={1200}
+              <TicketInfoModal open={infoModalData.openModal} setCloseModal={setInfoModalData} confirmLoading={infoModalData.confirmLoading} width={1200}
                                scanCardDto={scanCardDto} meetingQRDto={infoModalData.entitySelected}
                                onClose={onClose} />
             </Row>

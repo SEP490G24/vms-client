@@ -24,11 +24,11 @@ const CreateCard: React.FC<CreateCardFormArgs> = (props) => {
     form.setFieldsValue({
       checkInCode: props.checkInCode
     })
-  }, [props.checkInCode])
+  }, [props.open])
 
   useEffect(() => {
     form.setFieldsValue({
-      cardId: props.scanCardDto?.cardId
+      cardId: props.scanCardDto?.cardId,
     })
   }, [props.scanCardDto])
   const onClose = () => {
